@@ -1,0 +1,18 @@
+#!/bin/bash
+
+TIMEOUT=${1:-30}
+WALLPAPERS_DIR__LOCAL=${2:-${WALLPAPERS_DIR}}
+PROC_NAME=${3:-"bgInterval"}
+
+if [[ -z $TIMEOUT ]] || [[ -z $WALLPAPERS_DIR__LOCAL ]]
+then
+  exit 1
+fi
+
+printf $PROC_NAME > /proc/$$/comm
+
+while true
+do
+  nitrogen --random --set-zoom-fill $WALLPAPERS_DIR__LOCAL
+  sleep $TIMEOUT
+done

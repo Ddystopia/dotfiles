@@ -1,0 +1,9 @@
+[user]
+	email = sashkamaman@gmail.com
+	name = Ddystopia
+[core]
+	editor = nvim
+[init]
+	defaultBranch = master
+[credential "https://github.com"]
+	helper = !gh auth git-credential

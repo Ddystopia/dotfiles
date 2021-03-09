@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ps -C "${2:-$1}" > /dev/null || sh -c "$1" &
+

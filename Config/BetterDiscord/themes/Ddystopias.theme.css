@@ -1,0 +1,74 @@
+/**
+ * @name         Reborn
+ * @description  Phoenix Theme Bundle: Transparent, fully customizable theme with multiple addons
+ * @author       MonsterDev
+ * @version      1.0
+ * @source       https://github.com/monstrousdev/themes
+ * @website      https://discord.gg/TeRQEPb
+ */
+
+/* IMPORT CSS FROM GITHUB */
+@import "https://monstrousdev.github.io/themes/phoenix-bundle/reborn.css";
+/*
+===== IMPORTANT =====
+CHANGE DISCORDS THEME TO DARK THEME IN APPEARANCE SETTINGS FOR THIS THEME TO WORK!
+
+Registered: Black Box Theme
+
+===== CUSTOMIZABLE COLORS AND IMAGES =====https://images.alphacoders.com/632/632525.png
+*/
+
+/* :root {
+	edit roundness of icons from 0px to 50px 
+	--roundness: 50px;
+	Main Color  
+	--main-color: #007dbd;
+	Hover Color #03679b
+	--hover-color: #03679b;
+	Change home icon color 
+	--home-color: rgb(46, 39, 39);
+	size of the home icon 
+	--home-size: 24px;
+	change to darken lighten, or set to transparent 
+	--shadow: rgba(0, 0, 0, .4);
+	Cange background 
+	--background-image: url(https://s-media-cache-ak0.pinimg.com/originals/60/c4/bb/60c4bb55215c989b15b0fe144c73cf82.jpg);
+	Main Background Blur 
+	--background-blur: 0px;
+	Background for popups and modals 
+	--popup-background: url(https://s-media-cache-ak0.pinimg.com/originals/60/c4/bb/60c4bb55215c989b15b0fe144c73cf82.jpg);
+} */
+
+:root {
+  /* edit roundness of icons from 0px to 50px */
+  --roundness: 50px;
+  /* Main Color */
+  --main-color: #bd0075;
+  /* Hover Color #03679b*/
+  --hover-color: #bd007591;
+  /* Change home icon color */
+  --home-color: #bd0075;
+  /* size of the home icon */
+  --home-size: 30px;
+  /* change to darken lighten, or set to transparent */
+  --shadow: rgba(236, 17, 17, 0.1);
+  /* change background */
+  /* https://i.imgur.com/IZqf1jc.png */
+  --background-image: url(https://images.alphacoders.com/632/632525.png);
+  /* Main Background Blur */
+  --background-blur: 0px;
+  /* Background for popups and modals */
+  --popup-background: url(https://erowall.com/wallpapers/large/13862.jpg);
+}
+
+/*
+---------------------------------------------------------------------------------------------------------------------------------------------
+===== CREDITS =====
+URI
+BEARDDESIGN
+ZERTHOX
+THESE PEOPLE HAVE HELPED CREATE THIS THEME IN ONE WAY OR THE OTHER.
+===== TROUBLESHOOTING =====
+IF YOU NEED ANY HELP GO TO https://discord.gg/TeRQEPb
+---------------------------------------------------------------------------------------------------------------------------------------------
+*/

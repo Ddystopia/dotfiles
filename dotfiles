@@ -1,0 +1,17 @@
+#!/bin/bash
+dotfilesDir=$(realpath -P $(dirname $0))
+
+update-links () {
+  dirFrom=${1}
+  dirTo=${2}
+  files=($(ls -A ${dirFrom})) # files to array
+  
+  for file in "${files[@]}"
+  do 
+    rm -rf "${dirTo}/${file}" # rm if exists or not exists)
+    ln -s "${dirFrom}/${file}" "${dirTo}/${file}"
+  done
+}
+
+update-links ${dotfilesDir}/Home "${HOME}"
+update-links ${dotfilesDir}/Config "${HOME}/.config" 

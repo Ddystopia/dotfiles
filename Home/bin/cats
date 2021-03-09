@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+
+if [ -t 0 ] && [ $# == 0 ];
+then
+  cat --help
+else
+  if [ $# == 0 ] || [ $1 != "-z" ];
+  then
+    y="\x1B[93m"
+    b="\x1B[96m"
+    g="\x1B[92m"
+    r="\x1B[0m"
+    cols=`tput cols`
+    line[0]=`s=$(printf "%$(($cols-24))s");echo ${s// /━}`
+    line[1]=`s=$(printf "%$(($cols-12))s");echo ${s// /━}`
+    echo -e "                 $g^__^$r"
+    echo -e "                $g( 'w')$r"
+    echo -e "           $g,~~.  [  ]$r"
+    echo -e "     $b^__^$r $g\`    \/    \\\\$r"
+    echo -e "    $b( 'w')$r     $g/||  ||$r"
+    echo -e "$y━━━$r${b}U$r$y━━━━━━$r${b}U$r$y━━━━$r$g\())-())$r$y━${line[0]}$r"
+    echo    "$(cat $@)"
+    echo -e "$y━━━$r${b}|$r$y━━━━━━$r${b}|$r$y━${line[1]}$r"
+    echo -e "    ${b}u$r    ${b}u$r"
+  else cat ${@:2}
+  fi
+fi
