@@ -6,4 +6,5 @@ alias ls="ls --color"
 alias la="ls -Alh"
 alias l="ls -A"
 alias h="history 1 | grep"
+alias emacs="emacs -nw"
 

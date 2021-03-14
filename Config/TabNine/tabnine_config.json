@@ -6,13 +6,14 @@
   "creation_time": "2020-10-29T16:22:07.849597331Z",
   "guuid": "c6d7c2510c044185ae778133b36dfa3bdbcc7ef7ea44e6318b0f4d207b3b6975",
   "semantic_status": {
-    "rust": "Enabled",
-    "cpp": "Enabled",
-    "c": "Enabled",
-    "python": "Enabled",
+    "html": "Enabled",
     "css": "Enabled",
+    "python": "Enabled",
     "javascript": "Enabled",
-    "html": "Enabled"
+    "typescript": "Enabled",
+    "c": "Enabled",
+    "rust": "Enabled",
+    "cpp": "Enabled"
   },
   "enable_telemetry": false,
   "user_understands_that_enabling_tabnine_cloud_sends_code_to_tabnine_servers": true,
@@ -37,5 +38,7 @@
   "model_hash_override": null,
   "local_indexing": null,
   "heartbeat_interval_seconds": null,
-  "last_service_level": null
+  "last_service_level": null,
+  "override_beams": null,
+  "override_context_length": null
 }
