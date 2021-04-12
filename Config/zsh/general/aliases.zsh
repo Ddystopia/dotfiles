@@ -7,4 +7,5 @@ alias la="ls -Alh"
 alias l="ls -A"
 alias h="history 1 | grep"
 alias emacs="emacs -nw"
+alias rm="rm -f"
 

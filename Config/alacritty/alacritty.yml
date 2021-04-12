@@ -15,8 +15,8 @@ window:
     columns: 100
     lines: 37
   padding:
-    x: 0
-    y: 0
+    x: 4
+    y: 4
 
 fonts:
   normal:

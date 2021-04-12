@@ -12,10 +12,10 @@ super + {_,ctrl} + c
 
 # start a terminal
 super + Return
-  $TERM
+  filter-errors $TERM xlib
 
 ctrl + alt + t 
-  $TERM
+  filter-errors $TERM xlib
 
 # switch layout
 super + space
@@ -82,7 +82,7 @@ control + Print
 
 # start $BROWSER
 super + b
-  $BROWSER
+  $BROWSER 
 
 # start discord
 super + alt + d

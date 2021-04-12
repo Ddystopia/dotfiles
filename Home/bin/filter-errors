@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if (($# < 2)); then
+  echo "Not enough arguments" >&2
+  exit 1
+fi
+
+arguments=("$@")
+toExec=${arguments[@]:0:$# - 1}
+filter=${arguments[$# - 1]}
+
+# swap stdout and stderr, filter in stdout, swap back
+exec $toExec 3>&1 1>&2 2>&3 3>&- | grep -Eiv $filter 3>&1 1>&2 2>&3 3>&-

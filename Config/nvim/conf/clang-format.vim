@@ -3,6 +3,7 @@ let g:clang_format#style_options = {
       \ "AlignEscapedNewlines": "Right",
       \ "AllowAllParametersOfDeclarationOnNextLine": "true",
       \ "Standard": "c++17",
+      \ "IndentWidth": 2,
       \}
 
 

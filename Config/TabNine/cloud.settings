@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "kind": "CloudSettings",
+  "body": {
+    "api_key": null,
+    "cloud_whitelist": [],
+    "hosted_deep_completions_enabled": "Disabled",
+    "jwt": null,
+    "multiline_suggestions": false,
+    "omit_prefix_suggestions": false,
+    "tabnine_cloud_certificate_domain": null,
+    "tabnine_cloud_host": null,
+    "tabnine_cloud_port": null
+  }
+}

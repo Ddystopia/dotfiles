@@ -30,8 +30,9 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'tpope/vim-fugitive' 
   Plug 'tmhedberg/SimpylFold'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'sheerun/vim-polyglot'
-
+  " Plug 'sheerun/vim-polyglot'
+  
+  Plug 'yuezk/vim-js'
   Plug 'Shougo/context_filetype.vim'
   Plug 'tyru/caw.vim'
 

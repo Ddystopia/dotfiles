@@ -27,12 +27,16 @@ dracula.draw.blood(c, {
 
 # Dark mode yo
 c.colors.webpage.darkmode.enabled = True
-c.colors.webpage.prefers_color_scheme_dark = True
+c.colors.webpage.preferred_color_scheme = "dark"
 
-# Default zoom to 125%
-# c.zoom.default = 125
+# Allow copy to clipboard
+c.content.javascript.can_access_clipboard= True
 
+# Remove downloads bar
 config.set("downloads.remove_finished", 5 * 1000)
+
+# No shit in stderr
+config.set("logging.level.console", 'error')
 
 # Search engines
 c.url.searchengines = {
