@@ -6,13 +6,13 @@
   "creation_time": "2020-10-29T16:22:07.849597331Z",
   "guuid": "c6d7c2510c044185ae778133b36dfa3bdbcc7ef7ea44e6318b0f4d207b3b6975",
   "semantic_status": {
-    "html": "Enabled",
-    "css": "Enabled",
-    "python": "Enabled",
-    "javascript": "Enabled",
     "typescript": "Enabled",
+    "css": "Enabled",
     "c": "Enabled",
     "rust": "Enabled",
+    "html": "Enabled",
+    "python": "Enabled",
+    "javascript": "Enabled",
     "cpp": "Enabled"
   },
   "enable_telemetry": false,
@@ -24,6 +24,7 @@
   "cloud_whitelist": [],
   "num_of_suggestions": null,
   "multiline_suggestions": null,
+  "omit_prefix_suggestions": null,
   "api_key": null,
   "api_base_url": null,
   "binary_update_interval_seconds": null,
@@ -40,5 +41,10 @@
   "heartbeat_interval_seconds": null,
   "last_service_level": null,
   "override_beams": null,
-  "override_context_length": null
+  "override_context_length": null,
+  "onboarding": null,
+  "has_git_repos": null,
+  "gusr": {
+    "dgc": "c6d7c2510c044185ae778133b36dfa3bdbcc7ef7ea44e6318b0f4d207b3b6975"
+  }
 }

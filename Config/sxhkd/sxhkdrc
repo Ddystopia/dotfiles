@@ -108,6 +108,10 @@ super + alt + f
 super + F12
   ps -C compton > /dev/null && killall compton || compton
 
+# toggle recorder
+super + F9
+  toggleRecorder
+
 # restart sxhkd
 super + shift + c
   pkill -usr1 -x sxhkd
@@ -151,8 +155,8 @@ super + x
 	bspc node -s biggest.window.local
 
 # set the window state
-super + {s,shift + s,w}
-	bspc node -t {tiled,pseudo_tiled,floating}
+super + {s,w}
+	bspc node -t {tiled,floating}
 
 # toggle fullscreen
 # super + f

@@ -1,7 +1,7 @@
 # nozomi
 # hitomi
 # Томас Лиготти
-# Замятин - мы
+# Everywhere at the end of time
 
 # sudo cp -vf /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 # sudo curl -o /etc/pacman.d/mirrorlist https://www.archlinux.org/mirrorlist/\?country\=UA\&protocol\=http\&protocol\=https\&ip_version\=4\&ip_version\=6
