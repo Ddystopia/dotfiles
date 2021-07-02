@@ -9,7 +9,7 @@ settings:
   content.geolocation:
     https://md.siberianhealth.com: false
     https://www.shara.co.ua: false
-  content.notifications:
+  content.notifications.enabled:
     https://0tvet.com: false
     https://auto.ria.com: false
     https://chemer.ru: false

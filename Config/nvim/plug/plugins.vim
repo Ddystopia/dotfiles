@@ -14,7 +14,9 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 
-  Plug 'ryanoasis/vim-devicons'
+  Plug 'kyazdani42/nvim-web-devicons'
+  " Plug 'ryanoasis/vim-devicons'
+  " Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
 
   " Plug 'majutsushi/tagbar'
   " Plug 'liuchengxu/vista.vim'
@@ -37,8 +39,13 @@ call plug#begin(stdpath('data') . '/plugged')
   Plug 'tyru/caw.vim'
 
   " Plug 'marcweber/vim-addon-mw-utils'
-  Plug 'scrooloose/nerdtree'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  " Plug 'scrooloose/nerdtree'
+  " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+ 
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+
   Plug 'rhysd/vim-clang-format'
   " Plug 'mg979/vim-visual-multi'
   Plug 'tpope/vim-surround'

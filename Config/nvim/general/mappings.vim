@@ -25,6 +25,9 @@ function FormatFile()
   endif
 endfunction
 
+" remove ex mode
+nmap Q <nop>
+
 " reload config
 nmap <leader>vr :call LoadConfig_CONFIG()<CR>
 

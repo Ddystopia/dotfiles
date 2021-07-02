@@ -6,6 +6,7 @@
 # sudo cp -vf /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 # sudo curl -o /etc/pacman.d/mirrorlist https://www.archlinux.org/mirrorlist/\?country\=UA\&protocol\=http\&protocol\=https\&ip_version\=4\&ip_version\=6
 # youtube-dl --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist -i { URL }
+# sudo dd bs=4M if=~/Downloads/manjaro.iso of=/dev/sdg status=progress oflag=sync
 
 localectl --no-convert set-x11-keymap us,ru "" "" caps:escape,grp_led:scroll
 
