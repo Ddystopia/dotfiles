@@ -1,6 +1,6 @@
 let mapleader = " "
 let g:mapleader = " "
-
+ 
 function CloseBuffer()
   if @% == "" && len(getbufinfo({'buflisted':1})) < 2
     :q
@@ -29,7 +29,7 @@ endfunction
 nmap Q <nop>
 
 " reload config
-nmap <leader>vr :call LoadConfig_CONFIG()<CR>
+nmap <leader>vr :call LoadConfig()<CR>:echo "Reloaded"<CR>
 
 " format file
 nmap <leader>f :call FormatFile()<CR>
