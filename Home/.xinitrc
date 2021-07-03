@@ -5,7 +5,7 @@
 sxhkd &
 exec bspwm
 
-xset r 300 35
+xset r rate 200 35
 # my injection end
 #
 # Executed by startx (run your window manager from here)

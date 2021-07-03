@@ -33,9 +33,11 @@ settings:
     https://www.prepostseo.com: false
     https://www.reddit.com: false
     https://www.softrew.ru: false
+  content.private_browsing:
+    global: true
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: true
   statusbar.show:
-    global: always
+    global: never
   tabs.show:
-    global: multiple
+    global: never

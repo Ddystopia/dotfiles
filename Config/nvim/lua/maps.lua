@@ -1,5 +1,5 @@
 Format = function()
-  vim.api.nvim_command(":w")
+  Cmd "w"
   local formatCmds = {
     lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i',
     go = 'gofmt -w',
@@ -20,36 +20,23 @@ Format = function()
   local f = io.popen(command..' "'.. vim.api.nvim_buf_get_name("%")..'" 2>&1')
   print(f:read('*all'))
   f:close()
-  vim.api.nvim_command("let tmp = winsaveview()")
-  vim.api.nvim_command("e!")
-  vim.api.nvim_command("call winrestview(tmp)")
-  vim.api.nvim_command("IndentBlanklineRefresh")
+  Cmd "let tmp = winsaveview()"
+  Cmd "e!"
+  Cmd "call winrestview(tmp)"
+  Cmd "IndentBlanklineRefresh"
 end
 
 CloceBuffer = function()
-  if vim.api.nvim_buf_get_name("%") == "" or #vim.fn.getbufinfo{buflisted = 1} < 2 then
-    vim.api.nvim_command("q")
+  if vim.api.nvim_buf_get_name "%" == "" or #vim.fn.getbufinfo{buflisted = 1} < 2 then
+    Cmd "q"
   end
 
   if not vim.bo.readonly then
-    vim.api.nvim_command("w")
+    Cmd "w"
   end
 
-  vim.api.nvim_command("bdelete")
+  Cmd "bdelete"
 end
-
-
-Map('n', '<leader>F', ':lua Format()<CR>')
-
-ToggleConceal = function()
-  if vim.wo.conceallevel == 2 then
-    vim.wo.conceallevel = 0
-  else
-    vim.wo.conceallevel = 2
-  end
-end
-
-Map('n', '<leader>pc', ':lua ToggleConceal()<CR>')
 
 ToggleWrap = function()
   if vim.wo.wrap then
@@ -63,26 +50,25 @@ ToggleWrap = function()
   end
 end
 
--- Map('n', '<leader>pw', ':lua ToggleWrap()<CR>')
+ToggleConceal = function()
+  vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2)
+end
 
 ToggleKeyMap = function()
-  if vim.bo.iminsert == 0 then
-    vim.bo.iminsert = 1
-  else
-    vim.bo.iminsert = 0
-  end
+  vim.bo.iminsert = math.abs(vim.bo.iminsert - 1)
 end
+
+ToggleRelNums = function()
+  vim.wo.relativenumber = not vim.wo.relativenumber
+end
+
 
 Map('n', '<A-l>', ':lua ToggleKeyMap()<CR>')
 Map('i', '<A-l>', '<C-^>')
 
-ToggleRelNums = function()
-  if vim.wo.relativenumber then
-    vim.wo.relativenumber = false
-  else
-    vim.wo.relativenumber = true
-  end
-end
+Map('n', '<leader>F', ':lua Format()<CR>')
+Map('n', '<leader>pc', ':lua ToggleConceal()<CR>')
+-- Map('n', '<leader>pw', ':lua ToggleWrap()<CR>')
 
 Map('n', '<leader>pr', ':lua ToggleRelNums()<CR>')
 
@@ -123,9 +109,7 @@ Map('n', '\\\\', '<Esc>/<++><Enter>"_c4l')
 
 Map('n', 'cd', ':cd ')
 
-Cmd('inoremap <expr> <C-j>   pumvisible() ? "\\<C-n>" : "\\<C-j>"')
-Cmd('inoremap <expr> <-k>   pumvisible() ? "\\<C-p>" : "\\<C-k>"')
-Cmd('inoremap <expr> <Tab>   pumvisible() ? "\\<C-n>" : "\\<Tab>"')
-Cmd('inoremap <expr> <S-Tab> pumvisible() ? "\\<C-p>" : "\\<S-Tab>"')
-
-
+Cmd "inoremap <expr> <C-j>   pumvisible() ? '\\<C-n>' : '\\<C-j>'"
+Cmd "inoremap <expr> <-k>   pumvisible() ? '\\<C-p>' : '\\<C-k>'"
+Cmd "inoremap <expr> <Tab>   pumvisible() ? '\\<C-n>' : '\\<Tab>'"
+Cmd "inoremap <expr> <S-Tab> pumvisible() ? '\\<C-p>' : '\\<S-Tab>'"

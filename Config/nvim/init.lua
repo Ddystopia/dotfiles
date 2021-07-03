@@ -1,4 +1,4 @@
-require('utils')
+require "utils"
 
 vim.opt.hidden = true
 vim.opt.swapfile = false
@@ -8,7 +8,7 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
-Cmd('au BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4')
+Cmd "au BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4"
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -40,13 +40,14 @@ vim.g.mapleader = ' '
 
 vim.opt.guifont="droidsansmono nerd font 11"
 
-Cmd("au BufReadPost *.zsh,.zshrc set filetype=sh")
-Cmd("au BufReadPost *.fish set filetype=fish")
-Cmd("au BufReadPost *.conf set filetype=config")
-Cmd("au BufNewFile,BufRead *.asm set ft=nasm")
-Cmd("au BufNewFile,BufRead .prettierrc set ft=json")
+Cmd "au BufReadPost *.zsh,.zshrc set ft=sh"
+Cmd "au BufReadPost *.fish set ft=fish"
+Cmd "au BufReadPost *.conf set ft=config"
+Cmd "au BufNewFile,BufRead sxhkdrc set ft=config"
+Cmd "au BufNewFile,BufRead *.asm set ft=nasm"
+Cmd "au BufNewFile,BufRead .prettierrc set ft=json"
 
-Cmd("command! W :w!")
+Cmd "command! W :w!"
 
-require('maps')
-require('plugins')
+require "maps"
+require "plugins"
