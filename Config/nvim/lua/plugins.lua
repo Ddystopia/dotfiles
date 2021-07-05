@@ -86,7 +86,6 @@ return packer.startup(function()
   }
   use {
     'lukas-reineke/indent-blankline.nvim',
-    branch = "lua",
     config = function()
       vim.g.indent_blankline_char = '▏'
       vim.g.indent_blankline_char_highlight_list = { "IndentLine" }
