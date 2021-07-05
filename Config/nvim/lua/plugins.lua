@@ -91,6 +91,7 @@ return packer.startup(function()
       vim.g.indent_blankline_char = '▏'
       vim.g.indent_blankline_char_highlight_list = { "IndentLine" }
       vim.g.indent_blankline_show_first_indent_level = false
+      -- vim.g.indent_blankline_show_trailing_blankline_indent = false
       vim.g.indent_blankline_use_treesitter = true
       vim.g.indent_blankline_filetype_exclude =
           { 'markdown', 'tex', 'startify' }
@@ -100,7 +101,6 @@ return packer.startup(function()
     'machakann/vim-highlightedyank',
     config = function() vim.g.highlightedyank_highlight_duration = 250 end
   }
-  use 'kevinhwang91/nvim-hlslens'
   use {
     'norcalli/nvim-colorizer.lua',
     config = function()
@@ -122,7 +122,7 @@ return packer.startup(function()
         { type = 'files', header = { "MRU [global]" } }
       }
       vim.g.startify_fortune_use_unicode = 1
-      vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
+      -- vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
       Map('n', '<leader>s', ':Startify<CR>')
     end
   }
@@ -161,7 +161,12 @@ return packer.startup(function()
     end
   }
 
-  use 'tpope/vim-commentary'
+  use {
+    'tpope/vim-commentary',
+    config = function()
+      Cmd "au FileType apache setlocal commentstring=#%s"
+    end
+  }
   use 'tpope/vim-surround'
   use 'kana/vim-repeat'
   use 'jiangmiao/auto-pairs'
@@ -174,10 +179,10 @@ return packer.startup(function()
       require'hop'.setup {}
 
       Map('n', 's', '<NOP>')
-      Map("n", "sl", "<cmd>lua require'hop'.hint_words()<cr>")
       Map("n", "sh", "<cmd>lua require'hop'.hint_words()<cr>")
-      Map("n", "sj", "<cmd>lua require'hop'.hint_lines()<cr>")
+      Map("n", "sl", "<cmd>lua require'hop'.hint_words()<cr>")
       Map("n", "sk", "<cmd>lua require'hop'.hint_lines()<cr>")
+      Map("n", "sj", "<cmd>lua require'hop'.hint_lines()<cr>")
       Map("n", "sf", "<cmd>lua require'hop'.hint_char1()<cr>")
       Map("n", "ss", "<cmd>lua require'hop'.hint_char2()<cr>")
     end
@@ -295,7 +300,7 @@ return packer.startup(function()
 
       local servers = {
         "bashls", "vimls", "pyright", "tsserver", "vuels", "yamlls", "jsonls",
-        "cmake", "gopls", "intelephense", "cssls", "html"
+        "cmake", "gopls", "cssls", "html", "rust_analyzer", "clangd"
       }
       for _, lsp in ipairs(servers) do
         nvim_lsp[lsp].setup { on_attach = on_attach }
@@ -529,7 +534,4 @@ return packer.startup(function()
     'andweeb/presence.nvim',
     config = function() require("presence"):setup({}) end
   }
-
-  use 'rafcamlet/nvim-luapad'
-
 end)

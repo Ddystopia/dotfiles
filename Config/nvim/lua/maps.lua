@@ -73,6 +73,7 @@ Map('n', '<leader>pc', ':lua ToggleConceal()<CR>')
 Map('n', '<leader>pr', ':lua ToggleRelNums()<CR>')
 
 Map('n', '<leader>', '<nop>')
+Map('n', '<leader>y', '"+y')
 Map('v', '<leader>y', '"+y')
 
 Map('n', '<tab>', '<cmd>bn<cr>')
@@ -99,6 +100,7 @@ Map('n', '<leader>vv', ':e $MYVIMRC<cr>')
 Map('n', '<leader>vr', ':source $MYVIMRC<cr>:echo "Reloaded"<cr>')
 
 Map('n', '<leader>ps', ':set spell!<cr>')
+Map('n', '<leader>pl', ':set list!<cr>')
 
 if vim.env.TMUX == nil then Map('n', '<A-a>', ':silent !$TERM & disown<cr>') end
 
