@@ -8,22 +8,21 @@
 # youtube-dl --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist -i { URL }
 # sudo dd bs=4M if=~/Downloads/manjaro.iso of=/dev/sdg status=progress oflag=sync
 
-localectl --no-convert set-x11-keymap us,ru "" "" caps:escape,grp_led:scroll
+# localectl --no-convert set-x11-keymap us,ru "" "" caps:escape,grp_led:scroll
 
-sudo pacman -U MesloLGS\ NF\ Bold.ttf
+#sudo pacman -U MesloLGS\ NF\ Bold.ttf
 dependensies=(
-  "copyq" "python-pip" "ttf-dejavu-sans-mono-powerline" "noto-fonts-emoji" "base-devel"
+  "copyq" "python-pip" "noto-fonts-emoji"
   "ffmpeg" "bpytop" "yay" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
-  "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "compton" "rofi"
-  "rofi-calc" "rofi-pass" "xclip" "unipicker" "unpicker" "xdo" "xkb" "xkb-switch"
-  "crontab" "cron" "nitrogen" "filelight" "thefuck" "neofetch" "cowsay" "pandoc"
-  "pulsemixer" "ueberzug" "highlite" "typescript" "youtube-dl" "racket"
-  "atril" "foliate" "discord" "node npm" "python" "vscode" "java"
-  "lua" "lua-format" "luarocks" "lua-language" "server"
-  "latexmk" "tree-sitter" "luajit"
+  "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi"
+  "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "nitrogen" "filelight"
+  "thefuck" "neofetch" "cowsay" "pandoc" "pulsemixer" "ueberzug" "highlight"
+  "typescript" "youtube-dl" "racket" "atril" "foliate" "discord" "nodejs" "npm" 
+  "python" "vscode" "lua" "luarocks" "tree-sitter" "luajit"
 )
 
-sudo pacman -S $dependensies
-yay -S splatmoji
-pip install black python-language-server
-sudo npm -g i typescript-language-server yarn
+sudo pacman -S ${dependensies[@]}
+#luarocks install --server=https://luarocks.org/dev luaformatter
+#yay -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb xkb-switch compton-tryone-git unipicker
+#pip install black python-language-server
+#sudo npm -g i typescript-language-server yarn
