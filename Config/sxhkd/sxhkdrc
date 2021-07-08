@@ -14,7 +14,7 @@ super + {_,ctrl} + c
 super + Return
   filter-errors $TERM xlib
 
-ctrl + alt + t 
+ctrl + alt + t
   filter-errors $TERM xlib
 
 # switch layout
@@ -82,7 +82,7 @@ control + Print
 
 # start $BROWSER
 super + b
-  $BROWSER 
+  $BROWSER
 
 # start discord
 super + alt + d
@@ -205,11 +205,11 @@ super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
 # cancel the preselection for the focused node
-super + ctrl + \
+super + ctrl + backslash
   bspc node -p cancel
 
 # cancel the preselection for the focused desktop
-super + ctrl + shift + \
+super + ctrl + shift + baskslash
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 # resize node
