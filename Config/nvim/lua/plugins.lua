@@ -298,7 +298,7 @@ return packer.startup(function()
       end
 
       local servers = {
-        "bashls", "vimls", "pyright", "tsserver", "vuels", "yamlls", "jsonls",
+        "bashls", "vimls", "pylsp" , "tsserver", "vuels", "yamlls", "jsonls",
         "cmake", "gopls", "cssls", "html", "rust_analyzer", "clangd"
       }
       for _, lsp in ipairs(servers) do

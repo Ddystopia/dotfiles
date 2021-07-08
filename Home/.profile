@@ -7,9 +7,10 @@ export PATH="/home/ddystopia/bin:$PATH"
 export EDITOR=/usr/bin/nvim
 export BROWSER=/usr/bin/qutebrowser
 export TERM=/usr/bin/alacritty
-export WALLPAPERS_DIR=/home/ddystopia/Pictures/wallpapers
+export WALLPAPERS_DIR=/home/ddystopia/Media/wallpapers
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export LIBGL_ALWAYS_SOFTWARE=1
+
+# export LIBGL_ALWAYS_SOFTWARE=1
 
 # system
 export QT_QPA_PLATFORMTHEME="qt5ct"
