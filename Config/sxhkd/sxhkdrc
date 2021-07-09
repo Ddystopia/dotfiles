@@ -209,7 +209,7 @@ super + ctrl + backslash
   bspc node -p cancel
 
 # cancel the preselection for the focused desktop
-super + ctrl + shift + baskslash
+super + ctrl + shift + backslash
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 # resize node

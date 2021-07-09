@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function get_lp() {
-  # local prettyChars="Ϡ"
+  # local prettyChars="Ϡɣ"
   # (( index = $(od -A n -t u -N 2 /dev/random)%${#prettyChars} ))  
   # echo ${prettyChars[index]}
 
@@ -42,4 +42,3 @@ function return_status {
 setopt PROMPT_SUBST
 PROMPT='$(return_status) %F{blue}$(get_pwd)%f $(git_prompt_info)
 %F{magenta}❯%f '
-

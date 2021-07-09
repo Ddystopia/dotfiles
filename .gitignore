@@ -4,5 +4,6 @@ Config/TabNine/metrics.db
 Config/BetterDiscord/bdstorage.json
 Config/BetterDiscord/emote_data.json
 Config/nvim/plugin
+Home/.fonts
 Home/bin/telegram
 *cache*

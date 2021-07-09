@@ -14,7 +14,7 @@
 # sudo dd bs=4M if=~/Downloads/manjaro.iso of=/dev/sdg status=progress oflag=sync
 
 # Swap Caps Lock and Esc
-#localectl --no-convert set-x11-keymap us,ru "" "" caps:escape,grp_led:scroll
+localectl --no-convert set-x11-keymap us,ru "" "" caps:escape,grp_led:scroll
 
 dependensies=(
   "copyq" "python-pip" "noto-fonts-emoji" "flameshot" "zsh"

@@ -33,6 +33,6 @@ settings:
   content.private_browsing:
     global: false
   statusbar.show:
-    global: never
+    global: always
   tabs.show:
-    global: never
+    global: multiple

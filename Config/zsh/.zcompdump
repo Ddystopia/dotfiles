@@ -1,4 +1,4 @@
-#files: 797	version: 5.8
+#files: 784	version: 5.8
 
 _comps=(
 '-' '_precommand'
@@ -33,6 +33,9 @@ _comps=(
 '-value-' '_value'
 '-value-,-default-,-command-' '_zargs'
 '-value-,-default-,-default-' '_value'
+'-value-,ADB_TRACE,-default-' '_adb'
+'-value-,ANDROID_LOG_TAGS,-default-' '_adb'
+'-value-,ANDROID_SERIAL,-default-' '_adb'
 '-value-,ANSIBLE_STDOUT_CALLBACK,-default-' '_ansible'
 '-value-,ANT_ARGS,-default-' '_ant'
 '-value-,CFLAGS,-default-' '_gcc'
@@ -88,7 +91,6 @@ _comps=(
 '8l' '_go'
 'Mail' '_mail'
 'Mosaic' '_webbrowser'
-'_gh' '_gh'
 'a2ps' '_a2ps'
 'aaaa' '_hosts'
 'aap' '_aap'
@@ -100,6 +102,7 @@ _comps=(
 'acpi' '_acpi'
 'acpitool' '_acpitool'
 'acroread' '_acroread'
+'adb' '_adb'
 'add-zle-hook-widget' '_add-zle-hook-widget'
 'add-zsh-hook' '_add-zsh-hook'
 'admin' '_sccs'
@@ -326,9 +329,6 @@ _comps=(
 'dmesg' '_dmesg'
 'dmidecode' '_dmidecode'
 'doas' '_doas'
-'docker' '_docker'
-'docker-compose' '_docker-compose'
-'dockerd' '_docker'
 'domainname' '_yp'
 'dos2unix' '_dos2unix'
 'drill' '_drill'
@@ -376,7 +376,6 @@ _comps=(
 'eview' '_vim'
 'evim' '_vim'
 'evince' '_evince'
-'exa' '_exa'
 'exec' '_exec'
 'expand' '_unexpand'
 'export' '_typeset'
@@ -411,7 +410,6 @@ _comps=(
 'fixwpps' '_psutils'
 'fixwwps' '_psutils'
 'flac' '_flac'
-'flatpak' '_flatpak'
 'flex' '_flex'
 'flex++' '_flex'
 'flipdiff' '_patchutils'
@@ -487,7 +485,6 @@ _comps=(
 'ggetopt' '_getopt'
 'ggrep' '_grep'
 'ggv' '_gnome-gv'
-'gh' '_gh'
 'ghead' '_head'
 'ghostscript' '_ghostscript'
 'ghostview' '_pspdf'
@@ -931,6 +928,7 @@ _comps=(
 'pack' '_pack'
 'packf' '_mh'
 'pacman' '_pacman'
+'pacman-conf' '_pacman'
 'pacman-key' '_pacman'
 'pacman.static' '_pacman'
 'pacmd' '_pulseaudio'
@@ -1050,7 +1048,6 @@ _comps=(
 'pstotgif' '_pspdf'
 'pswrap' '_postscript'
 'pulseaudio' '_pulseaudio'
-'pulseaudio-ctl' '_pulseaudio-ctl'
 'pump' '_pump'
 'pushd' '_cd'
 'pv' '_pv'
@@ -1060,7 +1057,6 @@ _comps=(
 'pyhtmlizer' '_twisted'
 'qdbus' '_qdbus'
 'qiv' '_qiv'
-'qpdf' '_qpdf'
 'quilt' '_quilt'
 'r' '_fc'
 'rake' '_rake'
@@ -1114,7 +1110,6 @@ _comps=(
 'run-help' '_run-help'
 'rup' '_hosts'
 'rusage' '_precommand'
-'rustup' '_rustup'
 'rview' '_vim'
 'rvim' '_vim'
 'rwho' '_hosts'
@@ -1319,9 +1314,6 @@ _comps=(
 'type' '_which'
 'typeset' '_typeset'
 'udevadm' '_udevadm'
-'udiskie' '_udiskie'
-'udiskie-mount' '_udiskie-mount'
-'udiskie-umount' '_udiskie-umount'
 'ulimit' '_ulimit'
 'uml_mconsole' '_uml'
 'uml_moo' '_uml'
@@ -1629,42 +1621,40 @@ bindkey '^[/' _history-complete-older
 bindkey '^[~' _bash_complete-word
 
 autoload -Uz _alacritty _bootctl _bspc _busctl _cargo \
-            _code _code-oss _coredumpctl _curl _docker \
-            _docker-compose _exa _flatpak _gh _hostnamectl \
+            _code _code-oss _coredumpctl _curl _hostnamectl \
             _journalctl _kernel-install _libinput _localectl _loginctl \
             _luarocks _luarocks-admin _machinectl _mkinitcpio _mpv \
-            _networkctl _pacman _pass _pulseaudio _pulseaudio-ctl \
-            _qpdf _resolvectl _rg _rustup _sd_hosts_or_user_at_host \
-            _sd_machines _sd_outputmodes _sd_unit_files _systemctl _systemd \
-            _systemd-analyze _systemd-delta _systemd-inhibit _systemd-nspawn _systemd-path \
-            _systemd-run _systemd-tmpfiles _timedatectl _udevadm _udiskie \
-            _udiskie-mount _udiskie-umount _yay _youtube-dl _cdr \
-            _all_labels _all_matches _alternative _approximate _arg_compile \
-            _arguments _bash_completions _cache_invalid _call_function _combination \
-            _comp_locale _complete _complete_debug _complete_help _complete_help_generic \
-            _complete_tag _correct _correct_filename _correct_word _describe \
-            _description _dispatch _expand _expand_alias _expand_word \
-            _extensions _external_pwds _generic _guard _history \
-            _history_complete_word _ignored _list _main_complete _match \
-            _menu _message _most_recent_file _multi_parts _next_label \
-            _next_tags _normal _nothing _oldlist _pick_variant \
-            _prefix _read_comp _regex_arguments _regex_words _requested \
-            _retrieve_cache _sep_parts _sequence _set_command _setup \
-            _store_cache _sub_commands _tags _user_expand _values \
-            _wanted _acpi _acpitool _alsa-utils _analyseplugin \
-            _brctl _btrfs _chattr _chcon _chrt \
-            _cpupower _cryptsetup _dkms _e2label _ethtool \
-            _findmnt _free _fuse_arguments _fuse_values _fusermount \
-            _gpasswd _htop _iconvconfig _ionice _ipset \
-            _iptables _iwconfig _kpartx _losetup _lsattr \
-            _lsblk _lsusb _ltrace _mdadm _mii-tool \
-            _modutils _mondo _networkmanager _opkg _pidof \
-            _pmap _qdbus _schedtool _selinux_contexts _selinux_roles \
-            _selinux_types _selinux_users _setsid _slabtop _ss \
-            _sshfs _strace _sysstat _tload _tpb \
-            _tracepath _tune2fs _uml _valgrind _vserver \
-            _wakeup_capable_devices _wipefs _wpa_cli _a2ps _aap \
-            _abcde _absolute_command_paths _ack _ansible _ant \
+            _networkctl _pacman _pass _pulseaudio _resolvectl \
+            _rg _sd_hosts_or_user_at_host _sd_machines _sd_outputmodes _sd_unit_files \
+            _systemctl _systemd _systemd-analyze _systemd-delta _systemd-inhibit \
+            _systemd-nspawn _systemd-path _systemd-run _systemd-tmpfiles _timedatectl \
+            _udevadm _yay _youtube-dl _cdr _all_labels \
+            _all_matches _alternative _approximate _arg_compile _arguments \
+            _bash_completions _cache_invalid _call_function _combination _comp_locale \
+            _complete _complete_debug _complete_help _complete_help_generic _complete_tag \
+            _correct _correct_filename _correct_word _describe _description \
+            _dispatch _expand _expand_alias _expand_word _extensions \
+            _external_pwds _generic _guard _history _history_complete_word \
+            _ignored _list _main_complete _match _menu \
+            _message _most_recent_file _multi_parts _next_label _next_tags \
+            _normal _nothing _oldlist _pick_variant _prefix \
+            _read_comp _regex_arguments _regex_words _requested _retrieve_cache \
+            _sep_parts _sequence _set_command _setup _store_cache \
+            _sub_commands _tags _user_expand _values _wanted \
+            _acpi _acpitool _alsa-utils _analyseplugin _brctl \
+            _btrfs _chattr _chcon _chrt _cpupower \
+            _cryptsetup _dkms _e2label _ethtool _findmnt \
+            _free _fuse_arguments _fuse_values _fusermount _gpasswd \
+            _htop _iconvconfig _ionice _ipset _iptables \
+            _iwconfig _kpartx _losetup _lsattr _lsblk \
+            _lsusb _ltrace _mdadm _mii-tool _modutils \
+            _mondo _networkmanager _opkg _pidof _pmap \
+            _qdbus _schedtool _selinux_contexts _selinux_roles _selinux_types \
+            _selinux_users _setsid _slabtop _ss _sshfs \
+            _strace _sysstat _tload _tpb _tracepath \
+            _tune2fs _uml _valgrind _vserver _wakeup_capable_devices \
+            _wipefs _wpa_cli _a2ps _aap _abcde \
+            _absolute_command_paths _ack _adb _ansible _ant \
             _antiword _apachectl _apm _arch_archives _arch_namespace \
             _arp _arping _asciidoctor _asciinema _at \
             _attr _augeas _avahi _awk _base64 \

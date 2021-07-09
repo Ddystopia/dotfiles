@@ -3,8 +3,8 @@ plugins=(
   git \
   fast-syntax-highlighting \
   vi-cursor \
-  fzf \
-  fzf-autocomplete \
+#  fzf \
+#  fzf-autocomplete \
   completion \
   history-substring-search \
   zsh-autosuggestions \
