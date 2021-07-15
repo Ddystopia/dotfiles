@@ -7,7 +7,7 @@ austart sxhkd
 austart compton
 austart xfce4-power-manager
 
-xset r rate 200 30
+xset r rate 250 30
 
 # add background
 austart "$BSPWM_CONFIG/bgInterval 30 $WALLPAPERS_DIR" bgInterval

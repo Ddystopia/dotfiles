@@ -1,4 +1,3 @@
-
 # with manually migrating the config file on qutebrowser upgrades. If
 # you prefer, you can also configure qutebrowser using the
 # :set/:bind/:config-* commands without having to write a config.py
@@ -10,7 +9,7 @@
 
 # Uncomment this to still load settings configured via autoconfig.yml
 
-# pylint: disable=undefined-variable
+# type: ignore
 
 config.load_autoconfig()
 
@@ -65,7 +64,7 @@ c.bindings.key_mappings = {
 }
 
 # Bindings for normal mode
-config.bind('zyd', "spawn youtube-dl -o '~/Videos/YouTube/%(title)s - %(uploader)s' {url}")
+config.bind('zyd', "spawn youtube-dl -o '~/Media/YouTube/%(title)s - %(uploader)s' {url}")
 config.bind('zym', "spawn youtube-dl --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist -i -o '~/Music/%(title)' {url}")
 config.bind('zyf', 'hint links spawn mpv --keep-open=yes {hint-url} --fs')
 config.bind('zyy', 'spawn mpv {url} --fs')

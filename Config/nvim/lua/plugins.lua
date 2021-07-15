@@ -1,4 +1,4 @@
- vim.cmd('packadd packer.nvim')
+vim.cmd('packadd packer.nvim')
 
 Map('n', '<leader>PP', ':PackerCompile<CR>')
 Map('n', '<leader>PS', ':PackerSync<CR>')
@@ -162,9 +162,7 @@ return packer.startup(function()
 
   use {
     'tpope/vim-commentary',
-    config = function()
-      Cmd "au FileType apache setlocal commentstring=#%s"
-    end
+    config = function() Cmd "au FileType apache setlocal commentstring=#%s" end
   }
   use 'tpope/vim-surround'
   use 'kana/vim-repeat'
@@ -298,7 +296,7 @@ return packer.startup(function()
       end
 
       local servers = {
-        "bashls", "vimls", "pylsp" , "tsserver", "vuels", "yamlls", "jsonls",
+        "bashls", "vimls", "tsserver", "vuels", "yamlls", "jsonls",
         "cmake", "gopls", "cssls", "html", "rust_analyzer", "clangd"
       }
       for _, lsp in ipairs(servers) do
@@ -529,8 +527,8 @@ return packer.startup(function()
     end
   }
 
-  use {
-    'andweeb/presence.nvim',
-    config = function() require("presence"):setup({}) end
-  }
+  -- use {
+  --   'andweeb/presence.nvim',
+  --   config = function() require("presence"):setup({}) end
+  -- }
 end)

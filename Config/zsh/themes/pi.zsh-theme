@@ -1,11 +1,11 @@
 #!/bin/bash
 
 function get_lp() {
-  # local prettyChars="Ϡɣ"
-  # (( index = $(od -A n -t u -N 2 /dev/random)%${#prettyChars} ))  
-  # echo ${prettyChars[index]}
+  local prettyChars="Δ∇ΘΞΣΨήαβγɣεδζηθικλμνξοπρςστυφχψωϊϋόύώϐϑϒϓϔϕϖϗϘϙϚϛϜϝϞϟϠϡϣϥϦϧʂʃʄʅʆʇʈ∫∬∮∯∱∳√∀∁∂≡⋀⋁𝛗𝛙𝛇𝛄♥"
+  (( index = $(od -A n -t u -N 2 /dev/random)%${#prettyChars} ))  
+  echo ${prettyChars[index + 1]}
 
-  echo $(random-uni-char 931 90)
+  # echo $(random-uni-char 931 90)
 }
 
 function git_prompt_info() {
