@@ -5,7 +5,6 @@ export BSPWM_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
 
 austart sxhkd
 austart compton
-austart xfce4-power-manager
 
 xset r rate 250 30
 
@@ -25,6 +24,7 @@ bspc desktop '^1' --layout monocle
 bspc desktop '^2' --layout monocle
 
 bspc rule --add discord                     desktop='^1' --one-shot follow=on
+bspc rule --add Discord                     desktop='^1' --one-shot follow=on
 bspc rule --add firefox                     desktop='^2' follow=on
 bspc rule --add qutebrowser                 desktop='^2' follow=on
 bspc rule --add VirtualBox                  desktop='^4' follow=on

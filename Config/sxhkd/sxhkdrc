@@ -73,12 +73,12 @@ XF86Audio{Next,Prev,Play}
 XF86AudioStop
   playerctl --all-players stop
 
-# flameshot
+# screenshot
 Print
-  flameshot gui
+  scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 -s -f -z -e 'xclip -selection clipboard -target image/png -i $f'
 
-control + Print
-  flameshot full -c
+ctrl + Print
+  scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 -f -z -e 'xclip -selection clipboard -target image/png -i $f'
 
 # start $BROWSER
 super + b
