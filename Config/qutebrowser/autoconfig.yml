@@ -32,6 +32,8 @@ settings:
     https://www.softrew.ru: false
   content.private_browsing:
     global: false
+  content.register_protocol_handler:
+    https://mail.google.com?extsrc=mailto&url=%25s: true
   statusbar.show:
     global: always
   tabs.show:

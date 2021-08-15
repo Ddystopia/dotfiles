@@ -5,6 +5,7 @@ export BSPWM_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
 
 austart sxhkd
 austart compton
+austart xfce4-power-manager
 
 xset r rate 250 30
 

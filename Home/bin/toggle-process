@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ps -C $1 > /dev/null && killall $1 || $1
+

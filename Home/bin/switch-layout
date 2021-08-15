@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ $(xkb-switch -p) == 'us' ]]; then
+  xkb-switch -s ru
+else
+  xkb-switch -s us
+fi

@@ -262,6 +262,7 @@ return packer.startup(function()
         buf_set('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
         -- Mappings
+        -- buf_map('n', 'gs', '<Cmd>ClangdSwitchSourceHeader<CR>')
         buf_map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
         buf_map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
         buf_map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
@@ -296,8 +297,8 @@ return packer.startup(function()
       end
 
       local servers = {
-        "bashls", "vimls", "tsserver", "vuels", "yamlls", "jsonls",
-        "cmake", "gopls", "cssls", "html", "rust_analyzer", "clangd"
+        "bashls", "vimls", "tsserver", "vuels", "yamlls", "jsonls", "cmake",
+        "gopls", "cssls", "html", "rust_analyzer"
       }
       for _, lsp in ipairs(servers) do
         nvim_lsp[lsp].setup { on_attach = on_attach }
@@ -328,6 +329,30 @@ return packer.startup(function()
       --   return false
       -- end
 
+      nvim_lsp.clangd.setup {
+        cmd = {
+          'clangd', '--header-insertion=never', '--suggest-missing-includes',
+          '--background-index', '-j=8', '--cross-file-rename',
+          '--pch-storage=memory', '--clang-tidy',
+          '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type'
+        },
+        -- on_init = require'clangd_nvim'.on_init,
+        -- callbacks = lsp_status.extensions.clangd.setup(),
+        capabilities = {
+          capabilities = { window = { workDoneProgress = true } },
+          textDocument = {
+            completion = { completionItem = { snippetSupport = true } },
+            semanticHighlightingCapabilities = { semanticHighlighting = true }
+          }
+        },
+        init_options = {
+          clangdFileStatus = true,
+          usePlaceholders = true,
+          completeUnimported = true
+        },
+        on_attach = function() end
+      }
+
       nvim_lsp.efm.setup {
         -- root_dir = function()
         --   if not eslint_config_exists() then
@@ -349,11 +374,6 @@ return packer.startup(function()
           "javascript", "javascriptreact", "javascript.jsx", "typescript",
           "typescript.tsx", "typescriptreact"
         },
-        on_attach = on_attach
-      }
-
-      nvim_lsp.ccls.setup {
-        init_options = { highlight = { lsRanges = true } },
         on_attach = on_attach
       }
 

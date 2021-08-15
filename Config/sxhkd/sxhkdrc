@@ -19,7 +19,10 @@ ctrl + alt + t
 
 # switch layout
 super + space
-  xkb-switch -n
+  switch-layout
+
+super + alt + space
+  xkb-switch -s ua
 
 # copyq clipboard toggle
 super + y
@@ -75,10 +78,12 @@ XF86AudioStop
 
 # screenshot
 Print
-  scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 -s -f -z -e 'xclip -selection clipboard -target image/png -i $f'
+  scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 \
+    -q 100 -s -f -z -e 'xclip -selection clipboard -target image/png -i $f'
 
 ctrl + Print
-  scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 -f -z -e 'xclip -selection clipboard -target image/png -i $f'
+  scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 \
+    -q 100 -f -z -e 'xclip -selection clipboard -target image/png -i $f'
 
 # start $BROWSER
 super + b
@@ -106,7 +111,7 @@ super + alt + f
 
 # toggle compton
 super + F12
-  ps -C compton > /dev/null && killall compton || compton
+  toggle-process compton
 
 # toggle recorder
 super + F9

@@ -9,4 +9,5 @@ alias h="history 1 | grep"
 alias emacs="emacs -nw"
 alias rm="rm -rf"
 alias pacman="sudo pacman"
+alias zathura="zathura --mode fullscreen"
 

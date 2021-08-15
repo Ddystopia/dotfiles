@@ -4,8 +4,8 @@ if ps -C byzanz-record > /dev/null; then
   sleep 3
   killall byzanz-record
   cd /tmp/recorder/
-  ffmpeg -i out.gif -vf "fps=30,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 output.gif > /dev/null
-  rm -rf $(ls -A | grep -v output.gif)
+  ffmpeg -i out.gif -vf "fps=30,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 result.gif > /dev/null
+  rm -rf $(ls -A | grep -v result.gif)
 else
   mkdir -p /tmp/recorder 
   cd /tmp/recorder

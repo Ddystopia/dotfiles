@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function get_lp() {
-  local prettyChars="Δ∇ΘΞΣΨήαβγɣεδζηθικλμνξοπρςστυφχψωϊϋόύώϐϑϒϓϔϕϖϗϘϙϚϛϜϝϞϟϠϡϣϥϦϧʂʃʄʅʆʇʈ∫∬∮∯∱∳√∀∁∂≡⋀⋁𝛗𝛙𝛇𝛄♥"
+  local prettyChars="Δ∇ΘΞΣΨήαβγɣεδζηθικλμνξοπρςστυφχψωϊϋόύώϐϑϒϓϔϕϖϗϘϙϚϛϜϝϞϟϠϡϣϥϦϧʂʃʄʅʆʇʈ∫∮∱√∀∁∂≡⋀⋁𝛗𝛙𝛇𝛄♥"
   (( index = $(od -A n -t u -N 2 /dev/random)%${#prettyChars} ))  
   echo ${prettyChars[index + 1]}
 
