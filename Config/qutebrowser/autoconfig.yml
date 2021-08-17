@@ -6,6 +6,8 @@
 
 config_version: 2
 settings:
+  content.blocking.method:
+    global: both
   content.notifications.enabled:
     https://0tvet.com: false
     https://auto.ria.com: false
@@ -30,10 +32,14 @@ settings:
     https://www.prepostseo.com: false
     https://www.reddit.com: false
     https://www.softrew.ru: false
+  content.pdfjs:
+    global: true
   content.private_browsing:
     global: false
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: true
+  scrolling.smooth:
+    global: false
   statusbar.show:
     global: always
   tabs.show:

@@ -58,15 +58,15 @@ super + p
 
 # brightness control
 XF86MonBrightness{Up,Down}
-  xbacklight {+,-} 10
+  xbacklight {+,-} 10 --id sink-0
 
 # volume control
 XF86Audio{Raise,Lower}Volume
-  pulsemixer --change-volume {+,-}5
+  pulsemixer --change-volume {+,-}5 --id sink-0
 
 # volume toggle mute
 XF86AudioMute
-  pulsemixer --toggle-mute
+  pulsemixer --toggle-mute --id sink-0
 
 # player control
 XF86Audio{Next,Prev,Play}

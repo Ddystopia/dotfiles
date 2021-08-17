@@ -7,8 +7,6 @@
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
-# Uncomment this to still load settings configured via autoconfig.yml
-
 # type: ignore
 
 config.load_autoconfig()
@@ -24,22 +22,36 @@ dracula.draw.blood(c, {
 # c.url.start_pages = "file:///home/nf/.config/qutebrowser/startpage/index.html"
 # c.url.default_page = "file:///home/nf/.config/qutebrowser/startpage/index.html"
 
+# Save session
+c.auto_save.session = True
+c.auto_save.interval = 10_000
+
+# Add blocking, depends of python-adblock
+c.content.blocking.method = "both"
+
 # Dark mode yo
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.preferred_color_scheme = "dark"
 
 # Allow copy to clipboard
-c.content.javascript.can_access_clipboard= True
+c.content.javascript.can_access_clipboard = True
+
+# Allow pdfjs
+c.content.pdfjs = True
 
 # Remove downloads bar
-config.set("downloads.remove_finished", 5 * 1000)
+c.downloads.remove_finished = 5_000
 
 # No shit in stderr
-config.set("logging.level.console", 'error')
+c.logging.level.console = 'critical'
+
+# Spell check
+# c.spellcheck.langulages = ['en_US', 'ru_Ru', 'sk_SK']
 
 # Search engines
 c.url.searchengines = {
     "DEFAULT": "https://duckduckgo.com/?q={}",
+    "ddg": "https://duckduckgo.com/?q={}",
     "g": "https://google.com/search?q={}",
     "y": "https://youtube.com/results?search_query={}",
     "a": "https://wiki.archlinux.org/index.php?search={}",

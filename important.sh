@@ -19,7 +19,7 @@ localectl --no-convert set-x11-keymap us,ru "" "" caps:escape,grp_led:scroll
 dependensies=(
   "copyq" "python-pip" "noto-fonts-emoji" "flameshot" "zsh"
   "ffmpeg" "bpytop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
-  "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi"
+  "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "python-adblock"
   "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "nitrogen" "filelight"
   "thefuck" "neofetch" "cowsay" "pandoc" "pulsemixer" "ueberzug" "highlight"
   "typescript" "youtube-dl" "racket" "atril" "foliate" "discord" "nodejs" "npm" 
