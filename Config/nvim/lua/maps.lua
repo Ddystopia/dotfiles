@@ -62,6 +62,7 @@ ToggleRelNums = function()
   vim.wo.relativenumber = not vim.wo.relativenumber
 end
 
+Map('i', '<C-v>', '<C-[>"+pa')
 
 Map('n', '<A-l>', ':lua ToggleKeyMap()<CR>')
 Map('i', '<A-l>', '<C-^>')

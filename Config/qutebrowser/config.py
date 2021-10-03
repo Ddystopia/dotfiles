@@ -57,7 +57,7 @@ c.url.searchengines = {
     "a": "https://wiki.archlinux.org/index.php?search={}",
     "w": "https://www.wolframalpha.com/input/?i={}",
     "t": "https://translate.google.com/?hl=ru&sl=en&tl=ru&text={}",
-    "tr": "https://translate.google.com/?hl=ru&sl=ru&tl=en&text={}",
+    "т": "https://translate.google.com/?hl=ru&sl=ru&tl=en&text={}",
     "yd": "https://yandex.ru/search/?text={}",
 }
 
