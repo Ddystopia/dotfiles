@@ -1,0 +1,17 @@
+{
+  "env": {
+    "commonjs": true,
+    "es2020": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
+  "globals": {
+    "__dirname": "readonly",
+    "currency": "readonly"
+  },
+  "extends": "eslint:recommended",
+  "rules": {},
+  "root": true
+}

@@ -16,6 +16,9 @@
 # Swap Caps Lock and Esc
 localectl --no-convert set-x11-keymap us,ru "" "" caps:escape,grp_led:scroll
 
+# Enable magic SysRq key
+su -c "echo 1 > /proc/sys/kernel/sysrq"
+
 dependensies=(
   "copyq" "python-pip" "noto-fonts-emoji" "flameshot" "zsh"
   "ffmpeg" "bpytop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"

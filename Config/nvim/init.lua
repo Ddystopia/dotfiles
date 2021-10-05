@@ -10,6 +10,8 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 Cmd "au BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4"
 
+vim.opt.fileencoding = 'utf-8'
+
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.mouse = 'a'
