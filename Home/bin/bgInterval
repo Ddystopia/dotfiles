@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# bgInterval timeout wallpapers_dir proc_name
+
 TIMEOUT=${1:-30}
 WALLPAPERS_DIR__LOCAL=${2:-${WALLPAPERS_DIR}}
 PROC_NAME=${3:-"bgInterval"}

@@ -10,7 +10,7 @@ austart xfce4-power-manager
 xset r rate 250 30
 
 # add background
-austart "$BSPWM_CONFIG/bgInterval 30 $WALLPAPERS_DIR" bgInterval
+austart bgInterval
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
@@ -24,8 +24,8 @@ bspc config gapless_monocle             true
 bspc desktop '^1' --layout monocle
 bspc desktop '^2' --layout monocle
 
-bspc rule --add discord                     desktop='^1' --one-shot follow=on
-bspc rule --add Discord                     desktop='^1' --one-shot follow=on
+bspc rule --add discord                     desktop='^1' follow=on
+bspc rule --add Discord                     desktop='^1' follow=on
 bspc rule --add firefox                     desktop='^2' follow=on
 bspc rule --add qutebrowser                 desktop='^2' follow=on
 bspc rule --add VirtualBox                  desktop='^4' follow=on

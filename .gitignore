@@ -6,4 +6,5 @@ Config/BetterDiscord/emote_data.json
 Config/nvim/plugin
 Home/.fonts
 Home/bin/telegram
+Home/bin/Updater
 *cache*

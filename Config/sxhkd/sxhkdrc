@@ -78,12 +78,17 @@ XF86AudioStop
 
 # screenshot
 Print
-  scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 \
-    -q 100 -s -f -z -e 'xclip -selection clipboard -target image/png -i $f'
+  flameshot gui
 
 ctrl + Print
-  scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 \
-    -q 100 -f -z -e 'xclip -selection clipboard -target image/png -i $f'
+  flameshot full
+# Print
+#   scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 \
+#     -q 100 -s -f -z -e 'xclip -selection clipboard -target image/png -i $f'
+
+# ctrl + Print
+#   scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 \
+#     -q 100 -f -z -e 'xclip -selection clipboard -target image/png -i $f'
 
 # start $BROWSER
 super + b

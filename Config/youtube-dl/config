@@ -2,4 +2,4 @@
 --audio-quality 0 
 --audio-format mp3 
 --yes-playlist 
--o '%(title)s.mp3'
+-o '%(creator)s - %(title)s.mp3'
