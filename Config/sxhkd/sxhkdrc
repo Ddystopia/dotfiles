@@ -21,8 +21,8 @@ ctrl + alt + t
 super + space
   switch-layout
 
-super + alt + space
-  xkb-switch -s ua
+#super + alt + space
+#  xkb-switch -s ua
 
 # copyq clipboard toggle
 super + y

@@ -66,8 +66,11 @@ c.url.searchengines = {
     "y": "https://youtube.com/results?search_query={}",
     "a": "https://wiki.archlinux.org/index.php?search={}",
     "w": "https://www.wolframalpha.com/input/?i={}",
-    "t": "https://translate.google.com/?hl=ru&sl=en&tl=ru&text={}",
-    "п": "https://translate.google.com/?hl=ru&sl=ru&tl=en&text={}",
+    "td": "https://dictionary.cambridge.org/dictionary/english/{}",
+    "t": "https://www.deepl.com/translator#//ru/{}",
+    #"t": "https://translate.google.com/?hl=ru&sl=en&tl=ru&text={}",
+    "п": "https://www.deepl.com/translator#ru/en/{}",
+    #"п": "https://translate.google.com/?hl=ru&sl=ru&tl=en&text={}",
     "ts": "https://slovnik.aktuality.sk/preklad/slovensko-rusky/?q={}",
     "yd": "https://yandex.ru/search/?text={}",
 }

@@ -14,7 +14,7 @@
 # sudo dd bs=4M if=~/Downloads/manjaro.iso of=/dev/sdg status=progress oflag=sync
 
 # Swap Caps Lock and Esc
-localectl --no-convert set-x11-keymap us,ru "" "" caps:escape,grp_led:scroll
+localectl --no-convert set-x11-keymap us,ru,ua,sk "" ",,,qwerty" caps:escape,grp_led:scroll
 
 # Enable magic SysRq key
 su -c "echo 1 > /proc/sys/kernel/sysrq"

@@ -6,6 +6,8 @@
 
 config_version: 2
 settings:
+  colors.webpage.darkmode.enabled:
+    global: true
   content.blocking.method:
     global: both
   content.notifications.enabled:
@@ -22,6 +24,7 @@ settings:
     https://orehitut.ru: false
     https://otvet.ws: false
     https://otvet5.com: false
+    https://pomofocus.io: false
     https://prozabo.ru: false
     https://ru.qaz.wiki: false
     https://umnitsy.ru: false
@@ -34,13 +37,11 @@ settings:
     https://www.softrew.ru: false
   content.pdfjs:
     global: true
-  content.private_browsing:
+  downloads.prevent_mixed_content:
     global: false
-  content.register_protocol_handler:
-    https://mail.google.com?extsrc=mailto&url=%25s: true
   scrolling.smooth:
     global: false
   statusbar.show:
-    global: never
+    global: always
   tabs.show:
-    global: never
+    global: multiple

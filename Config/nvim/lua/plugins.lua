@@ -39,7 +39,8 @@ return packer.startup(function()
           icons_enabled = true
         },
         sections = {
-          lualine_a = { 'mode', keymap },
+          lualine_a = { 'mode' },
+          -- lualine_a = { 'mode', keymap },
           lualine_b = { 'branch', 'diff' },
           lualine_c = {
             'filename', {
@@ -82,6 +83,13 @@ return packer.startup(function()
       Map('n', 'H', ':lua require("bufferline").move(-1)<CR>')
       Map('n', 'L', ':lua require("bufferline").move(1)<CR>')
       Map('n', 'gb', ':lua require("bufferline").pick_buffer()<CR>')
+    end
+  }
+  use {
+    'lyokha/vim-xkbswitch',
+    config = function()
+      vim.g.XkbSwitchEnabled = 1
+      vim.g.XkbSwitchIMappings = {'ru'}
     end
   }
   use {
