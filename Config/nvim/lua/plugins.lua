@@ -68,7 +68,7 @@ return packer.startup(function()
       local b = require("bufferline")
       b.setup {
         options = {
-          mappings = false,
+          --      mappings = false,
           diagnostics = "nvim_lsp",
           show_buffer_close_icons = false,
           always_show_bufferline = false
@@ -89,7 +89,7 @@ return packer.startup(function()
     'lyokha/vim-xkbswitch',
     config = function()
       vim.g.XkbSwitchEnabled = 1
-      vim.g.XkbSwitchIMappings = {'ru'}
+      vim.g.XkbSwitchIMappings = { 'ru' }
     end
   }
   use {
@@ -119,7 +119,7 @@ return packer.startup(function()
     end
   }
 
-  use { 'NFrid/due.nvim', config = function() require('due_nvim').setup {} end }
+  -- use { 'NFrid/due.nvim', config = function() require('due_nvim').setup {} end }
 
   use {
     'mhinz/vim-startify',
@@ -143,7 +143,7 @@ return packer.startup(function()
       vim.g.vim_markdown_new_list_item_indent = 2
     end
   }
-  use 'lervag/vimtex'
+  -- use 'lervag/vimtex'
 
   use {
     'nvim-telescope/telescope.nvim',
@@ -193,13 +193,14 @@ return packer.startup(function()
     end
   }
 
-  use 'fedorenchik/qt-support.vim'
+  -- use 'fedorenchik/qt-support.vim'
 
   use {
     'mattn/emmet-vim',
     config = function()
       vim.g.user_emmet_mode = 'i'
-      vim.g.user_emmet_leader_key = '<A-m>'
+      -- vim.g.user_emmet_leader_key = '<A-k>'
+      vim.g.user_emmet_install_global = 0
     end
   }
   use {
@@ -306,7 +307,7 @@ return packer.startup(function()
 
       local servers = {
         "bashls", "vimls", "tsserver", "vuels", "yamlls", "jsonls", "cmake",
-        "gopls", "cssls", "html", "rust_analyzer"
+        "gopls", "cssls", "html", "rust_analyzer", "pyright"
       }
       for _, lsp in ipairs(servers) do
         nvim_lsp[lsp].setup { on_attach = on_attach }
@@ -337,29 +338,40 @@ return packer.startup(function()
       --   return false
       -- end
 
-      nvim_lsp.clangd.setup {
-        cmd = {
-          'clangd', '--header-insertion=never', '--suggest-missing-includes',
-          '--background-index', '-j=8', '--cross-file-rename',
-          '--pch-storage=memory', '--clang-tidy',
-          '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type'
-        },
-        -- on_init = require'clangd_nvim'.on_init,
-        -- callbacks = lsp_status.extensions.clangd.setup(),
-        capabilities = {
-          capabilities = { window = { workDoneProgress = true } },
-          textDocument = {
-            completion = { completionItem = { snippetSupport = true } },
-            semanticHighlightingCapabilities = { semanticHighlighting = true }
-          }
-        },
+      nvim_lsp.ccls.setup {
+        cmd = { "ccls" },
+        filetypes = { "c", "cpp", "objc", "objcpp" },
+        single_file_support = false,
         init_options = {
-          clangdFileStatus = true,
-          usePlaceholders = true,
-          completeUnimported = true
-        },
-        on_attach = function() end
+          compilationDatabaseDirectory = "build",
+          index = { threads = 0 },
+          clang = { extraArgs = { '-std=c++17' }, excludeArgs = { "-frounding-math" } }
+        }
       }
+
+      --       nvim_lsp.clangd.setup {
+      --         cmd = {
+      --           'clangd', '--header-insertion=never', '--suggest-missing-includes',
+      --           '--background-index', '-j=8', '--cross-file-rename',
+      --           '--pch-storage=memory', '--clang-tidy', -- '-std=c++17',
+      --           '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type'
+      --         },
+      --         -- on_init = require'clangd_nvim'.on_init,
+      --         -- callbacks = lsp_status.extensions.clangd.setup(),
+      --         capabilities = {
+      --           capabilities = { window = { workDoneProgress = true } },
+      --           textDocument = {
+      --             completion = { completionItem = { snippetSupport = true } },
+      --             semanticHighlightingCapabilities = { semanticHighlighting = true }
+      --           }
+      --         },
+      --         init_options = {
+      --           clangdFileStatus = true,
+      --           usePlaceholders = true,
+      --           completeUnimported = true
+      --         },
+      --         on_attach = function() end
+      --       }
 
       nvim_lsp.efm.setup {
         -- root_dir = function()
@@ -430,11 +442,11 @@ return packer.startup(function()
   }
 
   use {
-    "ahmedkhalf/lsp-rooter.nvim",
+    'ahmedkhalf/lsp-rooter.nvim',
     config = function() require("lsp-rooter").setup {} end
   }
 
-  use 'jackguo380/vim-lsp-cxx-highlight'
+  -- use 'jackguo380/vim-lsp-cxx-highlight'
 
   use {
     'simrat39/symbols-outline.nvim',
@@ -522,8 +534,8 @@ return packer.startup(function()
       vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
     end
   }
-  use "p00f/nvim-ts-rainbow"
-  use "JoosepAlviste/nvim-ts-context-commentstring"
+  use 'p00f/nvim-ts-rainbow'
+  -- use 'JoosepAlviste/nvim-ts-context-commentstring'
   use "windwp/nvim-ts-autotag"
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'RRethy/nvim-treesitter-textsubjects'

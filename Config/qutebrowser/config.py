@@ -68,83 +68,33 @@ c.url.searchengines = {
     "w": "https://www.wolframalpha.com/input/?i={}",
     "td": "https://dictionary.cambridge.org/dictionary/english/{}",
     "t": "https://www.deepl.com/translator#//ru/{}",
-    #"t": "https://translate.google.com/?hl=ru&sl=en&tl=ru&text={}",
+    # "t": "https://translate.google.com/?hl=ru&sl=en&tl=ru&text={}",
     "п": "https://www.deepl.com/translator#ru/en/{}",
-    #"п": "https://translate.google.com/?hl=ru&sl=ru&tl=en&text={}",
+    # "п": "https://translate.google.com/?hl=ru&sl=ru&tl=en&text={}",
     "ts": "https://slovnik.aktuality.sk/preklad/slovensko-rusky/?q={}",
+    "sktv": "https://www.kvizy.eu/slovensky-jazyk/tvary-slova/{}",
     "yd": "https://yandex.ru/search/?text={}",
 }
 
 # Disable autoplay
 c.content.autoplay = False
 
+# fmt: off
 # Ru keybindings fix-ish
 c.bindings.key_mappings = {
-    "Й": "Q",
-    "й": "q",
-    "Ц": "W",
-    "ц": "w",
-    "У": "E",
-    "у": "e",
-    "К": "R",
-    "к": "r",
-    "Е": "T",
-    "е": "t",
-    "Н": "Y",
-    "н": "y",
-    "Г": "U",
-    "г": "u",
-    "Ш": "I",
-    "ш": "i",
-    "Щ": "O",
-    "щ": "o",
-    "З": "P",
-    "з": "p",
-    "Х": "{",
-    "х": "[",
-    "Ъ": "}",
-    "ъ": "]",
-    "Ф": "A",
-    "ф": "a",
-    "Ы": "S",
-    "ы": "s",
-    "В": "D",
-    "в": "d",
-    "А": "F",
-    "а": "f",
-    "П": "G",
-    "п": "g",
-    "Р": "H",
-    "р": "h",
-    "О": "J",
-    "о": "j",
-    "Л": "K",
-    "л": "k",
-    "Д": "L",
-    "д": "l",
-    "Ж": ":",
-    "ж": ";",
-    "Э": '"',
-    "э": "'",
-    "Я": "Z",
-    "я": "z",
-    "Ч": "X",
-    "ч": "x",
-    "С": "C",
-    "с": "c",
-    "М": "V",
-    "м": "v",
-    "И": "B",
-    "и": "b",
-    "Т": "N",
-    "т": "n",
-    "Ь": "M",
-    "ь": "m",
-    "Б": "<",
-    "б": ",",
-    "Ю": ">",
-    "ю": ".",
+    "Й": "Q", "й": "q", "Ц": "W", "ц": "w", "У": "E", "у": "e",
+    "К": "R", "к": "r", "Е": "T", "е": "t", "Н": "Y", "н": "y",
+    "Г": "U", "г": "u", "Ш": "I", "ш": "i", "Щ": "O", "щ": "o",
+    "З": "P", "з": "p", "Х": "{", "х": "[", "Ъ": "}", "ъ": "]",
+    "Ф": "A", "ф": "a", "І": "S", "і": "s", "Ы": "S", "ы": "s",
+    "В": "D", "в": "d", "А": "F", "а": "f", "П": "G", "п": "g",
+    "Р": "H", "р": "h", "О": "J", "о": "j", "Л": "K", "л": "k",
+    "Д": "L", "д": "l", "Ж": ":", "ж": ";", "Э": '"', "э": "'",
+    "Я": "Z", "я": "z", "Ч": "X", "ч": "x", "С": "C", "с": "c",
+    "М": "V", "м": "v", "И": "B", "и": "b", "Т": "N", "т": "n",
+    "Ь": "M", "ь": "m", "Б": "<", "б": ",", "Ю": ">", "ю": ".",
 }
+# fmt: on
 
 # Bindings for normal mode
 config.bind(
@@ -160,6 +110,12 @@ config.bind("zyy", "spawn mpv {url} --fs")
 config.bind(
     "zx",
     "config-cycle statusbar.show always never;; config-cycle tabs.show multiple never",
+)
+
+config.bind(
+    "<Ctrl-i>",
+    "spawn -u qute-keepass -p ~/KeePassFiles/MainDatabase.kdbx",
+    mode="insert",
 )
 
 config.bind("zp", "config-cycle content.private_browsing true false")

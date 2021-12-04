@@ -19,7 +19,8 @@ Format = function()
     python = 'black -q'
   }
   local command = formatCmds[vim.bo.filetype] or "sed -i -e 's/\\s\\+$//'"
-  local f = io.popen(command..' "'.. vim.api.nvim_buf_get_name("%")..'" 2>&1')
+  local f = io.popen(command .. ' "' .. vim.api.nvim_buf_get_name("%") ..
+                         '" 2>&1')
   print(f:read('*all'))
   f:close()
   Cmd "let tmp = winsaveview()"
@@ -29,13 +30,10 @@ Format = function()
 end
 
 CloceBuffer = function()
-  if vim.api.nvim_buf_get_name "%" == "" or #vim.fn.getbufinfo{buflisted = 1} < 2 then
-    Cmd "q"
-  end
+  if vim.api.nvim_buf_get_name "%" == "" or #vim.fn.getbufinfo { buflisted = 1 } <
+      2 then Cmd "q" end
 
-  if not vim.bo.readonly then
-    Cmd "w"
-  end
+  if not vim.bo.readonly then Cmd "w" end
 
   Cmd "bdelete"
 end
@@ -56,13 +54,9 @@ ToggleConceal = function()
   vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2)
 end
 
-ToggleKeyMap = function()
-  vim.bo.iminsert = math.abs(vim.bo.iminsert - 1)
-end
+ToggleKeyMap = function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end
 
-ToggleRelNums = function()
-  vim.wo.relativenumber = not vim.wo.relativenumber
-end
+ToggleRelNums = function() vim.wo.relativenumber = not vim.wo.relativenumber end
 
 Map('i', '<C-v>', '<C-[>"+pa')
 
@@ -92,7 +86,7 @@ Map('n', 'gF', ':e <cfile><cr>')
 Map('n', '<leader>w', ':w!<cr>')
 Map('n', '<leader>?', '<cmd>lua vim.opt.hls = not vim.opt.hls<cr>')
 Map('n', '<leader>/', ':nohlsearch<cr>')
-Map('n', 'Q', ':lua CloceBuffer()<cr>')
+Map('n', 'Q', '@q')
 Map('n', '<leader>cd', ':cd %:h<cr>')
 Map('n', '<leader>cp', ':let @+ = expand("%:p:h")<cr>')
 
@@ -110,11 +104,11 @@ if vim.env.TMUX == nil then Map('n', '<A-a>', ':silent !$TERM & disown<cr>') end
 Map('', '<A-w>', '<C-w>')
 Map('t', '<A-a>', '<C-\\><C-n>')
 
-Map('n', '\\\\', '<Esc>/<++><Enter>"_c4l')
+-- Map('n', '\\\\', '<Esc>/<++><Enter>"_c4l')
 
 Map('n', 'cd', ':cd ')
 
-Cmd "inoremap <expr> <C-j>   pumvisible() ? '\\<C-n>' : '\\<C-j>'"
-Cmd "inoremap <expr> <-k>   pumvisible() ? '\\<C-p>' : '\\<C-k>'"
-Cmd "inoremap <expr> <Tab>   pumvisible() ? '\\<C-n>' : '\\<Tab>'"
-Cmd "inoremap <expr> <S-Tab> pumvisible() ? '\\<C-p>' : '\\<S-Tab>'"
+-- Cmd "inoremap <expr> <C-j>   pumvisible() ? '\\<C-n>' : '\\<C-j>'"
+-- Cmd "inoremap <expr> <-k>   pumvisible() ? '\\<C-p>' : '\\<C-k>'"
+-- Cmd "inoremap <expr> <Tab>   pumvisible() ? '\\<C-n>' : '\\<Tab>'"
+-- Cmd "inoremap <expr> <S-Tab> pumvisible() ? '\\<C-p>' : '\\<S-Tab>'"

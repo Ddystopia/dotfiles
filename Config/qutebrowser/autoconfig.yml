@@ -6,6 +6,22 @@
 
 config_version: 2
 settings:
+  bindings.commands:
+    global:
+      insert:
+        <Ctrl+i>: spawn --userscript qute-keepass -p ~/KeePassFiles/MainDatabase.kdbx
+      normal:
+        <Ctrl+2>: spawn --userscript pwdhash {url}
+        zd: download-open
+        zp: config-cycle content.private_browsing true false
+        zt: set-cmd-text -s :tab-take
+        zx: config-cycle statusbar.show always never;; config-cycle tabs.show multiple
+          never
+        zyd: spawn youtube-dl -o '~/Media/YouTube/%(title)s - %(uploader)s' {url}
+        zyf: hint links spawn mpv --keep-open=yes {hint-url} --fs
+        zym: spawn youtube-dl --extract-audio --audio-quality 0 --audio-format mp3
+          --yes-playlist -i -o '~/Music/%(title)' {url}
+        zyy: spawn mpv {url} --fs
   colors.webpage.darkmode.enabled:
     global: true
   content.blocking.method:

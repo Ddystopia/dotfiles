@@ -42,9 +42,11 @@ vim.g.mapleader = ' '
 
 vim.opt.guifont="droidsansmono nerd font 11"
 
-Cmd "au BufReadPost *.zsh,.zshrc set ft=sh"
-Cmd "au BufReadPost *.fish set ft=fish"
-Cmd "au BufReadPost *.conf set ft=config"
+Cmd "au FileType html,css,xml,scss EmmetInstall"
+
+Cmd "au BufReadPost,BufRead *.zsh,.zshrc set ft=sh"
+Cmd "au BufReadPost,BufRead *.fish set ft=fish"
+Cmd "au BufReadPost,BufRead *.conf set ft=config"
 Cmd "au BufNewFile,BufRead sxhkdrc set ft=config"
 Cmd "au BufNewFile,BufRead *.asm set ft=nasm"
 Cmd "au BufNewFile,BufRead .prettierrc set ft=json"
