@@ -4,6 +4,7 @@ Config/TabNine/metrics.db
 Config/BetterDiscord/bdstorage.json
 Config/BetterDiscord/emote_data.json
 Config/nvim/plugin
+Config/mpv/watch_later/*
 Home/.fonts
 Home/bin/telegram
 Home/bin/Updater
