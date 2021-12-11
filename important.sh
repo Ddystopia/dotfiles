@@ -27,12 +27,13 @@ dependensies=(
   "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "nitrogen" "filelight"
   "thefuck" "neofetch" "cowsay" "pandoc" "pulsemixer" "ueberzug" "highlight"
   "typescript" "youtube-dl" "racket" "atril" "foliate" "discord" "nodejs" "npm" 
-  "python" "python3" "vscode" "lua" "luarocks" "tree-sitter" "luajit"
+  "python" "python3" "vscode" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"
+  "tor" "thunar" "timeshift"
 )
 
-sudo pacman -S ${dependensies[@]}
+sudo pacman -Syy ${dependensies[@]}
 
-pip install black python-language-server pylsp
+pip install black python-language-server pylsp pykeepass
 sudo npm -g i typescript-language-server yarn
 yay -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb xkb-switch compton-tryone-git unipicker
 luarocks install --server=https://luarocks.org/dev luaformatter

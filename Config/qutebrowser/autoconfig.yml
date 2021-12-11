@@ -26,6 +26,8 @@ settings:
     global: true
   content.blocking.method:
     global: both
+  content.javascript.enabled:
+    global: true
   content.notifications.enabled:
     https://0tvet.com: false
     https://auto.ria.com: false
@@ -53,6 +55,10 @@ settings:
     https://www.softrew.ru: false
   content.pdfjs:
     global: true
+  content.proxy:
+    global: system
+  content.register_protocol_handler:
+    https://mail.google.com?extsrc=mailto&url=%25s: true
   downloads.prevent_mixed_content:
     global: false
   scrolling.smooth:

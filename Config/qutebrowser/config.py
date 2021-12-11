@@ -24,6 +24,9 @@ dracula.draw.blood(c, {"spacing": {"vertical": 6, "horizontal": 8}})
 # c.url.start_pages = "file:///home/nf/.config/qutebrowser/startpage/index.html"
 # c.url.default_page = "file:///home/nf/.config/qutebrowser/startpage/index.html"
 
+# Tor as proxy
+# c.content.proxy = 'socks://localhost:9050'
+
 # Save session
 c.auto_save.session = True
 c.auto_save.interval = 10_000
@@ -61,6 +64,7 @@ c.logging.level.console = "critical"
 # Search engines
 c.url.searchengines = {
     "DEFAULT": "https://duckduckgo.com/?q={}",
+    "dark": "https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/?q={}",
     "ddg": "https://duckduckgo.com/?q={}",
     "g": "https://google.com/search?q={}",
     "y": "https://youtube.com/results?search_query={}",
