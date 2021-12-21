@@ -132,32 +132,35 @@ config.bind("zt", "set-cmd-text -s :tab-take")
 # By default
 config.set("content.cookies.accept", "all", "chrome-devtools://*")
 config.set("content.cookies.accept", "all", "devtools://*")
-# config.set('content.headers.user_agent', 'Mozilla/5.0 (X11; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/77.0')
 config.set(
     "content.headers.user_agent",
-    "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}",
-    "https://web.whatsapp.com/",
+    "Mozilla/5.0 (Windows NT 10.0; rv:94.0) Gecko/20100101 Firefox/94.0",
 )
-config.set(
-    "content.headers.user_agent",
-    "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0",
-    "https://accounts.google.com/*",
-)
-config.set(
-    "content.headers.user_agent",
-    "Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36",
-    "https://*.slack.com/*",
-)
-config.set(
-    "content.headers.user_agent",
-    "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0",
-    "https://docs.google.com/*",
-)
-config.set(
-    "content.headers.user_agent",
-    "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0",
-    "https://drive.google.com/*",
-)
+# config.set(
+#     "content.headers.user_agent",
+#     "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}",
+#     "https://web.whatsapp.com/",
+# )
+# config.set(
+#     "content.headers.user_agent",
+#     "Mozilla/5.0 ({os_info}; rv:94.0) Gecko/20100101 Firefox/94.0",
+#     "https://accounts.google.com/*",
+# )
+# config.set(
+#     "content.headers.user_agent",
+#     "Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36",
+#     "https://*.slack.com/*",
+# )
+# config.set(
+#     "content.headers.user_agent",
+#     "Mozilla/5.0 ({os_info}; rv:94.0) Gecko/20100101 Firefox/94.0",
+#     "https://docs.google.com/*",
+# )
+# config.set(
+#     "content.headers.user_agent",
+#     "Mozilla/5.0 ({os_info}; rv:94.0) Gecko/20100101 Firefox/94.0",
+#     "https://drive.google.com/*",
+# )
 config.set("content.images", True, "chrome-devtools://*")
 config.set("content.images", True, "devtools://*")
 config.set("content.javascript.enabled", True, "chrome-devtools://*")

@@ -45,7 +45,7 @@ return packer.startup(function()
           lualine_c = {
             'filename', {
               'diagnostics',
-              sources = { 'nvim_lsp' },
+              sources = { 'nvim_diagnostic' },
               symbols = {
                 error = ' ',
                 warn = ' ',
@@ -69,7 +69,7 @@ return packer.startup(function()
       b.setup {
         options = {
           --      mappings = false,
-          diagnostics = "nvim_lsp",
+          diagnostics = "nvim_diagnostic",
           show_buffer_close_icons = false,
           always_show_bufferline = false
         },
@@ -230,35 +230,90 @@ return packer.startup(function()
     config = function() require('lspkind').init() end
   }
   use 'ray-x/lsp_signature.nvim'
+  -- use { 'nvim-lua/completion-nvim', opt = true }
+  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
+  use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
+  -- use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
+  -- use 'L3MON4D3/LuaSnip' -- Snippets plugin
   use {
-    'neovim/nvim-lspconfig',
-    requires = { 'nvim-lua/completion-nvim', opt = true },
+    'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
     config = function()
       local nvim_lsp = require('lspconfig')
 
       local on_attach = function(client, bufnr)
-        -- require('lsp_signature').on_attach(
-        --     {
-        --       bind = true,
-        --       hint_enable = false,
-        --       hi_parameter = "Todo",
-        --       handler_opts = { border = "none" }
-        --     })
+        require('lsp_signature').on_attach({
+          bind = true,
+          hint_enable = false,
+          hi_parameter = "Todo",
+          handler_opts = { border = "none" }
+        })
+        -- -- luasnip setup
+        -- local luasnip = require 'luasnip'
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-        vim.opt.completeopt = "menuone,noinsert,noselect"
-        vim.g.completion_enable_auto_signature = 0
-        vim.g.completion_enable_auto_popup = 0
-        Cmd('imap <tab> <Plug>(completion_smart_tab)')
-        Cmd('imap <s-tab> <Plug>(completion_smart_s_tab)')
-        Cmd('imap <c-space> <Plug>(completion_trigger)')
-        vim.g.completion_matching_smart_case = 1
-        vim.g.completion_matching_strategy_list = {
-          'exact', 'substring', 'fuzzy', 'all'
+        -- Set completeopt to have a better completion experience
+        vim.o.completeopt = 'menu,menuone,noinsert,noselect'
+        -- nvim-cmp setup
+        local cmp = require 'cmp'
+        cmp.setup {
+          -- snippet = {
+          --   expand = function(args)
+          --     require('luasnip').lsp_expand(args.body)
+          --   end
+          -- },
+          mapping = {
+            ['<C-p>'] = cmp.mapping.select_prev_item(),
+            ['<C-n>'] = cmp.mapping.select_next_item(),
+            ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+            ['<C-f>'] = cmp.mapping.scroll_docs(4),
+            ['<C-Space>'] = cmp.mapping.complete(),
+            ['<C-e>'] = cmp.mapping.close(),
+            ['<CR>'] = cmp.mapping.confirm {
+              behavior = cmp.ConfirmBehavior.Replace,
+              select = true
+            },
+            ['<Tab>'] = function(fallback)
+              if cmp.visible() then
+                cmp.select_next_item()
+                -- elseif luasnip.expand_or_jumpable() then
+                -- luasnip.expand_or_jump()
+              else
+                 cmp.complete()
+                -- fallback()
+              end
+            end,
+            ['<S-Tab>'] = function(fallback)
+              if cmp.visible() then
+                cmp.select_prev_item()
+                -- elseif luasnip.jumpable(-1) then
+                -- luasnip.jump(-1)
+              else
+                fallback()
+              end
+            end
+          },
+          completion = { autocomplete = false },
+          sources = {
+            { name = 'nvim_lsp' }
+            --  { name = 'luasnip' }
+          }
         }
 
-        vim.g.completion_confirm_key = ''
+        --         vim.opt.completeopt = "menuone,noinsert,noselect"
+        --         vim.g.completion_enable_auto_signature = 0
+        --         vim.g.completion_enable_auto_popup = 0
+        -- Cmd('imap <s-tab> <Plug>(completion_smart_s_tab)')
+        -- Map('i', '<tab>', 'cmp.mapping.complete')
+        -- Cmd('imap <c-space> <Plug>(completion_trigger)')
+        --         vim.g.completion_matching_smart_case = 1
+        --         vim.g.completion_matching_strategy_list = {
+        --           'exact', 'substring', 'fuzzy', 'all'
+        --         }
 
-        require('completion').on_attach()
+        --         vim.g.completion_confirm_key = ''
+
+        --         require('completion').on_attach()
 
         local function buf_map(mode, keys, action)
           local opts = { noremap = true, silent = true }
@@ -304,10 +359,9 @@ return packer.startup(function()
           buf_map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
         end
       end
-
       local servers = {
         "bashls", "vimls", "tsserver", "vuels", "yamlls", "jsonls", "cmake",
-        "gopls", "cssls", "html", "rust_analyzer", "pyright"
+        "gopls", "cssls", "html", "rust_analyzer", "pylsp"
       }
       for _, lsp in ipairs(servers) do
         nvim_lsp[lsp].setup { on_attach = on_attach }
@@ -345,7 +399,10 @@ return packer.startup(function()
         init_options = {
           compilationDatabaseDirectory = "build",
           index = { threads = 0 },
-          clang = { extraArgs = { '-std=c++17' }, excludeArgs = { "-frounding-math" } }
+          clang = {
+            extraArgs = { '-std=c++17' },
+            excludeArgs = { "-frounding-math" }
+          }
         }
       }
 
