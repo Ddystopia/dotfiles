@@ -11,4 +11,3 @@ alias rm="rm -rf"
 alias pacman="sudo pacman"
 alias zathura="zathura --mode fullscreen"
 alias nv="nvim"
-
