@@ -45,6 +45,7 @@ c.content.blocking.adblock.lists = [
 # Dark mode yo
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.preferred_color_scheme = "dark"
+c.colors.webpage.darkmode.policy.images = "smart"
 
 # Allow copy to clipboard
 c.content.javascript.can_access_clipboard = True

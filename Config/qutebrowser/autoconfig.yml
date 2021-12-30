@@ -24,6 +24,8 @@ settings:
         zyy: spawn mpv {url} --fs
   colors.webpage.darkmode.enabled:
     global: true
+  colors.webpage.darkmode.policy.images:
+    global: always
   content.blocking.method:
     global: both
   content.javascript.enabled:

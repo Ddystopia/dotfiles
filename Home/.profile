@@ -3,7 +3,7 @@
 [ -z ${XDG_CACHE_HOME} ] && export XDG_CACHE_HOME="$HOME/.cache"
 [ -z ${XDG_DATA_HOME} ] && export XDG_DATA_HOME="$HOME/.local/share"
 
-export PATH="/home/ddystopia/bin:$PATH"
+export PATH="/home/ddystopia/.local/bin:/home/ddystopia/bin:$PATH"
 export EDITOR=/usr/bin/nvim
 export BROWSER=/usr/bin/qutebrowser
 export TERM=/usr/bin/alacritty
