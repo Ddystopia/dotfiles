@@ -1,7 +1,7 @@
 Format = function()
   Cmd "w"
   local formatCmds = {
-    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i',
+    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=90',
     go = 'gofmt -w',
     javascript = 'prettier -w --loglevel error',
     typescript = 'prettier -w --loglevel error',
@@ -19,8 +19,7 @@ Format = function()
     python = 'black -q'
   }
   local command = formatCmds[vim.bo.filetype] or "sed -i -e 's/\\s\\+$//'"
-  local f = io.popen(command .. ' "' .. vim.api.nvim_buf_get_name("%") ..
-                         '" 2>&1')
+  local f = io.popen(command .. ' "' .. vim.api.nvim_buf_get_name("%") .. '" 2>&1')
   print(f:read('*all'))
   f:close()
   Cmd "let tmp = winsaveview()"
@@ -30,8 +29,9 @@ Format = function()
 end
 
 CloceBuffer = function()
-  if vim.api.nvim_buf_get_name "%" == "" or #vim.fn.getbufinfo { buflisted = 1 } <
-      2 then Cmd "q" end
+  if vim.api.nvim_buf_get_name "%" == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then
+    Cmd "q"
+  end
 
   if not vim.bo.readonly then Cmd "w" end
 
@@ -50,9 +50,7 @@ ToggleWrap = function()
   end
 end
 
-ToggleConceal = function()
-  vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2)
-end
+ToggleConceal = function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end
 
 ToggleKeyMap = function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end
 

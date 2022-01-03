@@ -8,8 +8,11 @@ return packer.startup(function()
   local use = packer.use
 
   use { 'wbthomason/packer.nvim', opt = true }
+
+  -- TODO: load only on lua files
   use 'folke/lua-dev.nvim'
-  use 'folke/lsp-colors.nvim'
+
+  -- theme
   use {
     'dracula/vim',
     config = function()
@@ -19,6 +22,7 @@ return packer.startup(function()
       Cmd('hi IndentLine guifg=#44475a')
     end
   }
+  -- bar at the bottom
   use {
     "hoob3rt/lualine.nvim",
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
@@ -46,12 +50,7 @@ return packer.startup(function()
             'filename', {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
-              symbols = {
-                error = ' ',
-                warn = ' ',
-                info = ' ',
-                hint = ' '
-              }
+              symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }
             }
           },
           lualine_x = { 'filetype' },
@@ -73,10 +72,7 @@ return packer.startup(function()
           show_buffer_close_icons = false,
           always_show_bufferline = false
         },
-        highlights = {
-          fill = { guibg = '#21222C' },
-          buffer_selected = { gui = 'bold' }
-        }
+        highlights = { fill = { guibg = '#21222C' }, buffer_selected = { gui = 'bold' } }
       }
       Map('n', '<C-h>', ':lua require("bufferline").cycle(-1)<CR>')
       Map('n', '<C-l>', ':lua require("bufferline").cycle(1)<CR>')
@@ -100,22 +96,20 @@ return packer.startup(function()
       vim.g.indent_blankline_show_first_indent_level = false
       -- vim.g.indent_blankline_show_trailing_blankline_indent = false
       vim.g.indent_blankline_use_treesitter = true
-      vim.g.indent_blankline_filetype_exclude =
-          { 'markdown', 'tex', 'startify' }
+      vim.g.indent_blankline_filetype_exclude = { 'markdown', 'tex', 'startify' }
     end
   }
   use {
     'machakann/vim-highlightedyank',
     config = function() vim.g.highlightedyank_highlight_duration = 250 end
   }
+
+  -- colorize colors like this #01dd99
   use {
     'norcalli/nvim-colorizer.lua',
     config = function()
-      require('colorizer').setup({
-        '*',
-        css = { css = true },
-        scss = { scc = true }
-      }, { names = false })
+      require('colorizer').setup({ '*', css = { css = true }, scss = { scc = true } },
+                                 { names = false })
     end
   }
 
@@ -152,8 +146,7 @@ return packer.startup(function()
       require('telescope').setup {}
       Map('n', '<leader>t', '<cmd>Telescope<CR>')
       Map('n', '<leader>f', '<cmd>lua require("telescope.builtin").fd()<CR>')
-      Map('n', '<leader>o',
-          '<cmd>lua require("telescope.builtin").buffers()<CR>')
+      Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").buffers()<CR>')
       Map('n', '<leader>m', '<cmd>lua require("telescope.builtin").marks()<CR>')
       Map('n', '<leader>r',
           '<cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>')
@@ -203,6 +196,8 @@ return packer.startup(function()
       vim.g.user_emmet_install_global = 0
     end
   }
+
+  -- lsp configs
   use {
     'RishabhRD/nvim-lsputils',
     requires = { 'RishabhRD/popfix', opt = true },
@@ -221,24 +216,24 @@ return packer.startup(function()
           require'lsputil.locations'.implementation_handler
       vim.lsp.handlers['textDocument/documentSymbol'] =
           require'lsputil.symbols'.document_handler
-      vim.lsp.handlers['workspace/symbol'] =
-          require'lsputil.symbols'.workspace_handler
+      vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
     end
   }
-  use {
-    'onsails/lspkind-nvim',
-    config = function() require('lspkind').init() end
-  }
-  use 'ray-x/lsp_signature.nvim'
+  use { 'onsails/lspkind-nvim', config = function() require('lspkind').init() end }
+  -- use 'ray-x/lsp_signature.nvim'
   -- use { 'nvim-lua/completion-nvim', opt = true }
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
   -- use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-  -- use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  use 'L3MON4D3/LuaSnip' -- Snippets plugin
+
+  use 'folke/lsp-colors.nvim' -- enables colors to lsp, like warnings, errors
   use {
     'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
     config = function()
       local nvim_lsp = require('lspconfig')
+      local luasnip = require('luasnip')
+      local root_pattern = require('util.root_pattern')
 
       local on_attach = function(client, bufnr)
         require('lsp_signature').on_attach({
@@ -257,11 +252,9 @@ return packer.startup(function()
         -- nvim-cmp setup
         local cmp = require 'cmp'
         cmp.setup {
-          -- snippet = {
-          --   expand = function(args)
-          --     require('luasnip').lsp_expand(args.body)
-          --   end
-          -- },
+          snippet = { expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+          end },
           mapping = {
             ['<C-p>'] = cmp.mapping.select_prev_item(),
             ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -276,28 +269,24 @@ return packer.startup(function()
             ['<Tab>'] = function(fallback)
               if cmp.visible() then
                 cmp.select_next_item()
-                -- elseif luasnip.expand_or_jumpable() then
-                -- luasnip.expand_or_jump()
+              elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
               else
-                 cmp.complete()
-                -- fallback()
+                fallback()
               end
             end,
             ['<S-Tab>'] = function(fallback)
               if cmp.visible() then
                 cmp.select_prev_item()
-                -- elseif luasnip.jumpable(-1) then
-                -- luasnip.jump(-1)
+              elseif luasnip.jumpable(-1) then
+                luasnip.jump(-1)
               else
                 fallback()
               end
             end
           },
-          completion = { autocomplete = false },
-          sources = {
-            { name = 'nvim_lsp' }
-            --  { name = 'luasnip' }
-          }
+          -- completion = { autocomplete = false },
+          sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } }
         }
 
         --         vim.opt.completeopt = "menuone,noinsert,noselect"
@@ -319,9 +308,7 @@ return packer.startup(function()
           local opts = { noremap = true, silent = true }
           vim.api.nvim_buf_set_keymap(bufnr, mode, keys, action, opts)
         end
-        local function buf_set(...)
-          vim.api.nvim_buf_set_option(bufnr, ...)
-        end
+        local function buf_set(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
         buf_set('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -333,10 +320,8 @@ return packer.startup(function()
         buf_map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
         buf_map('n', '<A-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 
-        buf_map('n', '<leader>la',
-                '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
-        buf_map('n', '<leader>lr',
-                '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+        buf_map('n', '<leader>la', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
+        buf_map('n', '<leader>lr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
         buf_map('n', '<leader>ll',
                 '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
 
@@ -349,8 +334,7 @@ return packer.startup(function()
                 '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
         buf_map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
         buf_map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-        buf_map('n', '<leader>q',
-                '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
+        buf_map('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
 
         -- Set some keybinds conditional on server capabilities
         if client.resolved_capabilities.document_formatting then
@@ -360,12 +344,10 @@ return packer.startup(function()
         end
       end
       local servers = {
-        "bashls", "vimls", "tsserver", "vuels", "yamlls", "jsonls", "cmake",
-        "gopls", "cssls", "html", "rust_analyzer", "pylsp"
+        "bashls", "vimls", "vuels", "tsserver","yamlls", "jsonls", "cmake", "gopls", "cssls", "html",
+        "rust_analyzer", "pyright"
       }
-      for _, lsp in ipairs(servers) do
-        nvim_lsp[lsp].setup { on_attach = on_attach }
-      end
+      for _, lsp in ipairs(servers) do nvim_lsp[lsp].setup { on_attach = on_attach } end
 
       local eslint = {
         lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
@@ -399,10 +381,7 @@ return packer.startup(function()
         init_options = {
           compilationDatabaseDirectory = "build",
           index = { threads = 0 },
-          clang = {
-            extraArgs = { '-std=c++17' },
-            excludeArgs = { "-frounding-math" }
-          }
+          clang = { extraArgs = { '-std=c++17' }, excludeArgs = { "-frounding-math" } }
         }
       }
 
@@ -459,8 +438,7 @@ return packer.startup(function()
           latex = {
             build = {
               args = {
-                "-pdf", "-interaction=nonstopmode", "-synctex=1",
-                "-outdir=./build", "%f"
+                "-pdf", "-interaction=nonstopmode", "-synctex=1", "-outdir=./build", "%f"
               },
               outputDirectory = "./build",
               onSave = true
@@ -489,10 +467,7 @@ return packer.startup(function()
       -- }
       local luadev = require("lua-dev").setup({
         library = { vimruntime = false },
-        lspconfig = {
-          cmd = { "/usr/bin/lua-language-server" },
-          on_attach = on_attach
-        }
+        lspconfig = { cmd = { "/usr/bin/lua-language-server" }, on_attach = on_attach }
       })
       nvim_lsp.sumneko_lua.setup(luadev)
     end
@@ -563,22 +538,10 @@ return packer.startup(function()
           move = {
             enable = true,
             set_jumps = true,
-            goto_next_start = {
-              ["]f"] = "@function.outer",
-              ["]c"] = "@class.outer"
-            },
-            goto_next_end = {
-              ["]F"] = "@function.outer",
-              ["]C"] = "@class.outer"
-            },
-            goto_previous_start = {
-              ["[f"] = "@function.outer",
-              ["[c"] = "@class.outer"
-            },
-            goto_previous_end = {
-              ["[F"] = "@function.outer",
-              ["[C"] = "@class.outer"
-            }
+            goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
+            goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
+            goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
+            goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" }
           }
         },
 
@@ -611,11 +574,7 @@ return packer.startup(function()
             alt = { "FIXME", "BUG", "FIXIT", "FIX", "ISSUE" }
           },
           TODO = { icon = " ", color = "info" },
-          HACK = {
-            icon = " ",
-            color = "warning",
-            alt = { "FUCK", "SHIT", "BAD" }
-          },
+          HACK = { icon = " ", color = "warning", alt = { "FUCK", "SHIT", "BAD" } },
           WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
           PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
           NOTE = { icon = " ", color = "hint", alt = { "INFO" } }

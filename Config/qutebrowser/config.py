@@ -64,7 +64,7 @@ c.logging.level.console = "critical"
 
 # Search engines
 c.url.searchengines = {
-    "DEFAULT": "https://duckduckgo.com/?q={}",
+    "DEFAULT": "https://google.com/search?q={}",
     "dark": "https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/?q={}",
     "ddg": "https://duckduckgo.com/?q={}",
     "g": "https://google.com/search?q={}",
