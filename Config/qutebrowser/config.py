@@ -103,11 +103,11 @@ c.bindings.key_mappings = {
 
 # Bindings for normal mode
 config.bind(
-    "zyd", "spawn youtube-dl -o '~/Media/YouTube/%(title)s - %(uploader)s' {url}"
+    "zyd", "spawn yt-dlp -o '~/Media/YouTube/%(title)s - %(uploader)s' {url}"
 )
 config.bind(
     "zym",
-    "spawn youtube-dl --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist -i -o '~/Music/%(title)' {url}",
+    "spawn yt-dlp --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist -i -o '~/Music/%(title)' {url}",
 )
 config.bind("zyf", "hint links spawn mpv --keep-open=yes {hint-url} --fs")
 config.bind("zyy", "spawn mpv {url} --fs")

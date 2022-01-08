@@ -33,7 +33,7 @@ dependensies=(
 
 sudo pacman -Syy ${dependensies[@]}
 
-pip install black python-language-server pylsp pykeepass
+sudo pip install black python-language-server pylsp pykeepass yt-dlp
 sudo npm -g i typescript-language-server yarn
 yay -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb xkb-switch compton-tryone-git unipicker
 luarocks install --server=https://luarocks.org/dev luaformatter
