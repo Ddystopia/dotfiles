@@ -1,11 +1,12 @@
 --ignore-errors
 --continue
 --part
---audio-quality 0 
---audio-format mp3 
---yes-playlist 
+--audio-quality 0
+--audio-format mp3
+--yes-playlist
 --embed-thumbnail
 --embed-metadata
 --embed-chapters
+--concurrent-fragments 16
 
 -o '%(channel)s - %(title)s.%(ext)s'
