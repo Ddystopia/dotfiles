@@ -8,9 +8,6 @@
 # sudo cp -vf /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 # sudo curl -o /etc/pacman.d/mirrorlist "https://archlinux.org/mirrorlist/?country=UA&protocol=http&protocol=https&ip_version=4&ip_version=6"
 
-# Music
-# youtube-dl --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist -i { URL }
-
 # Write iso
 # sudo dd bs=4M if=~/Downloads/manjaro.iso of=/dev/sdg status=progress oflag=sync
 
@@ -20,18 +17,18 @@ localectl --no-convert set-x11-keymap us,ru,ua,sk "" ",,,qwerty" caps:escape,grp
 # Enable magic SysRq key
 su -c "echo 1 > /proc/sys/kernel/sysrq"
 
-dependensies=(
+dependencies=(
   "copyq" "python-pip" "noto-fonts-emoji" "flameshot" "zsh"
   "ffmpeg" "bpytop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
-  "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "python-adblock"
+  "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi"
   "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "nitrogen" "filelight"
   "thefuck" "neofetch" "cowsay" "pandoc" "pulsemixer" "ueberzug" "highlight"
-  "typescript" "youtube-dl" "racket" "atril" "foliate" "discord" "nodejs" "npm" 
+  "typescript" "racket" "foliate" "discord" "nodejs" "npm" "timeshift"
   "python" "python3" "vscode" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"
-  "tor" "thunar" "timeshift"
+  "tor" "thunar"
 )
 
-sudo pacman -Syy ${dependensies[@]}
+sudo pacman -Syy ${dependencies[@]}
 
 sudo pip install black python-language-server pylsp pykeepass yt-dlp
 sudo npm -g i typescript-language-server yarn

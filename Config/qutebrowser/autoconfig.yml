@@ -12,7 +12,6 @@ settings:
         <Ctrl+e>: null
         <Ctrl+i>: spawn -u qute-keepass -p ~/KeePassFiles/MainDatabase.kdbx
       normal:
-        <Ctrl+2>: spawn --userscript pwdhash {url}
         zd: download-open
         zp: config-cycle content.private_browsing true false
         zt: set-cmd-text -s :tab-take
@@ -23,12 +22,6 @@ settings:
         zym: spawn yt-dlp --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist
           -i -o '~/Music/%(title)' {url}
         zyy: spawn mpv {url} --fs
-  colors.webpage.darkmode.enabled:
-    global: true
-  colors.webpage.darkmode.policy.images:
-    global: always
-  content.blocking.method:
-    global: both
   content.javascript.enabled:
     global: true
   content.notifications.enabled:
@@ -59,6 +52,8 @@ settings:
     https://www.softrew.ru: false
   content.pdfjs:
     global: true
+  content.private_browsing:
+    global: false
   content.proxy:
     global: system
   content.register_protocol_handler:

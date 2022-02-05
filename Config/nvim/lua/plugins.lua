@@ -233,7 +233,7 @@ return packer.startup(function()
     config = function()
       local nvim_lsp = require('lspconfig')
       local luasnip = require('luasnip')
-      local root_pattern = require('util.root_pattern')
+      -- local root_pattern = require('util.root_pattern')
 
       local on_attach = function(client, bufnr)
         require('lsp_signature').on_attach({
@@ -381,7 +381,7 @@ return packer.startup(function()
         init_options = {
           compilationDatabaseDirectory = "build",
           index = { threads = 0 },
-          clang = { extraArgs = { '-std=c++17' }, excludeArgs = { "-frounding-math" } }
+          clang = { excludeArgs = { "-frounding-math" } }
         }
       }
 
@@ -510,6 +510,7 @@ return packer.startup(function()
           disable = { "html" },
           extended_mode = true,
           colors = { "#bf616a", "#ffd700", "#a3de3c", "#ebcb8b", "#88c0d0" }
+          -- colors = { "#d900ff", "#00ffd9", "#ffd700" }
         },
 
         context_commentstring = { enable = true, config = { fish = "# %s" } },

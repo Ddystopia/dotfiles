@@ -1,28 +1,32 @@
 #!/bin/env python
 
 import os
+from datetime import datetime
 from lxml import etree
 from urllib.parse import parse_qs, urlparse
 
 
-def get_index(url: str):
-    return int((parse_qs(urlparse(url).query).get("index") or ["-1"])[0])
+def get_param(url: str, param: str):
+    return (parse_qs(urlparse(url).query).get(param) or ["-1"])[0]
 
 
 filename = "/tmp/mix_qute_shit"
 base = "https://www.youtube.com"
 html = os.environ["QUTE_HTML"]
-index = get_index(os.environ["QUTE_URL"])
+id = get_param(os.environ["QUTE_URL"], "v")
 parser = etree.XMLParser(recover=True)
 root = etree.parse(html, parser=parser).getroot()
+links = root.xpath("//ytd-playlist-panel-video-renderer/a[@id='wc-endpoint']")
 urls = ""
 
-for a in root.xpath("//ytd-playlist-panel-video-renderer//a[@id='wc-endpoint']"):
-    href = a.attrib["href"]
-    if get_index(href) >= index:
+for i, a in enumerate(links):
+    if get_param(a.attrib["href"], "v") != id:
+        continue
+    for a in links[i:]:
+        href = a.attrib["href"]
         urls += base + href + "\n"
 
 with open(filename, "w") as f:
     f.write(urls)
 
-os.system(f"echo spawn mpv --playlist={filename} >> $QUTE_FIFO")
+os.system(f"echo spawn mpv --no-resume-playback --playlist={filename} >> $QUTE_FIFO")

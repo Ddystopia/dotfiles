@@ -32,20 +32,20 @@ c.auto_save.session = True
 c.auto_save.interval = 10_000
 
 # Add blocking, depends of python-adblock
-c.content.blocking.method = "both"
-c.content.blocking.adblock.lists = [
-    "https://easylist.to/easylist/easylist.txt",
-    "https://easylist.to/easylist/easyprivacy.txt",
-    "https://easylist-downloads.adblockplus.org/easylistdutch.txt",
-    "https://easylist-downloads.adblockplus.org/abp-filters-anti-cv.txt",
-    "https://www.i-dont-care-about-cookies.eu/abp/",
-    "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt",
-]
+# c.content.blocking.method = "both"
+# c.content.blocking.adblock.lists = [
+#     "https://easylist.to/easylist/easylist.txt",
+#     "https://easylist.to/easylist/easyprivacy.txt",
+#     "https://easylist-downloads.adblockplus.org/easylistdutch.txt",
+#     "https://easylist-downloads.adblockplus.org/abp-filters-anti-cv.txt",
+#     "https://www.i-dont-care-about-cookies.eu/abp/",
+#     "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt",
+# ]
 
 # Dark mode yo
-c.colors.webpage.darkmode.enabled = True
+# c.colors.webpage.darkmode.enabled = True
+# c.colors.webpage.darkmode.policy.images = "never"
 c.colors.webpage.preferred_color_scheme = "dark"
-c.colors.webpage.darkmode.policy.images = "smart"
 
 # Allow copy to clipboard
 c.content.javascript.can_access_clipboard = True
@@ -58,6 +58,9 @@ c.downloads.remove_finished = 5_000
 
 # No shit in stderr
 c.logging.level.console = "critical"
+
+# disable webrtc
+c.content.webrtc_ip_handling_policy = "disable-non-proxied-udp"
 
 # Spell check
 # c.spellcheck.langulages = ['en_US', 'ru_Ru', 'sk_SK']
@@ -102,13 +105,6 @@ c.bindings.key_mappings = {
 # fmt: on
 
 # Bindings for normal mode
-config.bind(
-    "zyd", "spawn yt-dlp -o '~/Media/YouTube/%(title)s - %(uploader)s' {url}"
-)
-config.bind(
-    "zym",
-    "spawn yt-dlp --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist -i -o '~/Music/%(title)' {url}",
-)
 config.bind("zyf", "hint links spawn mpv --keep-open=yes {hint-url} --fs")
 config.bind("zyy", "spawn mpv {url} --fs")
 
@@ -168,3 +164,4 @@ config.set("content.javascript.enabled", True, "chrome-devtools://*")
 config.set("content.javascript.enabled", True, "devtools://*")
 config.set("content.javascript.enabled", True, "chrome://*/*")
 config.set("content.javascript.enabled", True, "qute://*/*")
+config.set("content.javascript.enabled", False, "*.onion")
