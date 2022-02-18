@@ -88,6 +88,7 @@ Map('n', 'Q', '@q')
 Map('n', '<leader>cd', ':cd %:h<cr>')
 Map('n', '<leader>cp', ':let @+ = expand("%:p:h")<cr>')
 
+Map('c', 'w!!', '!sudo tee %')
 Map('n', '>', '>>')
 Map('n', '<', '<<')
 

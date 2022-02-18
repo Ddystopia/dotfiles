@@ -1,4 +1,4 @@
-#files: 787	version: 5.8
+#files: 787	version: 5.8.1
 
 _comps=(
 '-' '_precommand'
