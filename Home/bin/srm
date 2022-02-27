@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for f in $@; do
+  if [[ $f =~ -. ]]; then
+    dd if=/dev/zero of=$f
+  fi
+done
+sync
+rm $*

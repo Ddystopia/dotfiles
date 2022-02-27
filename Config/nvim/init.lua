@@ -14,6 +14,7 @@ vim.opt.fileencoding = 'utf-8'
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.wildignorecase = true
 vim.opt.mouse = 'a'
 vim.opt.clipboard = 'unnamed'
 

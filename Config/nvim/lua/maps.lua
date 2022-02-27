@@ -19,7 +19,7 @@ Format = function()
     python = 'black -q'
   }
   local command = formatCmds[vim.bo.filetype] or "sed -i -e 's/\\s\\+$//'"
-  local f = io.popen(command .. ' "' .. vim.api.nvim_buf_get_name("%") .. '" 2>&1')
+  local f = io.popen(command .. ' "' .. vim.api.nvim_buf_get_name("%") .. '" 3>&1 1>&3 2>&3')
   print(f:read('*all'))
   f:close()
   Cmd "let tmp = winsaveview()"
@@ -56,6 +56,8 @@ ToggleKeyMap = function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end
 
 ToggleRelNums = function() vim.wo.relativenumber = not vim.wo.relativenumber end
 
+Cmd 'command! -nargs=* -complete=file E :silent !$TERM -e sh -c "cd `pwd`; nvim <args>"'
+
 Map('i', '<C-v>', '<C-[>"+pa')
 
 Map('n', '<A-l>', ':lua ToggleKeyMap()<CR>')
@@ -74,6 +76,8 @@ Map('v', '<leader>y', '"+y')
 Map('n', '<tab>', '<cmd>bn<cr>')
 Map('n', '<s-tab>', '<cmd>bp<cr>')
 
+Map('i', '<C-h>', '<cmd>bp<cr><esc>')
+Map('i', '<C-l>', '<cmd>bn<cr><esc>')
 Map('n', '<C-h>', '<cmd>bp<cr>')
 Map('n', '<C-l>', '<cmd>bn<cr>')
 Map('n', '<C-j>', '<cmd>tabn<cr>')

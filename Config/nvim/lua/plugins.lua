@@ -143,7 +143,10 @@ return packer.startup(function()
     'nvim-telescope/telescope.nvim',
     requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
     config = function()
-      require('telescope').setup {}
+      require('telescope').setup {
+        defaults = { file_ignore_patterns = { "node_modules" } }
+      }
+
       Map('n', '<leader>t', '<cmd>Telescope<CR>')
       Map('n', '<leader>f', '<cmd>lua require("telescope.builtin").fd()<CR>')
       Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").buffers()<CR>')
@@ -304,48 +307,43 @@ return packer.startup(function()
 
         --         require('completion').on_attach()
 
-        local function buf_map(mode, keys, action)
-          local opts = { noremap = true, silent = true }
-          vim.api.nvim_buf_set_keymap(bufnr, mode, keys, action, opts)
-        end
         local function buf_set(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
         buf_set('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
         -- Mappings
         -- buf_map('n', 'gs', '<Cmd>ClangdSwitchSourceHeader<CR>')
-        buf_map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-        buf_map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
-        buf_map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
-        buf_map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-        buf_map('n', '<A-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+        Map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
+        Map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+        Map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
+        Map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+        Map('n', '<A-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 
-        buf_map('n', '<leader>la', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
-        buf_map('n', '<leader>lr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
-        buf_map('n', '<leader>ll',
+        Map('n', '<leader>la', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
+        Map('n', '<leader>lr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+        Map('n', '<leader>ll',
                 '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
 
         -- buf_map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-        buf_map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>')
-        buf_map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-        buf_map('n', '<leader>a', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
+        Map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>')
+        Map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+        Map('n', '<leader>a', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
 
-        buf_map('n', '<leader>e',
-                '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
-        buf_map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-        buf_map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-        buf_map('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
+        Map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
+        Map('n', '[d', '<cmd>lua vim.diagnostic.get_prev()<CR>')
+        Map('n', ']d', '<cmd>lua vim.diagnostic.get_next()<CR>')
+        Map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>')
 
         -- Set some keybinds conditional on server capabilities
         if client.resolved_capabilities.document_formatting then
-          buf_map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+          Map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
         elseif client.resolved_capabilities.document_range_formatting then
-          buf_map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+          Map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
         end
       end
       local servers = {
-        "bashls", "vimls", "vuels", "tsserver","yamlls", "jsonls", "cmake", "gopls", "cssls", "html",
-        "rust_analyzer", "pyright"
+        "bashls", "vimls", "vuels", "tsserver", "yamlls", "jsonls", "cmake", "gopls",
+        "cssls", "html", "rust_analyzer", "pyright"
       }
       for _, lsp in ipairs(servers) do nvim_lsp[lsp].setup { on_attach = on_attach } end
 

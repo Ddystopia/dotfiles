@@ -8,6 +8,8 @@
 # sudo cp -vf /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 # sudo curl -o /etc/pacman.d/mirrorlist "https://archlinux.org/mirrorlist/?country=UA&protocol=http&protocol=https&ip_version=4&ip_version=6"
 
+# pv
+
 # Write iso
 # sudo dd bs=4M if=~/Downloads/manjaro.iso of=/dev/sdg status=progress oflag=sync
 
@@ -31,6 +33,6 @@ dependencies=(
 sudo pacman -Syy ${dependencies[@]}
 
 sudo pip install black python-language-server pylsp pykeepass yt-dlp
-sudo npm -g i typescript-language-server yarn
+sudo npm -g i typescript-language-server yarn vscode-langservers-extracted
 yay -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb xkb-switch compton-tryone-git unipicker
 luarocks install --server=https://luarocks.org/dev luaformatter
