@@ -43,7 +43,7 @@ vim.g.mapleader = ' '
 
 vim.opt.guifont="droidsansmono nerd font 11"
 
-Cmd "au FileType html,css,xml,scss EmmetInstall"
+-- Cmd "au FileType javascript,javascriptreact,html,css,xml,scss EmmetInstall"
 
 Cmd "au BufReadPost,BufRead *.zsh,.zshrc set ft=sh"
 Cmd "au BufReadPost,BufRead *.fish set ft=fish"
@@ -53,6 +53,7 @@ Cmd "au BufNewFile,BufRead *.asm set ft=nasm"
 Cmd "au BufNewFile,BufRead .prettierrc set ft=json"
 
 Cmd "command! W :w!"
+Cmd "au BufNewFile,BufRead * hi clear TODO"
 
-require "maps"
 require "plugins"
+require "maps"

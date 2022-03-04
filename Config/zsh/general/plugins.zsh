@@ -1,7 +1,7 @@
 is_plugin() {
   local name=$1
-  builtin test -f $ZDOTDIR/plugins/$name/$name.plugin.zsh ||
-    builtin test -f $ZDOTDIR/plugins/$name/_$name
+  local base=$ZDOTDIR/plugins/$name
+  [[ -f $base/$name.plugin.zsh ]] || [[ -f $base/_$name ]]
 }
 
 for plugin ($plugins); do
@@ -11,5 +11,4 @@ for plugin ($plugins); do
     echo "[zsh] plugin '$plugin' not found"
   fi
 done
-
 

@@ -9,9 +9,6 @@ return packer.startup(function()
 
   use { 'wbthomason/packer.nvim', opt = true }
 
-  -- TODO: load only on lua files
-  use 'folke/lua-dev.nvim'
-
   -- theme
   use {
     'dracula/vim',
@@ -191,15 +188,6 @@ return packer.startup(function()
 
   -- use 'fedorenchik/qt-support.vim'
 
-  use {
-    'mattn/emmet-vim',
-    config = function()
-      vim.g.user_emmet_mode = 'i'
-      -- vim.g.user_emmet_leader_key = '<A-k>'
-      vim.g.user_emmet_install_global = 0
-    end
-  }
-
   -- lsp configs
   use {
     'RishabhRD/nvim-lsputils',
@@ -231,6 +219,10 @@ return packer.startup(function()
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
   use 'folke/lsp-colors.nvim' -- enables colors to lsp, like warnings, errors
+
+  -- TODO: load only on lua files
+  use 'folke/lua-dev.nvim'
+
   use {
     'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
     config = function()
@@ -239,13 +231,13 @@ return packer.startup(function()
       -- local root_pattern = require('util.root_pattern')
 
       local on_attach = function(client, bufnr)
-        require('lsp_signature').on_attach({
-          bind = true,
-          hint_enable = false,
-          hi_parameter = "Todo",
-          handler_opts = { border = "none" }
-        })
-        -- -- luasnip setup
+        -- require('lsp_signature').on_attach({
+        --   bind = true,
+        --   hint_enable = false,
+        --   hi_parameter = "Todo",
+        --   handler_opts = { border = "none" }
+        -- })
+        -- -- -- luasnip setup
         -- local luasnip = require 'luasnip'
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
@@ -307,9 +299,7 @@ return packer.startup(function()
 
         --         require('completion').on_attach()
 
-        local function buf_set(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-        buf_set('omnifunc', 'v:lua.vim.lsp.omnifunc')
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
         -- Mappings
         -- buf_map('n', 'gs', '<Cmd>ClangdSwitchSourceHeader<CR>')
@@ -322,7 +312,7 @@ return packer.startup(function()
         Map('n', '<leader>la', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
         Map('n', '<leader>lr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
         Map('n', '<leader>ll',
-                '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
+            '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
 
         -- buf_map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
         Map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>')
@@ -343,34 +333,15 @@ return packer.startup(function()
       end
       local servers = {
         "bashls", "vimls", "vuels", "tsserver", "yamlls", "jsonls", "cmake", "gopls",
-        "cssls", "html", "rust_analyzer", "pyright"
+        "cssls", "rust_analyzer", "pyright"
       }
       for _, lsp in ipairs(servers) do nvim_lsp[lsp].setup { on_attach = on_attach } end
 
-      local eslint = {
-        lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-        lintStdin = true,
-        lintFormats = { "%f:%l:%c: %m" },
-        lintIgnoreExitCode = true,
-        formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-        formatStdin = true
-      }
-
-      -- local function eslint_config_exists()
-      --   local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
-
-      --   if not vim.tbl_isempty(eslintrc) then
-      --     return true
-      --   end
-
-      --   if vim.fn.filereadable("package.json") then
-      --     if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
-      --       return true
-      --     end
-      --   end
-
-      --   return false
-      -- end
+      nvim_lsp.emmet_ls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = { "html", "css", "typescriptreact", "javascriptreact" }
+      })
 
       nvim_lsp.ccls.setup {
         cmd = { "ccls" },
@@ -381,54 +352,6 @@ return packer.startup(function()
           index = { threads = 0 },
           clang = { excludeArgs = { "-frounding-math" } }
         }
-      }
-
-      --       nvim_lsp.clangd.setup {
-      --         cmd = {
-      --           'clangd', '--header-insertion=never', '--suggest-missing-includes',
-      --           '--background-index', '-j=8', '--cross-file-rename',
-      --           '--pch-storage=memory', '--clang-tidy', -- '-std=c++17',
-      --           '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type'
-      --         },
-      --         -- on_init = require'clangd_nvim'.on_init,
-      --         -- callbacks = lsp_status.extensions.clangd.setup(),
-      --         capabilities = {
-      --           capabilities = { window = { workDoneProgress = true } },
-      --           textDocument = {
-      --             completion = { completionItem = { snippetSupport = true } },
-      --             semanticHighlightingCapabilities = { semanticHighlighting = true }
-      --           }
-      --         },
-      --         init_options = {
-      --           clangdFileStatus = true,
-      --           usePlaceholders = true,
-      --           completeUnimported = true
-      --         },
-      --         on_attach = function() end
-      --       }
-
-      nvim_lsp.efm.setup {
-        -- root_dir = function()
-        --   if not eslint_config_exists() then
-        --     return nil
-        --   end
-        --   return vim.fn.getcwd()
-        -- end,
-        settings = {
-          languages = {
-            javascript = { eslint },
-            javascriptreact = { eslint },
-            ["javascript.jsx"] = { eslint },
-            typescript = { eslint },
-            ["typescript.tsx"] = { eslint },
-            typescriptreact = { eslint }
-          }
-        },
-        filetypes = {
-          "javascript", "javascriptreact", "javascript.jsx", "typescript",
-          "typescript.tsx", "typescriptreact"
-        },
-        on_attach = on_attach
       }
 
       nvim_lsp.texlab.setup {
@@ -447,6 +370,16 @@ return packer.startup(function()
         on_attach = on_attach
       }
 
+      local luadev = require("lua-dev").setup({
+        library = { vimruntime = false },
+        lspconfig = {
+          cmd = { "lua-language-server" },
+          on_attach = on_attach
+          -- nma
+        }
+      })
+      nvim_lsp.sumneko_lua.setup(luadev)
+
       -- nvim_lsp.sumneko_lua.setup {
       --   cmd = { "/usr/bin/lua-language-server" },
       --   settings = {
@@ -463,25 +396,68 @@ return packer.startup(function()
       --   },
       --   on_attach = on_attach
       -- }
-      local luadev = require("lua-dev").setup({
-        library = { vimruntime = false },
-        lspconfig = { cmd = { "/usr/bin/lua-language-server" }, on_attach = on_attach }
-      })
-      nvim_lsp.sumneko_lua.setup(luadev)
+      -- local eslint = {
+      --   lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
+      --   lintStdin = true,
+      --   lintFormats = { "%f:%l:%c: %m" },
+      --   lintIgnoreExitCode = true,
+      --   formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+      --   formatStdin = true
+      -- }
+      -- local function eslint_config_exists()
+      --   local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
+      --   if not vim.tbl_isempty(eslintrc) then
+      --     return true
+      --   end
+      --   if vim.fn.filereadable("package.json") then
+      --     if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
+      --       return true
+      --     end
+      --   end
+      --   return false
+      -- end
+      -- nvim_lsp.clangd.setup {
+      --   cmd = {
+      --     'clangd', '--header-insertion=never', '--suggest-missing-includes',
+      --     '--background-index', '-j=8', '--cross-file-rename',
+      --     '--pch-storage=memory', '--clang-tidy', -- '-std=c++17',
+      --     '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type'
+      --   },
+      --   -- on_init = require'clangd_nvim'.on_init,
+      --   -- callbacks = lsp_status.extensions.clangd.setup(),
+      --   capabilities = {
+      --     capabilities = { window = { workDoneProgress = true } },
+      --     textDocument = {
+      --       completion = { completionItem = { snippetSupport = true } },
+      --       semanticHighlightingCapabilities = { semanticHighlighting = true }
+      --     }
+      --   },
+      --   init_options = {
+      --     clangdFileStatus = true,
+      --     usePlaceholders = true,
+      --     completeUnimported = true
+      --   },
+      --   on_attach = function() end
+      -- }
+
     end
   }
 
   use {
-    'ahmedkhalf/lsp-rooter.nvim',
-    config = function() require("lsp-rooter").setup {} end
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require("project_nvim").setup {
+        patterns = { ".git", "Makefile", "package.json", "init.lua" }
+      }
+    end
   }
 
   -- use 'jackguo380/vim-lsp-cxx-highlight'
 
-  use {
-    'simrat39/symbols-outline.nvim',
-    config = function() Map('n', '<leader>;', ':SymbolsOutline<CR>') end
-  }
+  --   use {
+  --     'simrat39/symbols-outline.nvim',
+  --     config = function() Map('n', '<leader>;', ':SymbolsOutline<CR>') end
+  --   }
 
   use {
     'nvim-treesitter/nvim-treesitter',
@@ -520,12 +496,12 @@ return packer.startup(function()
             enable = true,
             keymaps = {
               ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
               ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
               ["al"] = "@loop.outer",
-              ["il"] = "@loop.inner",
               ["ab"] = "@block.outer",
+              ["if"] = "@function.inner",
+              ["ic"] = "@class.inner",
+              ["il"] = "@loop.inner",
               ["ib"] = "@block.inner"
             }
           },

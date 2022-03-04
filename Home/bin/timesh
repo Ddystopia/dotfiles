@@ -1,0 +1,8 @@
+#!/bin/bash
+
+n=${1:-1}
+shell=${2:-$SHELL}
+echo "Testing '$shell'"
+for i in $(seq 1 $n); do
+  time $shell -i -c exit
+done

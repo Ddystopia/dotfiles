@@ -1,25 +1,29 @@
 ZSH_THEME="pi"
 plugins=(
-  git \
   fast-syntax-highlighting \
   vi-cursor \
-#  fzf \
-#  fzf-autocomplete \
+  fzf \
+  fzf-autocomplete \
   completion \
-  history-substring-search \
+  # history-substring-search \
   zsh-autosuggestions \
   spectrum \
 )
 
-autoload -U compinit
-compinit
-
+setopt HIST_IGNORE_SPACE
 HISTSIZE=50000
 SAVEHIST=50000
 
-HISTFILE=$ZDOTDIR/.zsh_history 
+autoload -U compinit
+if [[ -n `find -L $ZDOTDIR -maxdepth 1 -iname '.zcompdump*' -mtime 1` ]]; then
+  compinit;
+else
+  compinit -C;
+fi;
 
-eval $(thefuck --alias)
+HISTFILE=$ZDOTDIR/.zsh_history 
+TIMEFMT=$'\nCPU\t%P\ntotal\t%*E\nuser\t%*U\nsystem\t%*S'
+# eval $(thefuck --alias)
 
 for file in $(ls -rA $ZDOTDIR/general); do
   source $ZDOTDIR/general/$file

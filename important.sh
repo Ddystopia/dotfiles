@@ -17,7 +17,7 @@
 localectl --no-convert set-x11-keymap us,ru,ua,sk "" ",,,qwerty" caps:escape,grp_led:scroll
 
 # Enable magic SysRq key
-su -c "echo 1 > /proc/sys/kernel/sysrq"
+# su -c "echo 1 > /proc/sys/kernel/sysrq"
 
 dependencies=(
   "copyq" "python-pip" "noto-fonts-emoji" "flameshot" "zsh"
@@ -32,7 +32,7 @@ dependencies=(
 
 sudo pacman -Syy ${dependencies[@]}
 
+sudo npm -g i typescript-language-server yarn vscode-langservers-extracted emmet-ls
 sudo pip install black python-language-server pylsp pykeepass yt-dlp
-sudo npm -g i typescript-language-server yarn vscode-langservers-extracted
 yay -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb xkb-switch compton-tryone-git unipicker
 luarocks install --server=https://luarocks.org/dev luaformatter

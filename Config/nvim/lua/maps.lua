@@ -65,7 +65,7 @@ Map('i', '<A-l>', '<C-^>')
 
 Map('n', '<leader>F', ':lua Format()<CR>')
 Map('n', '<leader>pc', ':lua ToggleConceal()<CR>')
--- Map('n', '<leader>pw', ':lua ToggleWrap()<CR>')
+Map('n', '<leader>pw', ':lua ToggleWrap()<CR>')
 
 Map('n', '<leader>pr', ':lua ToggleRelNums()<CR>')
 
@@ -76,8 +76,8 @@ Map('v', '<leader>y', '"+y')
 Map('n', '<tab>', '<cmd>bn<cr>')
 Map('n', '<s-tab>', '<cmd>bp<cr>')
 
-Map('i', '<C-h>', '<cmd>bp<cr><esc>')
-Map('i', '<C-l>', '<cmd>bn<cr><esc>')
+Map('i', '<C-h>', '<esc><cmd>bp<cr>')
+Map('i', '<C-l>', '<esc><cmd>bn<cr>')
 Map('n', '<C-h>', '<cmd>bp<cr>')
 Map('n', '<C-l>', '<cmd>bn<cr>')
 Map('n', '<C-j>', '<cmd>tabn<cr>')
@@ -107,7 +107,7 @@ if vim.env.TMUX == nil then Map('n', '<A-a>', ':silent !$TERM & disown<cr>') end
 Map('', '<A-w>', '<C-w>')
 Map('t', '<A-a>', '<C-\\><C-n>')
 
--- Map('n', '\\\\', '<Esc>/<++><Enter>"_c4l')
+-- Map('n', '\\\\', '<Esc>/Enter>"_c4l')
 
 Map('n', 'cd', ':cd ')
 
