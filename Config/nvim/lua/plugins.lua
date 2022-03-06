@@ -7,6 +7,8 @@ local packer = require('packer')
 return packer.startup(function()
   local use = packer.use
 
+  use 'dstein64/vim-startuptime'
+
   use { 'wbthomason/packer.nvim', opt = true }
 
   -- theme
@@ -25,11 +27,10 @@ return packer.startup(function()
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       local function keymap()
-        if vim.bo.iminsert == 0 then
-          return [[us]]
-        else
-          return [[ru]]
-        end
+        local handle = io.popen('xkb-switch -p')
+        local result = handle:read('*l')
+        handle:close()
+        return '[[' .. result .. ']]'
       end
 
       require('lualine').setup {
@@ -40,8 +41,7 @@ return packer.startup(function()
           icons_enabled = true
         },
         sections = {
-          lualine_a = { 'mode' },
-          -- lualine_a = { 'mode', keymap },
+          lualine_a = { 'mode', keymap },
           lualine_b = { 'branch', 'diff' },
           lualine_c = {
             'filename', {
@@ -145,8 +145,9 @@ return packer.startup(function()
       }
 
       Map('n', '<leader>t', '<cmd>Telescope<CR>')
-      Map('n', '<leader>f', '<cmd>lua require("telescope.builtin").fd()<CR>')
-      Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").buffers()<CR>')
+      Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").fd()<CR>')
+      -- Map('n', '<leader>f', '<cmd>lua require("telescope.builtin").fd()<CR>')
+      -- Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").buffers()<CR>')
       Map('n', '<leader>m', '<cmd>lua require("telescope.builtin").marks()<CR>')
       Map('n', '<leader>r',
           '<cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>')
@@ -167,7 +168,12 @@ return packer.startup(function()
   }
   use 'tpope/vim-surround'
   use 'kana/vim-repeat'
-  use 'jiangmiao/auto-pairs'
+  use {
+    'jiangmiao/auto-pairs',
+    config = function ()
+      vim.g.AutoPairsMapCh = false
+    end
+  }
 
   use 'tversteeg/registers.nvim'
   use {
@@ -176,40 +182,39 @@ return packer.startup(function()
     config = function()
       require'hop'.setup {}
 
-      Map('n', 's', '<NOP>')
-      Map("n", "sh", "<cmd>lua require'hop'.hint_words()<cr>")
-      Map("n", "sl", "<cmd>lua require'hop'.hint_words()<cr>")
-      Map("n", "sk", "<cmd>lua require'hop'.hint_lines()<cr>")
-      Map("n", "sj", "<cmd>lua require'hop'.hint_lines()<cr>")
-      Map("n", "sf", "<cmd>lua require'hop'.hint_char1()<cr>")
-      Map("n", "ss", "<cmd>lua require'hop'.hint_char2()<cr>")
+      Map("n", "<leader>h", "<cmd>lua require'hop'.hint_words()<cr>")
+      Map("n", "<leader>l", "<cmd>lua require'hop'.hint_words()<cr>")
+      Map("n", "<leader>k", "<cmd>lua require'hop'.hint_lines()<cr>")
+      Map("n", "<leader>j", "<cmd>lua require'hop'.hint_lines()<cr>")
+      Map("n", "<leader>f", "<cmd>lua require'hop'.hint_char1()<cr>")
+      Map("n", "<leader>s", "<cmd>lua require'hop'.hint_char2()<cr>")
     end
   }
 
   -- use 'fedorenchik/qt-support.vim'
 
   -- lsp configs
-  use {
-    'RishabhRD/nvim-lsputils',
-    requires = { 'RishabhRD/popfix', opt = true },
-    config = function()
-      vim.lsp.handlers['textDocument/codeAction'] =
-          require'lsputil.codeAction'.code_action_handler
-      vim.lsp.handlers['textDocument/references'] =
-          require'lsputil.locations'.references_handler
-      vim.lsp.handlers['textDocument/definition'] =
-          require'lsputil.locations'.definition_handler
-      vim.lsp.handlers['textDocument/declaration'] =
-          require'lsputil.locations'.declaration_handler
-      vim.lsp.handlers['textDocument/typeDefinition'] =
-          require'lsputil.locations'.typeDefinition_handler
-      vim.lsp.handlers['textDocument/implementation'] =
-          require'lsputil.locations'.implementation_handler
-      vim.lsp.handlers['textDocument/documentSymbol'] =
-          require'lsputil.symbols'.document_handler
-      vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-    end
-  }
+  -- use {
+  --   'RishabhRD/nvim-lsputils',
+  --   requires = { 'RishabhRD/popfix', opt = true },
+  --   config = function()
+  --     vim.lsp.handlers['textDocument/codeAction'] =
+  --         require'lsputil.codeAction'.code_action_handler
+  --     vim.lsp.handlers['textDocument/references'] =
+  --         require'lsputil.locations'.references_handler
+  --     vim.lsp.handlers['textDocument/definition'] =
+  --         require'lsputil.locations'.definition_handler
+  --     vim.lsp.handlers['textDocument/declaration'] =
+  --         require'lsputil.locations'.declaration_handler
+  --     vim.lsp.handlers['textDocument/typeDefinition'] =
+  --         require'lsputil.locations'.typeDefinition_handler
+  --     vim.lsp.handlers['textDocument/implementation'] =
+  --         require'lsputil.locations'.implementation_handler
+  --     vim.lsp.handlers['textDocument/documentSymbol'] =
+  --         require'lsputil.symbols'.document_handler
+  --     vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+  --   end
+  -- }
   use { 'onsails/lspkind-nvim', config = function() require('lspkind').init() end }
   -- use 'ray-x/lsp_signature.nvim'
   -- use { 'nvim-lua/completion-nvim', opt = true }
@@ -504,11 +509,6 @@ return packer.startup(function()
               ["il"] = "@loop.inner",
               ["ib"] = "@block.inner"
             }
-          },
-          swap = {
-            enable = true,
-            swap_next = { ["<leader>."] = "@parameter.inner" },
-            swap_previous = { ["<leader>,"] = "@parameter.inner" }
           },
           move = {
             enable = true,
