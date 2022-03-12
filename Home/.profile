@@ -9,6 +9,7 @@ export BROWSER=/usr/bin/qutebrowser
 export TERM=/usr/bin/alacritty
 export WALLPAPERS_DIR=/home/ddystopia/Media/wallpapers
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export LESSHISTFILE=-
 
 # export LIBGL_ALWAYS_SOFTWARE=1
 

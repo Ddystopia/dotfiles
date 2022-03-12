@@ -21,212 +21,6 @@ return packer.startup(function()
       Cmd('hi IndentLine guifg=#44475a')
     end
   }
-  -- bar at the bottom
-  use {
-    "hoob3rt/lualine.nvim",
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    config = function()
-      local function keymap()
-        local handle = io.popen('xkb-switch -p')
-        local result = handle:read('*l')
-        handle:close()
-        return '[[' .. result .. ']]'
-      end
-
-      require('lualine').setup {
-        options = {
-          theme = 'dracula',
-          section_separators = { '', '' },
-          component_separators = { '|', '|' },
-          icons_enabled = true
-        },
-        sections = {
-          lualine_a = { 'mode', keymap },
-          lualine_b = { 'branch', 'diff' },
-          lualine_c = {
-            'filename', {
-              'diagnostics',
-              sources = { 'nvim_diagnostic' },
-              symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }
-            }
-          },
-          lualine_x = { 'filetype' },
-          lualine_y = { 'progress' },
-          lualine_z = { 'location' }
-        }
-      }
-    end
-  }
-  use {
-    'akinsho/nvim-bufferline.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function()
-      local b = require("bufferline")
-      b.setup {
-        options = {
-          --      mappings = false,
-          diagnostics = "nvim_diagnostic",
-          show_buffer_close_icons = false,
-          always_show_bufferline = false
-        },
-        highlights = { fill = { guibg = '#21222C' }, buffer_selected = { gui = 'bold' } }
-      }
-      Map('n', '<C-h>', ':lua require("bufferline").cycle(-1)<CR>')
-      Map('n', '<C-l>', ':lua require("bufferline").cycle(1)<CR>')
-      Map('n', 'H', ':lua require("bufferline").move(-1)<CR>')
-      Map('n', 'L', ':lua require("bufferline").move(1)<CR>')
-      Map('n', 'gb', ':lua require("bufferline").pick_buffer()<CR>')
-    end
-  }
-  use {
-    'lyokha/vim-xkbswitch',
-    config = function()
-      vim.g.XkbSwitchEnabled = 1
-      vim.g.XkbSwitchIMappings = { 'ru' }
-    end
-  }
-  use {
-    'lukas-reineke/indent-blankline.nvim',
-    config = function()
-      vim.g.indent_blankline_char = '▏'
-      vim.g.indent_blankline_char_highlight_list = { "IndentLine" }
-      vim.g.indent_blankline_show_first_indent_level = false
-      -- vim.g.indent_blankline_show_trailing_blankline_indent = false
-      vim.g.indent_blankline_use_treesitter = true
-      vim.g.indent_blankline_filetype_exclude = { 'markdown', 'tex', 'startify' }
-    end
-  }
-  use {
-    'machakann/vim-highlightedyank',
-    config = function() vim.g.highlightedyank_highlight_duration = 250 end
-  }
-
-  -- colorize colors like this #01dd99
-  use {
-    'norcalli/nvim-colorizer.lua',
-    config = function()
-      require('colorizer').setup({ '*', css = { css = true }, scss = { scc = true } },
-                                 { names = false })
-    end
-  }
-
-  -- use { 'NFrid/due.nvim', config = function() require('due_nvim').setup {} end }
-
-  use {
-    'mhinz/vim-startify',
-    config = function()
-      vim.g.startify_lists = {
-        { type = 'dir', header = { "MRU [" .. vim.fn.getcwd() .. "]" } },
-        { type = 'files', header = { "MRU [global]" } }
-      }
-      vim.g.startify_fortune_use_unicode = 1
-      -- vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
-      Map('n', '<leader>s', ':Startify<CR>')
-    end
-  }
-
-  use {
-    'plasticboy/vim-markdown',
-    config = function()
-      vim.g.vim_markdown_toc_autofit = 1
-      vim.g.vim_markdown_follow_anchor = 1
-      vim.g.vim_markdown_frontmatter = 1
-      vim.g.vim_markdown_new_list_item_indent = 2
-    end
-  }
-  -- use 'lervag/vimtex'
-
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
-    config = function()
-      require('telescope').setup {
-        defaults = { file_ignore_patterns = { "node_modules" } }
-      }
-
-      Map('n', '<leader>t', '<cmd>Telescope<CR>')
-      Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").fd()<CR>')
-      -- Map('n', '<leader>f', '<cmd>lua require("telescope.builtin").fd()<CR>')
-      -- Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").buffers()<CR>')
-      Map('n', '<leader>m', '<cmd>lua require("telescope.builtin").marks()<CR>')
-      Map('n', '<leader>r',
-          '<cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>')
-      Map('n', '<leader>R',
-          '<cmd>lua require("telescope.builtin").lsp_dynamic_workspace_symbols()<CR>')
-      Map('n', '<C-f>',
-          '<cmd>lua require("telescope.builtin").current_buffer_fuzzy_find()<CR>')
-      Map('n', '<F1>', '<cmd>lua require("telescope.builtin").commands()<CR>')
-      Map('n', '<leader>d',
-          '<cmd>lua require("telescope.builtin").lsp_workspace_diagnostics()<CR>')
-      Map('n', '<leader>u', ':TodoTelescope<CR>')
-    end
-  }
-
-  use {
-    'tpope/vim-commentary',
-    config = function() Cmd "au FileType apache setlocal commentstring=#%s" end
-  }
-  use 'tpope/vim-surround'
-  use 'kana/vim-repeat'
-  use {
-    'jiangmiao/auto-pairs',
-    config = function ()
-      vim.g.AutoPairsMapCh = false
-    end
-  }
-
-  use 'tversteeg/registers.nvim'
-  use {
-    'phaazon/hop.nvim',
-    as = 'hop',
-    config = function()
-      require'hop'.setup {}
-
-      Map("n", "<leader>h", "<cmd>lua require'hop'.hint_words()<cr>")
-      Map("n", "<leader>l", "<cmd>lua require'hop'.hint_words()<cr>")
-      Map("n", "<leader>k", "<cmd>lua require'hop'.hint_lines()<cr>")
-      Map("n", "<leader>j", "<cmd>lua require'hop'.hint_lines()<cr>")
-      Map("n", "<leader>f", "<cmd>lua require'hop'.hint_char1()<cr>")
-      Map("n", "<leader>s", "<cmd>lua require'hop'.hint_char2()<cr>")
-    end
-  }
-
-  -- use 'fedorenchik/qt-support.vim'
-
-  -- lsp configs
-  -- use {
-  --   'RishabhRD/nvim-lsputils',
-  --   requires = { 'RishabhRD/popfix', opt = true },
-  --   config = function()
-  --     vim.lsp.handlers['textDocument/codeAction'] =
-  --         require'lsputil.codeAction'.code_action_handler
-  --     vim.lsp.handlers['textDocument/references'] =
-  --         require'lsputil.locations'.references_handler
-  --     vim.lsp.handlers['textDocument/definition'] =
-  --         require'lsputil.locations'.definition_handler
-  --     vim.lsp.handlers['textDocument/declaration'] =
-  --         require'lsputil.locations'.declaration_handler
-  --     vim.lsp.handlers['textDocument/typeDefinition'] =
-  --         require'lsputil.locations'.typeDefinition_handler
-  --     vim.lsp.handlers['textDocument/implementation'] =
-  --         require'lsputil.locations'.implementation_handler
-  --     vim.lsp.handlers['textDocument/documentSymbol'] =
-  --         require'lsputil.symbols'.document_handler
-  --     vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-  --   end
-  -- }
-  use { 'onsails/lspkind-nvim', config = function() require('lspkind').init() end }
-  -- use 'ray-x/lsp_signature.nvim'
-  -- use { 'nvim-lua/completion-nvim', opt = true }
-  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
-  -- use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
-
-  use 'folke/lsp-colors.nvim' -- enables colors to lsp, like warnings, errors
-
-  -- TODO: load only on lua files
-  use 'folke/lua-dev.nvim'
 
   use {
     'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
@@ -448,11 +242,225 @@ return packer.startup(function()
     end
   }
 
+  -- bar at the bottom
+  use {
+    "hoob3rt/lualine.nvim",
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function()
+      local function keymap()
+        local handle = io.popen('xkb-switch -p')
+        local result = handle:read('*l')
+        handle:close()
+        return '[[' .. result .. ']]'
+      end
+
+      require('lualine').setup {
+        options = {
+          theme = 'dracula',
+          section_separators = { '', '' },
+          component_separators = { '|', '|' },
+          icons_enabled = true
+        },
+        sections = {
+          lualine_a = { 'mode', keymap },
+          lualine_b = { 'branch', 'diff' },
+          lualine_c = {
+            'filename', {
+              'diagnostics',
+              sources = { 'nvim_diagnostic' },
+              symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }
+            }
+          },
+          lualine_x = { 'filetype' },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' }
+        }
+      }
+    end
+  }
+  use {
+    'akinsho/nvim-bufferline.lua',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function()
+      local b = require("bufferline")
+      b.setup {
+        options = {
+          --      mappings = false,
+          diagnostics = "nvim_diagnostic",
+          show_buffer_close_icons = false,
+          always_show_bufferline = false
+        },
+        highlights = { fill = { guibg = '#21222C' }, buffer_selected = { gui = 'bold' } }
+      }
+      Map('n', '<C-h>', ':lua require("bufferline").cycle(-1)<CR>')
+      Map('n', '<C-l>', ':lua require("bufferline").cycle(1)<CR>')
+      Map('n', 'H', ':lua require("bufferline").move(-1)<CR>')
+      Map('n', 'L', ':lua require("bufferline").move(1)<CR>')
+      Map('n', 'gb', ':lua require("bufferline").pick_buffer()<CR>')
+    end
+  }
+  use {
+    'lyokha/vim-xkbswitch',
+    config = function()
+      vim.g.XkbSwitchEnabled = 1
+      vim.g.XkbSwitchIMappings = { 'ru' }
+    end
+  }
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      vim.g.indent_blankline_char = '▏'
+      vim.g.indent_blankline_char_highlight_list = { "IndentLine" }
+      vim.g.indent_blankline_show_first_indent_level = false
+      -- vim.g.indent_blankline_show_trailing_blankline_indent = false
+      vim.g.indent_blankline_use_treesitter = true
+      vim.g.indent_blankline_filetype_exclude = { 'markdown', 'tex', 'startify' }
+    end
+  }
+  use {
+    'machakann/vim-highlightedyank',
+    config = function() vim.g.highlightedyank_highlight_duration = 250 end
+  }
+
+  -- colorize colors like this #01dd99
+  use {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup({ '*', css = { css = true }, scss = { scc = true } },
+                                 { names = false })
+    end
+  }
+
+  -- use { 'NFrid/due.nvim', config = function() require('due_nvim').setup {} end }
+
+  use {
+    'mhinz/vim-startify',
+    config = function()
+      vim.g.startify_lists = {
+        { type = 'dir', header = { "MRU [" .. vim.fn.getcwd() .. "]" } },
+        { type = 'files', header = { "MRU [global]" } }
+      }
+      vim.g.startify_fortune_use_unicode = 1
+      -- vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
+    end
+  }
+
+  use {
+    'plasticboy/vim-markdown',
+    config = function()
+      vim.g.vim_markdown_toc_autofit = 1
+      vim.g.vim_markdown_follow_anchor = 1
+      vim.g.vim_markdown_frontmatter = 1
+      vim.g.vim_markdown_new_list_item_indent = 2
+    end
+  }
+  -- use 'lervag/vimtex'
+
+  -- use {
+  --   'nvim-telescope/telescope.nvim',
+  --   requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
+  --   config = function()
+  --     require('telescope').setup {
+  --       defaults = { file_ignore_patterns = { "node_modules" } }
+  --     }
+
+  --     Map('n', '<leader>t', '<cmd>Telescope<CR>')
+  --     Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").fd()<CR>')
+  --     -- Map('n', '<leader>f', '<cmd>lua require("telescope.builtin").fd()<CR>')
+  --     -- Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").buffers()<CR>')
+  --     Map('n', '<leader>m', '<cmd>lua require("telescope.builtin").marks()<CR>')
+  --     Map('n', '<leader>r',
+  --         '<cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>')
+  --     Map('n', '<leader>R',
+  --         '<cmd>lua require("telescope.builtin").lsp_dynamic_workspace_symbols()<CR>')
+  --     Map('n', '<C-f>',
+  --         '<cmd>lua require("telescope.builtin").current_buffer_fuzzy_find()<CR>')
+  --     Map('n', '<F1>', '<cmd>lua require("telescope.builtin").commands()<CR>')
+  --     Map('n', '<leader>d',
+  --         '<cmd>lua require("telescope.builtin").lsp_workspace_diagnostics()<CR>')
+  --     Map('n', '<leader>u', ':TodoTelescope<CR>')
+  --   end
+  -- }
+
+  use {
+    'tpope/vim-commentary',
+    config = function() Cmd "au FileType apache setlocal commentstring=#%s" end
+  }
+  use 'tpope/vim-surround'
+  use 'kana/vim-repeat'
+  -- use { 'jiangmiao/auto-pairs', config = function() vim.g.AutoPairsMapCh = false end }
+  use {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup({})
+      local Rule = require('nvim-autopairs.rule')
+      local npairs = require('nvim-autopairs')
+
+      npairs.add_rule(Rule("<", ">", "typescript"))
+      npairs.add_rule(Rule("<", ">", "typescriptreact"))
+    end
+  }
+
+  use 'tversteeg/registers.nvim'
+  use {
+    'phaazon/hop.nvim',
+    as = 'hop',
+    config = function()
+      require'hop'.setup {}
+
+      Map("n", "<leader>h", "<cmd>lua require'hop'.hint_words()<cr>")
+      Map("n", "<leader>l", "<cmd>lua require'hop'.hint_words()<cr>")
+      Map("n", "<leader>k", "<cmd>lua require'hop'.hint_lines()<cr>")
+      Map("n", "<leader>j", "<cmd>lua require'hop'.hint_lines()<cr>")
+      Map("n", "<leader>f", "<cmd>lua require'hop'.hint_char1()<cr>")
+      Map("n", "<leader>s", "<cmd>lua require'hop'.hint_char2()<cr>")
+    end
+  }
+
+  -- use 'fedorenchik/qt-support.vim'
+
+  -- lsp configs
+  -- use {
+  --   'RishabhRD/nvim-lsputils',
+  --   requires = { 'RishabhRD/popfix', opt = true },
+  --   config = function()
+  --     vim.lsp.handlers['textDocument/codeAction'] =
+  --         require'lsputil.codeAction'.code_action_handler
+  --     vim.lsp.handlers['textDocument/references'] =
+  --         require'lsputil.locations'.references_handler
+  --     vim.lsp.handlers['textDocument/definition'] =
+  --         require'lsputil.locations'.definition_handler
+  --     vim.lsp.handlers['textDocument/declaration'] =
+  --         require'lsputil.locations'.declaration_handler
+  --     vim.lsp.handlers['textDocument/typeDefinition'] =
+  --         require'lsputil.locations'.typeDefinition_handler
+  --     vim.lsp.handlers['textDocument/implementation'] =
+  --         require'lsputil.locations'.implementation_handler
+  --     vim.lsp.handlers['textDocument/documentSymbol'] =
+  --         require'lsputil.symbols'.document_handler
+  --     vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+  --   end
+  -- }
+  use { 'onsails/lspkind-nvim', config = function() require('lspkind').init() end }
+  -- use 'ray-x/lsp_signature.nvim'
+  -- use { 'nvim-lua/completion-nvim', opt = true }
+  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
+  use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
+  -- use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
+  use 'L3MON4D3/LuaSnip' -- Snippets plugin
+
+  use 'folke/lsp-colors.nvim' -- enables colors to lsp, like warnings, errors
+
+  -- TODO: load only on lua files
+  use 'folke/lua-dev.nvim'
+
   use {
     "ahmedkhalf/project.nvim",
     config = function()
       require("project_nvim").setup {
-        patterns = { ".git", "Makefile", "package.json", "init.lua" }
+        patterns = { ".git", "Makefile", "package.json", "init.lua" },
+        detection_methods = { ".git", "Makefile", "package.json", "init.lua" },
+        exclude_dirs = { "client" }
       }
     end
   }

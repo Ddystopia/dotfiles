@@ -1,6 +1,7 @@
 # lsp & lint hack
 from qutebrowser.config.configfiles import ConfigAPI  # noqa: F401
 from qutebrowser.config.config import ConfigContainer  # noqa: F401
+import os
 
 config: ConfigAPI = config  # type: ignore # noqa: F821
 c: ConfigContainer = c  # type: ignore # noqa: F821
@@ -14,6 +15,8 @@ c: ConfigContainer = c  # type: ignore # noqa: F821
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
+user_agent = "Mozilla/5.0 (Windows NT 10.0; rv:94.0) Gecko/20100101 Firefox/94.0"
+XDG_CONFIG_HOME = os.environ["XDG_CONFIG_HOME"]
 
 config.load_autoconfig()
 
@@ -21,8 +24,8 @@ import dracula.draw
 
 dracula.draw.blood(c, {"spacing": {"vertical": 6, "horizontal": 8}})
 
-# c.url.start_pages = "file:///home/nf/.config/qutebrowser/startpage/index.html"
-# c.url.default_page = "file:///home/nf/.config/qutebrowser/startpage/index.html"
+c.url.start_pages = f"file://{XDG_CONFIG_HOME}/qutebrowser/startpage/index.html"
+c.url.default_page = c.url.start_pages
 
 # Tor as proxy
 # c.content.proxy = 'socks://localhost:9050'
@@ -46,12 +49,16 @@ c.auto_save.interval = 10_000
 # c.colors.webpage.darkmode.enabled = True
 # c.colors.webpage.darkmode.policy.images = "never"
 c.colors.webpage.preferred_color_scheme = "dark"
+c.colors.webpage.bg = "black"
 
 # Allow copy to clipboard
 c.content.javascript.can_access_clipboard = True
 
 # Allow pdfjs
 c.content.pdfjs = True
+
+# change editor command
+c.editor.command = ["alacritty", "-e", "sh", "-c", "sleep 0.1 && nvim {}"]
 
 # Remove downloads bar
 c.downloads.remove_finished = 5_000
@@ -105,19 +112,33 @@ c.bindings.key_mappings = {
 # fmt: on
 
 # Bindings for normal mode
-config.bind("zyf", "hint links spawn mpv --keep-open=yes {hint-url} --fs")
-config.bind("zyy", "spawn mpv {url} --fs")
+config.bind("zyf", "hint links spawn -d mpv --keep-open=yes {hint-url} --fs")
+config.bind("zyy", "spawn -d mpv {url} --fs")
+config.bind("zysy", "spawn -d mpv --shuffle {url} --fs")
+config.bind("zya", "spawn -d alacritty -e mpv --no-video {url} --fs")
+config.bind("zysa", "spawn -d alacritty -e mpv --shuffle --no-video {url} --fs")
+# config.bind("zyY", "spawn -d mpv --ytdl-format= {url} --fs")
+
+config.unbind(".")
 
 config.bind(
     "zx",
     "config-cycle statusbar.show always never;; config-cycle tabs.show multiple never",
 )
 
+# config.bind(
+#     "<Ctrl-i>",
+#     "spawn -u qute-keepass -p ~/KeePassFiles/MainDatabase.kdbx",
+#     mode="insert",
+# )
+
+GPG_KEY = "E1BEE8F95C1860EEFE08A587573D0829FB2A03E2"
+
 config.bind(
-    "<Ctrl-i>",
-    "spawn -u qute-keepass -p ~/KeePassFiles/MainDatabase.kdbx",
-    mode="insert",
+    "<Ctrl-i>", f"spawn --userscript qute-keepassxc --key {GPG_KEY}", mode="insert"
 )
+config.bind("pw", f"spawn --userscript qute-keepassxc --key {GPG_KEY}")
+config.bind("pt", f"spawn --userscript qute-keepassxc --key {GPG_KEY} --totp")
 
 config.bind("zp", "config-cycle content.private_browsing true false")
 
@@ -129,10 +150,10 @@ config.bind("zt", "set-cmd-text -s :tab-take")
 # By default
 config.set("content.cookies.accept", "all", "chrome-devtools://*")
 config.set("content.cookies.accept", "all", "devtools://*")
-config.set(
-    "content.headers.user_agent",
-    "Mozilla/5.0 (Windows NT 10.0; rv:94.0) Gecko/20100101 Firefox/94.0",
-)
+
+
+config.set("content.headers.user_agent", user_agent)
+
 # config.set(
 #     "content.headers.user_agent",
 #     "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}",

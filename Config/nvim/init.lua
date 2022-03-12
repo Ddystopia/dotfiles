@@ -45,7 +45,7 @@ vim.opt.guifont="droidsansmono nerd font 11"
 
 Cmd "au BufReadPost,BufRead *.zsh,.zshrc set ft=sh"
 Cmd "au BufReadPost,BufRead *.fish set ft=fish"
-Cmd "au BufReadPost,BufRead *.conf, sxhkdrc set ft=config"
+Cmd "au BufReadPost,BufRead *.conf,sxhkdrc set ft=config"
 Cmd "au BufNewFile,BufRead *.asm set ft=nasm"
 Cmd "au BufNewFile,BufRead .prettierrc set ft=json"
 

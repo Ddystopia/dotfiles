@@ -27,12 +27,15 @@ dependencies=(
   "thefuck" "neofetch" "cowsay" "pandoc" "pulsemixer" "ueberzug" "highlight"
   "typescript" "racket" "foliate" "discord" "nodejs" "npm" "timeshift"
   "python" "python3" "vscode" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"
-  "tor" "thunar"
+  "tor" "thunar" "git"
 )
 
-sudo pacman -Syy ${dependencies[@]}
+sudo pacman -Suyy ${dependencies[@]}
 
 sudo npm -g i typescript-language-server yarn vscode-langservers-extracted emmet-ls
-sudo pip install black python-language-server pylsp pykeepass yt-dlp
+sudo pip install black python-language-server pylsp pykeepass yt-dlp pynacl
 yay -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb xkb-switch compton-tryone-git unipicker
 luarocks install --server=https://luarocks.org/dev luaformatter
+
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim

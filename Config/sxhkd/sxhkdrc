@@ -102,6 +102,10 @@ super + alt + d
 super + alt + f
   firefox
 
+# start keepassxs
+super + alt + p
+  keepassxc
+
 # start ranger
 # super + e
 #   EDITOR=nvim $TERM -e ranger
@@ -122,13 +126,14 @@ super + F12
 super + F9
   toggleRecorder
 
-# restart sxhkd
-super + shift + c
-  pkill -usr1 -x sxhkd
-
 # switch polybar (shift to hide)
 # super + {_,shift + }v
 #   $SCRIPT_DIR/bspwm/polyshow {show,hide}
+
+
+# restart sxhkd
+super + shift + c
+  pkill -usr1 -x sxhkd
 
 ### --- bspwm keybindings --- ###
 
