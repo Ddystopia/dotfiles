@@ -6,7 +6,11 @@ export GOLDEN_RATIO=0.6180339887498948
 
 austart sxhkd
 austart compton
-austart xfce4-power-manager
+austart xfce4-power-manager 2> /dev/null
+austart copyq
+austart polybar
+sleep 0.01 ; polybar-msg hide
+# ./$XDG_CONFIG_HOME/polybar/launch.sh
 
 xset r rate 250 30
 
@@ -25,6 +29,7 @@ bspc config gapless_monocle             true
 bspc desktop '^1' --layout monocle
 bspc desktop '^2' --layout monocle
 
+bspc rule --add "glue"                      sticky=on
 bspc rule --add discord                     desktop='^1' follow=on
 bspc rule --add Discord                     desktop='^1' follow=on
 bspc rule --add firefox                     desktop='^2' follow=on

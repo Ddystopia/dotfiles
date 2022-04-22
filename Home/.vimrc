@@ -4,6 +4,7 @@ set nowrap
 set conceallevel=0
 set listchars=tab:▸\ ,eol:¬ 
 set guifont="droidsansmono nerd font 11"
+set cursorline
 colorscheme desert
 
 " For highlight
@@ -52,6 +53,12 @@ set hls
 set is
 
 au BufRead,BufNewFile .env,.env.* set filetype=config
+au BufReadPost,BufRead *.zsh,.zshrc set ft=sh
+au BufReadPost,BufRead *.fish set ft=fish
+au BufReadPost,BufRead *.conf,sxhkdrc set ft=config
+au BufNewFile,BufRead *.asm set ft=nasm
+au BufNewFile,BufRead .prettierrc set ft=json
+
 cmap w!! w !sudo tee %
 
 let mapleader = " "

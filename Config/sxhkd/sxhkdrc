@@ -52,9 +52,9 @@ super + alt + apostrophe
 super + {_,shift} + apostrophe
   useus splatmoji {type,copy}
 
-# password manager
+# polybar
 super + p
-  useus rofi-pass
+  polybar-toggle
 
 # brightness control
 XF86MonBrightness{Up,Down}

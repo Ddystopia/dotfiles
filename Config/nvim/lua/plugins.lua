@@ -398,6 +398,7 @@ return packer.startup(function()
 
       npairs.add_rule(Rule("<", ">", "typescript"))
       npairs.add_rule(Rule("<", ">", "typescriptreact"))
+      Map('i', 'х', 'х')
     end
   }
 

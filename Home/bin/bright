@@ -1,0 +1,5 @@
+#!/bin/bash
+new=${1:-1000}
+
+echo $new | sudo tee /sys/class/backlight/intel_backlight/brightness
+

@@ -24,6 +24,8 @@ settings:
         zyy: spawn mpv {url} --fs
   content.javascript.enabled:
     global: true
+  content.media.audio_capture:
+    https://discord.com: true
   content.notifications.enabled:
     https://0tvet.com: false
     https://auto.ria.com: false

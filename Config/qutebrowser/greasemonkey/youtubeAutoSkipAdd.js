@@ -9,14 +9,22 @@
 // TODO: Mutation Observer
 
 setInterval(() => {
-  const ad = document.querySelector(".ad-showing");
-  const btn = document.querySelector(
+  const ad = () => document.querySelector(".ad-showing");
+  const skipButton = document.querySelector(
     ".ytp-ad-skip-button,.videoAdUiSkipButton"
   );
 
-  if (btn) {
-    btn.click();
+  if (skipButton) {
+    skipButton.click();
   }
 
-  document.querySelector("video").playbackRate = ad ? 10 : 1;
+  if (ad()) {
+    document.querySelector("video").playbackRate = 16;
+    const canselRateInterval = setInterval(() => {
+      if (ad()) {
+        clearInterval(canselRateInterval);
+        document.querySelector("video").playbackRate = 1;
+      }
+    }, 5);
+  }
 }, 50);

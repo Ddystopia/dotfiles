@@ -11,8 +11,8 @@ plugins=(
 )
 
 setopt HIST_IGNORE_SPACE
-HISTSIZE=50000
-SAVEHIST=50000
+HISTSIZE=5000000
+SAVEHIST=5000000
 
 autoload -U compinit
 if [[ -n `find -L $ZDOTDIR -maxdepth 1 -iname '.zcompdump*' -mtime 1` ]]; then
