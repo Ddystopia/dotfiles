@@ -2,7 +2,6 @@
 from qutebrowser.config.configfiles import ConfigAPI  # noqa: F401
 from qutebrowser.config.config import ConfigContainer  # noqa: F401
 import os
-
 config: ConfigAPI = config  # type: ignore # noqa: F821
 c: ConfigContainer = c  # type: ignore # noqa: F821
 
@@ -49,7 +48,7 @@ c.auto_save.interval = 10_000
 # c.colors.webpage.darkmode.enabled = True
 # c.colors.webpage.darkmode.policy.images = "never"
 c.colors.webpage.preferred_color_scheme = "dark"
-c.colors.webpage.bg = "black"
+# c.colors.webpage.bg = "black"
 
 # Allow copy to clipboard
 c.content.javascript.can_access_clipboard = True
@@ -132,7 +131,7 @@ config.bind(
 #     mode="insert",
 # )
 
-GPG_KEY = "E1BEE8F95C1860EEFE08A587573D0829FB2A03E2"
+GPG_KEY = "F20B3D68FC307A8E42B8DE4888293A256A63358E"
 
 config.bind(
     "<Ctrl-i>", f"spawn --userscript qute-keepassxc --key {GPG_KEY}", mode="insert"

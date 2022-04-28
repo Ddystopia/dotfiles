@@ -8,9 +8,9 @@ austart sxhkd
 austart compton
 austart xfce4-power-manager 2> /dev/null
 austart copyq
-austart polybar
-sleep 0.01 ; polybar-msg hide
-# ./$XDG_CONFIG_HOME/polybar/launch.sh
+austart keepassxc
+# austart polybar 2>&1
+# tmp(){ sleep 0.05 ; polybar-msg cmd hide; bspc config bottom_padding 0; }; tmp &
 
 xset r rate 250 30
 

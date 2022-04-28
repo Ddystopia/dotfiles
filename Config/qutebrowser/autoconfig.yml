@@ -60,6 +60,7 @@ settings:
     global: system
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: true
+    https://mail.protonmail.com#mailto=%25s: true
   downloads.prevent_mixed_content:
     global: false
   scrolling.smooth:
