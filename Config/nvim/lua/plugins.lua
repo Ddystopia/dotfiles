@@ -384,7 +384,10 @@ return packer.startup(function()
 
   use {
     'tpope/vim-commentary',
-    config = function() Cmd "au FileType apache setlocal commentstring=#%s" end
+    config = function() 
+      Cmd "au FileType apache setlocal commentstring=#%s"
+      Cmd "au FileType scheme setlocal commentstring=;;%s"
+    end
   }
   use 'tpope/vim-surround'
   use 'kana/vim-repeat'
@@ -399,6 +402,9 @@ return packer.startup(function()
       npairs.add_rule(Rule("<", ">", "typescript"))
       npairs.add_rule(Rule("<", ">", "typescriptreact"))
       Map('i', 'х', 'х')
+      Map('i', 'ъ', 'ъ')
+      Map('i', 'э', 'э')
+      Map('i', 'ё', 'ё')
     end
   }
 

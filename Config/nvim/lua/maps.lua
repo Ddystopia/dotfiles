@@ -1,7 +1,7 @@
 Format = function()
   Cmd "w"
   local formatCmds = {
-    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=90',
+    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=95',
     go = 'gofmt -w',
     javascript = 'prettier -w --loglevel error',
     typescript = 'prettier -w --loglevel error',
@@ -19,9 +19,11 @@ Format = function()
     python = 'black -q'
   }
   local command = formatCmds[vim.bo.filetype] or "sed -i -e 's/\\s\\+$//'"
-  local f = io.popen(command .. ' "' .. vim.api.nvim_buf_get_name("%") .. '" 3>&1 1>&3 2>&3')
-  print(f:read('*all'))
-  f:close()
+  local f = io.popen(command .. ' "' .. vim.fn.expand("%") .. '" 3>&1 1>&3 2>&3')
+  if f then
+    print(f:read('*all'))
+    f:close()
+  end
   Cmd "let tmp = winsaveview()"
   Cmd "e!"
   Cmd "call winrestview(tmp)"
@@ -29,9 +31,7 @@ Format = function()
 end
 
 CloceBuffer = function()
-  if vim.api.nvim_buf_get_name "%" == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then
-    Cmd "q"
-  end
+  if vim.fn.expand "%" == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then Cmd "q" end
 
   if not vim.bo.readonly then Cmd "w" end
 
@@ -50,24 +50,19 @@ ToggleWrap = function()
   end
 end
 
-ToggleConceal = function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end
-
-ToggleKeyMap = function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end
-
-ToggleRelNums = function() vim.wo.relativenumber = not vim.wo.relativenumber end
-
 Cmd 'command! -nargs=* -complete=file E :silent !$TERM -e sh -c "cd `pwd`; nvim <args>"'
 
-Map('i', '<C-v>', '<C-[>"+pa')
+Map('i', '<C-v>', '<C-r>+')
 
-Map('n', '<A-l>', ':lua ToggleKeyMap()<CR>')
+Map('n', '<A-l>', function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end)
 Map('i', '<A-l>', '<C-^>')
 
-Map('n', '<leader>F', ':lua Format()<CR>')
-Map('n', '<leader>pc', ':lua ToggleConceal()<CR>')
-Map('n', '<leader>pw', ':lua ToggleWrap()<CR>')
+Map('n', '<leader>F', Format)
 
-Map('n', '<leader>pr', ':lua ToggleRelNums()<CR>')
+Map('n', '<leader>pw', ToggleWrap)
+Map('n', '<leader>pc', function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)
+
+Map('n', '<leader>pr', function() vim.wo.relativenumber = not vim.wo.relativenumber end)
 
 Map('n', '<leader>', '<nop>')
 Map('n', '<leader>y', '"+y')
@@ -86,7 +81,7 @@ Map('n', '<C-k>', '<cmd>tabp<cr>')
 Map('n', 'gF', ':e <cfile><cr>')
 
 Map('n', '<leader>w', ':w!<cr>')
-Map('n', '<leader>?', '<cmd>lua vim.opt.hls = not vim.opt.hls<cr>')
+Map('n', '<leader>?', function() vim.opt.hls = not vim.opt.hls end)
 Map('n', '<leader>/', ':nohlsearch<cr>')
 Map('n', '<leader>,', ':nohlsearch<cr>')
 Map('n', 'Q', '@q')

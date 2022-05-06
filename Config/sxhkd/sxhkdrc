@@ -243,3 +243,4 @@ super + {Left,Down,Up,Right}
 
 super + slash
 
+# vim:ft=config

@@ -1,10 +1,10 @@
 (defcfg
   ;; For Linux
   input  (device-file "/dev/input/by-id/usb-Lenovo_Lenovo_Calliope_USB_Keyboard-event-kbd")
-  output (uinput-sink "My KMonad output"
+  output (uinput-sink "KMonad output" "sleep 1; xset r rate 250 30") ;;(250,30)
     ;; To understand the importance of the following line, see the section on
     ;; Compose-key sequences at the near-bottom of this file.
-    #|"/run/current-system/sw/bin/sleep 1 && /run/current-system/sw/bin/setxkbmap -option compose:ralt"|#)
+    #|"/run/current-system/sw/bin/sleep 1 && /run/current-system/sw/bin/setxkbmap -option compose:ralt")|#
   ;; cmp-seq ralt    ;; Set the compose key to `RightAlt'
   ;; cmp-seq-delay 5 ;; 5ms delay between each compose-key sequence press
 
@@ -24,36 +24,80 @@
 
 )
 
-
 (defsrc
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  prnt KeyPause ins
-  `    1    2    3    4    5    6    7    8    9    0    -    =    bspc  KeyHome  KeyEnd
-  tab  q    w    e    r    t    y    u    i    o    p    [    ] ret     del       pgup
-  caps a    s    d    f    g    h    j    k    l    ;    '    \                   pgdn
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt cmp rctl
+  ;; esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12   ;;slck  ssrq   pause ins
+  `    1    2    3    4    5    6    7    8    9    0    -    =     ;;bspc  home   end        nlck kp/ kp* kp-
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]     ;;ret   del    pgup       kp7  kp8 kp9 kp+
+  caps a    s    d    f    g    h    j    k    l    ;    '    \     ;;             pgdn       kp4  kp5 kp6
+  lsft 102d z    x    c    v    b    n    m    ,    .    /    rsft  ;;up                      kp1  kp2 kp3 kprt
+  lctl lmet lalt           spc            ralt cmp rctl       ;;left down right               kp0      kp.
 )
 
-(defalias 
-  num (layer-toggle numbers))
+(defalias
+  def (layer-switch default)
+  van (layer-switch vanilla)
+  mod (layer-toggle mod)
+  mov (layer-toggle mov)
 
-(deflayer qwerty
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  prnt  KeyPause ins
-  `    1    2    3    4    5    6    7    8    9    0    -    =    bspc  KeyHome  KeyEnd
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    ret   del      pgup
-  caps a    s    d    f    g    h    j    k    l    ;    '    \                   pgdn
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt lmet  rctl
+  m_a (tap-hold-next-release 100 a  lsft)
+  m_s (tap-hold-next-release 100 s  lmet)
+  m_d (tap-hold-next-release 100 d  lalt)
+  m_f (tap-hold-next-release 100 f  lctl)
+
+  m_j (tap-hold-next-release 100 j  lctl)
+  m_k (tap-hold-next-release 100 k  lalt)
+  m_l (tap-hold-next-release 100 l  lmet)
+  m_; (tap-hold-next-release 100 ;  lsft)
+
+  m_! (tap-hold-next-release 100 !  lsft)
+  m_& (tap-hold-next-release 100 &  lmet)
+  m_? (tap-hold-next-release 100 ?  lalt)
+  m_( (tap-hold-next-release 100 \( lctl)
+
+  m_} (tap-hold-next-release 100 }  lctl)
+  m_= (tap-hold-next-release 100 =  lalt)
+  m__ (tap-hold-next-release 100 \_ lmet)
+  m_^ (tap-hold-next-release 100 ^  lsft)
+
+  spc (tap-next-release spc @mod)
+
+  esc (tap-next-release esc @mov)
 )
 
-
-(deflayer numbers
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    XX   /    7    8    9    -    _    _    _    _    _
-  _    _    _    _    _    XX   *    4    5    6    +    _    _              _
-  _    _    \(   \)   .    XX   0    1    2    3    _    _
-  _    _    _              _              _    _    _    _
+(deflayer default
+  ;; caps f1    f2    f3    f4    f5   f6   f7    f8    f9    f10   f11  f12   ;;slck  ssrq   pause ins
+  `     1     2     3     4     5    6    7     8     9     0     -    =     ;;bspc  home   end        nlck kp/ kp* kp-
+  tab   q     w     e     r     t    y    u     i     o     p     [    ]     ;;ret   del    pgup       kp7  kp8 kp9 kp+
+  @esc  @m_a  @m_s  @m_d  @m_f  g    h    @m_j  @m_k  @m_l  @m_; '    \      ;;             pgdn       kp4  kp5 kp6
+  lsft  a     z     x     c     v    b    n     m     ,     .     /    rsft  ;;up                      kp1  kp2 kp3 kprt
+  @mov  lmet lalt              @spc             ralt  rmet  @van      ;;left down right                kp0      kp.
 )
 
+(deflayer vanilla
+  ;; caps f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12   ;;slck  ssrq   pause ins
+  `     1    2    3    4    5    6    7    8    9    0    -    =     ;;bspc  home   end        nlck kp/ kp* kp-
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]     ;;ret   del    pgup       kp7  kp8 kp9 kp+
+  @esc  a    s    d    f    g    h    j    k    l    ;    '    \     ;;             pgdn       kp4  kp5 kp6
+  lsft  a    z    x    c    v    b    n    m    ,    .    /    rsft  ;;up                      kp1  kp2 kp3 kprt
+  lctl  lmet lalt           spc            ralt rmet @def      ;;left down right               kp0      kp.
+)
 
+(deflayer mov
+  ;; caps f1   f2   f3   f4   f5   f6   f7   f8   f9    f10  f11  f12   ;;slck  ssrq   pause ins
+  `     1    2    3    4    5    6    7    8    9     0    -    =     ;;bspc  home   end        nlck kp/ kp* kp-
+  tab   q    home end  r    t    y    u    i    o     pgup [    ]     ;;ret   del    pgup       kp7  kp8 kp9 kp+
+  @esc  @m_a @m_s @m_d @m_f g    left down up   right ;    '    \     ;;             pgdn       kp4  kp5 kp6
+  lsft  a    z    x    c    v    b    pgdn ret  ,     .    /    rsft  ;;up                      kp1  kp2 kp3 kprt
+  lctl  lmet lalt           _              ralt rmet  @van      ;;left down right               kp0      kp.
+)
+
+(deflayer mod
+  ;; caps f1   f2   f3   f4   f5   f6   f7   f8   f9    f10  f11  f12   ;;slck  ssrq   pause ins
+  caps  f1    f2    f3    f4     f5     f6     f7     f8     f9     f10    f11    f12
+  grv   @     |     3     4      `      6      7      -      9      0      -      =
+  @esc  @m_!  @m_&  @m_?  @m_(   \)     {      @m_}   @m_=   @m__   @m_^   +'     \
+  lsft  102d  $     %      \\    #      @      [      ]      +      *      |      @van
+  lctl  lmet  XX                     XX                      bspc   ralt   rctl
+)
+
+;; vim:ft=scheme

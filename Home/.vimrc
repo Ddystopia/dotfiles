@@ -4,7 +4,7 @@ set nowrap
 set conceallevel=0
 set listchars=tab:▸\ ,eol:¬ 
 set guifont="droidsansmono nerd font 11"
-set cursorline
+" set cursorline
 colorscheme desert
 
 " For highlight
@@ -88,8 +88,8 @@ function FormatFile()
   endif
 endfunction
 
-" remove ex mode
-nmap Q <nop>
+" ex mode to makros
+nmap Q @q
 
 " reload config
 nmap <leader>vr :call LoadConfig()<CR>:echo "Reloaded"<CR>
@@ -112,6 +112,16 @@ nmap <silent> <leader>w :call CloseBuffer()<CR>
 
 " Remove search
 nmap <silent> <leader>\ :noh<cr>
+nmap <silent> <leader>, :noh<cr>
 
 " Toggle visualize tabs and EOL
 nmap <leader>pl :set list!<CR>
+
+" Switch tabs
+nmap <tab> :bn<CR>
+nmap <C-H> :bn<CR>
+nmap <s-tab> :bp<CR>
+nmap <C-L> :bp<CR>
+
+
+

@@ -45,12 +45,13 @@ vim.opt.guifont="droidsansmono nerd font 11"
 
 Cmd "au BufReadPost,BufRead *.zsh,.zshrc set ft=sh"
 Cmd "au BufReadPost,BufRead *.fish set ft=fish"
-Cmd "au BufReadPost,BufRead *.conf,sxhkdrc set ft=config"
-Cmd "au BufNewFile,BufRead *.asm set ft=nasm"
-Cmd "au BufNewFile,BufRead .prettierrc set ft=json"
+Cmd "au BufReadPost,BufRead *.conf set ft=config"
+Cmd "au BufReadPost,BufRead *.asm set ft=nasm"
+Cmd "au BufReadPost,BufRead .prettierrc set ft=json"
+Cmd "au BufReadPost,BufRead *.rkt,*.rktl,*.rktd set filetype=scheme"
 
 Cmd "command! W :w!"
-Cmd "au BufNewFile,BufRead * hi clear TODO"
+Cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
 
 require "plugins"
 require "maps"
