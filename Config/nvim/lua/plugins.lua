@@ -46,9 +46,7 @@ return packer.startup(function()
         -- nvim-cmp setup
         local cmp = require 'cmp'
         cmp.setup {
-          snippet = { expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-          end },
+          snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end },
           mapping = {
             ['<C-p>'] = cmp.mapping.select_prev_item(),
             ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -131,8 +129,8 @@ return packer.startup(function()
         end
       end
       local servers = {
-        "bashls", "vimls", "vuels", "tsserver", "yamlls", "jsonls", "cmake", "gopls",
-        "cssls", "rust_analyzer", "pyright"
+        "bashls", "vimls", "vuels", "tsserver", "yamlls", "jsonls", "cmake", "gopls", "cssls",
+        "rust_analyzer", "pyright"
       }
       for _, lsp in ipairs(servers) do nvim_lsp[lsp].setup { on_attach = on_attach } end
 
@@ -384,7 +382,7 @@ return packer.startup(function()
 
   use {
     'tpope/vim-commentary',
-    config = function() 
+    config = function()
       Cmd "au FileType apache setlocal commentstring=#%s"
       Cmd "au FileType scheme setlocal commentstring=;;%s"
     end
@@ -405,6 +403,10 @@ return packer.startup(function()
       Map('i', 'ъ', 'ъ')
       Map('i', 'э', 'э')
       Map('i', 'ё', 'ё')
+      Map('i', 'Х', 'Х')
+      Map('i', 'Ъ', 'Ъ')
+      Map('i', 'Э', 'Э')
+      Map('i', 'Ё', 'Ё')
     end
   }
 
@@ -490,11 +492,7 @@ return packer.startup(function()
 
         incremental_selection = {
           enable = true,
-          keymaps = {
-            init_selection = 'gn',
-            node_incremental = 'gn',
-            node_decremental = 'gr'
-          }
+          keymaps = { init_selection = 'gn', node_incremental = 'gn', node_decremental = 'gr' }
         },
 
         indent = { enable = true },
@@ -572,6 +570,9 @@ return packer.startup(function()
       }
     end
   }
+
+  -- edit encrypted files
+  use 'jamessan/vim-gnupg'
 
   -- use {
   --   'andweeb/presence.nvim',

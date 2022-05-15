@@ -19,11 +19,11 @@ setInterval(() => {
   }
 
   if (ad()) {
-    document.querySelector("video").playbackRate = 16;
+    document.querySelectorAll("video").forEach((v) => (v.playbackRate = 16));
     const canselRateInterval = setInterval(() => {
       if (ad()) {
         clearInterval(canselRateInterval);
-        document.querySelector("video").playbackRate = 1;
+        document.querySelectorAll("video").forEach((v) => (v.playbackRate = 1));
       }
     }, 5);
   }

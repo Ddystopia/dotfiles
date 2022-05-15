@@ -25,7 +25,9 @@ settings:
   content.javascript.enabled:
     global: true
   content.media.audio_capture:
+    file://: true
     https://discord.com: true
+    https://www.speechandhearing.net: true
   content.notifications.enabled:
     https://0tvet.com: false
     https://auto.ria.com: false
