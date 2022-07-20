@@ -6,6 +6,7 @@
 // ==/UserScript==
 
 (() => {
+  return
   const newNavigator = {
     platform: () => "Windows 10 NT",
     oscpu: () => "Windows 10 NT",

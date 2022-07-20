@@ -171,7 +171,14 @@ return packer.startup(function()
         library = { vimruntime = false },
         lspconfig = {
           cmd = { "lua-language-server" },
-          on_attach = on_attach
+          on_attach = on_attach,
+          settings = {
+            Lua = {
+              diagnostics = {
+                globals = { 'vim' }
+              }
+            }
+          }
           -- nma
         }
       })

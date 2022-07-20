@@ -9,6 +9,7 @@ alias rm="rm -rf"
 alias pacman="sudo pacman"
 alias zathura="zathura --mode fullscreen"
 alias nv="nvim"
+alias ip='ip --color=auto'
 alias myip='curl -Z ifconfig.me; echo ""' 
 alias myip4='dig @resolver4.opendns.com myip.opendns.com +short -4'
 alias myip6='dig @ns1.google.com TXT o-o.myaddr.l.google.com +short -6'
