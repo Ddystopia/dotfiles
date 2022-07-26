@@ -18,7 +18,9 @@ ctrl + alt + t
   filter-errors $TERM xlib
 
 # switch layout
-super + space switch-layout
+super + space
+  switch-layout
+
 #super + alt + space
 #  xkb-switch -s ua
 
@@ -50,9 +52,9 @@ super + alt + apostrophe
 super + {_,shift} + apostrophe
   useus splatmoji {type,copy}
 
-# toggle bar
+# polybar
 super + p
-	dwmc togglebar
+  polybar-toggle
 
 # brightness control
 XF86MonBrightness{Up,Down}

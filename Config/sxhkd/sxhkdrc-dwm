@@ -7,18 +7,20 @@ super + alt + space
   xsel -p | xsel -b
 
 # close/kill window
-super + {_,ctrl} + c
-  xdo {close,kill}
+# super + {_,ctrl} + c
+#   xdo {close,kill}
 
 # start a terminal
-super + Return
-  filter-errors $TERM xlib
+# super + Return
+#   filter-errors $TERM xlib
 
 ctrl + alt + t
   filter-errors $TERM xlib
 
 # switch layout
-super + space switch-layout
+super + space
+  switch-layout
+
 #super + alt + space
 #  xkb-switch -s ua
 
@@ -31,8 +33,8 @@ super + n
   nitrogen --random --set-zoom-fill $WALLPAPERS_DIR
 
 # run rofi
-super + d
-  useus rofi -show-icons -modi run,drun -show drun
+# super + d
+  # useus rofi -show-icons -modi run,drun -show drun
 
 # browse config files
 # super + g
@@ -52,7 +54,7 @@ super + {_,shift} + apostrophe
 
 # toggle bar
 super + p
-	dwmc togglebar
+  dwmc togglebar
 
 # brightness control
 XF86MonBrightness{Up,Down}
@@ -180,8 +182,11 @@ super + ctrl + {m,x,y,z}
 	bspc node -g {marked,locked,sticky,private}
 
 # focus/swap next/prev node
-super + {_,shift + }{j,k}
-	bspc node -{f,s} {next,prev}.local.!hidden.window
+super + {k,j}
+	dwmc focusstack {-,+}1
+
+super + shift + {k,j}
+	dwmc movestack {-,+}1
 
 # focus the next/previous desktop in the current monitor
 super + {comma,period}
@@ -195,13 +200,19 @@ super + shift + {comma,period}
 super + {h,l}
 	bspc desktop -f {prev,next}.local.occupied
 
+super + l
+  dwmc view
+
 # move to next/previous occupied desktop with current node
 super + shift + {h,l}
 	id=$(bspc query -N -n); bspc node -d {prev,next}.local.occupied; bspc node -f ${id}
 
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+# super + {_,shift + }{1-9,0}
+	# bspc {desktop -f,node -d} '^{1-9,10}'
+
+# super + {1-9}
+#   dwmc view $(({1-9} - 1))
 
 super + minus
   bspc desktop -f last

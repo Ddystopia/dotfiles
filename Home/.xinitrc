@@ -1,12 +1,13 @@
 #!/bin/bash
 #
 # ~/.xinitrc
-# my injection begin
-sxhkd &
-exec bspwm
-# my injection end
 #
 # Executed by startx (run your window manager from here)
+
+sxhkd &
+# exec bspwm
+exec dwm
+echo "lala" > "HERE.md"
 
 userresources=$HOME/.Xresources
 usermodmap=$HOME/.Xmodmap
@@ -14,6 +15,16 @@ sysresources=/etc/X11/xinit/.Xresources
 sysmodmap=/etc/X11/xinit/.Xmodmap
 
 SESSION=${1:-bspwm}
+
+case $session in
+    i3|i3wm           ) exec i3;;
+    kde               ) exec startplasma-x11;;
+    xfce|xfce4        ) exec startxfce4;;
+    bspwm             ) sxhkd &; exec bspwm;; 
+    dwm               ) exec dwm;;
+    # No known session, try to run it as command
+    *                 ) exec $1;;
+esac
 
 # merge in defaults and keymaps
 

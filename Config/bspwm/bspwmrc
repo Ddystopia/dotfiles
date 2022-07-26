@@ -4,7 +4,7 @@
 export BSPWM_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/bspwm"
 export GOLDEN_RATIO=0.6180339887498948
 
-austart sxhkd
+austart sxhkd -c $XDG_CONFIG_HOME/sxhkd/sxhkdrc-bspwm
 austart compton
 austart xfce4-power-manager 2> /dev/null
 austart copyq
@@ -15,12 +15,12 @@ austart keepassxc
 xset r rate 250 30
 
 # add background
-austart bgInterval
+austart background-interval
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
 bspc config border_width         0
-bspc config window_gap           16 
+bspc config window_gap           16
 
 bspc config split_ratio                 $GOLDEN_RATIO
 bspc config borderless_monocle          true

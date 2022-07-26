@@ -1,0 +1,71 @@
+#!/bin/bash
+
+trap "pkill -9 -P $$; echo -e ""; exit 0" INT
+# gdb --batch-silent -ex "attach $$" -ex 'set bind_variable("dte", "$dte", 0)'
+
+tmpl_path=/tmp/bar-status
+
+metrics=()
+
+add_to_bar() {
+  fn=$1
+  emoji=$2
+  interval=$3
+  name=${4:-$1}
+
+  metrics+=("$name")
+
+  while true; do
+    value=$($fn)
+    if [[ -n $value ]]; then
+      echo $emoji $value > $tmpl_path.$name
+    fi
+
+    sleep $interval
+  done &
+}
+
+dte() { echo $(date +"%A, %B %d %H:%M:%S"); }
+upd() { echo ""; exit 0; echo $(checkupdates | wc -l); }
+mem() { echo $(free -h | awk '/Mem/ {printf "%s/%s\n", $3, $2}'); }
+cpu() {
+  read cpu a b c previdle rest < /proc/stat
+  prevtotal=$((a+b+c+previdle))
+  sleep 0.5
+  read cpu a b c idle rest < /proc/stat
+  total=$((a+b+c+idle))
+
+  echo "$((100 * (($total - $prevtotal) - ($idle - $previdle))/($total - $prevtotal) ))% cpu"
+}
+blp() { echo $(bluetoothctl info | grep "Battery Percentage" | sed 's/.*(\([^)]*\)).*/\1/g'); }
+
+add_to_bar cpu "💻️"   0.00  # sleeps while evaluating
+add_to_bar blp "🎧⚡️" 1.00
+add_to_bar upd ""     60.0
+add_to_bar mem "📝"   1.00
+add_to_bar dte "🕒️"   0.60
+
+# wait for first part of data
+sleep 0.01
+
+while true; do
+  line=""
+
+  for metric in "${metrics[@]}"; do
+    value=$(cat $tmpl_path.$metric 2> /dev/null)
+    if [[ -n $value ]]; then
+      line+=$value
+      line+=" | "
+    fi
+  done
+
+  if (( $(echo $line | wc -c) >= 3 )); then
+    line=${line:0:-3}
+  fi
+
+  xsetroot -name "$line"
+
+  sleep 0.19
+done
+
+

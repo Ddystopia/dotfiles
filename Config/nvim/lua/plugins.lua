@@ -141,6 +141,7 @@ return packer.startup(function()
       })
 
       nvim_lsp.ccls.setup {
+        on_attach = on_attach,
         cmd = { "ccls" },
         filetypes = { "c", "cpp", "objc", "objcpp" },
         single_file_support = false,
