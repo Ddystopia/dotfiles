@@ -41,7 +41,7 @@ blp() { echo $(bluetoothctl info | grep "Battery Percentage" | sed 's/.*(\([^)]*
 
 add_to_bar cpu "💻️"   0.00  # sleeps while evaluating
 add_to_bar blp "🎧⚡️" 1.00
-add_to_bar upd ""     60.0
+add_to_bar upd "🔁"   60.0
 add_to_bar mem "📝"   1.00
 add_to_bar dte "🕒️"   0.60
 

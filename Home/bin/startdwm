@@ -1,8 +1,6 @@
 #!/bin/bash
 
 while true; do
-    # Log stderror to a file 
-    dwm 2>> ~/.xsession-errors
-    # No error logging
-    # dwm >/dev/null 2>&1
+  dwm 2> ~/.xsession-errors
+  sleep 0.01
 done

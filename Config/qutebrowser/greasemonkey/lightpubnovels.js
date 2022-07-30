@@ -7,9 +7,9 @@
 
 (() => {
   document.body.innerHTML = document.body.innerHTML
-    .replace(/<\/p><p>(?![^\w\d\s])/g, "")
-    .replaceAll(String.fromCharCode(0x200c), "")
-    .replace(/<p><\/p>/g, "");
+    .replaceAll(String.fromCharCode(0x200c), "");
+    // .replace(/<\/p><p>(?![^\w\d\s])/g, "")
+    // .replace(/<p><\/p>/g, "");
 
 
   document.querySelectorAll(".desk-sml").forEach((e) => e.remove());

@@ -1,3 +1,6 @@
+# shopt -s autocd
+
+set -o vi
 ZSH_THEME="pi"
 plugins=(
   fast-syntax-highlighting \
