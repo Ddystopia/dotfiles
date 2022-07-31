@@ -1,33 +1,31 @@
 #!/bin/bash
 
 trap "pkill -9 -P $$; echo -e ""; exit 0" INT
-# gdb --batch-silent -ex "attach $$" -ex 'set bind_variable("dte", "$dte", 0)'
 
-tmpl_path=/tmp/bar-status
+template_path=/tmp/barstatus
 
 metrics=()
 
 add_to_bar() {
   fn=$1
-  emoji=$2
-  interval=$3
-  name=${4:-$1}
+  interval=$2
+  name=${3:-$1}
 
+  printf "barstatus $name" > /proc/$$/comm
   metrics+=("$name")
 
   while true; do
     value=$($fn)
-    if [[ -n $value ]]; then
-      echo $emoji $value > $tmpl_path.$name
-    fi
+    echo $value > $template_path.$name
 
     sleep $interval
   done &
 }
 
-dte() { echo $(date +"%A, %B %d %H:%M:%S"); }
-upd() { echo ""; exit 0; echo $(checkupdates | wc -l); }
-mem() { echo $(free -h | awk '/Mem/ {printf "%s/%s\n", $3, $2}'); }
+# define metrics functions
+dte() { echo "🕒️" $(date +"%A, %B %d %H:%M:%S"); }
+mem() { echo "📝" $(free -h | awk '/Mem/ {printf "%s/%s\n", $3, $2}'); }
+lyt() { echo "🌍" $(xkb-switch); }
 cpu() {
   read cpu a b c previdle rest < /proc/stat
   prevtotal=$((a+b+c+previdle))
@@ -35,15 +33,37 @@ cpu() {
   read cpu a b c idle rest < /proc/stat
   total=$((a+b+c+idle))
 
-  echo "$((100 * (($total - $prevtotal) - ($idle - $previdle))/($total - $prevtotal) ))% cpu"
+  echo "💻️" "$((100 * (($total - $prevtotal) - ($idle - $previdle))/($total - $prevtotal) ))% cpu"
 }
-blp() { echo $(bluetoothctl info | grep "Battery Percentage" | sed 's/.*(\([^)]*\)).*/\1/g'); }
+blp() {
+  percentage=$(bluetoothctl info | grep "Battery Percentage" | sed 's/.*(\([^)]*\)).*/\1/g')
+  if [[ -n $percentage ]]; then
+    echo "🎧⚡️" $percentage%
+  fi
+}
+upd() {
+  updates=$(checkupdates 2> /dev/null)
+  emoji="🔁"
 
-add_to_bar cpu "💻️"   0.00  # sleeps while evaluating
-add_to_bar blp "🎧⚡️" 1.00
-add_to_bar upd "🔁"   60.0
-add_to_bar mem "📝"   1.00
-add_to_bar dte "🕒️"   0.60
+  if [[ "$updates" =~ "linux" ]]; then
+    emoji+="!"
+  fi
+
+  if (( $(echo "$updates" | wc -w) > 0)); then
+    echo $emoji $(echo "$updates" | wc -l)
+  fi
+}
+
+# add metrics to the bar
+add_to_bar cpu 0.00  # sleeps while evaluating
+add_to_bar blp 1.00
+add_to_bar lyt 0.09
+add_to_bar upd 60.0
+add_to_bar mem 1.00
+add_to_bar dte 0.10
+
+# name process
+printf "barstatus" > /proc/$$/comm
 
 # wait for first part of data
 sleep 0.01
@@ -52,7 +72,7 @@ while true; do
   line=""
 
   for metric in "${metrics[@]}"; do
-    value=$(cat $tmpl_path.$metric 2> /dev/null)
+    value=$(cat $template_path.$metric 2> /dev/null)
     if [[ -n $value ]]; then
       line+=$value
       line+=" | "
@@ -66,6 +86,6 @@ while true; do
   xsetroot -name "$line"
 
   sleep 0.19
-done
 
+done
 

@@ -10,6 +10,8 @@
 
 # pv
 
+# gdb --batch-silent -ex "attach $$" -ex 'set bind_variable("dte", "$dte", 0)'
+
 # Write iso
 # sudo dd bs=4M if=~/Downloads/manjaro.iso of=/dev/sdg status=progress oflag=sync
 
