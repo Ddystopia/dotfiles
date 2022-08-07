@@ -91,6 +91,8 @@ Map('n', '<leader>cp', ':let @+ = expand("%:p:h")<cr>')
 Map('c', 'w!!', '!sudo tee %')
 Map('n', '>', '>>')
 Map('n', '<', '<<')
+Map('n', '$', 'g_')
+Map('v', '$', 'g_')
 
 Map('n', '<leader>vv', ':e $MYVIMRC<cr>')
 Map('n', '<leader>vr', ':source $MYVIMRC<cr>:echo "Reloaded"<cr>')
