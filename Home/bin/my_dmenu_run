@@ -1,0 +1,3 @@
+#!/bin/bash
+
+useus "dmenu_path | dmenu $*" | ${SHELL:-"/bin/sh"}

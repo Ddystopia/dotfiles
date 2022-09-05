@@ -13,7 +13,9 @@ plugins=(
   spectrum \
 )
 
+setopt interactivecomments
 setopt HIST_IGNORE_SPACE
+
 HISTSIZE=5000000
 SAVEHIST=5000000
 

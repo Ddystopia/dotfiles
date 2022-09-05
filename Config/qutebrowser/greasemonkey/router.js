@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         YouTube Auto Skip Ads
+// @name         Router Hack
 // @version      1.0.1
-// @description  Skip YouTube ads automatically
+// @description  Router Hack
 // @author       Ddystopia
 // @match        *://192.168.1.1/*
 // ==/UserScript==

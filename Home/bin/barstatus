@@ -35,6 +35,37 @@ cpu() {
 
   echo "💻️" "$((100 * (($total - $prevtotal) - ($idle - $previdle))/($total - $prevtotal) ))% cpu"
 }
+net() {
+  numfmt() {
+    local i=$(printf "%d" ${1:-0}) d="" s=0 l=3
+    S=("B" "KiB" "MiB" "GiB" "TiB" "PiB" "EiB" "YiB" "ZiB")
+    while ((i > 1024 && s < ${#S[@]}-1)); do
+      printf -v d "%02d" $((i % 1024 * 100 / 1024))
+      i=$((i / 1024))
+      s=$((s + 1))
+    done
+    d=$(head -c $(($l - ${#i})) <<< $d)
+    if (( ${#d} > 0 )); then
+      x="$i.$d"
+    else
+      x="$i"
+    fi
+    echo "$x${S[$s]}"
+  }
+  iface=$(ip addr | awk '/state UP/ {print $2}' | sed 's/.$//')
+  d_path="/sys/class/net/$iface/statistics/rx_bytes"
+  u_path="/sys/class/net/$iface/statistics/tx_bytes"
+  delta=2
+
+  read pd pu <<< "$(cat $d_path) $(cat $u_path)"
+  sleep $delta
+  read nd nu <<< "$(cat $d_path) $(cat $u_path)"
+
+  d=$( numfmt $(( ($nd - $pd) / $delta )) )
+  u=$( numfmt $(( ($nu - $pu) / $delta )) )
+
+  echo "🔽$d/s 🔼$u/s"
+}
 blp() {
   percentage=$(bluetoothctl info | grep "Battery Percentage" | sed 's/.*(\([^)]*\)).*/\1/g')
   if [[ -n $percentage ]]; then
@@ -56,6 +87,7 @@ upd() {
 
 # add metrics to the bar
 add_to_bar cpu 0.00  # sleeps while evaluating
+add_to_bar net 0.00  # sleeps while evaluating
 add_to_bar blp 1.00
 add_to_bar lyt 0.09
 add_to_bar upd 60.0

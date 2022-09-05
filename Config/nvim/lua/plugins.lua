@@ -19,6 +19,8 @@ return packer.startup(function()
       Cmd('hi CursorLine guibg=#21222C')
       Cmd('hi CursorLineNr guifg=#F1FA8C guibg=#21222C gui=none')
       Cmd('hi IndentLine guifg=#44475a')
+      -- to solve bug with multiple `:colorscheme dracula`
+      Cmd('runtime after/plugin/dracula.vim')
     end
   }
 

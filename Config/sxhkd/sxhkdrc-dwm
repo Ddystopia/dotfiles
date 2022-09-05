@@ -1,4 +1,3 @@
-# show sxhkd keybindings
 # super + F1
 #   useus $SCRIPT_DIR/rofi/sxhkd
 
@@ -237,10 +236,10 @@ super + ctrl + shift + backslash
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 # resize node
-super + alt + {h,j,k,l}
-  STEP=20; SELECTION={1,2,3,4}; \
-  bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
-  bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
+# super + alt + {h,j,k,l}
+#   STEP=20; SELECTION={1,2,3,4}; \
+#   bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
+#   bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
 
 super + alt + {h,l}
 	dwmc setmfact {-,+}0.05

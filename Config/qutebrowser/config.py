@@ -111,11 +111,11 @@ c.bindings.key_mappings = {
 # fmt: on
 
 # Bindings for normal mode
-config.bind("zyf", "hint links spawn -d mpv --keep-open=yes {hint-url} --fs")
-config.bind("zyy", "spawn -d mpv {url} --fs")
-config.bind("zysy", "spawn -d mpv --shuffle {url} --fs")
-config.bind("zya", "spawn -d alacritty -e mpv --no-video {url} --fs")
-config.bind("zysa", "spawn -d alacritty -e mpv --shuffle --no-video {url} --fs")
+config.bind("zyf", "hint links spawn -d mpv --keep-open=yes {hint-url}")
+config.bind("zyy", "spawn -d mpv {url}")
+config.bind("zysy", "spawn -d mpv --shuffle {url}")
+config.bind("zya", "spawn -d alacritty -e mpv --no-video {url}")
+config.bind("zysa", "spawn -d alacritty -e mpv --shuffle --no-video {url}")
 # config.bind("zyY", "spawn -d mpv --ytdl-format= {url} --fs")
 
 config.unbind(".")
