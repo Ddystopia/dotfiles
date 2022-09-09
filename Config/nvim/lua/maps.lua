@@ -11,9 +11,7 @@ Format = function()
     xml = 'prettier -w --loglevel error',
     json = 'prettier -w --loglevel error',
     css = 'prettier -w --loglevel error',
-    scss = 'prettier -w --loglevel error',
-    cmake = 'cmake-format -i',
-    c = 'clang-format -style=file -i',
+    scss = 'prettier -w --loglevel error', cmake = 'cmake-format -i', c = 'clang-format -style=file -i',
     cpp = 'clang-format -style=file -i',
     markdown = 'prettier -w --prose-wrap always --loglevel error',
     python = 'black -q'
@@ -58,6 +56,7 @@ Map('n', '<A-l>', function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end
 Map('i', '<A-l>', '<C-^>')
 
 Map('n', '<leader>F', Format)
+Map('v', '<leader>c', "!column -t -s= -o=<cr>")
 
 Map('n', '<leader>pw', ToggleWrap)
 Map('n', '<leader>pc', function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)

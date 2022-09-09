@@ -22,11 +22,12 @@
 # su -c "echo 1 > /proc/sys/kernel/sysrq"
 
 dependencies=(
+  # "pandoc"
   "copyq" "python-pip" "noto-fonts-emoji" "flameshot" "zsh" "xfce4-power-manager"
   "ffmpeg" "bpytop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
   "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "inetutils"
   "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "nitrogen" "filelight" "zathura"
-  "thefuck" "neofetch" "cowsay" "pandoc" "pulsemixer" "ueberzug" "highlight"
+  "thefuck" "neofetch" "cowsay" "pulsemixer" "ueberzug" "highlight"
   "typescript" "racket" "foliate" "discord" "nodejs" "npm" "dino" "zathura-pdf-mupdf"
   "python" "python3" "vscode" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"
   "tor" "thunar" "git" "alacritty" "ranger" "gvfs" "gvfs-mtp" "unrar" "rsync"

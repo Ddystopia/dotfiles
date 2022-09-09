@@ -69,7 +69,7 @@ c.logging.level.console = "critical"
 c.content.webrtc_ip_handling_policy = "disable-non-proxied-udp"
 
 # Spell check
-c.spellcheck.languages = ['en-US', 'ru-RU', 'sk-SK']
+c.spellcheck.languages = ['en-US', 'ru-RU', 'uk-UA',  'sk-SK']
 
 # Search engines
 c.url.searchengines = {

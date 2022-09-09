@@ -256,7 +256,7 @@ return packer.startup(function()
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       local function keymap()
-        local handle = io.popen('xkb-switch -p')
+        local handle = io.popen('xkb-switch -p 2> /dev/null')
         local result = handle:read('*l')
         handle:close()
         return '[[' .. result .. ']]'
