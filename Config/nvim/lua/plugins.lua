@@ -7,8 +7,22 @@ local packer = require('packer')
 return packer.startup(function()
   local use = packer.use
 
+  -- startup and sturtuptime
   use 'dstein64/vim-startuptime'
 
+  use {
+    'mhinz/vim-startify',
+    config = function()
+      vim.g.startify_lists = {
+        { type = 'dir', header = { "MRU [" .. vim.fn.getcwd() .. "]" } },
+        { type = 'files', header = { "MRU [global]" } }
+      }
+      vim.g.startify_fortune_use_unicode = 1
+      -- vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
+    end
+  }
+
+  -- actuall packer
   use { 'wbthomason/packer.nvim', opt = true }
 
   -- theme
@@ -24,6 +38,7 @@ return packer.startup(function()
     end
   }
 
+  -- lsp config
   use {
     'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
     config = function()
@@ -38,8 +53,6 @@ return packer.startup(function()
         --   hi_parameter = "Todo",
         --   handler_opts = { border = "none" }
         -- })
-        -- -- -- luasnip setup
-        -- local luasnip = require 'luasnip'
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
@@ -83,20 +96,18 @@ return packer.startup(function()
           sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } }
         }
 
-        --         vim.opt.completeopt = "menuone,noinsert,noselect"
-        --         vim.g.completion_enable_auto_signature = 0
-        --         vim.g.completion_enable_auto_popup = 0
+        -- vim.opt.completeopt = "menuone,noinsert,noselect"
+        -- vim.g.completion_enable_auto_signature = 0
+        -- vim.g.completion_enable_auto_popup = 0
         -- Cmd('imap <s-tab> <Plug>(completion_smart_s_tab)')
         -- Map('i', '<tab>', 'cmp.mapping.complete')
         -- Cmd('imap <c-space> <Plug>(completion_trigger)')
-        --         vim.g.completion_matching_smart_case = 1
-        --         vim.g.completion_matching_strategy_list = {
-        --           'exact', 'substring', 'fuzzy', 'all'
-        --         }
+        -- vim.g.completion_matching_smart_case = 1
+        -- vim.g.completion_matching_strategy_list = { 'exact', 'substring', 'fuzzy', 'all' }
 
-        --         vim.g.completion_confirm_key = ''
+        -- vim.g.completion_confirm_key = ''
 
-        --         require('completion').on_attach()
+        -- require('completion').on_attach()
 
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -175,13 +186,7 @@ return packer.startup(function()
         lspconfig = {
           cmd = { "lua-language-server" },
           on_attach = on_attach,
-          settings = {
-            Lua = {
-              diagnostics = {
-                globals = { 'vim' }
-              }
-            }
-          }
+          settings = { Lua = { diagnostics = { globals = { 'vim' } } } }
           -- nma
         }
       })
@@ -286,6 +291,7 @@ return packer.startup(function()
       }
     end
   }
+  -- bar at the top
   use {
     'akinsho/nvim-bufferline.lua',
     requires = 'kyazdani42/nvim-web-devicons',
@@ -307,6 +313,7 @@ return packer.startup(function()
       Map('n', 'gb', ':lua require("bufferline").pick_buffer()<CR>')
     end
   }
+  -- xkbswitch
   use {
     'lyokha/vim-xkbswitch',
     config = function()
@@ -314,6 +321,7 @@ return packer.startup(function()
       vim.g.XkbSwitchIMappings = { 'ru' }
     end
   }
+  -- indent blankline
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
@@ -325,6 +333,7 @@ return packer.startup(function()
       vim.g.indent_blankline_filetype_exclude = { 'markdown', 'tex', 'startify' }
     end
   }
+  -- highlights yank
   use {
     'machakann/vim-highlightedyank',
     config = function() vim.g.highlightedyank_highlight_duration = 250 end
@@ -342,18 +351,6 @@ return packer.startup(function()
   -- use { 'NFrid/due.nvim', config = function() require('due_nvim').setup {} end }
 
   use {
-    'mhinz/vim-startify',
-    config = function()
-      vim.g.startify_lists = {
-        { type = 'dir', header = { "MRU [" .. vim.fn.getcwd() .. "]" } },
-        { type = 'files', header = { "MRU [global]" } }
-      }
-      vim.g.startify_fortune_use_unicode = 1
-      -- vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
-    end
-  }
-
-  use {
     'plasticboy/vim-markdown',
     config = function()
       vim.g.vim_markdown_toc_autofit = 1
@@ -362,7 +359,30 @@ return packer.startup(function()
       vim.g.vim_markdown_new_list_item_indent = 2
     end
   }
-  -- use 'lervag/vimtex'
+  use {
+    'lervag/vimtex',
+    config = function()
+      Map('n', '<leader>vp', ':VimtexCompile<cr>')
+
+
+      Cmd "filetype plugin indent on"
+      Cmd "syntax enable"
+
+      vim.g.tex_flavor = 'latex'
+      vim.g.vimtex_quickfix_mode = 0
+      -- vim.opt.conceallevel=1
+      vim.g.tex_conceal = 'abdmg'
+      vim.g.vimtex_view_method = 'zathura'
+
+      vim.g.vimtex_view_general_viewer = 'okular'
+      vim.g.vimtex_view_general_options = '--unique file:@pdf\\#src:@line@tex'
+
+      vim.g.vimtex_compiler_method = 'latexrun'
+
+      vim.g.maplocalleader = ","
+    end
+  }
+  use 'KeitaNakamura/tex-conceal.vim'
 
   -- use {
   --   'nvim-telescope/telescope.nvim',
@@ -554,7 +574,7 @@ return packer.startup(function()
   }
   use 'p00f/nvim-ts-rainbow'
   -- use 'JoosepAlviste/nvim-ts-context-commentstring'
-  use "windwp/nvim-ts-autotag"
+  use 'jiangmiao/auto-pairs'
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use 'RRethy/nvim-treesitter-textsubjects'
   -- use 'romgrk/nvim-treesitter-context'

@@ -59,7 +59,7 @@ Map('n', '<leader>F', Format)
 Map('v', '<leader>c', "!column -t -s= -o=<cr>")
 
 Map('n', '<leader>pw', ToggleWrap)
-Map('n', '<leader>pc', function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)
+Map('n', '<leader>sc', function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)
 
 Map('n', '<leader>pr', function() vim.wo.relativenumber = not vim.wo.relativenumber end)
 
@@ -92,12 +92,12 @@ Map('n', '>', '>>')
 Map('n', '<', '<<')
 Map('n', '$', 'g_')
 Map('v', '$', 'g_')
-
 Map('n', '<leader>vv', ':e $MYVIMRC<cr>')
 Map('n', '<leader>vr', ':source $MYVIMRC<cr>:echo "Reloaded"<cr>')
 
 Map('n', '<leader>ps', ':set spell!<cr>')
-Map('n', '<leader>pl', ':set list!<cr>')
+Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')
+Map('n', '<leader>pa', ':set list!<cr>')
 
 if vim.env.TMUX == nil then Map('n', '<A-a>', ':silent !$TERM & disown<cr>') end
 

@@ -20,6 +20,7 @@ vim.opt.clipboard = 'unnamed'
 
 vim.opt.spell = false
 vim.opt.spelllang = 'en_us,ru_yo'
+vim.opt.spellsuggest="best,9"
 vim.opt.iminsert = 0
 vim.opt.imsearch = -1
 -- vim.opt.keymap = 'russian-jcukenwin'
