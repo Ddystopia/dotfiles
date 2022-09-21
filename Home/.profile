@@ -1,11 +1,11 @@
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -le 3 ]; then
+if [[ -z "${DISPLAY}" ]] && [[ "${XDG_VTNR}" -le 3 ]] && command -v startx; then
   exec startx ~/.xinitrc dwm
 fi
 
 # custom
-[ -z ${XDG_CONFIG_HOME} ] && export XDG_CONFIG_HOME="$HOME/.config"
-[ -z ${XDG_CACHE_HOME} ] && export XDG_CACHE_HOME="$HOME/.cache"
-[ -z ${XDG_DATA_HOME} ] && export XDG_DATA_HOME="$HOME/.local/share"
+[[ -z ${XDG_CONFIG_HOME} ]] && export XDG_CONFIG_HOME="$HOME/.config"
+[[ -z ${XDG_CACHE_HOME} ]] && export XDG_CACHE_HOME="$HOME/.cache"
+[[ -z ${XDG_DATA_HOME} ]] && export XDG_DATA_HOME="$HOME/.local/share"
 
 export PATH="/home/ddystopia/.local/bin:/home/ddystopia/bin:$PATH"
 export EDITOR=/usr/bin/nvim
