@@ -67,7 +67,7 @@ return packer.startup(function()
             ['<C-n>'] = cmp.mapping.select_next_item(),
             ['<C-d>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
+            ['<C-Space>'] = cmp.mapping.complete(cmp.complete()),
             ['<C-e>'] = cmp.mapping.close(),
             ['<CR>'] = cmp.mapping.confirm {
               behavior = cmp.ConfirmBehavior.Replace,
@@ -262,6 +262,7 @@ return packer.startup(function()
     config = function()
       local function keymap()
         local handle = io.popen('xkb-switch -p 2> /dev/null')
+        if (handle == nil) then return '[[xx]]' end
         local result = handle:read('*l')
         handle:close()
         return '[[' .. result .. ']]'
@@ -294,23 +295,29 @@ return packer.startup(function()
   -- bar at the top
   use {
     'akinsho/nvim-bufferline.lua',
+    tag = 'v2.*',
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       local b = require("bufferline")
       b.setup {
         options = {
           --      mappings = false,
-          diagnostics = "nvim_diagnostic",
+          diagnostics = "nvim_lsp",
+          show_buffer_icons = true,
           show_buffer_close_icons = false,
-          always_show_bufferline = false
+          show_close_icon = false,
+          always_show_bufferline = true
         },
-        highlights = { fill = { guibg = '#21222C' }, buffer_selected = { gui = 'bold' } }
+        highlights = {
+          fill = { bg = '#21222C' },
+          buffer_selected = { bold = true, italic = false }
+        }
       }
-      Map('n', '<C-h>', ':lua require("bufferline").cycle(-1)<CR>')
-      Map('n', '<C-l>', ':lua require("bufferline").cycle(1)<CR>')
-      Map('n', 'H', ':lua require("bufferline").move(-1)<CR>')
-      Map('n', 'L', ':lua require("bufferline").move(1)<CR>')
-      Map('n', 'gb', ':lua require("bufferline").pick_buffer()<CR>')
+      Map('n', '<C-h>', function() require("bufferline").cycle(-1) end)
+      Map('n', '<C-l>', function() require("bufferline").cycle(1) end)
+      Map('n', 'H', function() require("bufferline").move(-1) end)
+      Map('n', 'L', function() require("bufferline").move(1) end)
+      Map('n', 'gb', function() require("bufferline").pick_buffer() end)
     end
   }
   -- xkbswitch
@@ -363,7 +370,6 @@ return packer.startup(function()
     'lervag/vimtex',
     config = function()
       Map('n', '<leader>vp', ':VimtexCompile<cr>')
-
 
       Cmd "filetype plugin indent on"
       Cmd "syntax enable"
