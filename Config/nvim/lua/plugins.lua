@@ -258,7 +258,7 @@ return packer.startup(function()
   -- bar at the bottom
   use {
     "hoob3rt/lualine.nvim",
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       local function keymap()
         local handle = io.popen('xkb-switch -p 2> /dev/null')
