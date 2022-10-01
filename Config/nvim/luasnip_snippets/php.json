@@ -1,0 +1,687 @@
+{
+  "dst": {
+    "prefix": "dst",
+    "description": "\"declare(strict_types=1)\"",
+    "body": "declare(strict_types=${1:1});"
+  },
+  "ec": {
+    "prefix": "ec",
+    "body": "echo $0;"
+  },
+  "<?e": {
+    "prefix": "<?e",
+    "body": "<?php echo $0 ?>"
+  },
+  "<?=": {
+    "prefix": "<?=",
+    "body": "<?=$0?>"
+  },
+  "?=": {
+    "prefix": "?=",
+    "body": "<?= $0 ?>"
+  },
+  "?": {
+    "prefix": "?",
+    "body": "<?php $0 ?>"
+  },
+  "t.": {
+    "prefix": "t.",
+    "body": "\\$this->"
+  },
+  "gm": {
+    "prefix": "gm",
+    "description": "\"PHP Class Getter Setter\"",
+    "body": [
+      "/**",
+      " * Gets the value of ${1:foo}",
+      " *",
+      " * @return ${2:string}",
+      " */",
+      "${3:public} function get${4:$1}()",
+      "{",
+      "\treturn \\$this->${5:$1};",
+      "\\}"
+    ]
+  },
+  "$s": {
+    "prefix": "$s",
+    "body": "${1:\\$foo}->set${2:Bar}($0);"
+  },
+  "$g": {
+    "prefix": "$g",
+    "body": "${1:\\$foo}->get${0:Bar}();"
+  },
+  "=?:": {
+    "prefix": "=?:",
+    "body": "\\$${1:foo} = ${2:true} ? ${3:a} : $0;"
+  },
+  "?:": {
+    "prefix": "?:",
+    "body": "${1:true} ? ${2:a} : $0"
+  },
+  "t": {
+    "prefix": "t",
+    "description": "\"$retVal = (condition) ? a : b\"",
+    "body": "\\$${1:retVal} = ($2) ? ${3:a} : ${4:b};"
+  },
+  "C": {
+    "prefix": "C",
+    "body": "\\$_COOKIE['${1:variable}']"
+  },
+  "E": {
+    "prefix": "E",
+    "body": "\\$_ENV['${1:variable}']"
+  },
+  "F": {
+    "prefix": "F",
+    "body": "\\$_FILES['${1:variable}']"
+  },
+  "G": {
+    "prefix": "G",
+    "description": "\"_GET array\"",
+    "body": "\\$_GET['${1:variable}']"
+  },
+  "P": {
+    "prefix": "P",
+    "description": "\"_POST array\"",
+    "body": "\\$_POST['${1:variable}']"
+  },
+  "R": {
+    "prefix": "R",
+    "body": "\\$_REQUEST['${1:variable}']"
+  },
+  "S": {
+    "prefix": "S",
+    "body": "\\$_SERVER['${1:variable}']"
+  },
+  "SS": {
+    "prefix": "SS",
+    "body": "\\$_SESSION['${1:variable}']"
+  },
+  "get": {
+    "prefix": "get",
+    "description": "\"get\"",
+    "body": "\\$_GET['$1']"
+  },
+  "post": {
+    "prefix": "post",
+    "description": "\"post\"",
+    "body": "\\$_POST['$1']"
+  },
+  "session": {
+    "prefix": "session",
+    "description": "\"session\"",
+    "body": "\\$_SESSION['$1']"
+  },
+  "inc": {
+    "prefix": "inc",
+    "body": "include '${1:file}';"
+  },
+  "inc1": {
+    "prefix": "inc1",
+    "body": "include_once '${1:file}';"
+  },
+  "req": {
+    "prefix": "req",
+    "body": "require '${1:file}';"
+  },
+  "req1": {
+    "prefix": "req1",
+    "body": "require_once '${1:file}';"
+  },
+  "/*": {
+    "prefix": "/*",
+    "body": [
+      "/**",
+      " * $0",
+      " */"
+    ]
+  },
+  "doc_vp": {
+    "prefix": "doc_vp",
+    "body": [
+      "/**",
+      " * ${1:undocumented class variable}",
+      " *",
+      " * @var ${2:string}",
+      " */"
+    ]
+  },
+  "doc_v": {
+    "prefix": "doc_v",
+    "body": [
+      "/**",
+      " * ${3:undocumented class variable}",
+      " *",
+      " * @var ${4:string}",
+      " */",
+      "${1:var} \\$$2;",
+      ""
+    ]
+  },
+  "att": {
+    "prefix": "att",
+    "body": [
+      "/** @var ${3:string} */",
+      "${1:public} \\$$2;",
+      ""
+    ]
+  },
+  "doc_dp": {
+    "prefix": "doc_dp",
+    "body": [
+      "/**",
+      " * ${1:undocumented constant}",
+      " */"
+    ]
+  },
+  "doc_d": {
+    "prefix": "doc_d",
+    "body": [
+      "/**",
+      " * ${3:undocumented constant}",
+      " */",
+      "define($1, $2);"
+    ]
+  },
+  "inheritdoc": {
+    "prefix": "inheritdoc",
+    "description": "\"@inheritdoc docblock\"",
+    "body": [
+      "/**",
+      " * {@inheritdoc\\}",
+      " */"
+    ]
+  },
+  "def": {
+    "prefix": "def",
+    "description": "\"define('VARIABLE_NAME', 'definition')\"",
+    "body": "define('${1:VARIABLE_NAME}', ${2:'definition'});"
+  },
+  "def?": {
+    "prefix": "def?",
+    "body": "$1defined('$2')"
+  },
+  "switch": {
+    "prefix": "switch",
+    "description": "\"switch($var) { case 'xyz': ... default: .... }\"",
+    "body": [
+      "switch (\\$${1:variable}) {",
+      "\tcase '${2:value}':",
+      "\t\t$3",
+      "\t\tbreak;",
+      "\t$0",
+      "\tdefault:",
+      "\t\t$4",
+      "\t\tbreak;",
+      "\\}"
+    ]
+  },
+  "foreachkil": {
+    "prefix": "foreachkil",
+    "description": "\"<?php foreach ($var as $key => $value): ?>  ... <?php endforeach; ?>\"",
+    "body": [
+      "<?php foreach (\\$${1:variable} as \\$${2:key} => \\$${3:value}): ?>",
+      "\t${0:<!-- html... -->}",
+      "<?php endforeach; ?>"
+    ]
+  },
+  "array": {
+    "prefix": "array",
+    "description": "\"$... = ['' => ]\"",
+    "body": "\\$${1:arrayName} = ['$2' => $3];"
+  },
+  "lambda": {
+    "prefix": "lambda",
+    "body": [
+      "${1:static }function (${2:args}) use (${3:&\\$x, \\$y /*put vars in scope (closure) */}) {",
+      "\t$0",
+      "\\};"
+    ]
+  },
+  "pd": {
+    "prefix": "pd",
+    "body": "echo '<pre>'; var_dump($0); echo '</pre>';"
+  },
+  "pdd": {
+    "prefix": "pdd",
+    "body": "echo '<pre>'; var_dump($1); echo '</pre>'; die(${0:});"
+  },
+  "vd": {
+    "prefix": "vd",
+    "body": "var_dump($0);"
+  },
+  "vdd": {
+    "prefix": "vdd",
+    "body": "var_dump($1); die(${0:});"
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "print_r($0);"
+  },
+  "prs": {
+    "prefix": "prs",
+    "body": "print_r($0, 1);"
+  },
+  "vdf": {
+    "prefix": "vdf",
+    "body": "error_log(print_r(\\$${1:foo}, true), 3, '${2:/tmp/debug.log}');"
+  },
+  "http_redirect": {
+    "prefix": "http_redirect",
+    "body": [
+      "header (\"HTTP/1.1 301 Moved Permanently\");",
+      "header (\"Location: \".URL);",
+      "exit();"
+    ]
+  },
+  "log": {
+    "prefix": "log",
+    "description": "\"error_log(var_export($var, true));\"",
+    "body": "error_log(var_export($1, true));"
+  },
+  "var": {
+    "prefix": "var",
+    "description": "\"var_export($var)\"",
+    "body": "var_export($1);"
+  },
+  "ve": {
+    "prefix": "ve",
+    "description": "\"Dumb debug helper in HTML\"",
+    "body": "echo '<pre>' . var_export($1, 1) . '</pre>';"
+  },
+  "pc": {
+    "prefix": "pc",
+    "description": "\"Dumb debug helper in cli\"",
+    "body": "var_export($1);$0"
+  },
+  "ags": {
+    "prefix": "ags",
+    "body": [
+      "/**",
+      " * ${1:description}",
+      " *",
+      " * @$0",
+      " */",
+      "${2:protected} \\$${3:foo};",
+      "",
+      "public function get${4:$3}()",
+      "{",
+      "\treturn \\$this->$3;",
+      "\\}",
+      "",
+      "public function set$4(${5:$4 }\\$${6:$3})",
+      "{",
+      "\t\\$this->$3 = \\$$6;",
+      "\treturn \\$this;",
+      "\\}"
+    ]
+  },
+  "rett": {
+    "prefix": "rett",
+    "body": "return true;"
+  },
+  "retf": {
+    "prefix": "retf",
+    "body": "return false;"
+  },
+  "am": {
+    "prefix": "am",
+    "body": [
+      "\\$${1:foo} = array_map(function(\\$${2:v}) {",
+      "\t$0",
+      "\treturn \\$$2;",
+      "\\}, \\$$1);"
+    ]
+  },
+  "aw": {
+    "prefix": "aw",
+    "body": [
+      "array_walk(\\$${1:foo}, function(&\\$${2:v}, \\$${3:k}) {",
+      "\t\\$$2 = $0;",
+      "\\});"
+    ]
+  },
+  "static_var": {
+    "prefix": "static_var",
+    "body": [
+      "static \\$$1 = null;",
+      "if (is_null(\\$$1)){",
+      "\t\\$$1 = $2;",
+      "\\}"
+    ]
+  },
+  "CSVWriter": {
+    "prefix": "CSVWriter",
+    "body": [
+      "<?php",
+      "",
+      "class CSVWriter {",
+      "\tpublic function __construct(\\$file_or_handle, \\$sep = \"t\", \\$quot = '\"'){",
+      "\t\t\\$args = func_get_args();",
+      "\t\t\\$mode = isset(\\$opts['mode']) ? \\$opts['mode'] : 'w';",
+      "",
+      "\t\t\\$this->f =",
+      "\t\t\tis_string(\\$file_or_handle)",
+      "\t\t\t? fopen(\\$file_or_handle, \\$mode)",
+      "\t\t\t: \\$file_or_handle;",
+      "",
+      "\t\t\\$this->fputcsv_args = [\\$this->f, null, \\$sep, \\$quot];",
+      "",
+      "\t\tif (!\\$this->f) throw new Exception('bad file descriptor');",
+      "\t\\}",
+      "",
+      "\tpublic function write(\\$row){",
+      "\t\t\\$this->fputcsv_args[1] =& \\$row;",
+      "\t\tcall_user_func_array('fputcsv', \\$this->fputcsv_args);",
+      "\t\\}",
+      "",
+      "\tpublic function close(){",
+      "\t\tif (!is_null(\\$this->f))",
+      "\t\t\tfclose(\\$this->f);",
+      "\t\t\\$this->f = null;",
+      "\t\\}",
+      "",
+      "\tpublic function __destruct(){",
+      "\t\t\\$this->close();",
+      "\t\\}",
+      "",
+      "\\}"
+    ]
+  },
+  "CSVIterator": {
+    "prefix": "CSVIterator",
+    "body": [
+      "",
+      "// http://snipplr.com/view.php?codeview&id=1986 // modified",
+      "class CSVIterator implements Iterator",
+      "{\t",
+      "\tprivate \\$f;",
+      "\tprivate \\$curr;",
+      "\tprivate \\$rowCounter;",
+      "",
+      "\t /* opts keys:",
+      "\t\t* row_size",
+      "\t\t* escape",
+      "\t\t* enclosure",
+      "\t\t* delimiter",
+      "\t\t*/",
+      "\tpublic function __construct( \\$file_or_handle, \\$opts = [4096, ','] )",
+      "\t{",
+      "\t\t\\$d = function(\\$n) use(&\\$opts){ return isset(\\$opts[\\$n]) ? \\$opts[\\$n] : false; \\};",
+      "",
+      "\t\t\\$this->combine = \\$d('combine');",
+      "\t\t\\$this->headers = \\$d('headers');",
+      "\t\t\\$this->headerCheckFunction = \\$d('header_check_function');",
+      "",
+      "\t\t\\$this->f =",
+      "\t\t\tis_string(\\$file_or_handle)",
+      "\t\t\t? fopen( \\$file_or_handle, 'r' )",
+      "\t\t\t: \\$file_or_handle;",
+      "\t\tif (!\\$this->f) throw new Exception('bad file descriptor');",
+      "\t\t\\$this->fgetcsv_args = [",
+      "\t\t\t\t\\$this->f,",
+      "\t\t\t\tisset(\\$opts['row_size']) ? \\$opts['row_size'] : 4096,",
+      "\t\t\t\tisset(\\$opts['delimiter']) ? \\$opts['delimiter'] : ',',",
+      "\t\t\t\tisset(\\$opts['enclosure']) ? \\$opts['enclosure'] : '\"',",
+      "\t\t\t\tisset(\\$opts['escape']) ? \\$opts['escape'] : '\\',",
+      "\t\t];",
+      "\t\t\\$this->start();",
+      "\t\\}",
+      "",
+      "\tprotected function readRow(){",
+      "\t\t\\$this->curr = call_user_func_array('fgetcsv', \\$this->fgetcsv_args );",
+      "\t\t\\$this->rowCounter++;",
+      "\t\tif (\\$this->rowCounter == 1){",
+      "\t\t\t\\$this->processHeader();",
+      "\t\t\\} elseif (\\$this->curr) {",
+      "\t\t\t\\$this->processRow();",
+      "\t\t\\}",
+      "\t\\}",
+      "",
+      "\tpublic function processHeader(){",
+      "\t\tif (\\$this->headers || \\$this->combine){",
+      "\t\t\t\\$this->header = \\$this->curr;",
+      "\t\t\tif (\\$this->headerCheckFunction){",
+      "\t\t\t\t\\$f = \\$this->headerCheckFunction;",
+      "\t\t\t\t\\$f(\\$this->header);",
+      "\t\t\t\\}",
+      "\t\t\t\\$this->readRow();",
+      "\t\t\\}",
+      "\t\\}",
+      "",
+      "\tpublic function processRow(){",
+      "\t\tif (\\$this->combine)",
+      "\t\t\t\\$this->curr = array_combine(\\$this->header, \\$this->curr);",
+      "\t\\}",
+      "",
+      "\tpublic function start(){",
+      "\t\t\\$this->rowCounter = 0;",
+      "\t\trewind( \\$this->f );",
+      "\t\t\\$this->readRow();",
+      "\t\\}",
+      "",
+      "\tpublic function rewind()",
+      "\t{",
+      "\t\t\\$this->start();",
+      "\t\\}",
+      "",
+      "\tpublic function current()",
+      "\t{",
+      "\t\t\\$curr = \\$this->curr;",
+      "\t\t\\$this->readRow();",
+      "\t\treturn \\$curr;",
+      "\t\\}",
+      "",
+      "\tpublic function key()",
+      "\t{",
+      "\t\treturn \\$this->rowCounter;",
+      "\t\\}",
+      "",
+      "\tpublic function next()",
+      "\t{",
+      "\t\treturn \\$this->curr;",
+      "\t\\}",
+      "",
+      "\tpublic function valid(){",
+      "\t\tif( !\\$this->next() )",
+      "\t\t{",
+      "\t\t\tfclose( \\$this->f );",
+      "\t\t\treturn FALSE;",
+      "\t\t\\}",
+      "\t\treturn TRUE;",
+      "\t\\}",
+      "",
+      "\\} // end class"
+    ]
+  },
+  "ase": {
+    "prefix": "ase",
+    "description": "\"$this->assertEquals($a, $b)\"",
+    "body": "\\$this->assertEquals(${1:\\$expected}, ${2:\\$actual});"
+  },
+  "asne": {
+    "prefix": "asne",
+    "description": "\"$this->assertNotEquals($a, $b)\"",
+    "body": "\\$this->assertNotEquals(${1:\\$expected}, ${2:\\$actual});"
+  },
+  "asf": {
+    "prefix": "asf",
+    "description": "\"$this->assertFalse($a)\"",
+    "body": "\\$this->assertFalse($1);"
+  },
+  "ast": {
+    "prefix": "ast",
+    "description": "\"$this->assertTrue($a)\"",
+    "body": "\\$this->assertTrue($1);"
+  },
+  "asfex": {
+    "prefix": "asfex",
+    "description": "\"$this->assertFileExists('path/to/file')\"",
+    "body": "\\$this->assertFileExists(${1:'path/to/file'});"
+  },
+  "asfnex": {
+    "prefix": "asfnex",
+    "description": "\"$this->assertFileNotExists('path/to/file')\"",
+    "body": "\\$this->assertFileNotExists(${1:'path/to/file'});"
+  },
+  "ascon": {
+    "prefix": "ascon",
+    "description": "\"$this->assertContains($needle, $haystack)\"",
+    "body": "\\$this->assertContains(${1:\\$needle}, ${2:\\$haystack});"
+  },
+  "asncon": {
+    "prefix": "asncon",
+    "description": "\"$this->assertNotContains($needle, $haystack)\"",
+    "body": "\\$this->assertNotContains(${1:\\$needle}, ${2:\\$haystack});"
+  },
+  "ascono": {
+    "prefix": "ascono",
+    "description": "\"$this->assertContainsOnly($needle, $haystack)\"",
+    "body": "\\$this->assertContainsOnly(${1:\\$needle}, ${2:\\$haystack});"
+  },
+  "asconoi": {
+    "prefix": "asconoi",
+    "description": "\"$this->assertContainsOnlyInstancesOf(Example::class, $haystack)\"",
+    "body": "\\$this->assertContainsOnlyInstancesOf(${1:Example}::class, ${2:\\$haystack});"
+  },
+  "ashk": {
+    "prefix": "ashk",
+    "description": "\"$this->assertArrayHasKey($key, $array)\"",
+    "body": "\\$this->assertArrayHasKey(${1:\\$key}, ${2:\\$array});"
+  },
+  "asnhk": {
+    "prefix": "asnhk",
+    "description": "\"$this->assertArrayNotHasKey($key, $array)\"",
+    "body": "this->assertArrayNotHasKey(${1:\\$key}, ${2:\\$array});"
+  },
+  "ascha": {
+    "prefix": "ascha",
+    "description": "\"$this->assertClassHasAttribute($name, Example::class)\"",
+    "body": "\\$this->assertClassHasAttribute(${1:\\$attributeName}, ${2:Example}::class);"
+  },
+  "asi": {
+    "prefix": "asi",
+    "description": "\"$this->assertInstanceOf(Example::class, $actual)\"",
+    "body": "\\$this->assertInstanceOf(${1:Example}::class, ${2:\\$actual});"
+  },
+  "asit": {
+    "prefix": "asit",
+    "description": "\"$this->assertInternalType('string', $actual)\"",
+    "body": "\\$this->assertInternalType(${1:'string'}, ${2:actual});"
+  },
+  "asco": {
+    "prefix": "asco",
+    "description": "\"$this->assertCount($count, $haystack)\"",
+    "body": "\\$this->assertCount(${1:\\$expectedCount}, ${2:\\$haystack});"
+  },
+  "asnco": {
+    "prefix": "asnco",
+    "description": "\"$this->assertNotCount($count, $haystack)\"",
+    "body": "\\$this->assertNotCount(${1:\\$count}, ${2:\\$haystack});"
+  },
+  "assub": {
+    "prefix": "assub",
+    "description": "\"$this->assertArraySubset($subset, $array)\"",
+    "body": "\\$this->assertArraySubset(${1:\\$subset}, ${2:\\$array});"
+  },
+  "asnu": {
+    "prefix": "asnu",
+    "description": "\"$this->assertNull($a)\"",
+    "body": "\\$this->assertNull($1);"
+  },
+  "asnnu": {
+    "prefix": "asnnu",
+    "description": "\"$this->assertNotNull($a)\"",
+    "body": "\\$this->assertNotNull($1);"
+  },
+  "proph": {
+    "prefix": "proph",
+    "description": "\"$observer = $this->prophesize(SomeClass::class);\"",
+    "body": "\\$${1:observer} = \\$this->prophesize(${2:SomeClass}::class);"
+  },
+  "mock": {
+    "prefix": "mock",
+    "description": "\"$mock = $this->createMock(SomeClass::class);\"",
+    "body": "\\$${1:mock} = \\$this->createMock(${2:SomeClass}::class);"
+  },
+  "exp": {
+    "prefix": "exp",
+    "description": "\"phpunit expects\"",
+    "body": [
+      "expects(\\$this->${1:once}())",
+      "\t->method('$2')",
+      "\t->with($3)",
+      "\t->willReturn($4);"
+    ]
+  },
+  "testcmt": {
+    "prefix": "testcmt",
+    "description": "\"phpunit comment with group\"",
+    "body": [
+      "/**",
+      "* @group $1",
+      "*/"
+    ]
+  },
+  "fail": {
+    "prefix": "fail",
+    "description": "\"$this->fail()\"",
+    "body": "\\$this->fail($1);"
+  },
+  "marki": {
+    "prefix": "marki",
+    "description": "\"$this->markTestIncomplete()\"",
+    "body": "\\$this->markTestIncomplete($1);"
+  },
+  "marks": {
+    "prefix": "marks",
+    "description": "\"$this->markTestSkipped()\"",
+    "body": "\\$this->markTestSkipped($1);"
+  },
+  "te": {
+    "prefix": "te",
+    "description": "\"throw new Exception()\"",
+    "body": "throw new ${1:Exception}(\"${2:Error Processing Request}\");"
+  },
+  "fpc": {
+    "prefix": "fpc",
+    "description": "\"file_put_contents\" b",
+    "body": "file_put_contents(${1:file}, ${2:content}${3:, FILE_APPEND});$0"
+  },
+  "sr": {
+    "prefix": "sr",
+    "description": "\"str_replace\"",
+    "body": "str_replace(${1:search}, ${2:replace}, ${3:subject})$0"
+  },
+  "ia": {
+    "prefix": "ia",
+    "description": "\"in_array\"",
+    "body": "in_array(${1:needle}, ${2:haystack})$0"
+  },
+  "is": {
+    "prefix": "is",
+    "description": "\"isset\"",
+    "body": "isset(${1:var})$0"
+  },
+  "isa": {
+    "prefix": "isa",
+    "description": "\"isset array\"",
+    "body": "isset(\\$${1:array}[${2:key}])$0"
+  },
+  "in": {
+    "prefix": "in",
+    "description": "\"is_null\"",
+    "body": "is_null(\\$${1:var})$0"
+  },
+  "fe": {
+    "prefix": "fe",
+    "description": "\"file_exists\"",
+    "body": "file_exists(${1:file})$0"
+  },
+  "id": {
+    "prefix": "id",
+    "description": "\"is_dir\"",
+    "body": "is_dir(${1:path})$0"
+  }
+}

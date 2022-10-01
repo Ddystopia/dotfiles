@@ -1,0 +1,296 @@
+{
+  "slot": {
+    "prefix": "slot",
+    "body": [
+      "<slot></slot>",
+      ""
+    ]
+  },
+  "template": {
+    "prefix": "template",
+    "body": [
+      "<template></template>",
+      ""
+    ]
+  },
+  "transition": {
+    "prefix": "transition",
+    "body": [
+      "<transition></transition>",
+      "",
+      ""
+    ]
+  },
+  "vbase": {
+    "prefix": "vbase",
+    "body": [
+      "<template>",
+      "\t<div>",
+      "",
+      "\t</div>",
+      "</template>",
+      "",
+      "<script>",
+      "\texport default{",
+      "\t\t$0",
+      "\t\\}",
+      "</script>",
+      "",
+      "<style scoped>",
+      "",
+      "</style>",
+      ""
+    ]
+  },
+  "vimport:c": {
+    "prefix": "vimport:c",
+    "body": [
+      "import ${1:Name} from './components/$1.vue';",
+      "",
+      "export default {",
+      "\tcomponents: {",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      ""
+    ]
+  },
+  "vactions": {
+    "prefix": "vactions",
+    "body": [
+      "actions: {",
+      "\t${1:updateValue}({commit\\}, ${2:payload}) {",
+      "\t\tcommit($1, $2);",
+      "\t\\}",
+      "\\},",
+      ""
+    ]
+  },
+  "vanim:js:el": {
+    "prefix": "vanim:js:el",
+    "body": [
+      "<transition",
+      "  @before-enter=\"beforeEnter\"",
+      "  @enter=\"enter\"",
+      "  @after-enter=\"afterEnter\"",
+      "  @enter-cancelled=\"enterCancelled\"",
+      "",
+      "  @before-Leave=\"beforeLeave\"",
+      "  @leave=\"leave\"",
+      "  @after-leave=\"afterLeave\"",
+      "  @leave-cancelled=\"leaveCancelled\"",
+      "  :css=\"false\">",
+      "",
+      " </transition>",
+      ""
+    ]
+  },
+  "vanim:js:method": {
+    "prefix": "vanim:js:method",
+    "body": [
+      "methods: {",
+      "\tbeforeEnter(el) {",
+      "\t\tconsole.log('beforeEnter');",
+      "\t\\},",
+      "\tenter(el, done) {",
+      "\t\tconsole.log('enter');",
+      "\t\tdone();",
+      "\t\\},",
+      "\tafterEnter(el) {",
+      "\t\tconsole.log('afterEnter');",
+      "\t\\},",
+      "\tenterCancelled(el, done) {",
+      "\t\tconsole.log('enterCancelled');",
+      "\t\\},",
+      "\tbeforeLeave(el) {",
+      "\t\tconsole.log('beforeLeave');",
+      "\t\\},",
+      "\tleave(el, done) {",
+      "\t\tconsole.log('leave');",
+      "\t\tdone();",
+      "\t\\},",
+      "\tafterLeave(el) {",
+      "\t\tconsole.log('afterLeave');",
+      "\t\\},",
+      "\tleaveCancelled(el, done) {",
+      "\t\tconsole.log('leaveCancelled');",
+      "\t\\}",
+      "\\}",
+      ""
+    ]
+  },
+  "vcl": {
+    "prefix": "vcl",
+    "body": [
+      "@click=\"$1\"",
+      ""
+    ]
+  },
+  "vdata": {
+    "prefix": "vdata",
+    "body": [
+      "data() {",
+      "\treturn {",
+      "\t\t${1:key}: ${2:value}",
+      "\t\\};",
+      "\\},",
+      ""
+    ]
+  },
+  "vmounted": {
+    "prefix": "vmounted",
+    "body": [
+      "mounted() {",
+      "\tconsole.log('mounted');",
+      "\\},",
+      ""
+    ]
+  },
+  "vmethods": {
+    "prefix": "vmethods",
+    "body": [
+      "methods: {",
+      "\t${1:method}() {",
+      "\t\tconsole.log('method');",
+      "\t\\}",
+      "\\},",
+      ""
+    ]
+  },
+  "vcomputed": {
+    "prefix": "vcomputed",
+    "body": [
+      "computed: {",
+      "\t${1:fnName}() {",
+      "\t\treturn;",
+      "\t\\}",
+      "\\},",
+      ""
+    ]
+  },
+  "vfilter": {
+    "prefix": "vfilter",
+    "body": [
+      "filters: {",
+      "\t${1:fnName}: function(${2:value}) {",
+      "\t\treturn;",
+      "\t\\}",
+      "\\},",
+      ""
+    ]
+  },
+  "vfor": {
+    "prefix": "vfor",
+    "body": [
+      "<div v-for=\"${1:item} in ${2:items}\" :key=\"$1.id\">",
+      "\t{{ $1 \\}\\}",
+      "</div>",
+      ""
+    ]
+  },
+  "vgetters": {
+    "prefix": "vgetters",
+    "body": [
+      "getters: {",
+      "\t${1:value}: state => {",
+      "\t\treturn state.$1;",
+      "\t\\}",
+      "\\},",
+      ""
+    ]
+  },
+  "vimport": {
+    "prefix": "vimport",
+    "body": [
+      "import ${1:New} from './components/$1.vue';",
+      ""
+    ]
+  },
+  "vkeep": {
+    "prefix": "vkeep",
+    "body": [
+      "<keep-alive>",
+      "\t<component :is=\"\">",
+      "\t\t<p>default</p>",
+      "\t</component>",
+      "</keep-alive>",
+      ""
+    ]
+  },
+  "vmixin": {
+    "prefix": "vmixin",
+    "body": [
+      "const ${1:mixinName} = {",
+      "\tmounted() {",
+      "\t\tconsole.log('hello from mixin!')",
+      "\t\\},",
+      "\\}",
+      "const ${2:Component} = Vue.extend({",
+      "\tmixins: [$1]",
+      "\\})",
+      ""
+    ]
+  },
+  "vmutations": {
+    "prefix": "vmutations",
+    "body": [
+      "mutations: {",
+      "\t${1:updateValue}(state, ${3:payload}) => {",
+      "\t\tstate.${2:value} = $3;",
+      "\t\\}",
+      "\\},",
+      ""
+    ]
+  },
+  "vprops:d": {
+    "prefix": "vprops:d",
+    "body": [
+      "${1:propName}: {",
+      "  type: ${2:Number},",
+      "  default: $0",
+      "\\},",
+      ""
+    ]
+  },
+  "vprops": {
+    "prefix": "vprops",
+    "body": [
+      "${1:propName}: {",
+      "\ttype: ${2:Number}",
+      "\\},",
+      ""
+    ]
+  },
+  "vstore": {
+    "prefix": "vstore",
+    "body": [
+      "import Vue from 'vue';",
+      "import Vuex from 'vuex';",
+      "",
+      "Vue.use(Vuex);",
+      "",
+      "export const store = new Vuex.Store({",
+      "\tstate: {",
+      "\t\t${1:key}: ${2:value}",
+      "\t\\}",
+      "\\});",
+      "",
+      "",
+      ""
+    ]
+  },
+  "trans": {
+    "prefix": "trans",
+    "body": [
+      "\\$t('$1')",
+      ""
+    ]
+  },
+  "transc": {
+    "prefix": "transc",
+    "body": [
+      "\\$t('$1', { $2: $3 \\})",
+      ""
+    ]
+  }
+}

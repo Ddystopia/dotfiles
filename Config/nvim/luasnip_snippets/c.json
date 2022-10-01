@@ -1,0 +1,443 @@
+{
+  "main": {
+    "prefix": "main",
+    "body": [
+      "int main(int argc, char *argv[])",
+      "{",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "mainn": {
+    "prefix": "mainn",
+    "body": [
+      "int main(void)",
+      "{",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "inc": {
+    "prefix": "inc",
+    "body": [
+      "#include <${1:stdio}.h>",
+      "$0"
+    ]
+  },
+  "ndef": {
+    "prefix": "ndef",
+    "body": [
+      "#ifndef $1",
+      "#define ${1:SYMBOL} ${2:value}",
+      "#endif /* ifndef $1 */"
+    ]
+  },
+  "def": {
+    "prefix": "def",
+    "body": "#define"
+  },
+  "ifdef": {
+    "prefix": "ifdef",
+    "body": [
+      "#ifdef ${1:FOO}",
+      "\t${2:#define }",
+      "#endif"
+    ]
+  },
+  "nocxx": {
+    "prefix": "nocxx",
+    "body": [
+      "#ifdef __cplusplus",
+      "extern \"C\" {",
+      "#endif",
+      "",
+      "$0",
+      "",
+      "#ifdef __cplusplus",
+      "\\} /* extern \"C\" */",
+      "#endif"
+    ]
+  },
+  "ifi": {
+    "prefix": "ifi",
+    "body": "if (${1:true}) $0;"
+  },
+  "t": {
+    "prefix": "t",
+    "description": "Ternary: `condition ? true : false`",
+    "body": "$1 ? $2 : $0"
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": [
+      "switch (${1:/* variable */}) {",
+      "\tcase ${2:/* variable case */}:",
+      "\t\t$3",
+      "\t\t${4:break;}$5",
+      "\tdefault:",
+      "\t\t$6",
+      "\\}"
+    ]
+  },
+  "switchndef": {
+    "prefix": "switchndef",
+    "body": [
+      "switch (${1:/* variable */}) {",
+      "\tcase ${2:/* variable case */}:",
+      "\t\t$3",
+      "\t\t${4:break;}$5",
+      "\\}"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case ${1:/* variable case */}:",
+      "\t$2",
+      "\t${3:break;}"
+    ]
+  },
+  "ret": {
+    "prefix": "ret",
+    "body": "return $0;"
+  },
+  "ex": {
+    "prefix": "ex",
+    "body": "exit($0);"
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for (int ${2:i} = 0; $2 < ${1:count}; $2${3:++}) {",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "forr": {
+    "prefix": "forr",
+    "body": [
+      "for (int ${1:i} = ${2:0}; ${3:$1 < 10}; $1${4:++}) {",
+      "\t$5",
+      "\\}"
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "${1:void} ${2:function_name}($3)",
+      "{",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "fun0": {
+    "prefix": "fun0",
+    "body": [
+      "${1:void} ${2:function_name}()",
+      "{",
+      "\t$3",
+      "\\}"
+    ]
+  },
+  "dfun0": {
+    "prefix": "dfun0",
+    "body": [
+      "/*! brief ${1:Brief function description here}",
+      " *",
+      " *  ${2:Detailed description of the function}",
+      " *",
+      " * return ${3:Return parameter description}",
+      " */",
+      "${4:void} ${5:function_name}()",
+      "{",
+      "\t$6",
+      "\\}"
+    ]
+  },
+  "fun1": {
+    "prefix": "fun1",
+    "body": [
+      "${1:void} ${2:function_name}(${3:Type} ${4:Parameter})",
+      "{",
+      "\t$5",
+      "\\}"
+    ]
+  },
+  "dfun1": {
+    "prefix": "dfun1",
+    "body": [
+      "/*! brief ${1:Brief function description here}",
+      " *",
+      " *  ${2:Detailed description of the function}",
+      " *",
+      " * param $3 ${4:Parameter description}",
+      " * return ${5:Return parameter description}",
+      " */",
+      "${6:void} ${7:function_name}(${8:Type} ${3:Parameter})",
+      "{",
+      "\t$9",
+      "\\}"
+    ]
+  },
+  "fun2": {
+    "prefix": "fun2",
+    "body": [
+      "${1:void} ${2:function_name}(${3:Type} ${4:Parameter}, ${5:Type} ${6:Parameter})",
+      "{",
+      "\t$7",
+      "\\}"
+    ]
+  },
+  "dfun2": {
+    "prefix": "dfun2",
+    "body": [
+      "/*! brief ${1:Brief function description here}",
+      " *",
+      " *  ${2:Detailed description of the function}",
+      " *",
+      " * param $3 ${4:Parameter description}",
+      " * param $5 ${6:Parameter description}",
+      " * return ${7:Return parameter description}",
+      " */",
+      "${8:void} ${9:function_name}(${10:Type} ${3:Parameter}, ${11:Type} ${5:Parameter})",
+      "{",
+      "\t$12",
+      "\\}"
+    ]
+  },
+  "fun3": {
+    "prefix": "fun3",
+    "body": [
+      "${1:void} ${2:function_name}(${3:Type} ${4:Parameter}, ${5:Type} ${6:Parameter}, ${7:Type} ${8:Parameter})",
+      "{",
+      "\t$9",
+      "\\}"
+    ]
+  },
+  "dfun3": {
+    "prefix": "dfun3",
+    "body": [
+      "/*! brief ${1:Brief function description here}",
+      " *",
+      " *  ${2:Detailed description of the function}",
+      " *",
+      " * param $3 ${4:Parameter description}",
+      " * param $5 ${6:Parameter description}",
+      " * param $7 ${8:Parameter description}",
+      " * return ${9:Return parameter description}",
+      " */",
+      "${10:void} ${11:function_name}(${12:Type} ${3:Parameter}, ${13:Type} ${5:Parameter}, ${14:Type} ${7:Parameter})",
+      "{",
+      "\t$15",
+      "\\}"
+    ]
+  },
+  "fund": {
+    "prefix": "fund",
+    "body": "${1:void} ${2:function_name}($3);"
+  },
+  "td": {
+    "prefix": "td",
+    "body": "typedef ${1:int} ${2:MyCustomType};"
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "/*! enum $1",
+      " *",
+      " *  ${2:Detailed description}",
+      " */",
+      "enum ${1:name} { $0 \\};"
+    ]
+  },
+  "tde": {
+    "prefix": "tde",
+    "body": [
+      "/*! enum $2",
+      " *",
+      " *  ${4:Detailed description}",
+      " */",
+      "typedef enum {",
+      "\t${1:Data} /*!< ${3:Description} */",
+      "\\} ${2:foo};"
+    ]
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "printf(\"${1:%s}n\"$2);"
+  },
+  "fpr": {
+    "prefix": "fpr",
+    "body": "fprintf(${1:stderr}, \"${2:%s}n\"$3);"
+  },
+  "prd": {
+    "prefix": "prd",
+    "body": "printf(\"${1:} = %dn\", $1);"
+  },
+  "prf": {
+    "prefix": "prf",
+    "body": "printf(\"${1:} = %fn\", $1);"
+  },
+  "prx": {
+    "prefix": "prx",
+    "body": "printf(\"${1:} = %$2n\", $1);"
+  },
+  "warn": {
+    "prefix": "warn",
+    "body": "warn(\"${1:%s}\"$0);"
+  },
+  "warnx": {
+    "prefix": "warnx",
+    "body": "warnx(\"${1:%s}\"$0);"
+  },
+  "err": {
+    "prefix": "err",
+    "body": "err(${1:1}, \"${2:%s}\"$0);"
+  },
+  "errx": {
+    "prefix": "errx",
+    "body": "errx(${1:1}, \"${2:%s}\"$0);"
+  },
+  "getopt": {
+    "prefix": "getopt",
+    "body": [
+      "int choice;",
+      "while (1)",
+      "{",
+      "\tstatic struct option long_options[] =",
+      "\t{",
+      "\t\t/* Use flags like so:",
+      "\t\t{\"verbose\",\tno_argument,\t&verbose_flag, 'V'\\}*/",
+      "\t\t/* Argument styles: no_argument, required_argument, optional_argument */",
+      "\t\t{\"version\", no_argument,\t0,\t'v'\\},",
+      "\t\t{\"help\",\tno_argument,\t0,\t'h'\\},",
+      "\t\t$1",
+      "\t\t{0,0,0,0\\}",
+      "\t\\};",
+      "",
+      "\tint option_index = 0;",
+      "",
+      "\t/* Argument parameters:",
+      "\t\tno_argument: \" \"",
+      "\t\trequired_argument: \":\"",
+      "\t\toptional_argument: \"::\" */",
+      "",
+      "\tchoice = getopt_long( argc, argv, \"vh\",",
+      "\t\t\t\tlong_options, &option_index);",
+      "",
+      "\tif (choice == -1)",
+      "\t\tbreak;",
+      "",
+      "\tswitch( choice )",
+      "\t{",
+      "\t\tcase 'v':",
+      "\t\t\t$2",
+      "\t\t\tbreak;",
+      "",
+      "\t\tcase 'h':",
+      "\t\t\t$3",
+      "\t\t\tbreak;",
+      "",
+      "\t\tcase '?':",
+      "\t\t\t/* getopt_long will have already printed an error */",
+      "\t\t\tbreak;",
+      "",
+      "\t\tdefault:",
+      "\t\t\t/* Not sure how to get here... */",
+      "\t\t\treturn EXIT_FAILURE;",
+      "\t\\}",
+      "\\}",
+      "",
+      "/* Deal with non-option arguments here */",
+      "if ( optind < argc )",
+      "{",
+      "\twhile ( optind < argc )",
+      "\t{",
+      "\t\t$0",
+      "\t\\}",
+      "\\}",
+      ""
+    ]
+  },
+  "asr": {
+    "prefix": "asr",
+    "body": [
+      "assert($1);",
+      ""
+    ]
+  },
+  "anl": {
+    "prefix": "anl",
+    "body": [
+      "assert(${1:ptr} != NULL);",
+      ""
+    ]
+  },
+  "mlc": {
+    "prefix": "mlc",
+    "body": [
+      "${1:ptr} = (${2:type}*) malloc(sizeof($2));",
+      ""
+    ]
+  },
+  "clc": {
+    "prefix": "clc",
+    "body": [
+      "${1:ptr} = (${2:type}*) calloc(${3:size}, sizeof($2));",
+      ""
+    ]
+  },
+  "rlc": {
+    "prefix": "rlc",
+    "body": [
+      "${1:ptr} = realloc($1, ${2:size} * sizeof(${3:type}));",
+      ""
+    ]
+  },
+  "mlcd": {
+    "prefix": "mlcd",
+    "body": [
+      "${1:type} ${2:ptr} = ($1*) malloc(sizeof($1));",
+      ""
+    ]
+  },
+  "clcd": {
+    "prefix": "clcd",
+    "body": [
+      "${1:type} ${2:ptr} = ($1*) calloc(${3:size}, sizeof($1));",
+      ""
+    ]
+  },
+  "fre": {
+    "prefix": "fre",
+    "body": [
+      "free(${1:ptr});",
+      ""
+    ]
+  },
+  "todo": {
+    "prefix": "todo",
+    "body": [
+      "/*! TODO: ${1:Todo description here}",
+      " *  todo $1",
+      " */"
+    ]
+  },
+  ".": {
+    "prefix": ".",
+    "body": [
+      "[$1]",
+      ""
+    ]
+  },
+  "asm": {
+    "prefix": "asm",
+    "body": [
+      "__asm__ __volatile__(",
+      "\"$0nt\"",
+      ":",
+      ":",
+      ");"
+    ]
+  }
+}

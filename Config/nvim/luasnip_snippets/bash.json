@@ -1,0 +1,17 @@
+{
+  "#!": {
+    "prefix": "#!",
+    "body": [
+      "#!/usr/bin/env bash",
+      ""
+    ]
+  },
+  "s#!": {
+    "prefix": "s#!",
+    "body": [
+      "#!/usr/bin/env bash",
+      "set -eu",
+      ""
+    ]
+  }
+}

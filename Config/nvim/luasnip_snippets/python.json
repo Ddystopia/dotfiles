@@ -1,0 +1,635 @@
+{
+  "#!": {
+    "prefix": "#!",
+    "body": "#!/usr/bin/env python3"
+  },
+  "#!2": {
+    "prefix": "#!2",
+    "body": [
+      "#!/usr/bin/env python2",
+      "# -*- coding: utf-8 -*-"
+    ]
+  },
+  "#!3": {
+    "prefix": "#!3",
+    "body": "#!/usr/bin/env python3"
+  },
+  "imp": {
+    "prefix": "imp",
+    "body": "import ${0:module}"
+  },
+  "uni": {
+    "prefix": "uni",
+    "body": [
+      "def __unicode__(self):",
+      "\t${0:representation}"
+    ]
+  },
+  "from": {
+    "prefix": "from",
+    "body": [
+      "from ${1:package} import ${0:module}",
+      ""
+    ]
+  },
+  "sk": {
+    "prefix": "sk",
+    "description": "\"skip unittests\" b",
+    "body": [
+      "@unittest.skip(${1:skip_reason})",
+      ""
+    ]
+  },
+  "dowh": {
+    "prefix": "dowh",
+    "body": [
+      "while True:",
+      "\t$1",
+      "\tif $0:",
+      "\t\tbreak",
+      ""
+    ]
+  },
+  "cl": {
+    "prefix": "cl",
+    "body": [
+      "class ${1:ClassName}(${2:object}):",
+      "\t\"\"\"${3:docstring for $1}\"\"\"",
+      "\tdef __init__(self, ${4:arg}):",
+      "\t\t${5:super($1, self).__init__()}",
+      "\t\tself.$4 = $4",
+      "\t\t$0"
+    ]
+  },
+  "cla": {
+    "prefix": "cla",
+    "body": [
+      "class ${1:class_name}:",
+      "\t\"\"\"${0:description}\"\"\"",
+      ""
+    ]
+  },
+  "clai": {
+    "prefix": "clai",
+    "body": [
+      "class ${1:class_name}:",
+      "\t\"\"\"${2:description}\"\"\"",
+      "\tdef __init__(self, ${3:args}):",
+      "\t\t$0",
+      ""
+    ]
+  },
+  "dcl": {
+    "prefix": "dcl",
+    "description": "dataclass",
+    "body": [
+      "@dataclass",
+      "class ${1:ClassName}:",
+      "\t\"\"\"${2:description}\"\"\"",
+      "\t${3:var_1}: ${4:int}",
+      "\t${5:var_2}: ${6:float} = ${7:0}",
+      "",
+      "\tdef ${8:total}(self): -> $6:",
+      "\t\treturn ${0:self.$3 * self.$5}",
+      ""
+    ]
+  },
+  "defi": {
+    "prefix": "defi",
+    "body": [
+      "def __init__(self, ${1:args}):",
+      "\t$0"
+    ]
+  },
+  "defm": {
+    "prefix": "defm",
+    "body": [
+      "def ${1:mname}(self, ${2:arg}):",
+      "\t$0"
+    ]
+  },
+  "adefm": {
+    "prefix": "adefm",
+    "body": [
+      "async def ${1:mname}(self, ${2:arg}):",
+      "\t$0",
+      ""
+    ]
+  },
+  "property": {
+    "prefix": "property",
+    "body": [
+      "@property",
+      "def ${1:foo}(self) -> ${2:type}:",
+      "\t\"\"\"${3:doc}\"\"\"",
+      "\treturn self._$1",
+      "",
+      "@$1.setter",
+      "def $1(self, value: $2):",
+      "\tself._$1 = value",
+      ""
+    ]
+  },
+  "match": {
+    "prefix": "match",
+    "description": "Structural pattern matching",
+    "body": [
+      "match ${1:expression}:",
+      "\tcase ${2:pattern_1}:",
+      "\t\t${3:pass}",
+      "\tcase ${4:pattern_2}:",
+      "\t\t${5:pass}",
+      ""
+    ]
+  },
+  "matchw": {
+    "prefix": "matchw",
+    "description": "Pattern matching with wildcard",
+    "body": [
+      "match ${1:expression}:",
+      "\tcase ${2:pattern_1}:",
+      "\t\t${3:pass}",
+      "\tcase _:",
+      "\t\t${0:pass}",
+      ""
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for ${1:item} in ${2:items}:",
+      "\t$0",
+      ""
+    ]
+  },
+  "cutf8": {
+    "prefix": "cutf8",
+    "body": "# -*- coding: utf-8 -*-"
+  },
+  "clatin1": {
+    "prefix": "clatin1",
+    "body": "# -*- coding: latin-1 -*-"
+  },
+  "cascii": {
+    "prefix": "cascii",
+    "body": [
+      "# -*- coding: ascii -*-",
+      ""
+    ]
+  },
+  "ld": {
+    "prefix": "ld",
+    "body": [
+      "${1:var} = lambda ${2:vars} : ${0:action}",
+      ""
+    ]
+  },
+  "ret": {
+    "prefix": "ret",
+    "body": "return $0"
+  },
+  ".": {
+    "prefix": ".",
+    "body": "self."
+  },
+  "sa": {
+    "prefix": "sa",
+    "description": "self.attribute = attribute",
+    "body": [
+      "self.${1:attribute} = $1",
+      ""
+    ]
+  },
+  "ifmain": {
+    "prefix": "ifmain",
+    "body": [
+      "if __name__ == '__main__':",
+      "\t${0:main()}"
+    ]
+  },
+  "_": {
+    "prefix": "_",
+    "body": [
+      "__${1:init}__",
+      ""
+    ]
+  },
+  "br": {
+    "prefix": "br",
+    "body": "breakpoint()"
+  },
+  "pdb": {
+    "prefix": "pdb",
+    "body": "__import__('pdb').set_trace()"
+  },
+  "bpdb": {
+    "prefix": "bpdb",
+    "body": "__import__('bpdb').set_trace()"
+  },
+  "ipdb": {
+    "prefix": "ipdb",
+    "body": "__import__('ipdb').set_trace()"
+  },
+  "iem": {
+    "prefix": "iem",
+    "body": "__import__('IPython').embed()"
+  },
+  "rpdb": {
+    "prefix": "rpdb",
+    "body": "__import__('rpdb').set_trace()"
+  },
+  "wdb": {
+    "prefix": "wdb",
+    "body": "__import__('wdb').set_trace()"
+  },
+  "ptpython": {
+    "prefix": "ptpython",
+    "body": "__import__('ptpython.repl', fromlist=('repl')).embed(globals(), locals(), vi_mode=${1:False}, history_filename=${2:None})"
+  },
+  "pudb": {
+    "prefix": "pudb",
+    "body": "__import__('pudb').set_trace()"
+  },
+  "pudbr": {
+    "prefix": "pudbr",
+    "body": [
+      "from pudb.remote import set_trace",
+      "set_trace()"
+    ]
+  },
+  "nosetrace": {
+    "prefix": "nosetrace",
+    "body": "__import__('nose').tools.set_trace()"
+  },
+  "pprint": {
+    "prefix": "pprint",
+    "body": [
+      "__import__('pprint').pprint($1)",
+      ""
+    ]
+  },
+  "\"": {
+    "prefix": "\"",
+    "body": [
+      "\"\"\"${0:doc}",
+      "\"\"\"",
+      ""
+    ]
+  },
+  "a=": {
+    "prefix": "a=",
+    "body": "self.assertEqual($0, $1)"
+  },
+  "testcase": {
+    "prefix": "testcase",
+    "body": [
+      "class ${1:ExampleCase}(unittest.TestCase):",
+      "",
+      "\tdef test_${2:description}(self):",
+      "\t\t$0"
+    ]
+  },
+  "tgwt": {
+    "prefix": "tgwt",
+    "body": [
+      "# given: $1",
+      "# when: $2",
+      "# then: $3"
+    ]
+  },
+  "fut": {
+    "prefix": "fut",
+    "body": [
+      "from __future__ import $0",
+      ""
+    ]
+  },
+  "getopt": {
+    "prefix": "getopt",
+    "body": [
+      "try:",
+      "\t# Short option syntax: \"hv:\"",
+      "\t# Long option syntax: \"help\" or \"verbose=\"",
+      "\topts, args = getopt.getopt(sys.argv[1:], \"${1:short_options}\", [${2:long_options}])",
+      "",
+      "except getopt.GetoptError, err:",
+      "\t# Print debug info",
+      "\tprint str(err)",
+      "\t${3:error_action}",
+      "",
+      "for option, argument in opts:",
+      "\tif option in (\"-h\", \"--help\"):",
+      "\t\t$0",
+      "\telif option in (\"-v\", \"--verbose\"):",
+      "\t\tverbose = argument",
+      ""
+    ]
+  },
+  "addsp": {
+    "prefix": "addsp",
+    "body": "${0:sub_parser} = parser.add_subparsers().add_parser(\"${1:name}\")"
+  },
+  "addarg": {
+    "prefix": "addarg",
+    "body": "parser.add_argument(\"${0:short_arg}\", \"${1:long_arg}\", default=${2:None}, help=\"${3:Help text}\")"
+  },
+  "addnarg": {
+    "prefix": "addnarg",
+    "body": "parser.add_argument(\"${0:arg}\", nargs=\"${1:*}\", default=${2:None}, help=\"${3:Help text}\")"
+  },
+  "addaarg": {
+    "prefix": "addaarg",
+    "body": "parser.add_argument(\"${0:arg}\", \"${1:long_arg}\", action=\"${2:store_true}\", default=${3:False}, help=\"${4:Help text}\")"
+  },
+  "glog": {
+    "prefix": "glog",
+    "body": [
+      "import logging",
+      "LOGGER = logging.getLogger(${0:__name__})"
+    ]
+  },
+  "le": {
+    "prefix": "le",
+    "body": "LOGGER.error(${0:msg})"
+  },
+  "lg": {
+    "prefix": "lg",
+    "body": "LOGGER.debug(${0:msg})"
+  },
+  "lw": {
+    "prefix": "lw",
+    "body": "LOGGER.warning(${0:msg})"
+  },
+  "lc": {
+    "prefix": "lc",
+    "body": "LOGGER.critical(${0:msg})"
+  },
+  "li": {
+    "prefix": "li",
+    "body": "LOGGER.info(${0:msg})"
+  },
+  "epydoc": {
+    "prefix": "epydoc",
+    "body": [
+      "\"\"\"${1:Description}",
+      "",
+      "@param ${2:param}: ${3: Description}",
+      "@type  $2: ${4: Type}",
+      "",
+      "@return: ${5: Description}",
+      "@rtype : ${6: Type}",
+      "",
+      "@raise e: ${0: Description}",
+      "\"\"\""
+    ]
+  },
+  "dol": {
+    "prefix": "dol",
+    "body": [
+      "def ${1:__init__}(self, *args, **kwargs):",
+      "\tsuper(${0:ClassName}, self).$1(*args, **kwargs)"
+    ]
+  },
+  "kwg": {
+    "prefix": "kwg",
+    "body": "self.${1:var_name} = kwargs.get('$1', ${2:None})"
+  },
+  "lkwg": {
+    "prefix": "lkwg",
+    "body": "${1:var_name} = kwargs.get('$1', ${2:None})"
+  },
+  "args": {
+    "prefix": "args",
+    "body": "*args${1:,}$0"
+  },
+  "kwargs": {
+    "prefix": "kwargs",
+    "body": "**kwargs${1:,}$0"
+  },
+  "akw": {
+    "prefix": "akw",
+    "body": [
+      "*args, **kwargs${1:,}$0",
+      ""
+    ]
+  },
+  "contain": {
+    "prefix": "contain",
+    "description": "\"methods for emulating a container type\" b",
+    "body": [
+      "def __len__(self):",
+      "\t${1:pass}",
+      "",
+      "def __getitem__(self, key):",
+      "\t${2:pass}",
+      "",
+      "def __setitem__(self, key, value):",
+      "\t${3:pass}",
+      "",
+      "def __delitem__(self, key):",
+      "\t${4:pass}",
+      "",
+      "def __iter__(self):",
+      "\t${5:pass}",
+      "",
+      "def __reversed__(self):",
+      "\t${6:pass}",
+      "",
+      "def __contains__(self, item):",
+      "\t${7:pass}",
+      ""
+    ]
+  },
+  "context": {
+    "prefix": "context",
+    "description": "\"context manager methods\" b",
+    "body": [
+      "def __enter__(self):",
+      "\t${1:pass}",
+      "",
+      "def __exit__(self, exc_type, exc_value, traceback):",
+      "\t${2:pass}",
+      ""
+    ]
+  },
+  "attr": {
+    "prefix": "attr",
+    "description": "\"methods for customizing attribute access\" b",
+    "body": [
+      "def __getattr__(self, name):",
+      "\t${1:pass}",
+      "",
+      "def __setattr__(self, name, value):",
+      "\t${2:pass}",
+      "",
+      "def __delattr__(self, name):",
+      "\t${3:pass}",
+      ""
+    ]
+  },
+  "desc": {
+    "prefix": "desc",
+    "description": "\"methods implementing descriptors\" b",
+    "body": [
+      "def __get__(self, instance, owner):",
+      "\t${1:pass}",
+      "",
+      "def __set__(self, instance, value):",
+      "\t${2:pass}",
+      "",
+      "def __delete__(self, instance):",
+      "\t${3:pass}",
+      ""
+    ]
+  },
+  "cmp": {
+    "prefix": "cmp",
+    "description": "\"methods implementing rich comparison\"",
+    "body": [
+      "def __eq__(self, other):",
+      "\t${1:pass}",
+      "",
+      "def __ne__(self, other):",
+      "\t${2:pass}",
+      "",
+      "def __lt__(self, other):",
+      "\t${3:pass}",
+      "",
+      "def __le__(self, other):",
+      "\t${4:pass}",
+      "",
+      "def __gt__(self, other):",
+      "\t${5:pass}",
+      "",
+      "def __ge__(self, other):",
+      "\t${6:pass}",
+      "",
+      "def __cmp__(self, other):",
+      "\t${7:pass}",
+      ""
+    ]
+  },
+  "repr": {
+    "prefix": "repr",
+    "description": "\"methods implementing string representation\"",
+    "body": [
+      "def __repr__(self):",
+      "\t${1:pass}",
+      "",
+      "def __str__(self):",
+      "\t${2:pass}",
+      "",
+      "def __unicode__(self):",
+      "\t${3:pass}",
+      ""
+    ]
+  },
+  "numeric": {
+    "prefix": "numeric",
+    "description": "\"methods for emulating a numeric type\" b",
+    "body": [
+      "def __add__(self, other):",
+      "\t${1:pass}",
+      "",
+      "def __sub__(self, other):",
+      "\t${2:pass}",
+      "",
+      "def __mul__(self, other):",
+      "\t${3:pass}",
+      "",
+      "def __div__(self, other):",
+      "\t${4:pass}",
+      "",
+      "def __truediv__(self, other):",
+      "\t${5:pass}",
+      "",
+      "def __floordiv__(self, other):",
+      "\t${6:pass}",
+      "",
+      "def __mod__(self, other):",
+      "\t${7:pass}",
+      "",
+      "def __divmod__(self, other):",
+      "\t${8:pass}",
+      "",
+      "def __pow__(self, other):",
+      "\t${9:pass}",
+      "",
+      "def __lshift__(self, other):",
+      "\t${10:pass}",
+      "",
+      "def __rshift__(self, other):",
+      "\t${11:pass}",
+      "",
+      "def __and__(self, other):",
+      "\t${12:pass}",
+      "",
+      "def __xor__(self, other):",
+      "\t${13:pass}",
+      "",
+      "def __or__(self, other):",
+      "\t${14:pass}",
+      "",
+      "def __neg__(self):",
+      "\t${15:pass}",
+      "",
+      "def __pos__(self):",
+      "\t${16:pass}",
+      "",
+      "def __abs__(self):",
+      "\t${17:pass}",
+      "",
+      "def __invert__(self):",
+      "\t${18:pass}",
+      "",
+      "def __complex__(self):",
+      "\t${19:pass}",
+      "",
+      "def __int__(self):",
+      "\t${20:pass}",
+      "",
+      "def __long__(self):",
+      "\t${21:pass}",
+      "",
+      "def __float__(self):",
+      "\t${22:pass}",
+      "",
+      "def __oct__(self):",
+      "\t${22:pass}",
+      "",
+      "def __hex__(self):",
+      "\t${23:pass}",
+      "",
+      "def __index__(self):",
+      "\t${24:pass}",
+      "",
+      "def __coerce__(self, other):",
+      "\t${25:pass}",
+      ""
+    ]
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "print($0)"
+  },
+  "prs": {
+    "prefix": "prs",
+    "body": "print(\"$0\")"
+  },
+  "prf": {
+    "prefix": "prf",
+    "body": "print(f\"$0\")"
+  },
+  "fpr": {
+    "prefix": "fpr",
+    "body": "print($0, file=${1:sys.stderr})"
+  },
+  "fprs": {
+    "prefix": "fprs",
+    "body": "print(\"$0\", file=${1:sys.stderr})"
+  },
+  "fprf": {
+    "prefix": "fprf",
+    "body": "print(f\"$0\", file=${1:sys.stderr})"
+  }
+}

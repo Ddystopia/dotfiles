@@ -41,6 +41,13 @@ return packer.startup(function()
   -- lsp config
   use {
     'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
+    requires = {
+      {
+        "L3MON4D3/LuaSnip",
+        tag = "v<CurrentMajor>.*",
+        config = function() require("luasnip.loaders.from_snipmate").lazy_load() end
+      }
+    },
     config = function()
       local nvim_lsp = require('lspconfig')
       local luasnip = require('luasnip')
@@ -369,8 +376,6 @@ return packer.startup(function()
   use {
     'lervag/vimtex',
     config = function()
-      Map('n', '<leader>vp', ':VimtexCompile<cr>')
-
       Cmd "filetype plugin indent on"
       Cmd "syntax enable"
 
@@ -492,7 +497,6 @@ return packer.startup(function()
   use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
   use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
   -- use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
 
   use 'folke/lsp-colors.nvim' -- enables colors to lsp, like warnings, errors
 

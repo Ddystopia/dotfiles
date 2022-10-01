@@ -1,0 +1,712 @@
+{
+  "table": {
+    "prefix": "table",
+    "description": "\"Table environment\" b",
+    "body": [
+      "",
+      ""
+    ]
+  },
+  "fig": {
+    "prefix": "fig",
+    "description": "\"Figure environment\" b",
+    "body": [
+      "",
+      ""
+    ]
+  },
+  "ali": {
+    "prefix": "ali",
+    "description": "\"Align\" bA",
+    "body": [
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "template": {
+    "prefix": "template",
+    "description": "\"Basic template\" b",
+    "body": [
+      "",
+      "",
+      "",
+      "defsvgwidth{columnwidth\\}",
+      "import{./figures/\\}{#1.pdf_tex\\}",
+      "",
+      "",
+      "$0",
+      ""
+    ]
+  },
+  "beg": {
+    "prefix": "beg",
+    "description": "\"begin{} / end{}\" bA",
+    "body": [
+      "$0",
+      ""
+    ]
+  },
+  "...": {
+    "prefix": "...",
+    "description": "\"ldots\" iA",
+    "body": "",
+    "luasnip": {
+      "priority": 100
+    }
+  },
+  "enum": {
+    "prefix": "enum",
+    "description": "\"Enumerate\" bA",
+    "body": [
+      "item $0",
+      ""
+    ]
+  },
+  "item": {
+    "prefix": "item",
+    "description": "\"Itemize\" bA",
+    "body": [
+      "item $0",
+      ""
+    ]
+  },
+  "desc": {
+    "prefix": "desc",
+    "description": "\"Description\" b",
+    "body": [
+      "item[$1] $0",
+      ""
+    ]
+  },
+  "pac": {
+    "prefix": "pac",
+    "description": "\"Package\" b",
+    "body": ""
+  },
+  "=>": {
+    "prefix": "=>",
+    "description": "\"implies\" Ai",
+    "body": ""
+  },
+  "=<": {
+    "prefix": "=<",
+    "description": "\"implied by\" Ai",
+    "body": ""
+  },
+  "iff": {
+    "prefix": "iff",
+    "description": "\"iff\" Ai",
+    "body": ""
+  },
+  "mk": {
+    "prefix": "mk",
+    "description": "\"Math\" wA",
+    "body": [
+      "snip.rv = ' '",
+      "snip.rv = ''",
+      ""
+    ]
+  },
+  "dm": {
+    "prefix": "dm",
+    "description": "\"Math\" wA",
+    "body": ""
+  },
+  "//": {
+    "prefix": "//",
+    "description": "\"Fraction\" iA",
+    "body": ""
+  },
+  "/": {
+    "prefix": "/",
+    "description": "\"Fraction\" i",
+    "body": ""
+  },
+  "'((\\d+)|(\\d*)(\\\\)?([A-Za-z]+)((\\^|_)(\\{\\d+\\}|\\d))*)/'": {
+    "prefix": "'((\\d+)|(\\d*)(\\\\)?([A-Za-z]+)((\\^|_)(\\{\\d+\\}|\\d))*)/'",
+    "description": "\"symbol frac\" wrA",
+    "body": ""
+  },
+  "'^.*\\)/'": {
+    "prefix": "'^.*\\)/'",
+    "description": "\"() frac\" wrA",
+    "body": [
+      "if stripped[i] == ')': depth += 1",
+      "if stripped[i] == '(': depth -= 1",
+      "if depth == 0: break;",
+      "i-=1",
+      ""
+    ],
+    "luasnip": {
+      "priority": 1000
+    }
+  },
+  "'([A-Za-z])(\\d)'": {
+    "prefix": "'([A-Za-z])(\\d)'",
+    "description": "\"auto subscript\" wrA",
+    "body": ""
+  },
+  "'([A-Za-z])_(\\d\\d)'": {
+    "prefix": "'([A-Za-z])_(\\d\\d)'",
+    "description": "\"auto subscript2\" wrA",
+    "body": [
+      "",
+      ""
+    ]
+  },
+  "sympy": {
+    "prefix": "sympy",
+    "description": "\"sympyblock \" w",
+    "body": ""
+  },
+  "'sympy(.*)sympy'": {
+    "prefix": "'sympy(.*)sympy'",
+    "description": "\"sympy\" wr",
+    "body": "",
+    "luasnip": {
+      "priority": 10000
+    }
+  },
+  "math": {
+    "prefix": "math",
+    "description": "\"mathematicablock\" w",
+    "body": "",
+    "luasnip": {
+      "priority": 1000
+    }
+  },
+  "'math(.*)math'": {
+    "prefix": "'math(.*)math'",
+    "description": "\"math\" wr",
+    "body": "",
+    "luasnip": {
+      "priority": 10000
+    }
+  },
+  "==": {
+    "prefix": "==",
+    "description": "\"equals\" iA",
+    "body": ""
+  },
+  "!=": {
+    "prefix": "!=",
+    "description": "\"equals\" iA",
+    "body": ""
+  },
+  "ceil": {
+    "prefix": "ceil",
+    "description": "\"ceil\" iA",
+    "body": ""
+  },
+  "floor": {
+    "prefix": "floor",
+    "description": "\"floor\" iA",
+    "body": ""
+  },
+  "pmat": {
+    "prefix": "pmat",
+    "description": "\"pmat\" iA",
+    "body": ""
+  },
+  "bmat": {
+    "prefix": "bmat",
+    "description": "\"bmat\" iA",
+    "body": ""
+  },
+  "()": {
+    "prefix": "()",
+    "description": "\"left( right)\" iA",
+    "body": ""
+  },
+  "lr": {
+    "prefix": "lr",
+    "description": "\"left( right)\" i",
+    "body": ""
+  },
+  "lr(": {
+    "prefix": "lr(",
+    "description": "\"left( right)\" i",
+    "body": ""
+  },
+  "lr|": {
+    "prefix": "lr|",
+    "description": "\"left| right|\" i",
+    "body": ""
+  },
+  "lr{": {
+    "prefix": "lr{",
+    "description": "\"left\\{ right\\}\" i",
+    "body": ""
+  },
+  "lrb": {
+    "prefix": "lrb",
+    "description": "\"left\\{ right\\}\" i",
+    "body": ""
+  },
+  "lr[": {
+    "prefix": "lr[",
+    "description": "\"left[ right]\" i",
+    "body": ""
+  },
+  "lra": {
+    "prefix": "lra",
+    "description": "\"leftangle rightangle\" iA",
+    "body": ""
+  },
+  "conj": {
+    "prefix": "conj",
+    "description": "\"conjugate\" iA",
+    "body": ""
+  },
+  "sum": {
+    "prefix": "sum",
+    "description": "\"sum\" w",
+    "body": ""
+  },
+  "taylor": {
+    "prefix": "taylor",
+    "description": "\"taylor\" w",
+    "body": ""
+  },
+  "lim": {
+    "prefix": "lim",
+    "description": "\"limit\" w",
+    "body": ""
+  },
+  "limsup": {
+    "prefix": "limsup",
+    "description": "\"limsup\" w",
+    "body": ""
+  },
+  "prod": {
+    "prefix": "prod",
+    "description": "\"product\" w",
+    "body": ""
+  },
+  "part": {
+    "prefix": "part",
+    "description": "\"d/dx\" w",
+    "body": ""
+  },
+  "sq": {
+    "prefix": "sq",
+    "description": "\"\\sqrt{}\" iA",
+    "body": ""
+  },
+  "sr": {
+    "prefix": "sr",
+    "description": "\"^2\" iA",
+    "body": ""
+  },
+  "cb": {
+    "prefix": "cb",
+    "description": "\"^3\" iA",
+    "body": ""
+  },
+  "td": {
+    "prefix": "td",
+    "description": "\"to the ... power\" iA",
+    "body": ""
+  },
+  "rd": {
+    "prefix": "rd",
+    "description": "\"to the ... power\" iA",
+    "body": ""
+  },
+  "__": {
+    "prefix": "__",
+    "description": "\"subscript\" iA",
+    "body": ""
+  },
+  "ooo": {
+    "prefix": "ooo",
+    "description": "\"\\infty\" iA",
+    "body": ""
+  },
+  "rij": {
+    "prefix": "rij",
+    "description": "\"mrij\" i",
+    "body": ""
+  },
+  "<=": {
+    "prefix": "<=",
+    "description": "\"leq\" iA",
+    "body": ""
+  },
+  ">=": {
+    "prefix": ">=",
+    "description": "\"geq\" iA",
+    "body": ""
+  },
+  "EE": {
+    "prefix": "EE",
+    "description": "\"geq\" iA",
+    "body": ""
+  },
+  "AA": {
+    "prefix": "AA",
+    "description": "\"forall\" iA",
+    "body": ""
+  },
+  "xnn": {
+    "prefix": "xnn",
+    "description": "\"xn\" iA",
+    "body": ""
+  },
+  "ynn": {
+    "prefix": "ynn",
+    "description": "\"yn\" iA",
+    "body": [
+      "",
+      ""
+    ]
+  },
+  "xii": {
+    "prefix": "xii",
+    "description": "\"xi\" iA",
+    "body": ""
+  },
+  "yii": {
+    "prefix": "yii",
+    "description": "\"yi\" iA",
+    "body": ""
+  },
+  "xjj": {
+    "prefix": "xjj",
+    "description": "\"xj\" iA",
+    "body": ""
+  },
+  "yjj": {
+    "prefix": "yjj",
+    "description": "\"yj\" iA",
+    "body": ""
+  },
+  "xp1": {
+    "prefix": "xp1",
+    "description": "\"x\" iA",
+    "body": ""
+  },
+  "xmm": {
+    "prefix": "xmm",
+    "description": "\"x\" iA",
+    "body": ""
+  },
+  "R0+": {
+    "prefix": "R0+",
+    "description": "\"R0+\" iA",
+    "body": ""
+  },
+  "plot": {
+    "prefix": "plot",
+    "description": "\"Plot\" w",
+    "body": [
+      "centering",
+      "begin{tikzpicture\\}",
+      "\tbegin{axis\\}[",
+      "\t\txmin= ${2:-10}, xmax= ${3:10},",
+      "\t\tymin= ${4:-10}, ymax = ${5:10},",
+      "\t\taxis lines = middle,",
+      "\t]",
+      "\t\taddplot[domain=$2:$3, samples=${6:100}]{$7\\};",
+      "\tend{axis\\}",
+      "end{tikzpicture\\}",
+      "caption{$8\\}",
+      "label{${9:$8}\\}",
+      ""
+    ]
+  },
+  "nn": {
+    "prefix": "nn",
+    "description": "\"Tikz node\" w",
+    "body": ""
+  },
+  "mcal": {
+    "prefix": "mcal",
+    "description": "\"mathcal\" iA",
+    "body": ""
+  },
+  "lll": {
+    "prefix": "lll",
+    "description": "\"l\" iA",
+    "body": ""
+  },
+  "nabl": {
+    "prefix": "nabl",
+    "description": "\"nabla\" iA",
+    "body": ""
+  },
+  "xx": {
+    "prefix": "xx",
+    "description": "\"cross\" iA",
+    "body": ""
+  },
+  "**": {
+    "prefix": "**",
+    "description": "\"cdot\" iA",
+    "body": "",
+    "luasnip": {
+      "priority": 100
+    }
+  },
+  "norm": {
+    "prefix": "norm",
+    "description": "\"norm\" iA",
+    "body": ""
+  },
+  "'(?<!\\\\)(sin|cos|arccot|cot|csc|ln|log|exp|star|perp)'": {
+    "prefix": "'(?<!\\\\)(sin|cos|arccot|cot|csc|ln|log|exp|star|perp)'",
+    "description": "\"ln\" rwA",
+    "body": "",
+    "luasnip": {
+      "priority": 100
+    }
+  },
+  "dint": {
+    "prefix": "dint",
+    "description": "\"integral\" wA",
+    "body": "",
+    "luasnip": {
+      "priority": 300
+    }
+  },
+  "'(?<!\\\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec|pi|zeta|int)'": {
+    "prefix": "'(?<!\\\\)(arcsin|arccos|arctan|arccot|arccsc|arcsec|pi|zeta|int)'",
+    "description": "\"ln\" rwA",
+    "body": [
+      "",
+      ""
+    ],
+    "luasnip": {
+      "priority": 200
+    }
+  },
+  "->": {
+    "prefix": "->",
+    "description": "\"to\" iA",
+    "body": "",
+    "luasnip": {
+      "priority": 100
+    }
+  },
+  "<->": {
+    "prefix": "<->",
+    "description": "\"leftrightarrow\" iA",
+    "body": "",
+    "luasnip": {
+      "priority": 200
+    }
+  },
+  "!>": {
+    "prefix": "!>",
+    "description": "\"mapsto\" iA",
+    "body": ""
+  },
+  "invs": {
+    "prefix": "invs",
+    "description": "\"inverse\" iA",
+    "body": ""
+  },
+  "compl": {
+    "prefix": "compl",
+    "description": "\"complement\" iA",
+    "body": ""
+  },
+  "\\\\\\": {
+    "prefix": "\\\\\\",
+    "description": "\"setminus\" iA",
+    "body": ""
+  },
+  ">>": {
+    "prefix": ">>",
+    "description": "\">>\" iA",
+    "body": ""
+  },
+  "<<": {
+    "prefix": "<<",
+    "description": "\"<<\" iA",
+    "body": [
+      "",
+      ""
+    ]
+  },
+  "~~": {
+    "prefix": "~~",
+    "description": "\"~\" iA",
+    "body": ""
+  },
+  "set": {
+    "prefix": "set",
+    "description": "\"set\" wA",
+    "body": ""
+  },
+  "||": {
+    "prefix": "||",
+    "description": "\"mid\" iA",
+    "body": [
+      "",
+      ""
+    ]
+  },
+  "cc": {
+    "prefix": "cc",
+    "description": "\"subset\" Ai",
+    "body": ""
+  },
+  "notin": {
+    "prefix": "notin",
+    "description": "\"not in \" iA",
+    "body": ""
+  },
+  "inn": {
+    "prefix": "inn",
+    "description": "\"in \" iA",
+    "body": ""
+  },
+  "NN": {
+    "prefix": "NN",
+    "description": "\"n\" iA",
+    "body": ""
+  },
+  "Nn": {
+    "prefix": "Nn",
+    "description": "\"cap\" iA",
+    "body": ""
+  },
+  "UU": {
+    "prefix": "UU",
+    "description": "\"cup\" iA",
+    "body": ""
+  },
+  "uuu": {
+    "prefix": "uuu",
+    "description": "\"bigcup\" iA",
+    "body": ""
+  },
+  "nnn": {
+    "prefix": "nnn",
+    "description": "\"bigcap\" iA",
+    "body": ""
+  },
+  "OO": {
+    "prefix": "OO",
+    "description": "\"emptyset\" iA",
+    "body": ""
+  },
+  "RR": {
+    "prefix": "RR",
+    "description": "\"real\" iA",
+    "body": ""
+  },
+  "QQ": {
+    "prefix": "QQ",
+    "description": "\"Q\" iA",
+    "body": ""
+  },
+  "ZZ": {
+    "prefix": "ZZ",
+    "description": "\"Z\" iA",
+    "body": ""
+  },
+  "<!": {
+    "prefix": "<!",
+    "description": "\"normal\" iA",
+    "body": ""
+  },
+  "<>": {
+    "prefix": "<>",
+    "description": "\"hokje\" iA",
+    "body": [
+      "",
+      ""
+    ]
+  },
+  "'(?<!i)sts'": {
+    "prefix": "'(?<!i)sts'",
+    "description": "\"text subscript\" irA",
+    "body": ""
+  },
+  "tt": {
+    "prefix": "tt",
+    "description": "\"text\" iA",
+    "body": ""
+  },
+  "case": {
+    "prefix": "case",
+    "description": "\"cases\" wA",
+    "body": [
+      "$1",
+      ""
+    ]
+  },
+  "SI": {
+    "prefix": "SI",
+    "description": "\"SI\" iA",
+    "body": ""
+  },
+  "bigfun": {
+    "prefix": "bigfun",
+    "description": "\"Big function\" iA",
+    "body": [
+      "$1: $2 &longrightarrow $3 \\\\",
+      "$4 &longmapsto $1($4) = $0",
+      ""
+    ]
+  },
+  "cvec": {
+    "prefix": "cvec",
+    "description": "\"column vector\" iA",
+    "body": ""
+  },
+  "\"bar\"": {
+    "prefix": "\"bar\"",
+    "description": "\"bar\" riA",
+    "body": "",
+    "luasnip": {
+      "priority": 10
+    }
+  },
+  "\"([a-zA-Z])bar\"": {
+    "prefix": "\"([a-zA-Z])bar\"",
+    "description": "\"bar\" riA",
+    "body": "",
+    "luasnip": {
+      "priority": 100
+    }
+  },
+  "\"hat\"": {
+    "prefix": "\"hat\"",
+    "description": "\"hat\" riA",
+    "body": "",
+    "luasnip": {
+      "priority": 10
+    }
+  },
+  "\"([a-zA-Z])hat\"": {
+    "prefix": "\"([a-zA-Z])hat\"",
+    "description": "\"hat\" riA",
+    "body": "",
+    "luasnip": {
+      "priority": 100
+    }
+  },
+  "letw": {
+    "prefix": "letw",
+    "description": "\"let omega\" iA",
+    "body": [
+      "",
+      ""
+    ]
+  },
+  "HH": {
+    "prefix": "HH",
+    "description": "\"H\" iA",
+    "body": ""
+  },
+  "DD": {
+    "prefix": "DD",
+    "description": "\"D\" iA",
+    "body": ""
+  }
+}

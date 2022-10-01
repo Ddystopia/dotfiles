@@ -11,7 +11,9 @@ Format = function()
     xml = 'prettier -w --loglevel error',
     json = 'prettier -w --loglevel error',
     css = 'prettier -w --loglevel error',
-    scss = 'prettier -w --loglevel error', cmake = 'cmake-format -i', c = 'clang-format -style=file -i',
+    scss = 'prettier -w --loglevel error',
+    cmake = 'cmake-format -i',
+    c = 'clang-format -style=file -i',
     cpp = 'clang-format -style=file -i',
     markdown = 'prettier -w --prose-wrap always --loglevel error',
     python = 'black -q'
@@ -98,6 +100,8 @@ Map('n', '<leader>vr', ':luafile %')
 Map('n', '<leader>ps', ':set spell!<cr>')
 Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')
 Map('n', '<leader>pa', ':set list!<cr>')
+
+Map('n', '<leader>vp', ':VimtexCompile<cr>')
 
 if vim.env.TMUX == nil then Map('n', '<A-a>', ':silent !$TERM & disown<cr>') end
 

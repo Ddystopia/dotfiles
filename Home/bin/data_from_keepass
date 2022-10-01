@@ -1,0 +1,12 @@
+#!/bin/bash
+
+entry=$1
+db="$HOME/KeePassFiles/MainDatabase.kdbx"
+# echo -n "Password: "
+read -s password
+echo
+
+username=$(echo $password | keepassxc-cli show -sq -a username $db $entry)
+password=$(echo $password | keepassxc-cli show -sq -a password $db $entry)
+
+echo $username $password

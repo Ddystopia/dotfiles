@@ -1,0 +1,145 @@
+{
+  "#!": {
+    "prefix": "#!",
+    "description": "#!/usr/bin/awk -f",
+    "body": "#!/usr/bin/awk -f"
+  },
+  "inc": {
+    "prefix": "inc",
+    "description": "@include",
+    "body": "@include \"$1\"$0"
+  },
+  "loa": {
+    "prefix": "loa",
+    "description": "@load",
+    "body": "@load \"$1\"$0"
+  },
+  "beg": {
+    "prefix": "beg",
+    "description": "BEGIN { ... }",
+    "body": [
+      "BEGIN {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "begf": {
+    "prefix": "begf",
+    "description": "BEGINFILE { ... }",
+    "body": [
+      "BEGINFILE {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "end": {
+    "prefix": "end",
+    "description": "END { ... }",
+    "body": [
+      "END {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "endf": {
+    "prefix": "endf",
+    "description": "ENDFILE { ... }",
+    "body": [
+      "ENDFILE {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "pri": {
+    "prefix": "pri",
+    "description": "print",
+    "body": "print ${1:\"$2\"}$0"
+  },
+  "printf": {
+    "prefix": "printf",
+    "description": "printf",
+    "body": "printf(\"${1:%s}n\", $2)$0"
+  },
+  "ign": {
+    "prefix": "ign",
+    "description": "IGNORECASE",
+    "body": "IGNORECASE = ${1:1}"
+  },
+  "eif": {
+    "prefix": "eif",
+    "description": "else if ...",
+    "body": [
+      "else if ($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "description": "else {...}",
+    "body": [
+      "else {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "description": "while",
+    "body": [
+      "while ($1) {",
+      "\t$2",
+      "\\}"
+    ]
+  },
+  "do": {
+    "prefix": "do",
+    "description": "do ... while",
+    "body": [
+      "do {",
+      "\t$0",
+      "\\} while ($1)"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "description": "for",
+    "body": [
+      "for (${2:i} = 0; i < ${1:n}; ${3:++i}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "fore": {
+    "prefix": "fore",
+    "description": "for each",
+    "body": [
+      "for (${1:i} in ${2:array}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "sw": {
+    "prefix": "sw",
+    "description": "switch",
+    "body": [
+      "switch ($1) {",
+      "case $2:",
+      "\t$3",
+      "\tbreak",
+      "default:",
+      "\t$0",
+      "\tbreak",
+      "\\}"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "description": "case",
+    "body": [
+      "case $1:",
+      "\t$0",
+      "\tbreak"
+    ]
+  }
+}

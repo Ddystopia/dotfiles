@@ -1,0 +1,66 @@
+{
+  "+": {
+    "prefix": "+",
+    "body": [
+      "(+ $1",
+      "\t$0)",
+      ""
+    ]
+  },
+  "-": {
+    "prefix": "-",
+    "body": [
+      "(- $1",
+      "\t$0)",
+      ""
+    ]
+  },
+  "/": {
+    "prefix": "/",
+    "body": [
+      "(/ $1",
+      "\t$0)",
+      ""
+    ]
+  },
+  "*": {
+    "prefix": "*",
+    "body": [
+      "(* $1",
+      "\t$0)",
+      ""
+    ]
+  },
+  "def": {
+    "prefix": "def",
+    "body": [
+      "(define (${1:name})",
+      "\t\t${0:definition})",
+      ""
+    ]
+  },
+  "defl": {
+    "prefix": "defl",
+    "body": [
+      "(define ${1:name}",
+      "\t(lambda (x)(${0:definition})))",
+      ""
+    ]
+  },
+  "cond": {
+    "prefix": "cond",
+    "body": [
+      "(cond ((${1:predicate}) (${2:action}))",
+      "\t((${3:predicate}) (${0:action})))",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "(if (${1:predicate})",
+      "\t(${2:true-action})",
+      "\t(${0:false-action}))"
+    ]
+  }
+}
