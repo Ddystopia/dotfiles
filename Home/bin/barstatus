@@ -36,6 +36,7 @@ cpu() {
   echo "💻️" "$((100 * (($total - $prevtotal) - ($idle - $previdle))/($total - $prevtotal) ))% cpu"
 }
 net() {
+  delta=2
   numfmt() {
     local i=$(printf "%d" ${1:-0}) d="" s=0 l=3
     S=("B" "KiB" "MiB" "GiB" "TiB" "PiB" "EiB" "YiB" "ZiB")
@@ -53,18 +54,33 @@ net() {
     echo "$x${S[$s]}"
   }
   iface=$(ip addr | awk '/state UP/ {print $2}' | sed 's/.$//')
-  d_path="/sys/class/net/$iface/statistics/rx_bytes"
-  u_path="/sys/class/net/$iface/statistics/tx_bytes"
-  delta=2
+  interfaces=$(ip addr | grep -v lo | awk '/state (UNKNOWN|UP)/ {print $2}' | sed 's/.$//')
 
-  read pd pu <<< "$(cat $d_path) $(cat $u_path)"
+  download=0
+  upload=0
+  pd=() # previous download
+  pu=() # previous upload
+  nd=() # new download
+  nu=() # new upload
+
+  for iface in "${interfaces[@]}"; do
+    pd+=($(cat "/sys/class/net/$iface/statistics/rx_bytes"))
+    pu+=($(cat "/sys/class/net/$iface/statistics/tx_bytes"))
+  done
+
   sleep $delta
-  read nd nu <<< "$(cat $d_path) $(cat $u_path)"
 
-  d=$( numfmt $(( ($nd - $pd) / $delta )) )
-  u=$( numfmt $(( ($nu - $pu) / $delta )) )
+  for iface in "${interfaces[@]}"; do
+    nd+=($(cat "/sys/class/net/$iface/statistics/rx_bytes"))
+    nu+=($(cat "/sys/class/net/$iface/statistics/tx_bytes"))
+  done
 
-  echo "🔽$d/s 🔼$u/s"
+  for i in ${!pd[@]}; do
+    download=$(($download + (${nd[$i]} - ${pd[$i]}) / $delta ))
+    upload=$(($upload + (${nu[$i]} - ${pu[$i]}) / $delta ))
+  done
+
+  echo "🔽$(numfmt $download)/s 🔼$(numfmt $upload)/s"
 }
 blp() {
   percentage=$(bluetoothctl info | grep "Battery Percentage" | sed 's/.*(\([^)]*\)).*/\1/g')

@@ -15,6 +15,8 @@ export WALLPAPERS_DIR=/home/ddystopia/Media/wallpapers
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export LESSHISTFILE=-
 
+export _JAVA_AWT_WM_NONREPARENTING=1
+
 # export LIBGL_ALWAYS_SOFTWARE=1
 
 # system
