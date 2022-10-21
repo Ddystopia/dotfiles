@@ -235,13 +235,15 @@
 
 
 snippet template "Basic template" b
-  \documentclass[a4paper]{article}
+  \documentclass[12pt,twoside,slovak,a4paper]{article}
 
   \usepackage[utf8]{inputenc}
   \usepackage[T1]{fontenc}
   \usepackage{textcomp}
-  \usepackage[dutch]{babel}
+  \usepackage[slovak]{babel}
   \usepackage{amsmath, amssymb}
+  \usepackage[margin={1.7cm, 2.5cm}]{geometry}
+  \usepackage{fancyhdr}
 
 
   % figure support
@@ -260,6 +262,16 @@ snippet template "Basic template" b
   \begin{document}
     $0
   \end{document}
+
+snippet fancy "Fancy" b
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhfoffset[L]{5mm} % left extra length
+  \fancyhfoffset[R]{5mm} % right extra length
+  \lhead{\bfseries Oleksandr Babak, \newline ID: 122965}
+  \rhead{\today}
+  \fancyfoot[R]{\thepage}
+  \thispagestyle{fancy}
 
 
 snippet beg "begin{} / end{}" bA
@@ -852,6 +864,11 @@ snippet letw "let omega" iA
   Let $\Omega \subset \C$ be open.
 
 
+snippet up "uparrow" iA
+  \uparrow 
+
+snippet dn "downarrow" iA
+  \downarrow 
 
 snippet HH "H" iA
   \mathbb{H}
@@ -890,8 +907,9 @@ snippet tmplt "Template"
 snippet nc \newcommand
   \\newcommand{\\${1:cmd}}[${2:opt}]{${3:realcmd}} ${0}
 #usepackage
-snippet up \usepackage
+snippet usp \usepackage
   \\usepackage[${1:options}]{${2:package}} ${0}
+
 #newunicodechar
 snippet nuc \newunicodechar
   \\newunicodechar{${1}}{${2:\\ensuremath}${3:tex-substitute}}} ${0}

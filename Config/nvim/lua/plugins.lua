@@ -142,9 +142,9 @@ return packer.startup(function()
         Map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>')
 
         -- Set some keybinds conditional on server capabilities
-        if client.resolved_capabilities.document_formatting then
+        if client.server_capabilities.documentFormattingProvider then
           Map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
-        elseif client.resolved_capabilities.document_range_formatting then
+        elseif client.server_capabilities.documentFormattingProvider then
           Map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
         end
       end

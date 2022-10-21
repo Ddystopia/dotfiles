@@ -54,7 +54,7 @@ net() {
     echo "$x${S[$s]}"
   }
   iface=$(ip addr | awk '/state UP/ {print $2}' | sed 's/.$//')
-  interfaces=$(ip addr | grep -v lo | awk '/state (UNKNOWN|UP)/ {print $2}' | sed 's/.$//')
+  interfaces=($(ip addr | grep -v lo | awk '/state (UNKNOWN|UP)/ {print $2}' | sed 's/.$//'))
 
   download=0
   upload=0

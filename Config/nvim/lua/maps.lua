@@ -101,7 +101,7 @@ Map('n', '<leader>ps', ':set spell!<cr>')
 Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')
 Map('n', '<leader>pa', ':set list!<cr>')
 
-Map('n', '<leader>vp', ':VimtexCompile<cr>')
+Map('n', '<leader>vp', ':w<cr> :VimtexCompile<cr>')
 
 if vim.env.TMUX == nil then Map('n', '<A-a>', ':silent !$TERM & disown<cr>') end
 
