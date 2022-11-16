@@ -1,4 +1,5 @@
 Format = function()
+  -- try Neoformat
   Cmd "w"
   local formatCmds = {
     lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=95',
@@ -24,13 +25,15 @@ Format = function()
     print(f:read('*all'))
     f:close()
   end
-  Cmd "let tmp = winsaveview()"
+  -- Cmd "let tmp = winsaveview()"
+  Cmd "mkview"
   Cmd "e!"
-  Cmd "call winrestview(tmp)"
+  Cmd "loadview"
+  -- Cmd "call winrestview(tmp)"
   Cmd "IndentBlanklineRefresh"
 end
 
-CloceBuffer = function()
+CloseBuffer = function()
   if vim.fn.expand "%" == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then Cmd "q" end
 
   if not vim.bo.readonly then Cmd "w" end
@@ -100,6 +103,7 @@ Map('n', '<leader>vr', ':luafile %')
 Map('n', '<leader>ps', ':set spell!<cr>')
 Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')
 Map('n', '<leader>pa', ':set list!<cr>')
+Map('n', '<leader>gp', function() vim.lsp.buf.format() end)
 
 Map('n', '<leader>vp', ':w<cr> :VimtexCompile<cr>')
 

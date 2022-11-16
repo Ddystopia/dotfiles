@@ -64,15 +64,19 @@ net() {
   nu=() # new upload
 
   for iface in "${interfaces[@]}"; do
-    pd+=($(cat "/sys/class/net/$iface/statistics/rx_bytes"))
-    pu+=($(cat "/sys/class/net/$iface/statistics/tx_bytes"))
+    if [[ -d  "/sys/class/net/$iface" ]]; then
+      pd+=($(cat "/sys/class/net/$iface/statistics/rx_bytes"))
+      pu+=($(cat "/sys/class/net/$iface/statistics/tx_bytes"))
+    fi
   done
 
   sleep $delta
 
   for iface in "${interfaces[@]}"; do
-    nd+=($(cat "/sys/class/net/$iface/statistics/rx_bytes"))
-    nu+=($(cat "/sys/class/net/$iface/statistics/tx_bytes"))
+    if [[ -d  "/sys/class/net/$iface" ]]; then
+      nd+=($(cat "/sys/class/net/$iface/statistics/rx_bytes"))
+      nu+=($(cat "/sys/class/net/$iface/statistics/tx_bytes"))
+    fi
   done
 
   for i in ${!pd[@]}; do

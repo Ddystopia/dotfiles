@@ -60,7 +60,7 @@ settings:
   content.private_browsing:
     global: false
   content.proxy:
-    global: system
+    global: none
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: true
     https://mail.protonmail.com#mailto=%25s: true

@@ -53,6 +53,9 @@ return packer.startup(function()
       local luasnip = require('luasnip')
       -- local root_pattern = require('util.root_pattern')
 
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
       local on_attach = function(client, bufnr)
         -- require('lsp_signature').on_attach({
         --   bind = true,
@@ -60,8 +63,6 @@ return packer.startup(function()
         --   hi_parameter = "Todo",
         --   handler_opts = { border = "none" }
         -- })
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
         -- Set completeopt to have a better completion experience
         vim.o.completeopt = 'menu,menuone,noinsert,noselect'
@@ -126,9 +127,9 @@ return packer.startup(function()
         Map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
         Map('n', '<A-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 
-        Map('n', '<leader>la', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
-        Map('n', '<leader>lr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
-        Map('n', '<leader>ll',
+        Map('n', '<leader>ha', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
+        Map('n', '<leader>hr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+        Map('n', '<leader>hl',
             '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
 
         -- buf_map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
@@ -143,9 +144,9 @@ return packer.startup(function()
 
         -- Set some keybinds conditional on server capabilities
         if client.server_capabilities.documentFormattingProvider then
-          Map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+          Map("n", "<leader>hf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
         elseif client.server_capabilities.documentFormattingProvider then
-          Map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>")
+          Map("n", "<leader>hf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
         end
       end
       local servers = {
@@ -164,11 +165,16 @@ return packer.startup(function()
         on_attach = on_attach,
         cmd = { "ccls" },
         filetypes = { "c", "cpp", "objc", "objcpp" },
-        single_file_support = false,
+        single_file_support = true,
         init_options = {
           compilationDatabaseDirectory = "build",
           index = { threads = 0 },
-          clang = { excludeArgs = { "-frounding-math" } }
+          clang = {
+            -- extraArgs = { "-std=c++20", "-Wall", "-Wno-logical-op-parentheses" },
+            extraArgs = { "-Wall", "-Wno-logical-op-parentheses" },
+            excludeArgs = { "-frounding-math" }
+          },
+          client = { snippetSupport = true }
         }
       }
 
@@ -381,6 +387,7 @@ return packer.startup(function()
 
       vim.g.tex_flavor = 'latex'
       vim.g.vimtex_quickfix_mode = 0
+      vim.g.vimtex_format_enabled = true
       -- vim.opt.conceallevel=1
       vim.g.tex_conceal = 'abdmg'
       vim.g.vimtex_view_method = 'zathura'
@@ -458,12 +465,12 @@ return packer.startup(function()
     config = function()
       require'hop'.setup {}
 
-      Map("n", "<leader>h", "<cmd>lua require'hop'.hint_words()<cr>")
-      Map("n", "<leader>l", "<cmd>lua require'hop'.hint_words()<cr>")
-      Map("n", "<leader>k", "<cmd>lua require'hop'.hint_lines()<cr>")
-      Map("n", "<leader>j", "<cmd>lua require'hop'.hint_lines()<cr>")
-      Map("n", "<leader>f", "<cmd>lua require'hop'.hint_char1()<cr>")
-      Map("n", "<leader>s", "<cmd>lua require'hop'.hint_char2()<cr>")
+      Map("n", "<leader>h", function () require'hop'.hint_words() end)
+      Map("n", "<leader>l", function () require'hop'.hint_words() end)
+      Map("n", "<leader>k", function () require'hop'.hint_lines() end)
+      Map("n", "<leader>j", function () require'hop'.hint_lines() end)
+      Map("n", "<leader>f", function () require'hop'.hint_char1() end)
+      Map("n", "<leader>s", function () require'hop'.hint_char2() end)
     end
   }
 
