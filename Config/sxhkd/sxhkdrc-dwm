@@ -119,7 +119,7 @@ super + alt + p
 
 # toggle compton
 super + F12
-  toggle-process compton
+  toggle-process picom
 
 # toggle recorder
 super + F9

@@ -33,7 +33,7 @@ dependencies=(
   "tor" "thunar" "git" "alacritty" "ranger" "gvfs" "gvfs-mtp" "unrar" "rsync"
   "bash-language-server" "pipewire" "pipewire-audio-client-libraries" "pipewire-media-session"
   "flameshot" "filelight" "inkscape" "sassc" "bluez-utils" "yt-dlp" "noto-fonts-emoji"
-  "pdfjs" "pavucontrol" "compton" "android-tools" "usbtools" "lua-language-server"
+  "pdfjs" "pavucontrol" "android-tools" "usbtools" "lua-language-server" "picom"
 )
 
 sudo pacman -Suyy ${dependencies[@]}
@@ -41,7 +41,7 @@ sudo pacman -Suyy ${dependencies[@]}
 sudo npm -g i typescript-language-server yarn vscode-langservers-extracted emmet-ls
 sudo pip install black python-language-server pylsp pykeepass pynacl
 yay -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb xkb-switch \
-  compton-tryone-git unipicker ttf-nerd-fonts-symbols nerd-fonts-mononoki \
+  unipicker ttf-nerd-fonts-symbols nerd-fonts-mononoki \
   ttf-meslo-nerd-font-powerlevel10k nerd-fonts-fira-code tex-gyre-math-fonts \
   ttf-cm-unicode android-completion android-bash-completion
 luarocks install --server=https://luarocks.org/dev luaformatter
