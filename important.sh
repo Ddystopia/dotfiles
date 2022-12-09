@@ -33,7 +33,9 @@ sudo pacman -S --needed git base-devel linux-headers &&
   cd paru &&
   makepkg -si
 
-# "pandoc" "xfce4-power-manager"
+# pandoc xfce4-power-manager
+
+# xorg xf86-video-intel
 
 dependencies=(
   "noto-fonts" "noto-fonts-emoji"

@@ -23,7 +23,7 @@ add_to_bar() {
 }
 
 # define metrics functions
-dte() { echo "🕒️" $(date +"%A, %B %d %H:%M:%S"); }
+dte() { echo "🕒️" $(date +"%a, %b %d %H:%M:%S"); }
 mem() { echo "📝" $(free -h | awk '/Mem/ {printf "%s/%s\n", $3, $2}'); }
 lyt() { echo "🌍" $(xkb-switch); }
 cpu() {
@@ -46,7 +46,7 @@ net() {
       s=$((s + 1))
     done
     d=$(head -c $(($l - ${#i})) <<< $d)
-    if (( ${#d} > 0 )); then
+    if (( ${#d} > 0 && ${#i} < 3 )); then
       x="$i.$d"
     else
       x="$i"
@@ -86,10 +86,10 @@ net() {
 
   echo "🔽$(numfmt $download)/s 🔼$(numfmt $upload)/s"
 }
-blp() {
+btp() {
   percentage=$(bluetoothctl info | grep "Battery Percentage" | sed 's/.*(\([^)]*\)).*/\1/g')
   if [[ -n $percentage ]]; then
-    echo "🎧⚡️" $percentage%
+    echo "🎧⚡️" $percentage "%"
   fi
 }
 upd() {
@@ -106,9 +106,9 @@ upd() {
 }
 
 # add metrics to the bar
-add_to_bar cpu 0.00  # sleeps while evaluating
 add_to_bar net 0.00  # sleeps while evaluating
-add_to_bar blp 1.00
+add_to_bar cpu 0.00  # sleeps while evaluating
+add_to_bar btp 1.00
 add_to_bar lyt 0.09
 add_to_bar upd 60.0
 add_to_bar mem 1.00
@@ -117,7 +117,7 @@ add_to_bar dte 0.10
 # name process
 printf "barstatus" > /proc/$$/comm
 
-# wait for first part of data
+# wait for the first part of data
 sleep 0.01
 
 while true; do
@@ -134,6 +134,12 @@ while true; do
   if (( $(echo $line | wc -c) >= 3 )); then
     line=${line:0:-3}
   fi
+
+  # len is systray offset from right
+  # note than emoji have length 2
+  len=$((103))
+  line=$(awk -v p=$len 'length<p{ printf "%0*c%s\n",p-length," ",$0;next }1' <<< $line)
+  # echo $line
 
   xsetroot -name "$line"
 
