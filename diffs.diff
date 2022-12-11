@@ -1,5 +1,7 @@
 # /etc/pulse/client.conf
+...
 cookie-file = /tmp/pulse-cookie
+...
 # /etc/docker/daemon.json
 {
   "data-root": "/home/ddystopia/docker"
@@ -12,4 +14,12 @@ LANG=en_US.UTF-8
 SUBSYSTEM=="usb",ATTR{idVendor}=="[VENDOR ID]", MODE="0660", GROUP="adbusers"
 SUBSYSTEM=="usb",ATTR{idVendor}=="[VENDOR ID]",ATTR{idProduct}=="[PRODUCT ID]",SYMLINK+="android_adb"
 SUBSYSTEM=="usb",ATTR{idVendor}=="[VENDOR ID]",ATTR{idProduct}=="[PRODUCT ID]",SYMLINK+="android_fastboot"
-
+# /etc/lightdm/lightdm-gtk-greeter.conf
+...
+[greeter]
+background = /usr/share/pixmaps/lightdmback.png
+user-background = /usr/share/pixmaps/lightdmback.png
+default-user-image = /usr/share/pixmaps/lightdmavatar.png
+font-name = DejaVu Sans Book 10
+theme-name = Solarized-Dark-Orange
+...

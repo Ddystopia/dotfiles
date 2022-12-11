@@ -67,6 +67,12 @@ settings:
     https://mail.protonmail.com#mailto=%25s: true
   downloads.prevent_mixed_content:
     global: false
+  fonts.default_size:
+    global: 12pt
+  fonts.tabs.selected:
+    global: default_size default_family
+  fonts.tabs.unselected:
+    global: 12pt default_family
   scrolling.smooth:
     global: false
   statusbar.show:

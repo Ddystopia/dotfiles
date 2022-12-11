@@ -71,6 +71,8 @@ Map('n', '<leader>pr', function() vim.wo.relativenumber = not vim.wo.relativenum
 Map('n', '<leader>', '<nop>')
 Map('n', '<leader>y', '"+y')
 Map('v', '<leader>y', '"+y')
+Map('n', '<leader>p', '"+p')
+Map('v', '<leader>p', '"+p')
 
 Map('n', '<tab>', '<cmd>bn<cr>')
 Map('n', '<s-tab>', '<cmd>bp<cr>')

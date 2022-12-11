@@ -35,8 +35,6 @@ sudo pacman -S --needed git base-devel linux-headers &&
 
 # pandoc xfce4-power-manager
 
-# xorg xf86-video-intel
-
 dependencies=(
   "noto-fonts" "noto-fonts-emoji"
   "copyq" "python-pip" "flameshot" "zsh" 
@@ -59,12 +57,14 @@ dependencies=(
 sudo pacman -Suyy --needed ${dependencies[@]}
 
 sudo npm -g i typescript-language-server yarn vscode-langservers-extracted emmet-ls
-sudo pip install black python-language-server pylsp pykeepass pynacl
-paru -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb xkb-switch \
-  unipicker ttf-nerd-fonts-symbols nerd-fonts-mononoki \
-  ttf-meslo-nerd-font-powerlevel10k nerd-fonts-fira-code tex-gyre-math-fonts \
-  ttf-cm-unicode android-completion android-bash-completion xwinwrap
+sudo pip install black python-language-server pykeepass pynacl
+paru -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb-switch \
+  unipicker nerd-fonts-mononoki \
+  ttf-meslo-nerd-font-powerlevel10k tex-gyre-math-fonts \
+  ttf-cm-unicode android-completion xwinwrap
 luarocks install --server=https://luarocks.org/dev luaformatter
+
+# android-completion and android-bash-completion 
 
 if [[ ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]]; then
   git clone --depth 1 https://github.com/wbthomason/packer.nvim\
