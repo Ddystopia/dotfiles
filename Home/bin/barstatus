@@ -1,25 +1,61 @@
 #!/bin/bash
 
+# TODO: it's time to rewrite it to rust
+
 trap "pkill -9 -P $$; echo -e ""; exit 0" INT
 
 template_path=/tmp/barstatus
 
 metrics=()
+funcs=()
+intervals=()
+
+update() {
+  line=""
+
+  for metric in "${metrics[@]}"; do
+    value=$(cat $template_path.$metric 2> /dev/null)
+    if [[ -n $value ]]; then
+      line+=$value
+      line+=" | "
+    fi
+  done
+
+  if (( $(echo $line | wc -c) >= 3 )); then
+    line=${line:0:-3}
+  fi
+
+  # len is systray offset from right
+  # note than emoji have length 2
+  len=$((95))
+  line=$(awk -v p=$len 'length<p{ printf "%0*c%s\n",p-length," ",$0;next }1' <<< $line)
+  # echo $line
+
+  xsetroot -name "$line"
+}
+
+
+if [[ $1 == "--update" ]]; then 
+  update
+  exit 0
+fi
 
 add_to_bar() {
-  fn=$1
-  interval=$2
-  name=${3:-$1}
+  funcs+=("$1")
+  intervals+=("$2")
+  metrics+=("${3:-$1}")
+}
 
-  printf "barstatus $name" > /proc/$$/comm
-  metrics+=("$name")
+start_updaters() {
+  for ((i = 0 ; i < "${#metrics[@]}" ; i++)); do
+    printf "barstatus_${metrics[$i]}" > /proc/$$/comm; while true; do
+      value=$("${funcs[$i]}")
+      echo $value > "$template_path.${metrics[$i]}"
 
-  while true; do
-    value=$($fn)
-    echo $value > $template_path.$name
+      sleep "${intervals[$i]}"
+    done &
 
-    sleep $interval
-  done &
+  done
 }
 
 # define metrics functions
@@ -105,45 +141,33 @@ upd() {
   fi
 }
 
+stop() {
+  exit 0
+}
+
+
+# Main
+
+
 # add metrics to the bar
 add_to_bar net 0.00  # sleeps while evaluating
 add_to_bar cpu 0.00  # sleeps while evaluating
 add_to_bar btp 1.00
 add_to_bar lyt 0.09
 add_to_bar upd 60.0
-add_to_bar mem 1.00
+# add_to_bar mem 1.00
 add_to_bar dte 0.10
 
 # name process
+
+start_updaters
+
 printf "barstatus" > /proc/$$/comm
 
 # wait for the first part of data
 sleep 0.01
 
 while true; do
-  line=""
-
-  for metric in "${metrics[@]}"; do
-    value=$(cat $template_path.$metric 2> /dev/null)
-    if [[ -n $value ]]; then
-      line+=$value
-      line+=" | "
-    fi
-  done
-
-  if (( $(echo $line | wc -c) >= 3 )); then
-    line=${line:0:-3}
-  fi
-
-  # len is systray offset from right
-  # note than emoji have length 2
-  len=$((103))
-  line=$(awk -v p=$len 'length<p{ printf "%0*c%s\n",p-length," ",$0;next }1' <<< $line)
-  # echo $line
-
-  xsetroot -name "$line"
-
+  update
   sleep 0.19
-
 done
-

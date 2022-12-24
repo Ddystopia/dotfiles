@@ -1,5 +1,10 @@
 #!/bin/bash
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit 1
+fi
+
 new=${1:-1000}
 
-echo $new | sudo tee /sys/class/backlight/intel_backlight/brightness
+echo $new | tee /sys/class/backlight/intel_backlight/brightness
 

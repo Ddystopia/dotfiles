@@ -26,6 +26,9 @@
 
 # man-pages anbox
 
+# disable while typing
+# syndaemon -i 1.0 -K -t -d
+
 set -e
 
 sudo pacman -S --needed git base-devel linux-headers &&
@@ -36,8 +39,8 @@ sudo pacman -S --needed git base-devel linux-headers &&
 # pandoc xfce4-power-manager
 
 dependencies=(
-  "noto-fonts" "noto-fonts-emoji"
-  "copyq" "python-pip" "flameshot" "zsh" 
+  "noto-fonts" "noto-fonts-emoji" "exa" "acpilight"
+  "copyq" "python-pip" "flameshot" "zsh" "playerctl" "pacman-contrib"
   "ffmpeg" "btop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
   "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "inetutils"
   "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "nitrogen" "filelight" "zathura"

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cyc="/sys/class/power_supply/BAT0/cycle_count"
+full="/sys/class/power_supply/BAT0/charge_full"
+log="/home/ddystopia/Documents/battery_cycles.log"
+
+echo -e $(cat $cyc) '\t' $(cat $full) '\t' $(date +"%F") >> $log

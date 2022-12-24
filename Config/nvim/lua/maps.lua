@@ -84,6 +84,13 @@ Map('n', '<C-l>', '<cmd>bn<cr>')
 Map('n', '<C-j>', '<cmd>tabn<cr>')
 Map('n', '<C-k>', '<cmd>tabp<cr>')
 
+-- Vertical movements u/d half page
+Map('n', '<C-u>', '<C-u>zz');
+Map('n', '<C-d>', '<C-d>zz');
+
+Map('n', 'n', 'nzz');
+Map('n', 'N', 'Nzz');
+
 Map('n', 'gF', ':e <cfile><cr>')
 
 Map('n', '<leader>w', ':w!<cr>')
