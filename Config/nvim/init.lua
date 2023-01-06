@@ -1,59 +1,41 @@
-require "utils"
-
-vim.opt.hidden = true
-vim.opt.swapfile = false
-vim.opt.foldenable = false
-vim.opt.smartindent = true
-vim.opt.expandtab = true
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.scrolloff = 3
-Cmd "au BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4"
-
-vim.opt.fileencoding = 'utf-8'
-
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.wildignorecase = true
-vim.opt.mouse = 'a'
-vim.opt.clipboard = 'unnamed'
-
-vim.opt.spell = false
-vim.opt.spelllang = 'en_us,ru_yo'
-vim.opt.spellsuggest="best,9"
-vim.opt.iminsert = 0
-vim.opt.imsearch = -1
--- vim.opt.keymap = 'russian-jcukenwin'
-
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.wrap = false
-vim.opt.showmode = false
-vim.opt.signcolumn = 'no'
-vim.opt.cursorline = true
-
-vim.opt.list = true
-vim.opt.listchars = { trail = '⋅' }
-
-vim.opt.termguicolors = true
-
-vim.g.vimsyn_embed = 'l'
-
-vim.mapleader = ' '
-vim.g.mapleader = ' '
-
-vim.opt.guifont="droidsansmono nerd font 11"
-
-Cmd "au BufReadPost,BufRead *.zsh,.zshrc set ft=sh"
-Cmd "au BufReadPost,BufRead *.fish set ft=fish"
-Cmd "au BufReadPost,BufRead *.conf set ft=config"
-Cmd "au BufReadPost,BufRead *.asm set ft=nasm"
-Cmd "au BufReadPost,BufRead .prettierrc set ft=json"
-Cmd "au BufReadPost,BufRead *.rkt,*.rktl,*.rktd set filetype=scheme"
-
-Cmd "command! W :w!"
-Cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
-
+require "opts"
 require "plugins"
 require "maps"
+
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    'git', 'clone', '--filter=blob:none', '--single-branch',
+    'https://github.com/folke/lazy.nvim.git', lazypath
+  })
+end
+vim.opt.runtimepath:prepend(lazypath)
+
+require('lazy').setup('plugins', {
+  concurrency = 16,
+  install = { colorscheme = { 'dracula', 'habamax' } },
+  -- checker = { enabled = true, concurrency = 4 },
+  checker = { enabled = true },
+  defaults = { lazy = true, version = "*" },
+  performance = {
+    cache = {
+      enabled = true,
+      path = vim.fn.stdpath("cache") .. "/lazy/cache",
+      -- Once one of the following events triggers, caching will be disabled.
+      -- To cache all modules, set this to `{}`, but that is not recommended.
+      -- The default is to disable on:
+      --  * VimEnter: not useful to cache anything else beyond startup
+      --  * BufReadPre: this will be triggered early when opening a file from the command line directly
+      disable_events = { "UIEnter", "BufReadPre" },
+      ttl = 3600 * 24 * 5, -- keep unused modules for up to 5 days
+      rtp = {
+        disabled_plugins = {
+          "gzip", "matchit", "matchparen", "netrwPlugin", "tarPlugin", "tohtml", "tutor",
+          "zipPlugin"
+        }
+      }
+    }
+  }
+})
+
+Map('n', '<leader>L', ':Lazy<CR>')

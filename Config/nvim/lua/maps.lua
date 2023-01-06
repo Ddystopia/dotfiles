@@ -1,5 +1,5 @@
 Format = function()
-  -- try Neoformat
+  --  TODO: Neoformat
   Cmd "w"
   local formatCmds = {
     lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=95',
@@ -17,7 +17,8 @@ Format = function()
     c = 'clang-format -style=file -i',
     cpp = 'clang-format -style=file -i',
     markdown = 'prettier -w --prose-wrap always --loglevel error',
-    python = 'black -q'
+    python = 'black -q',
+    rust = 'rustfmt --config tab_spaces=2'
   }
   local command = formatCmds[vim.bo.filetype] or "sed -i -e 's/\\s\\+$//'"
   local f = io.popen(command .. ' "' .. vim.fn.expand("%") .. '" 3>&1 1>&3 2>&3')
@@ -26,15 +27,17 @@ Format = function()
     f:close()
   end
   -- Cmd "let tmp = winsaveview()"
-  Cmd "mkview"
-  Cmd "e!"
-  Cmd "loadview"
   -- Cmd "call winrestview(tmp)"
+  Cmd [[
+  mkview
+  e!
+  loadview
+  ]]
   Cmd "IndentBlanklineRefresh"
 end
 
 CloseBuffer = function()
-  if vim.fn.expand "%" == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then Cmd "q" end
+  if vim.fn.expand("%") == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then Cmd "q" end
 
   if not vim.bo.readonly then Cmd "w" end
 
@@ -113,8 +116,6 @@ Map('n', '<leader>ps', ':set spell!<cr>')
 Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')
 Map('n', '<leader>pa', ':set list!<cr>')
 Map('n', '<leader>gp', function() vim.lsp.buf.format() end)
-
-Map('n', '<leader>vp', ':w<cr> :VimtexCompile<cr>')
 
 if vim.env.TMUX == nil then Map('n', '<A-a>', ':silent !$TERM & disown<cr>') end
 

@@ -13,6 +13,7 @@ alias cp="cp -r"
 alias pacman="sudo pacman"
 alias zathura="zathura --mode fullscreen"
 alias nv="nvim"
+alias make="make -j$(nproc)"
 alias ip='ip --color=auto'
 alias myip='curl -Z ifconfig.me; echo ""' 
 alias myip4='dig @resolver4.opendns.com myip.opendns.com +short -4'

@@ -1,0 +1,168 @@
+#!/bin/bash
+
+# TODO: it's time to rewrite it to rust
+
+trap "pkill -9 -P $$; echo -e ""; exit 0" INT
+
+template_path=/tmp/barstatus
+
+metrics=()
+funcs=()
+intervals=()
+
+update() {
+  line=""
+
+  for metric in "${metrics[@]}"; do
+    value=$(cat $template_path.$metric 2> /dev/null)
+    if [[ -n $value ]]; then
+      line+=$value
+      line+=" | "
+    fi
+  done
+
+  if (( $(echo $line | wc -c) >= 3 )); then
+    line=${line:0:-3}
+  fi
+
+  # len is systray offset from right
+  # note than emoji have length 2
+  len=$((95))
+  line=$(awk -v p=$len 'length<p{ printf "%0*c%s\n",p-length," ",$0;next }1' <<< $line)
+  # echo $line
+
+  xsetroot -name "$line"
+}
+
+
+if [[ $1 == "--update" ]]; then 
+  update
+  exit 0
+fi
+
+add_to_bar() {
+  funcs+=("$1")
+  intervals+=("$2")
+  metrics+=("${3:-$1}")
+}
+
+start_updaters() {
+  for ((i = 0 ; i < "${#metrics[@]}" ; i++)); do
+    printf "barstatus_${metrics[$i]}" > /proc/$$/comm; while true; do
+      value=$("${funcs[$i]}")
+      echo $value > "$template_path.${metrics[$i]}"
+
+      sleep "${intervals[$i]}"
+    done &
+
+  done
+}
+
+# define metrics functions
+dte() { echo "🕒️" $(date +"%a, %b %d %H:%M:%S"); }
+mem() { echo "📝" $(free -h | awk '/Mem/ {printf "%s/%s\n", $3, $2}'); }
+lyt() { echo "🌍" $(xkb-switch); }
+cpu() {
+  read cpu a b c previdle rest < /proc/stat
+  prevtotal=$((a+b+c+previdle))
+  sleep 0.5
+  read cpu a b c idle rest < /proc/stat
+  total=$((a+b+c+idle))
+
+  echo "💻️" "$((100 * (($total - $prevtotal) - ($idle - $previdle))/($total - $prevtotal) ))% cpu"
+}
+net() {
+  delta=2
+  numfmt() {
+    local i=$(printf "%d" ${1:-0}) d="" s=0 l=3
+    S=("B" "KiB" "MiB" "GiB" "TiB" "PiB" "EiB" "YiB" "ZiB")
+    while ((i > 1024 && s < ${#S[@]}-1)); do
+      printf -v d "%02d" $((i % 1024 * 100 / 1024))
+      i=$((i / 1024))
+      s=$((s + 1))
+    done
+    d=$(head -c $(($l - ${#i})) <<< $d)
+    if (( ${#d} > 0 && ${#i} < 3 )); then
+      x="$i.$d"
+    else
+      x="$i"
+    fi
+    echo "$x${S[$s]}"
+  }
+  # iface=$(ip addr | awk '/state UP/ {print $2}' | sed 's/.$//')
+  interfaces=($(ip addr | grep -v lo | awk '/state (UNKNOWN|UP)/ {print $2}' | sed 's/.$//'))
+
+  download=0
+  upload=0
+  pd=() # previous download
+  pu=() # previous upload
+  nd=() # new download
+  nu=() # new upload
+
+  for iface in "${interfaces[@]}"; do
+    if [[ -d  "/sys/class/net/$iface" ]]; then
+      pd+=($(cat "/sys/class/net/$iface/statistics/rx_bytes"))
+      pu+=($(cat "/sys/class/net/$iface/statistics/tx_bytes"))
+    fi
+  done
+
+  sleep $delta
+
+  for iface in "${interfaces[@]}"; do
+    if [[ -d  "/sys/class/net/$iface" ]]; then
+      nd+=($(cat "/sys/class/net/$iface/statistics/rx_bytes"))
+      nu+=($(cat "/sys/class/net/$iface/statistics/tx_bytes"))
+    fi
+  done
+
+  for i in ${!pd[@]}; do
+    download=$(($download + (${nd[$i]} - ${pd[$i]}) / $delta ))
+    upload=$(($upload + (${nu[$i]} - ${pu[$i]}) / $delta ))
+  done
+
+  echo "🔽$(numfmt $download)/s 🔼$(numfmt $upload)/s"
+}
+btp() {
+  percentage=$(bluetoothctl info | grep "Battery Percentage" | sed 's/.*(\([^)]*\)).*/\1/g')
+  if [[ -n $percentage ]]; then
+    echo "🎧⚡️" $percentage "%"
+  fi
+}
+upd() {
+  updates=$(checkupdates 2> /dev/null)
+  emoji="🔁"
+
+  if [[ "$updates" =~ "linux" ]]; then
+    emoji+="!"
+  fi
+
+  if (( $(echo "$updates" | wc -w) > 0)); then
+    echo $emoji $(echo "$updates" | wc -l)
+  fi
+}
+
+# Main
+
+
+# add metrics to the bar
+add_to_bar net 0.00  # sleeps while evaluating
+add_to_bar cpu 0.00  # sleeps while evaluating
+add_to_bar btp 1.00
+add_to_bar lyt 0.09
+add_to_bar upd 60.0
+# add_to_bar mem 1.00
+add_to_bar dte 0.10
+
+# name process
+
+start_updaters
+
+printf "barstatus" > /proc/$$/comm
+
+# wait for the first part of data
+sleep 0.01
+
+while true; do
+  update
+  sleep 0.19
+done

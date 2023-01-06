@@ -18,7 +18,7 @@ ctrl + alt + t
 
 # switch layout
 super + space
-  switch-layout; barstatus --update
+  switch-layout
 
 #super + alt + space
 #  xkb-switch -s ua

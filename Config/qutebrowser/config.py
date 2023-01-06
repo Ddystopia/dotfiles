@@ -151,7 +151,7 @@ config.set("content.cookies.accept", "all", "chrome-devtools://*")
 config.set("content.cookies.accept", "all", "devtools://*")
 
 
-config.set("content.headers.user_agent", user_agent)
+# config.set("content.headers.user_agent", user_agent)
 
 # config.set(
 #     "content.headers.user_agent",

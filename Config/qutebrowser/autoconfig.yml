@@ -67,6 +67,8 @@ settings:
     https://mail.protonmail.com#mailto=%25s: true
   downloads.prevent_mixed_content:
     global: false
+  fonts.default_family:
+    global: Meslo LG S DZ
   fonts.default_size:
     global: 12pt
   fonts.tabs.selected:
