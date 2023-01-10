@@ -1,5 +1,5 @@
 Format = function()
-  --  TODO: Neoformat
+  --  TODO: Neoformat / explore vim.buf.format
   Cmd "w"
   local formatCmds = {
     lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=95',
@@ -14,8 +14,8 @@ Format = function()
     css = 'prettier -w --loglevel error',
     scss = 'prettier -w --loglevel error',
     cmake = 'cmake-format -i',
-    c = 'clang-format -style=file -i',
-    cpp = 'clang-format -style=file -i',
+    c = 'clang-format -stylefile -i',
+    cpp = 'clang-format -stylefile -i',
     markdown = 'prettier -w --prose-wrap always --loglevel error',
     python = 'black -q',
     rust = 'rustfmt --config tab_spaces=2'
@@ -64,7 +64,7 @@ Map('n', '<A-l>', function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end
 Map('i', '<A-l>', '<C-^>')
 
 Map('n', '<leader>F', Format)
-Map('v', '<leader>c', "!column -t -s= -o=<cr>")
+Map('v', '<leader>c', "!column -t -l2 -s= -o=<cr>")
 
 Map('n', '<leader>pw', ToggleWrap)
 Map('n', '<leader>sc', function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)
@@ -76,16 +76,6 @@ Map('n', '<leader>y', '"+y')
 Map('v', '<leader>y', '"+y')
 Map('n', '<leader>p', '"+p')
 Map('v', '<leader>p', '"+p')
-
-Map('n', '<tab>', '<cmd>bn<cr>')
-Map('n', '<s-tab>', '<cmd>bp<cr>')
-
-Map('i', '<C-h>', '<esc><cmd>bp<cr>')
-Map('i', '<C-l>', '<esc><cmd>bn<cr>')
-Map('n', '<C-h>', '<cmd>bp<cr>')
-Map('n', '<C-l>', '<cmd>bn<cr>')
-Map('n', '<C-j>', '<cmd>tabn<cr>')
-Map('n', '<C-k>', '<cmd>tabp<cr>')
 
 -- Vertical movements u/d half page
 Map('n', '<C-u>', '<C-u>zz');

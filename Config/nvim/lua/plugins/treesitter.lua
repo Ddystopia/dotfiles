@@ -6,7 +6,7 @@ local M = {
 
 M.dependencies = {
   'nvim-treesitter/nvim-treesitter-textobjects', --
-  'RRethy/nvim-treesitter-textsubjects'
+  'RRethy/nvim-treesitter-textsubjects', 'p00f/nvim-ts-rainbow'
   -- 'romgrk/nvim-treesitter-context'
 }
 
@@ -14,7 +14,13 @@ M.config = function()
   local treesitter = require('nvim-treesitter.configs')
 
   treesitter.setup {
-    highlight = { enable = true },
+    highlight = {
+      enable = true,
+      disable = function(_, bufnr) -- lang: str, bufnr: buf    Disable in large buffers
+        return vim.api.nvim_buf_line_count(bufnr) > 50000
+      end
+
+    },
 
     incremental_selection = {
       enable = true,
@@ -31,7 +37,7 @@ M.config = function()
       -- colors = { "#d900ff", "#00ffd9", "#ffd700" }
     },
 
-    context_commentstring = { enable = true, config = { fish = "# %s" } },
+    context_commentstring = { enable = true, config = { fish = "# %s", scheme = ";; %s" } },
 
     autotag = { enable = true },
 

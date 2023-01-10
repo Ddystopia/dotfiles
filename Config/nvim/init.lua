@@ -13,7 +13,7 @@ vim.opt.runtimepath:prepend(lazypath)
 
 require('lazy').setup('plugins', {
   concurrency = 16,
-  install = { colorscheme = { 'dracula', 'habamax' } },
+  install = { colorscheme = { 'dracula' } },
   -- checker = { enabled = true, concurrency = 4 },
   checker = { enabled = true },
   defaults = { lazy = true, version = "*" },
@@ -39,3 +39,4 @@ require('lazy').setup('plugins', {
 })
 
 Map('n', '<leader>L', ':Lazy<CR>')
+

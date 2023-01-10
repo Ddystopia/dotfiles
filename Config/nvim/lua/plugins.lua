@@ -1,18 +1,4 @@
----@type LazySpec[]
 local M = {
-  { -- theme
-    'dracula/vim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      Cmd('colorscheme dracula')
-      Cmd('hi CursorLine guibg=#21222C')
-      Cmd('hi CursorLineNr guifg=#F1FA8C guibg=#21222C gui=none')
-      Cmd('hi IndentLine guifg=#44475a')
-      -- to solve bug with multiple `:colorscheme dracula`
-      Cmd('runtime after/plugin/dracula.vim')
-    end
-  }, { 'dstein64/vim-startuptime' }, -- cowsay and pretty
   {
     'mhinz/vim-startify',
     lazy = false,
@@ -24,8 +10,10 @@ local M = {
       vim.g.startify_fortune_use_unicode = 1
       -- vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
     end
-  }, { -- bar at the bottom
+  }, --
+  { -- bar at the bottom
     "hoob3rt/lualine.nvim",
+    enabled = false,
     lazy = false,
     dependencies = 'kyazdani42/nvim-web-devicons',
     config = function()
@@ -60,7 +48,8 @@ local M = {
         }
       }
     end
-  }, { -- bar at the top
+  }, --
+  { -- bar at the top
     'akinsho/nvim-bufferline.lua',
     version = 'v2.*',
     lazy = false,
@@ -81,20 +70,38 @@ local M = {
           buffer_selected = { bold = true, italic = false }
         }
       }
+    end,
+    init = function()
+      Map('n', 'gb', function() require("bufferline").pick_buffer() end)
+
       Map('n', '<C-h>', function() require("bufferline").cycle(-1) end)
       Map('n', '<C-l>', function() require("bufferline").cycle(1) end)
-      Map('n', 'H', function() require("bufferline").move(-1) end)
-      Map('n', 'L', function() require("bufferline").move(1) end)
-      Map('n', 'gb', function() require("bufferline").pick_buffer() end)
+      Map('n', '<Tab>', function() require("bufferline").cycle(-1) end)
+      Map('n', '<S-Tab>', function() require("bufferline").cycle(1) end)
+      Map('i', '<C-h>', function()
+        Cmd "stopinsert";
+        require("bufferline").cycle(-1)
+      end)
+      Map('i', '<C-l>', function()
+        Cmd "stopinsert";
+        require("bufferline").cycle(1)
+      end)
+      Map('n', '<S-h>', function() require("bufferline").move(-1) end)
+      Map('n', '<S-l>', function() require("bufferline").move(1) end)
+      Map('n', '<C-j>', '<cmd>tabn<cr>')
+      Map('n', '<C-k>', '<cmd>tabp<cr>')
     end
-  }, { -- xkbswitch
+  }, --
+  { -- xkbswitch
     'lyokha/vim-xkbswitch',
     lazy = false,
+    -- keys = "<A-l>",
     config = function()
       vim.g.XkbSwitchEnabled = 1
       vim.g.XkbSwitchIMappings = { 'ru' }
     end
-  }, { -- indent blankline
+  }, --
+  { -- indent blankline
     'lukas-reineke/indent-blankline.nvim',
     lazy = false,
     config = function()
@@ -105,18 +112,21 @@ local M = {
       vim.g.indent_blankline_use_treesitter = true
       vim.g.indent_blankline_filetype_exclude = { 'markdown', 'tex', 'startify' }
     end
-  }, { -- highlights yank
+  }, --
+  { -- highlights yank
     'machakann/vim-highlightedyank',
     lazy = false,
     config = function() vim.g.highlightedyank_highlight_duration = 250 end
-  }, { -- colorize colors like this #01dd99
+  }, --
+  { -- colorize colors like this #01dd99
     'norcalli/nvim-colorizer.lua',
     lazy = false,
     config = function()
       require('colorizer').setup({ '*', css = { css = true }, scss = { scc = true } },
                                  { names = false })
     end
-  }, {
+  }, --
+  {
     'plasticboy/vim-markdown',
     ft = { "markdown" },
     config = function()
@@ -125,7 +135,8 @@ local M = {
       vim.g.vim_markdown_frontmatter = 1
       vim.g.vim_markdown_new_list_item_indent = 2
     end
-  }, {
+  }, --
+  {
     'lervag/vimtex',
     ft = { "tex", "bib" },
     dependencies = { 'KeitaNakamura/tex-conceal.vim' },
@@ -149,15 +160,12 @@ local M = {
 
       vim.g.maplocalleader = ","
     end
-  }, {
-    'tpope/vim-commentary',
-    lazy = false,
-    config = function()
-      -- Cmd "au FileType apache setlocal commentstring=#%s"
-      Cmd "au FileType scheme setlocal commentstring=;;%s"
-    end
-  }, { 'tpope/vim-surround', lazy = false }, { 'kana/vim-repeat', lazy = false }, {
-    -- { 'jiangmiao/auto-pairs', config = function() vim.g.AutoPairsMapCh = false end }
+  }, --
+  { 'tpope/vim-commentary', lazy = false }, --
+  { 'tpope/vim-surround', lazy = false }, --
+  { 'kana/vim-repeat', lazy = false }, --
+  -- { 'jiangmiao/auto-pairs', config = function() vim.g.AutoPairsMapCh = false end }
+  {
     'windwp/nvim-autopairs',
     lazy = false,
     config = function()
@@ -177,7 +185,9 @@ local M = {
       Map('i', 'Э', 'Э')
       Map('i', 'Ё', 'Ё')
     end
-  }, { 'tversteeg/registers.nvim', lazy = false }, {
+  }, --
+  { 'tversteeg/registers.nvim', lazy = false }, --
+  {
     'phaazon/hop.nvim',
     name = 'hop',
     config = true,
@@ -189,8 +199,7 @@ local M = {
       Map("n", "<leader>f", function() require'hop'.hint_char1() end)
       Map("n", "<leader>s", function() require'hop'.hint_char2() end)
     end
-  }, { 'onsails/lspkind-nvim', config = function() require('lspkind').init() end },
-  -- use 'ray-x/lsp_signature.nvim'
+  }, -- use 'ray-x/lsp_signature.nvim'
   {
     "ahmedkhalf/project.nvim",
     lazy = false,
@@ -206,8 +215,8 @@ local M = {
     'simrat39/symbols-outline.nvim',
     init = function() Map('n', '<leader>;', ':SymbolsOutline<CR>') end,
     config = true
-  }, { 'p00f/nvim-ts-rainbow', lazy = false }, -- use 'JoosepAlviste/nvim-ts-context-commentstring'
-  { 'jiangmiao/auto-pairs', lazy = false }, {
+  }, -- use 'JoosepAlviste/nvim-ts-context-commentstring'
+  {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
     lazy = false,
@@ -228,7 +237,8 @@ local M = {
         }
       }
     end
-  }, { 'folke/neodev.nvim', ft = { 'lua' } }
+  }, --
+  { 'folke/neodev.nvim', ft = { 'lua' }, config = true }
 
   --[[ use {
     'andweeb/presence.nvim',
@@ -254,27 +264,6 @@ local M = {
     end
   }, --]]
 
-  --[[ {
-    'RishabhRD/nvim-lsputils',
-    dependencies = { 'RishabhRD/popfix', lazy = true },
-    config = function()
-      vim.lsp.handlers['textDocument/codeAction'] =
-          require'lsputil.codeAction'.code_action_handler
-      vim.lsp.handlers['textDocument/references'] =
-          require'lsputil.locations'.references_handler
-      vim.lsp.handlers['textDocument/definition'] =
-          require'lsputil.locations'.definition_handler
-      vim.lsp.handlers['textDocument/declaration'] =
-          require'lsputil.locations'.declaration_handler
-      vim.lsp.handlers['textDocument/typeDefinition'] =
-          require'lsputil.locations'.typeDefinition_handler
-      vim.lsp.handlers['textDocument/implementation'] =
-          require'lsputil.locations'.implementation_handler
-      vim.lsp.handlers['textDocument/documentSymbol'] =
-          require'lsputil.symbols'.document_handler
-      vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-    end
-  } --]]
 }
 
 return M

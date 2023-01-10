@@ -1,13 +1,13 @@
-local M = {
-  'neovim/nvim-lspconfig', -- Collection of configurations for built-in LSP client
-  event = { 'BufReadPre' }
+local M = { -- Collection of configurations for built-in LSP client
+  'neovim/nvim-lspconfig',
+  event = { 'BufReadPost' }
 }
 
 M.dependencies = {
-  'folke/lsp-colors.nvim', -- enables colors to lsp, like warnings, errors
   'hrsh7th/nvim-cmp', --
   'hrsh7th/cmp-nvim-lsp', --
   'L3MON4D3/LuaSnip', --
+  'onsails/lspkind-nvim' --
   --[['SmiteshP/nvim-navic',--]]
 
 }
@@ -19,6 +19,8 @@ M.config = function()
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+  local lspkind = require('lspkind')
 
   local on_attach = function(client, bufnr)
     -- require('lsp_signature').on_attach({
@@ -34,6 +36,7 @@ M.config = function()
     local cmp = require 'cmp'
     cmp.setup {
       snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end },
+      sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } },
       mapping = {
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -62,21 +65,15 @@ M.config = function()
         end
       },
       -- completion = { autocomplete = false },
-      sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } }
+      formatting = {
+        format = lspkind.cmp_format({
+          mode = 'symbol', -- show only symbol annotations
+          maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+          ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+          before = function(_, vim_item) return vim_item end
+        })
+      }
     }
-
-    -- vim.opt.completeopt = "menuone,noinsert,noselect"
-    -- vim.g.completion_enable_auto_signature = 0
-    -- vim.g.completion_enable_auto_popup = 0
-    -- Cmd('imap <s-tab> <Plug>(completion_smart_s_tab)')
-    -- Map('i', '<tab>', 'cmp.mapping.complete')
-    -- Cmd('imap <c-space> <Plug>(completion_trigger)')
-    -- vim.g.completion_matching_smart_case = 1
-    -- vim.g.completion_matching_strategy_list = { 'exact', 'substring', 'fuzzy', 'all' }
-
-    -- vim.g.completion_confirm_key = ''
-
-    -- require('completion').on_attach()
 
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -106,26 +103,28 @@ M.config = function()
     -- Set some keybinds conditional on server capabilities
     if client.server_capabilities.documentFormattingProvider then
       Map("n", "<leader>hf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
-    elseif client.server_capabilities.documentFormattingProvider then
-      Map("n", "<leader>hf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
     end
   end
   local servers = {
-    "bashls", "vimls", "vuels", "tsserver", "yamlls", "jsonls", "cmake", "gopls", "cssls",
-    "rust_analyzer", "pyright"
+    "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "rust_analyzer", "pyright" -- "cmake", "vuels", "vimls",
   }
-  for _, lsp in ipairs(servers) do nvim_lsp[lsp].setup { on_attach = on_attach } end
+  for _, lsp in ipairs(servers) do
+    nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
+  end
 
   vim.g.rust_recommended_style = 0;
 
+  --[[
   nvim_lsp.emmet_ls.setup({
     on_attach = on_attach,
     capabilities = capabilities,
     filetypes = { "html", "css", "typescriptreact", "javascriptreact" }
   })
+  --]]
 
   nvim_lsp.ccls.setup {
     on_attach = on_attach,
+    capabilities = capabilities,
     cmd = { "ccls" },
     filetypes = { "c", "cpp", "objc", "objcpp" },
     single_file_support = true,
@@ -142,6 +141,7 @@ M.config = function()
   }
 
   nvim_lsp.texlab.setup {
+    capabilities = capabilities,
     settings = {
       latex = {
         build = {
@@ -156,75 +156,60 @@ M.config = function()
   }
 
   nvim_lsp.sumneko_lua.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
     settings = {
-      Lua = {
-        completion = {
-          callSnippet = "Replace"
-        }
-      }
+      Lua = { diagnostics = { globals = { 'vim' } }, completion = { callSnippet = "Replace" } }
     }
   })
 
-  -- nvim_lsp.sumneko_lua.setup {
-  --   cmd = { "/usr/bin/lua-language-server" },
-  --   settings = {
-  --     Lua = {
-  --       runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
-  --       diagnostics = { globals = { 'vim' } },
-  --       workspace = {
-  --         library = {
-  --           [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-  --           [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-  --         }
-  --       }
-  --     }
-  --   },
-  --   on_attach = on_attach
-  -- }
-  -- local eslint = {
-  --   lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-  --   lintStdin = true,
-  --   lintFormats = { "%f:%l:%c: %m" },
-  --   lintIgnoreExitCode = true,
-  --   formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-  --   formatStdin = true
-  -- }
-  -- local function eslint_config_exists()
-  --   local eslintrc = vim.fn.glob(".eslintrc*", 0, 1)
-  --   if not vim.tbl_isempty(eslintrc) then
-  --     return true
-  --   end
-  --   if vim.fn.filereadable("package.json") then
-  --     if vim.fn.json_decode(vim.fn.readfile("package.json"))["eslintConfig"] then
-  --       return true
-  --     end
-  --   end
-  --   return false
-  -- end
-  -- nvim_lsp.clangd.setup {
-  --   cmd = {
-  --     'clangd', '--header-insertion=never', '--suggest-missing-includes',
-  --     '--background-index', '-j=8', '--cross-file-rename',
-  --     '--pch-storage=memory', '--clang-tidy', -- '-std=c++17',
-  --     '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type'
-  --   },
-  --   -- on_init = require'clangd_nvim'.on_init,
-  --   -- callbacks = lsp_status.extensions.clangd.setup(),
-  --   capabilities = {
-  --     capabilities = { window = { workDoneProgress = true } },
-  --     textDocument = {
-  --       completion = { completionItem = { snippetSupport = true } },
-  --       semanticHighlightingCapabilities = { semanticHighlighting = true }
-  --     }
-  --   },
-  --   init_options = {
-  --     clangdFileStatus = true,
-  --     usePlaceholders = true,
-  --     completeUnimported = true
-  --   },
-  --   on_attach = function() end
-  -- }
+  --[[
+  nvim_lsp.clangd.setup {
+    cmd = {
+      'clangd', '--header-insertion=never', '--suggest-missing-includes',
+      '--background-index', '-j=8', '--cross-file-rename',
+      '--pch-storage=memory', '--clang-tidy', -- '-std=c++17',
+      '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type'
+    },
+    -- on_init = require'clangd_nvim'.on_init,
+    -- callbacks = lsp_status.extensions.clangd.setup(),
+    capabilities = {
+      capabilities = { window = { workDoneProgress = true } },
+      textDocument = {
+        completion = { completionItem = { snippetSupport = true } },
+        semanticHighlightingCapabilities = { semanticHighlighting = true }
+      }
+    },
+    init_options = {
+      clangdFileStatus = true,
+      usePlaceholders = true,
+      completeUnimported = true
+    },
+    on_attach = function() end
+  }
+  --]]
 
 end
 
+--[[ {
+    'RishabhRD/nvim-lsputils',
+    dependencies = { 'RishabhRD/popfix', lazy = true },
+    config = function()
+      vim.lsp.handlers['textDocument/codeAction'] =
+          require'lsputil.codeAction'.code_action_handler
+      vim.lsp.handlers['textDocument/references'] =
+          require'lsputil.locations'.references_handler
+      vim.lsp.handlers['textDocument/definition'] =
+          require'lsputil.locations'.definition_handler
+      vim.lsp.handlers['textDocument/declaration'] =
+          require'lsputil.locations'.declaration_handler
+      vim.lsp.handlers['textDocument/typeDefinition'] =
+          require'lsputil.locations'.typeDefinition_handler
+      vim.lsp.handlers['textDocument/implementation'] =
+          require'lsputil.locations'.implementation_handler
+      vim.lsp.handlers['textDocument/documentSymbol'] =
+          require'lsputil.symbols'.document_handler
+      vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+    end
+  } --]]
 return M
