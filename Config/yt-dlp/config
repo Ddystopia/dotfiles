@@ -8,8 +8,8 @@
 --embed-chapters
 --concurrent-fragments 16
 --download-archive dowmload-archive.txt
---external-downloader=aria2c
---external-downloader-args '--min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16'
+# --external-downloader=aria2c
+# --external-downloader-args '--min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16'
 
 -o '%(channel)s - %(title)s.%(ext)s'
 

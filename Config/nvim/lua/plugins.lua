@@ -1,5 +1,59 @@
 local M = {
   {
+    'luochen1990/rainbow',
+    lazy = false,
+    config = function()
+      vim.g.rainbow_active = 1;
+      -- vim.g.grainbow_conf = {
+      --   -- guifgs = { 'royalblue3', 'darkorange3', 'seagreen3', 'firebrick' },
+      --   -- ctermfgs = { 'lightblue', 'lightyellow', 'lightcyan', 'lightmagenta' },
+      --   guifgs = { "#bf616a", "#ffd700", "#a3de3c", "#ebcb8b", "#88c0d0" },
+      --   ctermfgs = { "#af5f5f", "#ffd700", "#afff00", "#d7af87", "#afd7ff" },
+      --   guis = { '' },
+      --   cterms = { '' },
+      --   operators = '_,_',
+      --   parentheses = {
+      --     'start=/(/ end=/)/ fold', 'start=/[/ end=/]/ fold',
+      --     'start=/{/ end=/}/ fold', 'start=/</ end=/>/ fold'
+      --   },
+      --   separately = {
+      --     markdown = {
+      --       parentheses_options = 'containedin=markdownCode contained' -- "enable rainbow for code blocks only
+      --     },
+      --     css = 0, -- disable this plugin for css files
+      --     nerdtree = 0 -- rainbow is conflicting with NERDTree, creating extra parentheses
+      --   }
+      -- }
+
+    end
+
+  }, {
+    'sbdchd/neoformat',
+    cmd = 'Neoformat',
+    init = function()
+      Map('n', '<leader>F', function()
+        Cmd [[
+          silent Neoformat
+          write
+        ]];
+      end)
+    end,
+    config = function()
+      vim.g.neoformat_rust_rustfmt = {
+        exe = 'rustfmt',
+        args = { '--config', 'tab_spaces=2' },
+        replace = 0,
+        stdin = 1
+      }
+      vim.g.neoformat_lua_luaformatter = {
+        exe = 'lua-format',
+        args = {
+          '--indent-width=2', '--spaces-inside-table-braces', '--column-limit=81'
+        }
+      }
+    end
+  }, --
+  {
     'mhinz/vim-startify',
     lazy = false,
     config = function()
@@ -39,7 +93,12 @@ local M = {
             'filename', {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
-              symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }
+              symbols = {
+                error = ' ',
+                warn = ' ',
+                info = ' ',
+                hint = ' '
+              }
             }
           },
           lualine_x = { 'filetype' },
@@ -74,17 +133,17 @@ local M = {
     init = function()
       Map('n', 'gb', function() require("bufferline").pick_buffer() end)
 
-      Map('n', '<C-h>', function() require("bufferline").cycle(-1) end)
       Map('n', '<C-l>', function() require("bufferline").cycle(1) end)
-      Map('n', '<Tab>', function() require("bufferline").cycle(-1) end)
-      Map('n', '<S-Tab>', function() require("bufferline").cycle(1) end)
-      Map('i', '<C-h>', function()
-        Cmd "stopinsert";
-        require("bufferline").cycle(-1)
-      end)
+      Map('n', '<C-h>', function() require("bufferline").cycle(-1) end)
+      Map('n', '<Tab>', function() require("bufferline").cycle(1) end)
+      Map('n', '<S-Tab>', function() require("bufferline").cycle(-1) end)
       Map('i', '<C-l>', function()
         Cmd "stopinsert";
         require("bufferline").cycle(1)
+      end)
+      Map('i', '<C-h>', function()
+        Cmd "stopinsert";
+        require("bufferline").cycle(-1)
       end)
       Map('n', '<S-h>', function() require("bufferline").move(-1) end)
       Map('n', '<S-l>', function() require("bufferline").move(1) end)
@@ -110,7 +169,9 @@ local M = {
       vim.g.indent_blankline_show_first_indent_level = false
       -- vim.g.indent_blankline_show_trailing_blankline_indent = false
       vim.g.indent_blankline_use_treesitter = true
-      vim.g.indent_blankline_filetype_exclude = { 'markdown', 'tex', 'startify' }
+      vim.g.indent_blankline_filetype_exclude = {
+        'markdown', 'mkd', 'tex', 'startify'
+      }
     end
   }, --
   { -- highlights yank
@@ -122,20 +183,15 @@ local M = {
     'norcalli/nvim-colorizer.lua',
     lazy = false,
     config = function()
-      require('colorizer').setup({ '*', css = { css = true }, scss = { scc = true } },
-                                 { names = false })
+      require('colorizer').setup({
+        '*',
+        css = { css = true },
+        scss = { scc = true }
+      }, { names = false })
     end
   }, --
-  {
-    'plasticboy/vim-markdown',
-    ft = { "markdown" },
-    config = function()
-      vim.g.vim_markdown_toc_autofit = 1
-      vim.g.vim_markdown_follow_anchor = 1
-      vim.g.vim_markdown_frontmatter = 1
-      vim.g.vim_markdown_new_list_item_indent = 2
-    end
-  }, --
+  -- ft = { "markdown" },
+  { 'plasticboy/vim-markdown', enabled = false, lazy = false }, --
   {
     'lervag/vimtex',
     ft = { "tex", "bib" },
@@ -192,9 +248,9 @@ local M = {
     name = 'hop',
     config = true,
     init = function()
-      Map("n", "<leader>h", function() require'hop'.hint_words() end)
+      -- Map("n", "<leader>h", function() require'hop'.hint_words() end)
+      -- Map("n", "<leader>k", function() require'hop'.hint_lines() end)
       Map("n", "<leader>l", function() require'hop'.hint_words() end)
-      Map("n", "<leader>k", function() require'hop'.hint_lines() end)
       Map("n", "<leader>j", function() require'hop'.hint_lines() end)
       Map("n", "<leader>f", function() require'hop'.hint_char1() end)
       Map("n", "<leader>s", function() require'hop'.hint_char2() end)
@@ -215,12 +271,13 @@ local M = {
     'simrat39/symbols-outline.nvim',
     init = function() Map('n', '<leader>;', ':SymbolsOutline<CR>') end,
     config = true
-  }, -- use 'JoosepAlviste/nvim-ts-context-commentstring'
+  }, --
   {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
     lazy = false,
     config = function()
+      Cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
       require("todo-comments").setup {
         signs = false,
         keywords = {
@@ -230,7 +287,11 @@ local M = {
             alt = { "FIXME", "BUG", "FIXIT", "FIX", "ISSUE" }
           },
           TODO = { icon = " ", color = "info" },
-          HACK = { icon = " ", color = "warning", alt = { "FUCK", "SHIT", "BAD" } },
+          HACK = {
+            icon = " ",
+            color = "warning",
+            alt = { "FUCK", "SHIT", "BAD" }
+          },
           WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
           PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
           NOTE = { icon = " ", color = "hint", alt = { "INFO" } }
@@ -246,8 +307,7 @@ local M = {
   } --]] --[[{
     'nvim-telescope/telescope.nvim',
     dependencies = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
-    config = function()
-      require('telescope').setup { defaults = { file_ignore_patterns = { "node_modules" } } }
+    init = function()
       Map('n', '<leader>t', '<cmd>Telescope<CR>')
       Map('n', '<leader>o', '<cmd>lua require("telescope.builtin").fd()<CR>')
       -- Map('n', '<leader>f', '<cmd>lua require("telescope.builtin").fd()<CR>')
@@ -261,6 +321,9 @@ local M = {
       Map('n', '<leader>d',
           '<cmd>lua require("telescope.builtin").lsp_workspace_diagnostics()<CR>')
       Map('n', '<leader>u', ':TodoTelescope<CR>')
+    end
+    config = function()
+      require('telescope').setup { defaults = { file_ignore_patterns = { "node_modules" } } }
     end
   }, --]]
 

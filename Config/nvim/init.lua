@@ -11,12 +11,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
+Map('n', '<leader>L', ':Lazy<CR>')
+
 require('lazy').setup('plugins', {
   concurrency = 16,
   install = { colorscheme = { 'dracula' } },
-  -- checker = { enabled = true, concurrency = 4 },
-  checker = { enabled = true },
+  checker = { enabled = true, notify = false },
   defaults = { lazy = true, version = "*" },
+  change_detection = { enabled = true, notify = false },
   performance = {
     cache = {
       enabled = true,
@@ -30,13 +32,12 @@ require('lazy').setup('plugins', {
       ttl = 3600 * 24 * 5, -- keep unused modules for up to 5 days
       rtp = {
         disabled_plugins = {
-          "gzip", "matchit", "matchparen", "netrwPlugin", "tarPlugin", "tohtml", "tutor",
-          "zipPlugin"
+          "gzip", "matchit", "matchparen", "netrwPlugin", "tarPlugin", "tohtml",
+          "tutor", "zipPlugin"
         }
       }
     }
   }
 })
 
-Map('n', '<leader>L', ':Lazy<CR>')
 

@@ -46,14 +46,11 @@ vim.g.mapleader = ' '
 
 vim.opt.guifont = "droidsansmono nerd font 11"
 
-Cmd [[
-au BufReadPost,BufRead *.zsh,.zshrc set ft=sh
-au BufReadPost,BufRead *.fish set ft=fish
-au BufReadPost,BufRead *.conf,.env,.env.example set ft=config
-au BufReadPost,BufRead *.asm set ft=nasm
-au BufReadPost,BufRead .prettierrc set ft=json
-au BufReadPost,BufRead *.rkt,*.rktl,*.rktd set filetype=scheme
-
-command! W :w!
-au BufReadPost,BufNewFile,BufRead * hi clear TODO
-]]
+Cmd "command! W :w!"
+Cmd "au BufReadPost,BufRead *.zsh,.zshrc set ft=sh"
+Cmd "au BufReadPost,BufRead *.fish set ft=fish"
+Cmd "au BufReadPost,BufRead *.conf,.env,.env.example set ft=config"
+Cmd "au BufReadPost,BufRead *.asm set ft=nasm"
+Cmd "au BufReadPost,BufRead .prettierrc set ft=json"
+Cmd "au BufReadPost,BufRead *.{rkt,rktl,rktd} set filetype=scheme"
+-- Cmd "au BufReadPost,BufRead *.md set filetype=markdown"

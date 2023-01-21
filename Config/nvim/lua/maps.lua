@@ -2,7 +2,7 @@ Format = function()
   --  TODO: Neoformat / explore vim.buf.format
   Cmd "w"
   local formatCmds = {
-    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=95',
+    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=85',
     go = 'gofmt -w',
     javascript = 'prettier -w --loglevel error',
     typescript = 'prettier -w --loglevel error',
@@ -37,7 +37,9 @@ Format = function()
 end
 
 CloseBuffer = function()
-  if vim.fn.expand("%") == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then Cmd "q" end
+  if vim.fn.expand("%") == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then
+    Cmd "q"
+  end
 
   if not vim.bo.readonly then Cmd "w" end
 
@@ -63,13 +65,15 @@ Map('i', '<C-v>', '<C-r>+')
 Map('n', '<A-l>', function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end)
 Map('i', '<A-l>', '<C-^>')
 
-Map('n', '<leader>F', Format)
+-- Map('n', '<leader>F', Format)
 Map('v', '<leader>c', "!column -t -l2 -s= -o=<cr>")
 
 Map('n', '<leader>pw', ToggleWrap)
-Map('n', '<leader>sc', function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)
+-- Map('n', '<leader>sc',
+--     function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)
 
-Map('n', '<leader>pr', function() vim.wo.relativenumber = not vim.wo.relativenumber end)
+Map('n', '<leader>pr',
+    function() vim.wo.relativenumber = not vim.wo.relativenumber end)
 
 Map('n', '<leader>', '<nop>')
 Map('n', '<leader>y', '"+y')

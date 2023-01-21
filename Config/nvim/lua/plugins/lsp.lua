@@ -12,6 +12,32 @@ M.dependencies = {
 
 }
 
+M.init = function()
+  -- Mappings
+  Map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
+  Map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
+  Map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+  Map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+
+  Map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
+  Map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>')
+  Map('n', '<leader>a', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
+  -- Map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+
+  Map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
+  Map('n', '[d', '<cmd>lua vim.diagnostic.get_prev()<CR>')
+  Map('n', ']d', '<cmd>lua vim.diagnostic.get_next()<CR>')
+  Map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>')
+
+  -- Map('n', '<leader>ha', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
+  -- Map('n', '<leader>hr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
+  -- Map('n', '<leader>hl',
+  --     '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
+
+  -- Map('n', 'gs', '<Cmd>ClangdSwitchSourceHeader<CR>')
+  -- Map('n', '<A-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+end
+
 M.config = function()
   local nvim_lsp = require('lspconfig')
   local luasnip = require('luasnip')
@@ -35,7 +61,9 @@ M.config = function()
     -- nvim-cmp setup
     local cmp = require 'cmp'
     cmp.setup {
-      snippet = { expand = function(args) require('luasnip').lsp_expand(args.body) end },
+      snippet = {
+        expand = function(args) require('luasnip').lsp_expand(args.body) end
+      },
       sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } },
       mapping = {
         ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -44,7 +72,10 @@ M.config = function()
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(cmp.complete()),
         ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+        ['<CR>'] = cmp.mapping.confirm {
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true
+        },
         ['<Tab>'] = function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -77,36 +108,14 @@ M.config = function()
 
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    -- Mappings
-    -- buf_map('n', 'gs', '<Cmd>ClangdSwitchSourceHeader<CR>')
-    Map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-    Map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>')
-    Map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
-    Map('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-    Map('n', '<A-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-
-    Map('n', '<leader>ha', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
-    Map('n', '<leader>hr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
-    Map('n', '<leader>hl',
-        '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
-
-    -- buf_map('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-    Map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>')
-    Map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-    Map('n', '<leader>a', '<Cmd>lua vim.lsp.buf.code_action()<CR>')
-
-    Map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>')
-    Map('n', '[d', '<cmd>lua vim.diagnostic.get_prev()<CR>')
-    Map('n', ']d', '<cmd>lua vim.diagnostic.get_next()<CR>')
-    Map('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>')
-
     -- Set some keybinds conditional on server capabilities
     if client.server_capabilities.documentFormattingProvider then
       Map("n", "<leader>hf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
     end
   end
   local servers = {
-    "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "rust_analyzer", "pyright" -- "cmake", "vuels", "vimls",
+    "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "rust_analyzer",
+    "pyright" -- "cmake", "vuels", "vimls",
   }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
@@ -145,7 +154,10 @@ M.config = function()
     settings = {
       latex = {
         build = {
-          args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "-outdir=./build", "%f" },
+          args = {
+            "-pdf", "-interaction=nonstopmode", "-synctex=1", "-outdir=./build",
+            "%f"
+          },
           outputDirectory = "./build",
           onSave = true
         },
@@ -159,7 +171,10 @@ M.config = function()
     capabilities = capabilities,
     on_attach = on_attach,
     settings = {
-      Lua = { diagnostics = { globals = { 'vim' } }, completion = { callSnippet = "Replace" } }
+      Lua = {
+        diagnostics = { globals = { 'vim' } },
+        completion = { callSnippet = "Replace" }
+      }
     }
   })
 
