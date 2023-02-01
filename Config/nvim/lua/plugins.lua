@@ -190,12 +190,17 @@ local M = {
       }, { names = false })
     end
   }, --
-  -- ft = { "markdown" },
-  { 'plasticboy/vim-markdown', enabled = false, lazy = false }, --
+  {
+    'plasticboy/vim-markdown',
+    commit = "df4be8626e2c5b2a42eb60e1f100fce469b81f7d",
+    dependencies = { 'godlygeek/tabular' },
+    ft = { "markdown" },
+    enabled = true
+  }, --
   {
     'lervag/vimtex',
     ft = { "tex", "bib" },
-    dependencies = { 'KeitaNakamura/tex-conceal.vim' },
+    dependencies = { 'KeitaNakamura/tex-conceal.vim', 'godlygeek/tabular' },
     config = function()
       Cmd "filetype plugin indent on"
       Cmd "syntax enable"

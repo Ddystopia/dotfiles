@@ -14,7 +14,7 @@ c: ConfigContainer = c  # type: ignore # noqa: F821
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
-user_agent = "Mozilla/5.0 (Windows NT 10.0; rv:94.0) Gecko/20100101 Firefox/94.0"
+user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0"
 XDG_CONFIG_HOME = os.environ["XDG_CONFIG_HOME"]
 
 config.load_autoconfig()
@@ -110,6 +110,8 @@ c.bindings.key_mappings = {
 }
 # fmt: on
 
+config.bind("yy", "yank pretty-url")
+
 # Bindings for normal mode
 config.bind("zyf", "hint links spawn -d mpv --keep-open=yes {hint-url}")
 config.bind("zyy", "spawn -d mpv {url}")
@@ -151,7 +153,9 @@ config.set("content.cookies.accept", "all", "chrome-devtools://*")
 config.set("content.cookies.accept", "all", "devtools://*")
 
 
-# config.set("content.headers.user_agent", user_agent)
+config.set("content.headers.user_agent", user_agent)
+config.set("content.headers.user_agent", " Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.8 Chrome/87.0.4280.144 Safari/537.36", "https://*.openai.com/*")
+
 
 # config.set(
 #     "content.headers.user_agent",
