@@ -9,7 +9,18 @@ local M = {
 M.dependencies = {
   'nvim-treesitter/nvim-treesitter-textobjects', --
   'RRethy/nvim-treesitter-textsubjects', --
-  'p00f/nvim-ts-rainbow', --
+  {
+    'p00f/nvim-ts-rainbow',
+    config = function()
+      Cmd [[
+    hi rainbowcol1 guifg=#bf616a
+    hi rainbowcol2 guifg=#ffd700
+    hi rainbowcol3 guifg=#a3de3c
+    hi rainbowcol4 guifg=#ebcb8b
+    hi rainbowcol5 guifg=#88c0d0
+  ]]
+    end
+  }, --
   'romgrk/nvim-treesitter-context', --
   'JoosepAlviste/nvim-ts-context-commentstring'
 }
@@ -33,7 +44,8 @@ M.config = function()
     indent = { enable = true },
 
     rainbow = {
-      enable = false,
+      enable = true,
+      -- disable = { "html" },
       extended_mode = true,
       max_file_lines = nil,
       colors = { "#bf616a", "#ffd700", "#a3de3c", "#ebcb8b", "#88c0d0" },

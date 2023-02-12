@@ -2,8 +2,9 @@ local M = {
   {
     'luochen1990/rainbow',
     lazy = false,
+    enabled = false,
     config = function()
-      vim.g.rainbow_active = 1;
+      -- vim.g.rainbow_active = 1;
       -- vim.g.grainbow_conf = {
       --   -- guifgs = { 'royalblue3', 'darkorange3', 'seagreen3', 'firebrick' },
       --   -- ctermfgs = { 'lightblue', 'lightyellow', 'lightcyan', 'lightmagenta' },
@@ -39,6 +40,10 @@ local M = {
       end)
     end,
     config = function()
+      vim.g.neoformat_html_htmlbeautify = {
+        exe = 'html-beautify',
+        args = { '--indent-size', '2' }
+      }
       vim.g.neoformat_rust_rustfmt = {
         exe = 'rustfmt',
         args = { '--config', 'tab_spaces=2' },

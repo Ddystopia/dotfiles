@@ -16,7 +16,7 @@ window:
     lines: 37
   padding:
     x: 4
-    y: 4
+    y: 2
 
 font:
   size: 11

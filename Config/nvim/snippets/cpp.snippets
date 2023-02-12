@@ -1,27 +1,23 @@
 extends c
 
 ## Main
-# main()
-snippet mainn
-	int main()
-	{
-		${0}
-		return 0;
-	}
-##
-## Preprocessor
 # #include <...>
+snippet inc
+	#include <${1:iostream}>
 snippet incc
 	#include <${1:iostream}>
 snippet binc
 	#include <boost/${1:shared_ptr}.hpp>
+
+snippet use
+	using ${1}
 ##
 ## STL Collections
 # std::array
-snippet array
+snippet arr
 	std::array<${1:T}, ${2:N}> ${3};
 # std::vector
-snippet vector
+snippet vec
 	std::vector<${1:T}> ${2};
 # std::deque
 snippet deque

@@ -33,6 +33,7 @@ vim.opt.showmode = false
 vim.opt.signcolumn = 'no'
 vim.opt.cursorline = true
 vim.opt.cmdheight = 0
+vim.opt.colorcolumn = '81'
 
 vim.opt.list = true
 vim.opt.listchars = { trail = '⋅' }

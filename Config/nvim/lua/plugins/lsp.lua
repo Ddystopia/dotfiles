@@ -6,9 +6,13 @@ local M = { -- Collection of configurations for built-in LSP client
 M.dependencies = {
   'hrsh7th/nvim-cmp', --
   'hrsh7th/cmp-nvim-lsp', --
-  'L3MON4D3/LuaSnip', --
-  'onsails/lspkind-nvim' --
-  --[['SmiteshP/nvim-navic',--]]
+  'onsails/lspkind-nvim', --
+  -- 'SmiteshP/nvim-navic',
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = "saadparwaiz1/cmp_luasnip",
+    build = "make install_jsregexp"
+  }
 
 }
 
@@ -41,6 +45,9 @@ end
 M.config = function()
   local nvim_lsp = require('lspconfig')
   local luasnip = require('luasnip')
+  require("luasnip.loaders.from_snipmate").lazy_load({
+    paths = { "./snippets" }
+  })
   -- local root_pattern = require('util.root_pattern')
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -49,12 +56,6 @@ M.config = function()
   local lspkind = require('lspkind')
 
   local on_attach = function(client, bufnr)
-    -- require('lsp_signature').on_attach({
-    --   bind = true,
-    --   hint_enable = false,
-    --   hi_parameter = "Todo",
-    --   handler_opts = { border = "none" }
-    -- })
 
     -- Set completeopt to have a better completion experience
     vim.o.completeopt = 'menu,menuone,noinsert,noselect'
@@ -64,7 +65,10 @@ M.config = function()
       snippet = {
         expand = function(args) require('luasnip').lsp_expand(args.body) end
       },
-      sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } },
+      -- sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } },
+      sources = cmp.config.sources(
+          { { name = 'nvim_lsp' }, { name = 'luasnip' } },
+          { { name = 'buffer' } }),
       mapping = {
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -115,7 +119,7 @@ M.config = function()
   end
   local servers = {
     "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "rust_analyzer",
-    "pyright" -- "cmake", "vuels", "vimls",
+    "pyright", "html" -- "cmake", "vuels", "vimls",
   }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
