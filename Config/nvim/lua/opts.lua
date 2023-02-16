@@ -9,7 +9,7 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 3
-Cmd "au BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4"
+vim.cmd "au BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4"
 
 vim.opt.fileencoding = 'utf-8'
 
@@ -47,11 +47,29 @@ vim.g.mapleader = ' '
 
 vim.opt.guifont = "droidsansmono nerd font 11"
 
-Cmd "command! W :w!"
-Cmd "au BufReadPost,BufRead *.zsh,.zshrc set ft=sh"
-Cmd "au BufReadPost,BufRead *.fish set ft=fish"
-Cmd "au BufReadPost,BufRead *.conf,.env,.env.example set ft=config"
-Cmd "au BufReadPost,BufRead *.asm set ft=nasm"
-Cmd "au BufReadPost,BufRead .prettierrc set ft=json"
-Cmd "au BufReadPost,BufRead *.{rkt,rktl,rktd} set filetype=scheme"
--- Cmd "au BufReadPost,BufRead *.md set filetype=markdown"
+vim.g.netrw_fastbrowse = 0
+
+vim.cmd [[
+augroup SetFiletypes
+  au!
+  au BufReadPost,BufRead *.zsh,.zshrc set ft=sh
+  au BufReadPost,BufRead *.fish set ft=fish
+  au BufReadPost,BufRead *.conf,.env,.env.example set ft=config
+  au BufReadPost,BufRead *.asm set ft=nasm
+  au BufReadPost,BufRead .prettierrc set ft=json
+  au BufReadPost,BufRead *.{rkt,rktl,rktd} set filetype=scheme
+  " au BufReadPost,BufRead *.md set filetype=markdown
+augroup END
+]]
+
+--[[
+vim.cmd [[
+augroup ChangeAlacrittyPadding
+ au!
+ au VimEnter * lua DecreasePadding()
+ au VimLeavePre * lua IncreasePadding()
+augroup END
+]]
+-- ]]
+
+vim.cmd "command! W :w!"

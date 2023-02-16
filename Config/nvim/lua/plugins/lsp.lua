@@ -45,9 +45,7 @@ end
 M.config = function()
   local nvim_lsp = require('lspconfig')
   local luasnip = require('luasnip')
-  require("luasnip.loaders.from_snipmate").lazy_load({
-    paths = { "./snippets" }
-  })
+  require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "./snippets" } })
   -- local root_pattern = require('util.root_pattern')
 
   local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -65,10 +63,10 @@ M.config = function()
       snippet = {
         expand = function(args) require('luasnip').lsp_expand(args.body) end
       },
-      -- sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } },
-      sources = cmp.config.sources(
-          { { name = 'nvim_lsp' }, { name = 'luasnip' } },
-          { { name = 'buffer' } }),
+      sources = { { name = 'nvim_lsp' }, { name = 'luasnip' } },
+      -- sources = cmp.config.sources(
+      --     { { name = 'nvim_lsp' }, { name = 'luasnip' } },
+      --     { --[[{ name = 'buffer' } --]] }),
       mapping = {
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -145,8 +143,8 @@ M.config = function()
       compilationDatabaseDirectory = "build",
       index = { threads = 0 },
       clang = {
-        -- extraArgs = { "-std=c++20", "-Wall", "-Wno-logical-op-parentheses" },
-        extraArgs = { "-Wall", "-Wno-logical-op-parentheses" },
+        extraArgs = { "-std=c++20", "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
+        -- extraArgs = { "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
         excludeArgs = { "-frounding-math" }
       },
       client = { snippetSupport = true }

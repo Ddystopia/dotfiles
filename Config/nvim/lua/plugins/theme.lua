@@ -5,7 +5,7 @@ local M = { -- theme
   priority = 1000,
   config = function()
     -- `runtime ...` is to solve bug with multiple `:colorscheme dracula`
-    Cmd [[ 
+    vim.cmd [[ 
       colorscheme dracula
 
       hi! CursorLine guibg=#21222C

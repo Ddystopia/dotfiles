@@ -1,22 +1,22 @@
-scrolling:
-    multiplier: 1
-    history: 100000
-
-selection:
-    save_to_clipboard: true
-
-cursor:
- unfocused_hollow: true
- blinking: Never
-
-
 window:
   dimensions:
     columns: 100
     lines: 37
   padding:
     x: 4
-    y: 2
+    y: 4
+
+scrolling:
+  multiplier: 1
+  history: 100000
+
+selection:
+    save_to_clipboard: true
+
+cursor:
+ unfocused_hollow: true
+ style:
+    blinking: Never
 
 font:
   size: 11

@@ -15,6 +15,11 @@ printf $PROC_NAME > /proc/$$/comm
 
 while true
 do
-  nitrogen --random --set-zoom-fill $WALLPAPERS_DIR__LOCAL
+  monitors=$(xrandr --listactivemonitors | head -1 | awk '{ print $2 }')
+  wallpaper=$(find "$WALLPAPERS_DIR" -type f | shuf -n 1)
+  for ((i = 0 ; i < $monitors ; i++)); do
+    echo "Here $i"
+    nitrogen --set-zoom-fill $wallpaper --head=$i
+  done
   sleep $TIMEOUT
 done

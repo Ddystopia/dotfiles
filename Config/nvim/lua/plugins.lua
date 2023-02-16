@@ -33,7 +33,7 @@ local M = {
     cmd = 'Neoformat',
     init = function()
       Map('n', '<leader>F', function()
-        Cmd [[
+        vim.cmd [[
           silent Neoformat
           write
         ]];
@@ -143,11 +143,11 @@ local M = {
       Map('n', '<Tab>', function() require("bufferline").cycle(1) end)
       Map('n', '<S-Tab>', function() require("bufferline").cycle(-1) end)
       Map('i', '<C-l>', function()
-        Cmd "stopinsert";
+        vim.cmd "stopinsert";
         require("bufferline").cycle(1)
       end)
       Map('i', '<C-h>', function()
-        Cmd "stopinsert";
+        vim.cmd "stopinsert";
         require("bufferline").cycle(-1)
       end)
       Map('n', '<S-h>', function() require("bufferline").move(-1) end)
@@ -207,8 +207,8 @@ local M = {
     ft = { "tex", "bib" },
     dependencies = { 'KeitaNakamura/tex-conceal.vim', 'godlygeek/tabular' },
     config = function()
-      Cmd "filetype plugin indent on"
-      Cmd "syntax enable"
+      vim.cmd "filetype plugin indent on"
+      vim.cmd "syntax enable"
       Map('n', '<leader>vp', ':w<cr> :VimtexCompile<cr>')
 
       vim.g.tex_flavor = 'latex'
@@ -287,7 +287,7 @@ local M = {
     dependencies = "nvim-lua/plenary.nvim",
     lazy = false,
     config = function()
-      Cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
+      vim.cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
       require("todo-comments").setup {
         signs = false,
         keywords = {

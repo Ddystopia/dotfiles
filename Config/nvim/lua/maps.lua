@@ -1,49 +1,11 @@
-Format = function()
-  --  TODO: Neoformat / explore vim.buf.format
-  Cmd "w"
-  local formatCmds = {
-    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=85',
-    go = 'gofmt -w',
-    javascript = 'prettier -w --loglevel error',
-    typescript = 'prettier -w --loglevel error',
-    javascriptreact = 'prettier -w --loglevel error',
-    typescriptreact = 'prettier -w --loglevel error',
-    html = 'prettier -w --loglevel error',
-    xml = 'prettier -w --loglevel error',
-    json = 'prettier -w --loglevel error',
-    css = 'prettier -w --loglevel error',
-    scss = 'prettier -w --loglevel error',
-    cmake = 'cmake-format -i',
-    c = 'clang-format -stylefile -i',
-    cpp = 'clang-format -stylefile -i',
-    markdown = 'prettier -w --prose-wrap always --loglevel error',
-    python = 'black -q',
-    rust = 'rustfmt --config tab_spaces=2'
-  }
-  local command = formatCmds[vim.bo.filetype] or "sed -i -e 's/\\s\\+$//'"
-  local f = io.popen(command .. ' "' .. vim.fn.expand("%") .. '" 3>&1 1>&3 2>&3')
-  if f then
-    print(f:read('*all'))
-    f:close()
-  end
-  -- Cmd "let tmp = winsaveview()"
-  -- Cmd "call winrestview(tmp)"
-  Cmd [[
-  mkview
-  e!
-  loadview
-  ]]
-  Cmd "IndentBlanklineRefresh"
-end
-
 CloseBuffer = function()
   if vim.fn.expand("%") == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then
-    Cmd "q"
+    vim.cmd "q"
   end
 
   if not vim.bo.readonly then Cmd "w" end
 
-  Cmd "bdelete"
+  vim.cmd "bdelete"
 end
 
 ToggleWrap = function()
@@ -58,7 +20,7 @@ ToggleWrap = function()
   end
 end
 
-Cmd 'command! -nargs=* -complete=file E :silent !$TERM -e sh -c "cd `pwd`; nvim <args>"'
+vim.cmd 'command! -nargs=* -complete=file E :silent !$TERM -e sh -c "cd `pwd`; nvim <args>"'
 
 Map('i', '<C-v>', '<C-r>+')
 
@@ -124,3 +86,18 @@ Map('n', 'cd', ':cd ')
 -- Cmd "inoremap <expr> <-k>   pumvisible() ? '\\<C-p>' : '\\<C-k>'"
 -- Cmd "inoremap <expr> <Tab>   pumvisible() ? '\\<C-n>' : '\\<Tab>'"
 -- Cmd "inoremap <expr> <S-Tab> pumvisible() ? '\\<C-p>' : '\\<S-Tab>'"
+
+--[[
+-- TODO:
+function! QuitNetrw()
+  for i in range(1, bufnr($))
+    if buflisted(i)
+      if getbufvar(i, '&filetype') == "netrw"
+        silent exe 'bwipeout ' . i
+      endif
+    endif
+  endfor
+endfunction
+
+autocmd MyAutoCmd VimLeavePre *  call QuitNetrw()
+--]]

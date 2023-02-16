@@ -12,7 +12,7 @@ M.dependencies = {
   {
     'p00f/nvim-ts-rainbow',
     config = function()
-      Cmd [[
+      vim.cmd [[
     hi rainbowcol1 guifg=#bf616a
     hi rainbowcol2 guifg=#ffd700
     hi rainbowcol3 guifg=#a3de3c

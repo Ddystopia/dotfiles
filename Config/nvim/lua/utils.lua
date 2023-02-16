@@ -19,3 +19,19 @@ BMap = function(mode, key, cmd, opts)
 end
 
 Cmd = vim.api.nvim_command
+
+Sad = function(line_nr, from, to, fname)
+  local template = "silent !sed -i '%s\\!b;s/%s/%s/' %s"
+  vim.cmd(string.format(template, line_nr, from, to, fname))
+end
+
+IncreasePadding = function()
+  -- Sad(6, 3, 4, '~/.config/alacritty/alacritty.yml')
+  -- Sad(7, 3, 4, '~/.config/alacritty/alacritty.yml')
+end
+
+DecreasePadding = function()
+  -- Sad(6, 4, 3, '~/.config/alacritty/alacritty.yml')
+  -- Sad(7, 4, 3, '~/.config/alacritty/alacritty.yml')
+end
+
