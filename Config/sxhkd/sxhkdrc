@@ -29,7 +29,8 @@ super + y
 
 # change background
 super + n
-  nitrogen --random --set-zoom-fill $WALLPAPERS_DIR
+  nitrogen --random --set-zoom-fill $WALLPAPERS_DIR --head=0;\
+  nitrogen --random --set-zoom-fill $WALLPAPERS_DIR --head=1 >/dev/null
 
 # run rofi
 # super + d

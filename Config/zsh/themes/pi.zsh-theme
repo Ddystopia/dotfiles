@@ -21,12 +21,8 @@ function git_prompt_info() {
 
 # by shashankmehta (https://github.com/shashankmehta)
 function get_pwd(){
-  git_root=$PWD
-  while [[ $git_root != / && ! -e $git_root/.git ]]; do
-    git_root=$git_root:h
-  done
-  if [[ $git_root = / ]]; then
-    unset git_root
+  git_root=$(git rev-parse --show-toplevel 2> /dev/null)
+  if [[ $git_root = "" ]]; then
     prompt_short_dir=%~
   else
     parent=${git_root%\/*}

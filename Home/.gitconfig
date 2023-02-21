@@ -7,3 +7,5 @@
 	defaultBranch = main
 [credential]
 	helper = store
+[alias]
+	root = rev-parse --show-toplevel

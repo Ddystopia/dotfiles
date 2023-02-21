@@ -56,6 +56,10 @@ local M = {
           '--indent-width=2', '--spaces-inside-table-braces', '--column-limit=81'
         }
       }
+      vim.g.neoformat_tex_latexindent = {
+        exe = 'latexindent' --
+        --
+      }
     end
   }, --
   {
@@ -280,6 +284,8 @@ local M = {
   {
     'simrat39/symbols-outline.nvim',
     init = function() Map('n', '<leader>;', ':SymbolsOutline<CR>') end,
+    keys = "<leader>;",
+    lazy = false,
     config = true
   }, --
   {

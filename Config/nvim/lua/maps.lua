@@ -67,6 +67,7 @@ Map('n', '$', 'g_')
 Map('v', '$', 'g_')
 Map('n', '<leader>vv', ':e $MYVIMRC<cr>')
 Map('n', '<leader>vr', ':luafile %')
+Map('n', 'gp', 'p`[')
 
 Map('n', '<leader>ps', ':set spell!<cr>')
 Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')

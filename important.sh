@@ -44,17 +44,18 @@ dependencies=(
   "ffmpeg" "btop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
   "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "inetutils"
   "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "nitrogen" "filelight" "zathura"
-  "thefuck" "neofetch" "cowsay" "pulsemixer" "ueberzug" "highlight"
+  "thefuck" "neofetch" "cowsay" "pulsemixer" "highlight"
   "typescript" "racket" "foliate" "discord" "nodejs" "npm" "dino" "zathura-pdf-mupdf"
   "python" "python3" "vscode" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"
   "tor" "thunar" "git" "alacritty" "ranger" "gvfs" "gvfs-mtp" "unrar" "rsync"
   "bash-language-server" "pipewire" "pipewire-audio-client-libraries" "pipewire-media-session"
-  "flameshot" "filelight" "inkscape" "sassc" "bluez-utils" "yt-dlp" "mariadb"
+  "flameshot" "inkscape" "sassc" "bluez-utils" "yt-dlp" "mariadb"
   "pdfjs" "pavucontrol" "android-tools" "usbtools" "lua-language-server" "picom"
   "openssh" "redshift" "inkscape" "pdfplots" "gdb" "gtk3" "gtk4" "gtk2" "openssl"
   "wine" "libreoffice-fresh" "texlife-most" "hunspell" "hunspell-en_US"
   "i2pd" "yggdrasil" "tinyproxy" "yaml-language-server" "exfat-utils" "virtualbox"
   "virtualbox-host-modules-arch" "virtualbox-guest-utils" "aria2" "ascii"
+  "ueberzug" # attention
 )
 
 sudo pacman -Suyy --needed ${dependencies[@]}
