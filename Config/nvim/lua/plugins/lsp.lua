@@ -117,7 +117,8 @@ M.config = function()
   end
   local servers = {
     "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "rust_analyzer",
-    "pyright", "html" -- "cmake", "vuels", "vimls",
+    "pyright", "html", -- "cmake", "vuels", "vimls",
+    "java_language_server"
   }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
@@ -132,6 +133,14 @@ M.config = function()
     filetypes = { "html", "css", "typescriptreact", "javascriptreact" }
   })
   --]]
+  
+  nvim_lsp.java_language_server.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    cmd = { "java-language-server" },
+    filetypes = { "java" },
+    -- settings = {},
+  }
 
   nvim_lsp.ccls.setup {
     on_attach = on_attach,
@@ -143,8 +152,8 @@ M.config = function()
       compilationDatabaseDirectory = "build",
       index = { threads = 0 },
       clang = {
-        extraArgs = { "-std=c++20", "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
-        -- extraArgs = { "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
+        -- extraArgs = { "-std=c++20", "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
+        extraArgs = { "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
         excludeArgs = { "-frounding-math" }
       },
       client = { snippetSupport = true }

@@ -143,7 +143,8 @@ super + shift + c
 
 # logout
 super + F4
-  pkill -KILL -u $USER
+  slock
+  # pkill -KILL -u $USER
 
 # restart bspwm
 super + shift + r

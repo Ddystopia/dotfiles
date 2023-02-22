@@ -40,6 +40,11 @@ local M = {
       end)
     end,
     config = function()
+      vim.g.neoformat_java_astyle = {
+        exe = 'astyle',
+        args = { '--indent=spaces=2' },
+        replace = 1,
+      }
       vim.g.neoformat_html_htmlbeautify = {
         exe = 'html-beautify',
         args = { '--indent-size', '2' }
