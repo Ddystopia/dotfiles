@@ -79,7 +79,7 @@ M.config = function()
           select = true
         },
         ['<Tab>'] = function(fallback)
-          if cmp.visible() then
+          if cmp.visible() and not luasnip.in_snippet() then
             cmp.select_next_item()
           elseif luasnip.expand_or_jumpable() then
             luasnip.expand_or_jump()
@@ -88,7 +88,7 @@ M.config = function()
           end
         end,
         ['<S-Tab>'] = function(fallback)
-          if cmp.visible() then
+          if cmp.visible() and not luasnip.in_snippet() then
             cmp.select_prev_item()
           elseif luasnip.jumpable(-1) then
             luasnip.jump(-1)
@@ -116,8 +116,8 @@ M.config = function()
     end
   end
   local servers = {
-    "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "rust_analyzer",
-    "pyright", "html", -- "cmake", "vuels", "vimls",
+    "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "pyright",
+    "html", -- "cmake", "vuels", "vimls",
     "java_language_server"
   }
   for _, lsp in ipairs(servers) do
@@ -133,12 +133,28 @@ M.config = function()
     filetypes = { "html", "css", "typescriptreact", "javascriptreact" }
   })
   --]]
-  
+
+  nvim_lsp.rust_analyzer.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      ['rust-analyzer'] = {
+        checkOnSave = {
+          allFeatures = true,
+          overrideCommand = {
+            'cargo', 'clippy', '--workspace', '--message-format=json',
+            '--all-targets', '--all-features'
+          }
+        }
+      }
+    }
+  }
+
   nvim_lsp.java_language_server.setup {
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = { "java-language-server" },
-    filetypes = { "java" },
+    filetypes = { "java" }
     -- settings = {},
   }
 
@@ -146,14 +162,17 @@ M.config = function()
     on_attach = on_attach,
     capabilities = capabilities,
     cmd = { "ccls" },
-    filetypes = { "c", "cpp", "objc", "objcpp" },
+    filetypes = { "cpp", "objc", "objcpp" },
     single_file_support = true,
     init_options = {
       compilationDatabaseDirectory = "build",
       index = { threads = 0 },
+      cache = { directory = os.getenv("XDG_CACHE_HOME") .. "/ccls" },
       clang = {
-        -- extraArgs = { "-std=c++20", "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
-        extraArgs = { "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
+        extraArgs = {
+          "-std=c++20", "-Wall", "-Wextra", "-Wno-logical-op-parentheses"
+        },
+        -- extraArgs = { "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
         excludeArgs = { "-frounding-math" }
       },
       client = { snippetSupport = true }
@@ -189,8 +208,10 @@ M.config = function()
     }
   })
 
-  --[[
   nvim_lsp.clangd.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    filetypes = { "c" },
     cmd = {
       'clangd', '--header-insertion=never', '--suggest-missing-includes',
       '--background-index', '-j=8', '--cross-file-rename',
@@ -199,21 +220,12 @@ M.config = function()
     },
     -- on_init = require'clangd_nvim'.on_init,
     -- callbacks = lsp_status.extensions.clangd.setup(),
-    capabilities = {
-      capabilities = { window = { workDoneProgress = true } },
-      textDocument = {
-        completion = { completionItem = { snippetSupport = true } },
-        semanticHighlightingCapabilities = { semanticHighlighting = true }
-      }
-    },
     init_options = {
       clangdFileStatus = true,
       usePlaceholders = true,
       completeUnimported = true
-    },
-    on_attach = function() end
+    }
   }
-  --]]
 
 end
 

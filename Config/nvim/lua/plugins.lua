@@ -4,27 +4,27 @@ local M = {
     lazy = false,
     enabled = false,
     config = function()
-      -- vim.g.rainbow_active = 1;
-      -- vim.g.grainbow_conf = {
-      --   -- guifgs = { 'royalblue3', 'darkorange3', 'seagreen3', 'firebrick' },
-      --   -- ctermfgs = { 'lightblue', 'lightyellow', 'lightcyan', 'lightmagenta' },
-      --   guifgs = { "#bf616a", "#ffd700", "#a3de3c", "#ebcb8b", "#88c0d0" },
-      --   ctermfgs = { "#af5f5f", "#ffd700", "#afff00", "#d7af87", "#afd7ff" },
-      --   guis = { '' },
-      --   cterms = { '' },
-      --   operators = '_,_',
-      --   parentheses = {
-      --     'start=/(/ end=/)/ fold', 'start=/[/ end=/]/ fold',
-      --     'start=/{/ end=/}/ fold', 'start=/</ end=/>/ fold'
-      --   },
-      --   separately = {
-      --     markdown = {
-      --       parentheses_options = 'containedin=markdownCode contained' -- "enable rainbow for code blocks only
-      --     },
-      --     css = 0, -- disable this plugin for css files
-      --     nerdtree = 0 -- rainbow is conflicting with NERDTree, creating extra parentheses
-      --   }
-      -- }
+      vim.g.rainbow_active = 1;
+      vim.g.grainbow_conf = {
+        -- guifgs = { 'royalblue3', 'darkorange3', 'seagreen3', 'firebrick' },
+        -- ctermfgs = { 'lightblue', 'lightyellow', 'lightcyan', 'lightmagenta' },
+        guifgs = { "#bf616a", "#ffd700", "#a3de3c", "#ebcb8b", "#88c0d0" },
+        ctermfgs = { "#af5f5f", "#ffd700", "#afff00", "#d7af87", "#afd7ff" },
+        guis = { '' },
+        cterms = { '' },
+        operators = '_,_',
+        parentheses = {
+          'start=/(/ end=/)/ fold', 'start=/[/ end=/]/ fold',
+          'start=/{/ end=/}/ fold', 'start=/</ end=/>/ fold'
+        },
+        separately = {
+          markdown = {
+            parentheses_options = 'containedin=markdownCode contained' -- "enable rainbow for code blocks only
+          },
+          css = 0, -- disable this plugin for css files
+          nerdtree = 0 -- rainbow is conflicting with NERDTree, creating extra parentheses
+        }
+      }
 
     end
 
@@ -38,12 +38,24 @@ local M = {
           write
         ]];
       end)
+      Map('v', '<leader>F', function()
+        local cmd = vim.api.nvim_replace_termcodes(
+                        ':<C-U>silent \'<,\'>Neoformat<CR>', true, false, true);
+        vim.api.nvim_feedkeys(cmd, 'n', true)
+      end)
     end,
     config = function()
+      vim.g.latexindent_opt = "-m"
+      vim.g.neoformat_markdown_prettier = {
+        exe = 'prettier',
+        args = { '--prose-wrap=always', '--stdin-filepath', '"%:p"' },
+        stdin = 1,
+        try_node_exe = 1
+      }
       vim.g.neoformat_java_astyle = {
         exe = 'astyle',
         args = { '--indent=spaces=2' },
-        replace = 1,
+        replace = 1
       }
       vim.g.neoformat_html_htmlbeautify = {
         exe = 'html-beautify',
@@ -58,7 +70,8 @@ local M = {
       vim.g.neoformat_lua_luaformatter = {
         exe = 'lua-format',
         args = {
-          '--indent-width=2', '--spaces-inside-table-braces', '--column-limit=81'
+          '--indent-width=2', '--spaces-inside-table-braces',
+          '--column-limit=80'
         }
       }
       vim.g.neoformat_tex_latexindent = {
@@ -167,8 +180,7 @@ local M = {
   }, --
   { -- xkbswitch
     'lyokha/vim-xkbswitch',
-    lazy = false,
-    -- keys = "<A-l>",
+    lazy = true,
     config = function()
       vim.g.XkbSwitchEnabled = 1
       vim.g.XkbSwitchIMappings = { 'ru' }
@@ -206,10 +218,9 @@ local M = {
   }, --
   {
     'plasticboy/vim-markdown',
-    commit = "df4be8626e2c5b2a42eb60e1f100fce469b81f7d",
     dependencies = { 'godlygeek/tabular' },
     ft = { "markdown" },
-    enabled = true
+    enabled = false
   }, --
   {
     'lervag/vimtex',
@@ -248,9 +259,9 @@ local M = {
       local Rule = require('nvim-autopairs.rule')
       local npairs = require('nvim-autopairs')
 
-      npairs.add_rule(Rule("<", ">", "typescript"))
-      npairs.add_rule(Rule("<", ">", "typescriptreact"))
-      npairs.add_rule(Rule("<", ">", "rust"))
+      -- npairs.add_rule(Rule("<", ">", "typescript"))
+      -- npairs.add_rule(Rule("<", ">", "typescriptreact"))
+      -- npairs.add_rule(Rule("<", ">", "rust"))
       Map('i', 'х', 'х')
       Map('i', 'ъ', 'ъ')
       Map('i', 'э', 'э')
