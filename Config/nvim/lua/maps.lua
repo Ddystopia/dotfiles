@@ -1,14 +1,4 @@
-CloseBuffer = function()
-  if vim.fn.expand("%") == "" or #vim.fn.getbufinfo { buflisted = 1 } < 2 then
-    vim.cmd "q"
-  end
-
-  if not vim.bo.readonly then Cmd "w" end
-
-  vim.cmd "bdelete"
-end
-
-ToggleWrap = function()
+function ToggleWrap()
   if vim.wo.wrap then
     vim.wo.wrap = false
     vim.api.nvim_buf_del_keymap(0, 'n', 'j')
@@ -19,6 +9,18 @@ ToggleWrap = function()
     BMap('n', 'k', 'gk')
   end
 end
+
+-- TODO: not work
+function QuitNetrw()
+  for i = 1, vim.fn.bufnr('$') do
+    if vim.api.nvim_buf_is_loaded(i) and
+        vim.api.nvim_buf_get_option(i, 'filetype') == 'netrw' then
+      vim.api.nvim_buf_delete(i, { force = true })
+    end
+  end
+end
+
+-- vim.api.nvim_create_autocmd("VimLeavePre", { callback = QuitNetrw })
 
 vim.cmd 'command! -nargs=* -complete=file E :silent !$TERM -e sh -c "cd `pwd`; nvim <args>"'
 
@@ -69,6 +71,8 @@ Map('n', '<leader>vv', ':e $MYVIMRC<cr>')
 Map('n', '<leader>vr', ':luafile %')
 Map('n', 'gp', 'p`[')
 Map('n', '*', '*N')
+Map('v', '//', 'y/\\V<C-R>=escape(@",\'/\')<CR><CR>')
+
 
 Map('n', '<leader>ps', ':set spell!<cr>')
 Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')
@@ -91,6 +95,7 @@ Map('n', 'cd', ':cd ')
 
 --[[
 -- TODO:
+
 function! QuitNetrw()
   for i in range(1, bufnr($))
     if buflisted(i)

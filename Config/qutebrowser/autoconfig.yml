@@ -45,6 +45,7 @@ settings:
     https://pomofocus.io: false
     https://prozabo.ru: false
     https://ru.qaz.wiki: false
+    https://trovo.live: false
     https://tryhackme.com: false
     https://umnitsy.ru: false
     https://vitamingid.ru: false
@@ -60,7 +61,7 @@ settings:
   content.private_browsing:
     global: false
   content.proxy:
-    global: none
+    global: system
   content.register_protocol_handler:
     https://mail.google.com?extsrc=mailto&url=%25s: true
     https://mail.proton.me#mailto=%25s: false

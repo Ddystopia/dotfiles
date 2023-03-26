@@ -31,3 +31,5 @@ if status is-interactive
   alias .....="cd ../../../.."
 
 end
+
+thefuck --alias | source

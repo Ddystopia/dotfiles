@@ -143,7 +143,7 @@ super + shift + c
 
 # logout
 super + F4
-  slock
+  xkb-switch -s "us"; slock
   # pkill -KILL -u $USER
 
 # restart bspwm

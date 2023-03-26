@@ -1,4 +1,4 @@
-let $NEOVIM = "$HOME/.config/nvim"
+let $NEOVIM = "$HOME/.config/nvim_b"
 
 function LoadConfig()
   exec "source $NEOVIM/plug.vim"

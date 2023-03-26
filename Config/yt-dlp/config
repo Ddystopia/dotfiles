@@ -1,13 +1,18 @@
 --ignore-errors
 --continue
 --part
+--format "bestvideo+bestaudio"
 --audio-quality 0
 --audio-format mp3
+--audio-multistreams
+--video-multistreams
 --yes-playlist
 --embed-metadata
 --embed-chapters
 --concurrent-fragments 16
 --download-archive dowmload-archive.txt
+--write-subs
+--sub-langs "ru,en,sk"
 # --external-downloader=aria2c
 # --external-downloader-args '--min-split-size=1M --max-connection-per-server=16 --max-concurrent-downloads=16 --split=16'
 

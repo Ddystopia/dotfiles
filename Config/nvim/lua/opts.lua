@@ -49,18 +49,26 @@ vim.opt.guifont = "droidsansmono nerd font 11"
 
 vim.g.netrw_fastbrowse = 0
 
-vim.cmd [[
-augroup SetFiletypes
-  au!
-  au BufReadPost,BufRead *.zsh,.zshrc set ft=sh
-  au BufReadPost,BufRead *.fish set ft=fish
-  au BufReadPost,BufRead *.conf,.env,.env.example set ft=config
-  au BufReadPost,BufRead *.asm set ft=nasm
-  au BufReadPost,BufRead .prettierrc set ft=json
-  au BufReadPost,BufRead *.{rkt,rktl,rktd} set filetype=scheme
-  " au BufReadPost,BufRead *.md set filetype=markdown
-augroup END
-]]
+vim.filetype.add({
+  extension = {
+    typ = "typst",
+    zsh = "sh",
+    fish = "fish",
+    conf = "config",
+    asm = "nasm",
+    -- md = "markdown",
+  },
+  filename = {
+    ['.zshrc'] = "sh",
+    ['.env'] = "config",
+    ['.env.example'] = "config",
+    ['.prettierrc'] = "json",
+    -- ['rkt'] = "scheme",
+    -- ['rktl'] = "scheme",
+    -- ['rktd'] = "scheme",
+  }
+
+})
 
 --[[
 vim.cmd [[

@@ -25,12 +25,28 @@ M.dependencies = {
   'JoosepAlviste/nvim-ts-context-commentstring'
 }
 
+M.init = function()
+  local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
+  parser_config.typst = {
+    install_info = {
+      -- url = "https://github.com/SeniorMars/tree-sitter-typst",
+      -- branch = "main",
+
+      url = "https://github.com/TheOnlyMrCat/tree-sitter-typst",
+      files = { "src/parser.c" },
+      generate_requires_npm = false,
+      requires_generate_from_grammar = false
+    },
+    filetype = "typst"
+  }
+end
+
 M.config = function()
   -- local enabled = function() return vim.api.nvim_buf_line_count(0) < 50000 end
   local treesitter = require('nvim-treesitter.configs')
 
   treesitter.setup {
-    highlight = { enable = true },
+    highlight = { enable = true, additional_vim_regex_highlighting = false },
 
     incremental_selection = {
       enable = true,
@@ -82,7 +98,10 @@ M.config = function()
           ["[f"] = "@function.outer",
           ["[c"] = "@class.outer"
         },
-        goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" }
+        goto_previous_end = {
+          ["[F"] = "@function.outer",
+          ["[C"] = "@class.outer"
+        }
       }
     },
 

@@ -1,5 +1,37 @@
 local M = {
   {
+    'gelguy/wilder.nvim',
+    lazy = false,
+    dependencies = {
+      'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons', 'liuchengxu/vim-clap'
+    },
+    config = function()
+      local wilder = require('wilder')
+      wilder.setup({ modes = { ':', '/', '?' } })
+      -- Disable Python remote plugin
+      -- wilder.set_option('use_python_remote_plugin', 0)
+
+      wilder.set_option('pipeline', {
+        wilder.branch(wilder.python_file_finder_pipeline({
+          file_command = { 'fd', '-tf' },
+          dir_command = { 'fd', '-td' },
+          -- filters = { 'fuzzy_filter', 'difflib_sorter' }
+          filters = { 'clap_filter' },
+        }), wilder.cmdline_pipeline(), wilder.python_search_pipeline())
+      })
+
+      wilder.set_option('renderer', wilder.renderer_mux({
+        [':'] = wilder.popupmenu_renderer({
+          highlighter = wilder.lua_fzy_highlighter(),
+          left = { ' ', wilder.popupmenu_devicons() },
+          right = { ' ', wilder.popupmenu_scrollbar() }
+        }),
+        ['/'] = wilder.wildmenu_renderer({
+          highlighter = wilder.lua_fzy_highlighter()
+        })
+      }))
+    end
+  }, {
     'luochen1990/rainbow',
     lazy = false,
     enabled = false,
