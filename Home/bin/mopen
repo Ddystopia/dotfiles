@@ -1,0 +1,19 @@
+#!/bin/bash
+
+f=$1
+
+mupdf $f &
+mupdf_pid=$!
+
+(
+inotifywait -e close_write,moved_to,create -m . |
+while read -r directory events filename; do
+  if ! kill -0 $mupdf_pid 2>/dev/null; then
+    # MuPDF has exited, exit the script
+    exit 0
+  fi
+  if [ "$filename" = "$f" ]; then
+    kill -HUP $mupdf_pid
+  fi
+done
+) &
