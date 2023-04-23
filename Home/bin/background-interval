@@ -5,6 +5,7 @@
 TIMEOUT=${1:-30}
 WALLPAPERS_DIR__LOCAL=${2:-${WALLPAPERS_DIR}}
 PROC_NAME=${3:-"background-interval"}
+MAX_BRIGHTNESS=${4:-75}
 
 if [[ -z $TIMEOUT ]] || [[ -z $WALLPAPERS_DIR__LOCAL ]]
 then
@@ -13,13 +14,21 @@ fi
 
 printf $PROC_NAME > /proc/$$/comm
 
-while true
-do
+while true; do
   monitors=$(xrandr --listactivemonitors | head -1 | awk '{ print $2 }')
-  wallpaper=$(find "$WALLPAPERS_DIR" -type f | shuf -n 1)
-  for ((i = 0 ; i < $monitors ; i++)); do
-    echo "Here $i"
-    nitrogen --set-zoom-fill $wallpaper --head=$i
+  while true; do
+    wallpaper=$(find "$WALLPAPERS_DIR" -type f | shuf -n 1)
+    brightness=$(image_brightness "$wallpaper" 2> /dev/null)
+    brightness=$(printf "%.0f" $brightness)
+    echo "Brightness: $brightness"
+    echo "Image: $wallpaper"
+    if (( $brightness < $MAX_BRIGHTNESS )); then
+      break
+    fi
   done
+  feh --bg-scale  "$wallpaper"
+  # for ((i = 0 ; i < $monitors ; i++)); do
+  #   nitrogen --set-zoom-fill $wallpaper --head=$i
+  # done
   sleep $TIMEOUT
 done

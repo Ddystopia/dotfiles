@@ -1,9 +1,33 @@
 local M = {
   {
+    "rhysd/rust-doc.vim",
+    ft = { "rust" },
+    enabled = true,
+    config = function()
+      -- vim.g.rust_doc = { define_map_K = 0 }
+      vim.g["rust_doc#define_map_K"] = 0
+
+      local function search_under_cursor(query)
+        if query == '' then
+          vim.api.nvim_echo({
+            { 'rust-doc: No identifier is found under the cursor', 'WarningMsg' }
+          }, true, {})
+          return
+        end
+
+        vim.cmd(':RustDocFuzzy ' .. query)
+      end
+
+      Map('n', '<leader>rd', function() search_under_cursor(vim.fn.expand("<cword>")) end)
+      Map('v', '<leader>rd', function() search_under_cursor(vim.fn.expand("<cword>")) end)
+
+    end
+  }, {
     'gelguy/wilder.nvim',
     lazy = false,
     dependencies = {
-      'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons', 'liuchengxu/vim-clap'
+      'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons',
+      'liuchengxu/vim-clap'
     },
     config = function()
       local wilder = require('wilder')
@@ -16,7 +40,7 @@ local M = {
           file_command = { 'fd', '-tf' },
           dir_command = { 'fd', '-td' },
           -- filters = { 'fuzzy_filter', 'difflib_sorter' }
-          filters = { 'clap_filter' },
+          filters = { 'clap_filter' }
         }), wilder.cmdline_pipeline(), wilder.python_search_pipeline())
       })
 
@@ -62,8 +86,8 @@ local M = {
 
   }, {
     'sbdchd/neoformat',
-    cmd = 'Neoformat',
-    init = function()
+    keys = { '<leader>F' },
+    config = function()
       Map('n', '<leader>F', function()
         vim.cmd [[
           silent Neoformat
@@ -75,10 +99,8 @@ local M = {
                         ':<C-U>silent \'<,\'>Neoformat<CR>', true, false, true);
         vim.api.nvim_feedkeys(cmd, 'n', true)
       end)
-    end,
-    config = function()
       vim.g.latexindent_opt = "-m"
-      vim.g.neoformat_markdown_prettier = {
+      vim.g.neoformat_markdown_remark = {
         exe = 'prettier',
         args = { '--prose-wrap=always', '--stdin-filepath', '"%:p"' },
         stdin = 1,
@@ -140,7 +162,7 @@ local M = {
 
       require('lualine').setup {
         options = {
-          theme = 'dracula',
+          theme = 'ayu_mirage',
           section_separators = { '', '' },
           component_separators = { '|', '|' },
           icons_enabled = true
@@ -149,7 +171,7 @@ local M = {
           lualine_a = { 'mode', keymap },
           lualine_b = { 'branch', 'diff' },
           lualine_c = {
-            'filename', {
+            'buffers', {
               'diagnostics',
               sources = { 'nvim_diagnostic' },
               symbols = {
@@ -169,7 +191,6 @@ local M = {
   }, --
   { -- bar at the top
     'akinsho/nvim-bufferline.lua',
-    version = 'v2.*',
     lazy = false,
     dependencies = 'kyazdani42/nvim-web-devicons',
     config = function()
@@ -210,7 +231,7 @@ local M = {
       Map('n', '<C-k>', '<cmd>tabp<cr>')
     end
   }, --
-  { -- xkbswitch
+  { -- xkbswitch TODO: doesn't work
     'lyokha/vim-xkbswitch',
     lazy = true,
     config = function()
@@ -280,8 +301,17 @@ local M = {
     end
   }, --
   { 'tpope/vim-commentary', lazy = false }, --
-  { 'tpope/vim-surround', lazy = false }, --
-  { 'kana/vim-repeat', lazy = false }, --
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end
+  },
+
   -- { 'jiangmiao/auto-pairs', config = function() vim.g.AutoPairsMapCh = false end }
   {
     'windwp/nvim-autopairs',
@@ -318,7 +348,7 @@ local M = {
       Map("n", "<leader>s", function() require'hop'.hint_char2() end)
     end
   }, -- use 'ray-x/lsp_signature.nvim'
-  {
+  { -- TODO: Am I using it?
     "ahmedkhalf/project.nvim",
     lazy = false,
     config = function()
@@ -329,7 +359,7 @@ local M = {
       }
     end
   }, -- use 'jackguo380/vim-lsp-cxx-highlight'
-  {
+  { -- TODO: Doesn't work
     'simrat39/symbols-outline.nvim',
     init = function() Map('n', '<leader>;', ':SymbolsOutline<CR>') end,
     keys = "<leader>;",
@@ -358,7 +388,7 @@ local M = {
           },
           WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
           PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-          NOTE = { icon = " ", color = "hint", alt = { "INFO" } }
+          NOTE = { icon = " ", color = "hint", alt = { "INFO", "SAFETY" } }
         }
       }
     end

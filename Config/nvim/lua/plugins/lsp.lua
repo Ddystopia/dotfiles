@@ -2,7 +2,8 @@ require('../utils')
 
 local M = { -- Collection of configurations for built-in LSP client
   'neovim/nvim-lspconfig',
-  event = { 'BufReadPost' }
+  event = { 'BufReadPost' },
+  enabled = true,
 }
 
 M.config = function()
@@ -63,11 +64,32 @@ M.config = function()
   }
 
   vim.g.rust_recommended_style = 0;
+  --[[
   nvim_lsp.rust_analyzer.setup {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
       ['rust-analyzer'] = {
+        checkOnSave = {
+          allFeatures = true,
+          overrideCommand = {
+            'cargo', 'clippy', '--workspace', '--message-format=json',
+            '--all-targets', '--all-features'
+          }
+        }
+      }
+    }
+  }
+--]]
+
+  nvim_lsp.rust_analyzer.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      ['rust-analyzer'] = {
+        cargo = {
+          allFeatures = true,
+        },
         checkOnSave = {
           allFeatures = true,
           overrideCommand = {

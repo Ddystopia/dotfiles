@@ -1,6 +1,7 @@
 [user]
-	email = sashkamaman@gmail.com
+  email = alexanderbabak@proton.me
 	name = Ddystopia
+	signingkey = 109875EC11535212
 [core]
 	editor = nvim
 [init]
@@ -9,3 +10,5 @@
 	helper = store
 [alias]
 	root = rev-parse --show-toplevel
+[commit]
+	gpgsign = true

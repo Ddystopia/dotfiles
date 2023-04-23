@@ -36,6 +36,7 @@ DecreasePadding = function()
 end
 
 On_attach = function(client, bufnr)
+  client.server_capabilities.semanticTokensProvider = nil
   local lspkind = require('lspkind')
   local luasnip = require('luasnip')
     -- Set completeopt to have a better completion experience

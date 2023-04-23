@@ -43,7 +43,7 @@ dependencies=(
   "copyq" "python-pip" "flameshot" "zsh" "playerctl" "pacman-contrib"
   "ffmpeg" "btop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
   "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "inetutils"
-  "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "nitrogen" "filelight" "zathura"
+  "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "feh" "filelight" "zathura"
   "thefuck" "neofetch" "cowsay" "pulsemixer" "highlight" "inotify-tools"
   "typescript" "racket" "foliate" "discord" "nodejs" "npm" "zathura-pdf-mupdf"
   "python" "python3" "vscode" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"

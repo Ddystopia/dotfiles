@@ -29,8 +29,7 @@ super + y
 
 # change background
 super + n
-  nitrogen --random --set-zoom-fill $WALLPAPERS_DIR --head=0;\
-  nitrogen --random --set-zoom-fill $WALLPAPERS_DIR --head=1 >/dev/null
+  feh -z --bg-scale $WALLPAPERS_DIR
 
 # run rofi
 # super + d
@@ -62,7 +61,7 @@ XF86TouchpadToggle
 
 # brightness control
 XF86MonBrightness{Up,Down}
-  sudo xbacklight {+,-}10
+  xbacklight {+,-}10
 
 # volume control
 XF86Audio{Raise,Lower}Volume
@@ -249,6 +248,12 @@ super + ctrl + shift + backslash
 
 super + alt + {h,l}
 	dwmc setmfact {-,+}0.05
+
+super + button4
+  dwmc shiftview -1
+
+super + button5
+  dwmc shiftview +1
 
 # contract a window by moving one of its side inward
 super + alt + shift + {h,j,k,l}

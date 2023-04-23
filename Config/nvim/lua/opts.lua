@@ -33,7 +33,7 @@ vim.opt.showmode = false
 vim.opt.signcolumn = 'no'
 vim.opt.cursorline = true
 vim.opt.cmdheight = 0
-vim.opt.colorcolumn = '81'
+vim.opt.colorcolumn = "81,101"
 
 vim.opt.list = true
 vim.opt.listchars = { trail = '⋅' }
@@ -55,14 +55,14 @@ vim.filetype.add({
     zsh = "sh",
     fish = "fish",
     conf = "config",
-    asm = "nasm",
+    asm = "nasm"
     -- md = "markdown",
   },
   filename = {
     ['.zshrc'] = "sh",
     ['.env'] = "config",
     ['.env.example'] = "config",
-    ['.prettierrc'] = "json",
+    ['.prettierrc'] = "json"
     -- ['rkt'] = "scheme",
     -- ['rktl'] = "scheme",
     -- ['rktd'] = "scheme",

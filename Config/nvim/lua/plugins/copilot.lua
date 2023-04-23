@@ -3,7 +3,8 @@ local COPILOT_CMP = true
 local copilot = {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
-  event = "InsertEnter"
+  event = "InsertEnter",
+  enabled = true,
 }
 
 copilot.config = function()

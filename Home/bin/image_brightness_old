@@ -1,0 +1,14 @@
+#!/bin/env python
+
+import sys
+from PIL import Image, ImageStat
+
+def brightness(image_path):
+    image = Image.open(image_path).convert('L')  # Convert to grayscale
+    stat = ImageStat.Stat(image)
+    return stat.mean[0]
+
+if __name__ == "__main__":
+    image_path = sys.argv[1]
+    print(brightness(image_path))
+
