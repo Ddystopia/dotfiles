@@ -9,7 +9,7 @@ local M = { -- Collection of configurations for built-in LSP client
 M.config = function()
   local nvim_lsp = require('lspconfig')
   local luasnip = require('luasnip')
-  local on_attach = On_attach
+  local on_attach = OnAttach
   local root_pattern = nvim_lsp.util.root_pattern
 
   require("luasnip.loaders.from_snipmate").lazy_load(
@@ -80,12 +80,16 @@ M.config = function()
   }
 --]]
 
+  -- TODO: experimental/extenalDocs are not opening locally generated docs.
+  -- lua vim.lsp.buf_request(0, "experimental/externalDocs", vim.lsp.util.make_position_params(), function (_, url) vim.fn["netrw#BrowseX"](url, 0) end)
+
   nvim_lsp.rust_analyzer.setup {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
       ['rust-analyzer'] = {
         cargo = { allFeatures = true },
+        hoverActions = { linksInHover = true },
         checkOnSave = {
           allFeatures = true,
           overrideCommand = {
@@ -193,6 +197,7 @@ M.init = function()
   Map('n', 'K', function() vim.lsp.buf.hover() end)
   Map('n', '<F2>', function() vim.lsp.buf.rename() end)
   Map('n', '<leader>a', function() vim.lsp.buf.code_action() end)
+  Map('v', '<leader>a', function() vim.lsp.buf.code_action() end)
   -- Map('n', '<leader>D', function () vim.lsp.buf.type_definition() end)
 
   Map('n', '<leader>e', function() vim.diagnostic.open_float() end)

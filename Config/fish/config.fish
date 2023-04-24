@@ -32,4 +32,4 @@ if status is-interactive
 
 end
 
-thefuck --alias | source
+# thefuck --alias | source

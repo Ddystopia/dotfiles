@@ -77,6 +77,7 @@ c.url.searchengines = {
     "dark": "https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/?q={}",
     "ddg": "https://duckduckgo.com/?q={}",
     "g": "https://google.com/search?q={}",
+    "p": "https://www.phind.com/search?q={}&c=&source=searchbox&init=true",
     "y": "https://youtube.com/results?search_query={}",
     "a": "https://wiki.archlinux.org/index.php?search={}",
     "w": "https://www.wolframalpha.com/input/?i={}",

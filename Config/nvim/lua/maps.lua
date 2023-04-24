@@ -24,6 +24,14 @@ end
 
 vim.cmd 'command! -nargs=* -complete=file E :silent !$TERM -e sh -c "cd `pwd`; nvim <args>"'
 
+function StartTerminal()
+  local cmd = 'cd ' .. vim.fn.expand('%:p:h') .. ' && $SHELL'
+  local terminal_cmd = '$TERM -e sh -c \'' .. cmd .. '\''
+  os.execute(terminal_cmd .. ' &')
+end
+
+vim.cmd("command! T lua StartTerminal()")
+
 Map('i', '<C-v>', '<C-r>+')
 
 Map('n', '<A-l>', function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end)
@@ -68,7 +76,7 @@ Map('n', '<', '<<')
 Map('n', '$', 'g_')
 Map('v', '$', 'g_')
 Map('n', '<leader>vv', ':e $MYVIMRC<cr>')
-Map('n', '<leader>vr', ':luafile %')
+Map('n', '<leader>vr', ':luafile %<cr>')
 Map('n', 'gp', 'p`[')
 Map('n', '*', '*N')
 Map('v', '//', 'y/\\V<C-R>=escape(@",\'/\')<CR><CR>')
@@ -92,19 +100,3 @@ Map('n', 'cd', ':cd ')
 -- Cmd "inoremap <expr> <-k>   pumvisible() ? '\\<C-p>' : '\\<C-k>'"
 -- Cmd "inoremap <expr> <Tab>   pumvisible() ? '\\<C-n>' : '\\<Tab>'"
 -- Cmd "inoremap <expr> <S-Tab> pumvisible() ? '\\<C-p>' : '\\<S-Tab>'"
-
---[[
--- TODO:
-
-function! QuitNetrw()
-  for i in range(1, bufnr($))
-    if buflisted(i)
-      if getbufvar(i, '&filetype') == "netrw"
-        silent exe 'bwipeout ' . i
-      endif
-    endif
-  endfor
-endfunction
-
-autocmd MyAutoCmd VimLeavePre *  call QuitNetrw()
---]]

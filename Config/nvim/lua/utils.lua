@@ -27,7 +27,7 @@ end
 --- @param key string
 --- @param cmd string | function
 --- @param opts table | nil
-Map = function(mode, key, cmd, opts)
+function Map(mode, key, cmd, opts)
   local options = { noremap = true, silent = true }
   if type(cmd) == "function" then
     options.callback = cmd
@@ -41,7 +41,7 @@ end
 --- @param key string
 --- @param cmd string | function
 --- @param opts table | nil
-BMap = function(mode, key, cmd, opts)
+function BMap(mode, key, cmd, opts)
   local options = { noremap = true, silent = true }
   if type(cmd) == "function" then
     options.callback = cmd
@@ -51,16 +51,13 @@ BMap = function(mode, key, cmd, opts)
   vim.api.nvim_buf_set_keymap(0, mode, key, cmd, options)
 end
 
-Cmd = vim.api.nvim_command
-
-On_attach = function(client, bufnr)
+function OnAttach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
   local lspkind = require('lspkind')
   local luasnip = require('luasnip')
   -- Set completeopt to have a better completion experience
   vim.o.completeopt = 'menu,menuone,noinsert,noselect'
-  -- nvim-cmp setup
-  --[[
+
   local has_words_before = function()
     if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
       return false
@@ -69,9 +66,9 @@ On_attach = function(client, bufnr)
     local line = vim.api.nvim_win_get_cursor(0)[1]
     local col = vim.api.nvim_win_get_cursor(0)[2]
     local lines = vim.api.nvim_buf_get_lines(0, line - 1, line, true);
-    return col ~= 0 and lines[1]:match("^%s*$") == nil
+    return col > 0 and lines[1]:sub(1, col):match("^%s*$") == nil
   end
-  ]]
+
   local cmp = require 'cmp'
   cmp.setup {
     experimental = { ghost_text = true },
@@ -82,19 +79,20 @@ On_attach = function(client, bufnr)
       { name = 'copilot' }, { name = 'path' }, { name = 'nvim_lsp' },
       { name = 'luasnip' }
     },
-    -- sources = cmp.config.sources(
-    --     { { name = 'nvim_lsp' }, { name = 'luasnip' } },
-    --     { --[[{ name = 'buffer' } --]] }),
     mapping = {
       ['<C-p>'] = cmp.mapping.select_prev_item(),
       ['<C-n>'] = cmp.mapping.select_next_item(),
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-e>'] = cmp.mapping.close(),
-      ['<CR>'] = cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true
-      },
+      ['<CR>'] = function()
+        if cmp.visible() then
+          cmp.mapping.confirm {
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true
+          }
+        end
+      end,
       ['<C-space>'] = function()
         if cmp.visible() then
           cmp.mapping.confirm {
@@ -110,8 +108,8 @@ On_attach = function(client, bufnr)
           cmp.select_next_item()
         elseif luasnip.expand_or_locally_jumpable() then
           luasnip.expand_or_jump()
-          -- elseif has_words_before() then
-          --   cmp.complete()
+        elseif has_words_before() then
+          cmp.complete()
         else
           fallback()
         end
@@ -121,8 +119,8 @@ On_attach = function(client, bufnr)
           cmp.select_prev_item()
         elseif luasnip.jumpable(-1) then
           luasnip.jump(-1)
-          -- elseif has_words_before() then
-          --   cmp.complete()
+        elseif has_words_before() then
+          cmp.complete()
         else
           fallback()
         end
@@ -148,6 +146,7 @@ On_attach = function(client, bufnr)
   end
 end
 
+-- from https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/util.lua
 local _path = (function()
   local uv = vim.loop
 
@@ -267,6 +266,7 @@ local _path = (function()
   }
 end)()
 
+-- from https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/util.lua
 function RootPattern(...)
   local function search_ancestors(startpath, func)
     vim.validate { func = { func, 'f' } }

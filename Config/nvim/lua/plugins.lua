@@ -112,18 +112,6 @@ local M = {
       }
     end
   }, --
-  {
-    'mhinz/vim-startify',
-    lazy = false,
-    config = function()
-      vim.g.startify_lists = {
-        { type = 'dir', header = { "MRU [" .. vim.fn.getcwd() .. "]" } },
-        { type = 'files', header = { "MRU [global]" } }
-      }
-      vim.g.startify_fortune_use_unicode = 1
-      -- vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
-    end
-  }, --
   { -- bar at the top
     'akinsho/nvim-bufferline.lua',
     lazy = false,
@@ -403,6 +391,19 @@ local M = {
     dependencies = { 'godlygeek/tabular' },
     ft = { "markdown" },
     enabled = false
+  }, --
+  {
+    'mhinz/vim-startify',
+    lazy = false,
+    enabled = false,
+    config = function()
+      vim.g.startify_lists = {
+        { type = 'dir', header = { "MRU [" .. vim.fn.getcwd() .. "]" } },
+        { type = 'files', header = { "MRU [global]" } }
+      }
+      vim.g.startify_fortune_use_unicode = 1
+      -- vim.g.startify_custom_header = 'startify#pad(startify#fortune#boxed())'
+    end
   } --
   --
   --[[ use {

@@ -55,6 +55,7 @@ vim.g.mapleader = ' '
 vim.opt.guifont = "droidsansmono nerd font 11"
 
 vim.g.netrw_fastbrowse = 0
+vim.g.netrw_browsex_viewer = os.getenv("BROWSER") or "qutebrowser"
 
 vim.filetype.add({
   extension = {
@@ -76,15 +77,5 @@ vim.filetype.add({
   }
 
 })
-
---[[
-vim.cmd [[
-augroup ChangeAlacrittyPadding
- au!
- au VimEnter * lua DecreasePadding()
- au VimLeavePre * lua IncreasePadding()
-augroup END
-]]
--- ]]
 
 vim.cmd "command! W :w!"
