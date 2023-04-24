@@ -1,9 +1,9 @@
-require('../utils')
+require('utils')
 
 local M = { -- Collection of configurations for built-in LSP client
   'neovim/nvim-lspconfig',
   event = { 'BufReadPost' },
-  enabled = true,
+  enabled = true
 }
 
 M.config = function()
@@ -28,8 +28,7 @@ M.config = function()
         cmd = { "typst-lsp" },
         filetypes = { "typ", "typst" },
         root_dir = function(fname)
-          return root_pattern("package.json", "tsconfig.json", ".git")(fname) or
-                     vim.loop.os_homedir()
+          return root_pattern(".git")(fname) or vim.loop.os_homedir()
         end,
         settings = {}
       }
@@ -43,7 +42,6 @@ M.config = function()
   local servers = {
     "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "pyright",
     "html", -- "cmake", "vuels", "vimls",
-    "java_language_server"
   }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
@@ -87,9 +85,7 @@ M.config = function()
     capabilities = capabilities,
     settings = {
       ['rust-analyzer'] = {
-        cargo = {
-          allFeatures = true,
-        },
+        cargo = { allFeatures = true },
         checkOnSave = {
           allFeatures = true,
           overrideCommand = {
@@ -200,8 +196,8 @@ M.init = function()
   -- Map('n', '<leader>D', function () vim.lsp.buf.type_definition() end)
 
   Map('n', '<leader>e', function() vim.diagnostic.open_float() end)
-  Map('n', '[d', function() vim.diagnostic.get_prev() end)
-  Map('n', ']d', function() vim.diagnostic.get_next() end)
+  Map('n', '[d', function() vim.diagnostic.goto_prev() end)
+  Map('n', ']d', function() vim.diagnostic.goto_next() end)
   Map('n', '<leader>q', function() vim.diagnostic.setloclist() end)
   Map('n', '<leader>rn', function() vim.lsp.buf.rename() end)
 

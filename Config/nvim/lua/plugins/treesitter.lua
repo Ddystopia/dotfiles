@@ -2,7 +2,18 @@ local M = {
   'nvim-treesitter/nvim-treesitter',
   event = { 'BufReadPost' },
   enabled = true,
-  cond = function() return vim.api.nvim_buf_line_count(0) < 20000 end,
+  cond = function()
+    for _, buf_id in ipairs(vim.api.nvim_list_bufs()) do
+      local filename = vim.api.nvim_buf_get_name(buf_id)
+      local lines = vim.api.nvim_buf_line_count(buf_id)
+      if vim.fn.getfsize(filename) > 100 * 1024 and lines > 0 then
+        return false
+      end
+    end
+
+    return true
+
+  end,
   build = function() vim.cmd("TSUpdate") end
 }
 
@@ -21,7 +32,7 @@ M.dependencies = {
   ]]
     end
   }, --
-  'romgrk/nvim-treesitter-context', --
+  -- 'romgrk/nvim-treesitter-context', --
   'JoosepAlviste/nvim-ts-context-commentstring'
 }
 

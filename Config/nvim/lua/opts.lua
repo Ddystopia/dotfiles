@@ -11,6 +11,13 @@ vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 3
 vim.cmd "au BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4"
 
+vim.cmd [[
+  augroup DisableSyntaxOnLargeFiles 
+  autocmd!
+  autocmd BufReadPost,BufNewFile,BufEnter * lua DisableSyntaxOnLargeFiles()
+  augroup END
+]]
+
 vim.opt.fileencoding = 'utf-8'
 
 vim.opt.ignorecase = true
