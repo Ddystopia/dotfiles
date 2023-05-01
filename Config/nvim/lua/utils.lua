@@ -85,20 +85,16 @@ function OnAttach(client, bufnr)
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-e>'] = cmp.mapping.close(),
-      ['<CR>'] = function()
+      ['<CR>'] = function(fallback)
         if cmp.visible() then
-          cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true
-          }
+          cmp.confirm()
+        else
+          fallback()
         end
       end,
       ['<C-space>'] = function()
         if cmp.visible() then
-          cmp.mapping.confirm {
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true
-          }
+          cmp.confirm()
         else
           cmp.complete()
         end

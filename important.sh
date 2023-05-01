@@ -16,7 +16,7 @@
 # sudo dd bs=4M if=~/Downloads/manjaro.iso of=/dev/sdg status=progress oflag=sync
 
 # Swap Caps Lock and Esc
-# localectl --no-convert set-x11-keymap us,ru,ua,sk "" ",,,qwerty" caps:escape,grp_led:scroll
+# localectl --no-convert set-x11-keymap us,ru,ua,sk "" ",,,qwerty" caps:escape,grp_led:scroll,altwin:menu_super
 
 # Enable magic SysRq key
 # su -c "echo 1 > /proc/sys/kernel/sysrq"
@@ -54,8 +54,7 @@ dependencies=(
   "openssh" "redshift" "inkscape" "pdfplots" "gdb" "gtk3" "gtk4" "gtk2" "openssl"
   "wine" "libreoffice-fresh" "texlife-most" "hunspell" "hunspell-en_US"
   "i2pd" "yggdrasil"  "yaml-language-server" "exfat-utils" "virtualbox"
-  "virtualbox-host-modules-arch" "virtualbox-guest-utils" "aria2" "ascii"
-  "ueberzug" # attention
+  "ascii" "ueberzug" # attention
 )
 
 sudo pacman -Suyy --needed ${dependencies[@]}
@@ -69,8 +68,3 @@ paru -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb-switch \
 luarocks install --server=https://luarocks.org/dev luaformatter
 
 # android-completion and android-bash-completion 
-
-if [[ ! -e ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]]; then
-  git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-fi

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+xinput list |
+  grep -i touchpad |
+  awk -F= '{print $2}' |
+  awk '{print $1}' |
+  xargs -I % sh -c '
+    state=$(xinput list-props % |
+      grep "Device Enabled" |
+      awk "{print \$4}");
+    if [ "$state" = "1" ]; then
+      xinput set-prop % "Device Enabled" 0;
+    else
+      xinput set-prop % "Device Enabled" 1;
+    fi'
+

@@ -1,35 +1,10 @@
 local M = {
   {
-    "rhysd/rust-doc.vim",
-    ft = { "rust" },
-    enabled = true,
-    config = function()
-      vim.g["rust_doc#define_map_K"] = 0
-
-      local function search_under_cursor(query)
-        if query == '' then
-          vim.api.nvim_echo({
-            { 'rust-doc: No identifier is found under the cursor', 'WarningMsg' }
-          }, true, {})
-          return
-        end
-
-        vim.cmd(':RustDocFuzzy ' .. query)
-      end
-
-      Map('n', '<leader>rd',
-          function() search_under_cursor(vim.fn.expand("<cword>")) end)
-      Map('v', '<leader>rd',
-          function() search_under_cursor(vim.fn.expand("<cword>")) end)
-
-    end
-  }, --
-  {
     'gelguy/wilder.nvim',
     lazy = false,
     dependencies = {
       'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons',
-      'liuchengxu/vim-clap'
+      -- 'liuchengxu/vim-clap'
     },
     config = function()
       local wilder = require('wilder')
@@ -40,7 +15,7 @@ local M = {
           file_command = { 'fd', '-tf' },
           dir_command = { 'fd', '-td' },
           -- filters = { 'fuzzy_filter', 'difflib_sorter' },
-          filters = { 'clap_filter' },
+          -- filters = { 'clap_filter' },
           path = function()
             local filename = vim.api.nvim_buf_get_name(0)
             return RootPattern(".git", ".project_root", "LICENSE", "Cargo.toml",
@@ -95,7 +70,7 @@ local M = {
       }
       vim.g.neoformat_rust_rustfmt = {
         exe = 'rustfmt',
-        args = { '--config', 'tab_spaces=2' },
+        -- args = { '--config', 'tab_spaces=2' },
         replace = 0,
         stdin = 1
       }
@@ -209,7 +184,32 @@ local M = {
       vim.g.maplocalleader = ","
     end
   }, --
-  { 'tpope/vim-commentary', lazy = false }, --
+  {
+    'terrortylor/nvim-comment',
+    config = function()
+      require('nvim_comment').setup({
+        -- Linters prefer comment and line to have a space in between markers
+        marker_padding = true,
+        -- should comment out empty or whitespace only lines
+        comment_empty = true,
+        -- trim empty comment whitespace
+        comment_empty_trim_whitespace = true,
+        -- Should key mappings be created
+        create_mappings = true,
+        -- Normal mode mapping left hand side
+        line_mapping = "gcc",
+        -- Visual/Operator mapping left hand side
+        operator_mapping = "gc",
+        -- text object mapping, comment chunk,,
+        comment_chunk_text_object = "ic",
+        -- Hook function to call before commenting takes place
+        hook = nil
+      })
+      Map('n', "<C-_>", ":CommentToggle<CR>")
+      Map('v', "<C-_>", ":CommentToggle<CR>")
+    end,
+    lazy = false
+  }, --
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features

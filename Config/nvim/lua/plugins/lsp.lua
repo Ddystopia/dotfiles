@@ -38,10 +38,11 @@ M.config = function()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   capabilities.offsetEncoding = { "utf-16" }
+  capabilities.experimental = { localDocs = true }
 
   local servers = {
     "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "pyright",
-    "html", -- "cmake", "vuels", "vimls",
+    "html" -- "cmake", "vuels", "vimls",
   }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
@@ -61,27 +62,8 @@ M.config = function()
     }
   }
 
-  vim.g.rust_recommended_style = 0;
-  --[[
-  nvim_lsp.rust_analyzer.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-      ['rust-analyzer'] = {
-        checkOnSave = {
-          allFeatures = true,
-          overrideCommand = {
-            'cargo', 'clippy', '--workspace', '--message-format=json',
-            '--all-targets', '--all-features'
-          }
-        }
-      }
-    }
-  }
---]]
-
-  -- TODO: experimental/extenalDocs are not opening locally generated docs.
-  -- lua vim.lsp.buf_request(0, "experimental/externalDocs", vim.lsp.util.make_position_params(), function (_, url) vim.fn["netrw#BrowseX"](url, 0) end)
+  -- vim.g.rust_recommended_style = 0;
+  vim.g.rust_recommended_style = 1;
 
   nvim_lsp.rust_analyzer.setup {
     on_attach = on_attach,
@@ -89,7 +71,7 @@ M.config = function()
     settings = {
       ['rust-analyzer'] = {
         cargo = { allFeatures = true },
-        hoverActions = { linksInHover = true },
+        -- hoverActions = { linksInHover = true },
         checkOnSave = {
           allFeatures = true,
           overrideCommand = {
@@ -205,6 +187,20 @@ M.init = function()
   Map('n', ']d', function() vim.diagnostic.goto_next() end)
   Map('n', '<leader>q', function() vim.diagnostic.setloclist() end)
   Map('n', '<leader>rn', function() vim.lsp.buf.rename() end)
+
+  local function open_local_docs(_, url)
+    if url == nil then print("nil") return end
+    vim.fn["netrw#BrowseX"](url["local"], 0)
+  end
+
+  Map('n', '<leader>rd', function()
+    vim.lsp.buf_request(0, "experimental/externalDocs",
+                        vim.lsp.util.make_position_params(), open_local_docs)
+  end)
+  Map('v', '<leader>rd', function()
+    vim.lsp.buf_request(0, "experimental/externalDocs",
+                        vim.lsp.util.make_position_params(), open_local_docs)
+  end)
 
   -- Map('n', '<leader>ha', function () vim.lsp.buf.add_workspace_folder() end)
   -- Map('n', '<leader>hr', function () vim.lsp.buf.remove_workspace_folder() end)

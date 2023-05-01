@@ -13,15 +13,12 @@ super + alt + space
 # super + Return
 #   filter-errors $TERM xlib
 
-ctrl + alt + t
-  filter-errors $TERM xlib
-
 # switch layout
 super + space
   switch-layout
 
-#super + alt + space
-#  xkb-switch -s ua
+super + shift + space
+  xkb-switch -n
 
 # copyq clipboard toggle
 super + y
@@ -30,14 +27,6 @@ super + y
 # change background
 super + n
   feh -z --bg-scale $WALLPAPERS_DIR
-
-# run rofi
-# super + d
-  # useus rofi -show-icons -modi run,drun -show drun
-
-# browse config files
-# super + g
-#   useus $SCRIPT_DIR/rofi/cfg
 
 # calculator
 super + equal
@@ -57,11 +46,11 @@ super + p
 
 # toggle touchpad
 XF86TouchpadToggle
-  synclient TouchpadOff=$(synclient -l | grep -c 'TouchpadOff.*=.*0')
+  toggle-touchpad
 
 # brightness control
 XF86MonBrightness{Up,Down}
-  xbacklight {+,-}10
+  xbacklight {+,-}5
 
 # volume control
 XF86Audio{Raise,Lower}Volume
@@ -85,13 +74,6 @@ Print
 
 ctrl + Print
   flameshot full
-# Print
-#   scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 \
-#     -q 100 -s -f -z -e 'xclip -selection clipboard -target image/png -i $f'
-
-# ctrl + Print
-#   scrot '/tmp/%F_%T_$wx$h.png' --line color="#a0ff60",width=3 \
-#     -q 100 -f -z -e 'xclip -selection clipboard -target image/png -i $f'
 
 # start $BROWSER
 super + b
@@ -129,61 +111,16 @@ super + F12
 super + F9
   toggleRecorder
 
-# switch polybar (shift to hide)
-# super + {_,shift + }v
-#   $SCRIPT_DIR/bspwm/polyshow {show,hide}
-
-
 # restart sxhkd
 super + shift + c
   pkill -usr1 -x sxhkd
 
-### --- bspwm keybindings --- ###
+### --- dwm keybindings --- ###
 
 # logout
 super + F4
   xkb-switch -s "us"; slock
   # pkill -KILL -u $USER
-
-# restart bspwm
-super + shift + r
-  bspc wm -r
-
-# change gaps
-super + ctrl + {minus,equal}
-   bspc config window_gap $((`bspc config window_gap` {-,+} 2))
-
-# gaps to default
-super + ctrl + 0
-   bspc config window_gap 0
-
-# toggle monocle layout
-super + m
-  bspc desktop -l next
-
-# manage layouts
-# super + semicolon
-#   useus $SCRIPT_DIR/rofi/bspl
-
-# send the newest marked node to the newest preselected node
-super + o
-	bspc node focused -n newest.!automatic.local
-
-# swap the current node and the biggest window
-super + x
-	bspc node -s biggest.window.local
-
-# set the window state
-super + {s,w}
-	bspc node -t {tiled,floating}
-
-# toggle fullscreen
-# super + f
-#   $SCRIPT_DIR/bspwm/fullscreen
-
-# set the node flags
-super + ctrl + {m,x,y,z}
-	bspc node -g {marked,locked,sticky,private}
 
 # focus/swap next/prev node
 super + {k,j}
@@ -191,60 +128,6 @@ super + {k,j}
 
 super + shift + {k,j}
 	dwmc movestack {-,+}1
-
-# focus the next/previous desktop in the current monitor
-# super + {comma,period}
-# 	bspc desktop -f {prev,next}.local
-
-# move to next/previous desktop with current node
-super + shift + {comma,period}
-	id=$(bspc query -N -n); bspc node -d {prev,next}.local; bspc node -f ${id}
-
-# focus the next/previous occupied desktop in the current monitor
-super + {h,l}
-	bspc desktop -f {prev,next}.local.occupied
-
-super + l
-  dwmc view
-
-# move to next/previous occupied desktop with current node
-super + shift + {h,l}
-	id=$(bspc query -N -n); bspc node -d {prev,next}.local.occupied; bspc node -f ${id}
-
-# focus or send to the given desktop
-# super + {_,shift + }{1-9,0}
-	# bspc {desktop -f,node -d} '^{1-9,10}'
-
-# super + {1-9}
-#   dwmc view $(({1-9} - 1))
-
-super + minus
-  bspc desktop -f last
-
-super + grave
-  bspc desktop -f next.urgent
-
-# preselect the direction
-super + ctrl + {h,j,k,l}
-	bspc node -p {west,south,north,east}
-
-# preselect the ratio
-super + ctrl + {1-9}
-	bspc node -o 0.{1-9}
-
-# cancel the preselection for the focused node
-super + ctrl + backslash
-  bspc node -p cancel
-
-# cancel the preselection for the focused desktop
-super + ctrl + shift + backslash
-	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
-
-# resize node
-# super + alt + {h,j,k,l}
-#   STEP=20; SELECTION={1,2,3,4}; \
-#   bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
-#   bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
 
 super + alt + {h,l}
 	dwmc setmfact {-,+}0.05
@@ -254,15 +137,5 @@ super + button4
 
 super + button5
   dwmc shiftview +1
-
-# contract a window by moving one of its side inward
-super + alt + shift + {h,j,k,l}
-	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
-
-# move a floating window
-super + {Left,Down,Up,Right}
-	bspc node -v {-20 0,0 20,0 -20,20 0}
-
-# super + slash
 
 # vim:ft=config

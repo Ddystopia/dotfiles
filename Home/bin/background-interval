@@ -5,7 +5,7 @@
 TIMEOUT=${1:-30}
 WALLPAPERS_DIR__LOCAL=${2:-${WALLPAPERS_DIR}}
 PROC_NAME=${3:-"background-interval"}
-MAX_BRIGHTNESS=${4:-75}
+MAX_BRIGHTNESS=${4:-80}
 
 if [[ -z $TIMEOUT ]] || [[ -z $WALLPAPERS_DIR__LOCAL ]]
 then
