@@ -19,8 +19,8 @@ local M = {
           path = function()
             local filename = vim.api.nvim_buf_get_name(0)
             return RootPattern(".git", ".project_root", "LICENSE", "Cargo.toml",
-                               "package.json", "init.lua")(filename) or
-                       vim.loop.os_homedir()
+                  "package.json", "init.lua")(filename) or
+                vim.loop.os_homedir()
           end
         }), wilder.cmdline_pipeline(), wilder.python_search_pipeline())
       })
@@ -42,15 +42,27 @@ local M = {
     keys = { '<leader>F' },
     config = function()
       Map('n', '<leader>F', function()
-        vim.cmd [[
-          silent Neoformat
-          write
-        ]];
+        if not pcall(function() vim.lsp.buf.format() end) then
+          vim.cmd [[
+            silent Neoformat
+            write
+          ]];
+        end
       end)
+
       Map('v', '<leader>F', function()
-        local cmd = vim.api.nvim_replace_termcodes(
-                        ':<C-U>silent \'<,\'>Neoformat<CR>', true, false, true);
-        vim.api.nvim_feedkeys(cmd, 'n', true)
+        local function feedkeys(keys, mode)
+          local cmd = vim.api.nvim_replace_termcodes(
+            keys, true, false, true);
+          vim.api.nvim_feedkeys(cmd, mode, true)
+        end
+        local function lsp_format()
+          feedkeys(':<C-U>silent \'<,\'>lua vim.lsp.format()<CR>', 'n')
+        end
+
+        if not pcall(lsp_format) then
+          feedkeys(':<C-U>silent \'<,\'>Neoformat<CR>', 'v')
+        end
       end)
       vim.g.latexindent_opt = "-m"
       vim.g.neoformat_markdown_remark = {
@@ -87,7 +99,8 @@ local M = {
       }
     end
   }, --
-  { -- bar at the top
+  {
+     -- bar at the top
     'akinsho/nvim-bufferline.lua',
     lazy = false,
     dependencies = 'kyazdani42/nvim-web-devicons',
@@ -129,7 +142,8 @@ local M = {
       Map('n', '<C-k>', '<cmd>tabp<cr>')
     end
   }, --
-  { -- indent blankline
+  {
+     -- indent blankline
     'lukas-reineke/indent-blankline.nvim',
     lazy = false,
     config = function()
@@ -143,12 +157,14 @@ local M = {
       }
     end
   }, --
-  { -- highlights yank
+  {
+     -- highlights yank
     'machakann/vim-highlightedyank',
     lazy = false,
     config = function() vim.g.highlightedyank_highlight_duration = 250 end
   }, --
-  { -- colorize colors like this #01dd99
+  {
+     -- colorize colors like this #01dd99
     'norcalli/nvim-colorizer.lua',
     lazy = false,
     config = function()
@@ -242,7 +258,7 @@ local M = {
       Map('i', 'Э', 'Э')
       Map('i', 'Ё', 'Ё')
     end
-  }, --
+  },                                            --
   { 'tversteeg/registers.nvim', lazy = false }, --
   {
     'phaazon/hop.nvim',
@@ -251,13 +267,14 @@ local M = {
     init = function()
       -- Map("n", "<leader>h", function() require'hop'.hint_words() end)
       -- Map("n", "<leader>k", function() require'hop'.hint_lines() end)
-      Map("n", "<leader>l", function() require'hop'.hint_words() end)
-      Map("n", "<leader>j", function() require'hop'.hint_lines() end)
-      Map("n", "<leader>f", function() require'hop'.hint_char1() end)
-      Map("n", "<leader>s", function() require'hop'.hint_char2() end)
+      Map("n", "<leader>l", function() require 'hop'.hint_words() end)
+      Map("n", "<leader>j", function() require 'hop'.hint_lines() end)
+      Map("n", "<leader>f", function() require 'hop'.hint_char1() end)
+      Map("n", "<leader>s", function() require 'hop'.hint_char2() end)
     end
   }, -- use 'ray-x/lsp_signature.nvim'
-  { -- TODO: Am I using it?
+  {
+     -- TODO: Am I using it?
     "ahmedkhalf/project.nvim",
     lazy = false,
     config = function()
@@ -268,7 +285,8 @@ local M = {
       }
     end
   }, -- use 'jackguo380/vim-lsp-cxx-highlight'
-  { -- TODO: Doesn't work
+  {
+     -- TODO: Doesn't work
     'simrat39/symbols-outline.nvim',
     keys = { '<leader>;' },
     cmd = { "SymbolsOutline" },
@@ -304,7 +322,8 @@ local M = {
       }
     end
   }, --
-  { -- xkbswitch TODO: doesn't work
+  {
+     -- xkbswitch TODO: doesn't work
     'lyokha/vim-xkbswitch',
     lazy = true,
     enabled = false,
@@ -313,37 +332,37 @@ local M = {
       vim.g.XkbSwitchIMappings = { 'ru', 'sk(qwerty)', 'ua' }
     end
   }, --
-  { 'folke/neodev.nvim', ft = { 'lua' }, config = true }, {
-    'luochen1990/rainbow',
-    lazy = false,
-    enabled = false,
-    config = function()
-      vim.g.rainbow_active = 1;
-      vim.g.grainbow_conf = {
-        -- guifgs = { 'royalblue3', 'darkorange3', 'seagreen3', 'firebrick' },
-        -- ctermfgs = { 'lightblue', 'lightyellow', 'lightcyan', 'lightmagenta' },
-        guifgs = { "#bf616a", "#ffd700", "#a3de3c", "#ebcb8b", "#88c0d0" },
-        ctermfgs = { "#af5f5f", "#ffd700", "#afff00", "#d7af87", "#afd7ff" },
-        guis = { '' },
-        cterms = { '' },
-        operators = '_,_',
-        parentheses = {
-          'start=/(/ end=/)/ fold', 'start=/[/ end=/]/ fold',
-          'start=/{/ end=/}/ fold', 'start=/</ end=/>/ fold'
+  { 'folke/neodev.nvim',        ft = { 'lua' }, config = true }, {
+  'luochen1990/rainbow',
+  lazy = false,
+  enabled = false,
+  config = function()
+    vim.g.rainbow_active = 1;
+    vim.g.grainbow_conf = {
+      -- guifgs = { 'royalblue3', 'darkorange3', 'seagreen3', 'firebrick' },
+      -- ctermfgs = { 'lightblue', 'lightyellow', 'lightcyan', 'lightmagenta' },
+      guifgs = { "#bf616a", "#ffd700", "#a3de3c", "#ebcb8b", "#88c0d0" },
+      ctermfgs = { "#af5f5f", "#ffd700", "#afff00", "#d7af87", "#afd7ff" },
+      guis = { '' },
+      cterms = { '' },
+      operators = '_,_',
+      parentheses = {
+        'start=/(/ end=/)/ fold', 'start=/[/ end=/]/ fold',
+        'start=/{/ end=/}/ fold', 'start=/</ end=/>/ fold'
+      },
+      separately = {
+        markdown = {
+          parentheses_options = 'containedin=markdownCode contained'   -- "enable rainbow for code blocks only
         },
-        separately = {
-          markdown = {
-            parentheses_options = 'containedin=markdownCode contained' -- "enable rainbow for code blocks only
-          },
-          css = 0, -- disable this plugin for css files
-          nerdtree = 0 -- rainbow is conflicting with NERDTree, creating extra parentheses
-        }
+        css = 0,                                                       -- disable this plugin for css files
+        nerdtree = 0                                                   -- rainbow is conflicting with NERDTree, creating extra parentheses
       }
+    }
+  end
 
-    end
-
-  }, --
-  { -- bar at the bottom
+},   --
+  {
+     -- bar at the bottom
     "hoob3rt/lualine.nvim",
     enabled = false,
     lazy = false,
@@ -369,15 +388,15 @@ local M = {
           lualine_b = { 'branch', 'diff' },
           lualine_c = {
             'buffers', {
-              'diagnostics',
-              sources = { 'nvim_diagnostic' },
-              symbols = {
-                error = ' ',
-                warn = ' ',
-                info = ' ',
-                hint = ' '
-              }
+            'diagnostics',
+            sources = { 'nvim_diagnostic' },
+            symbols = {
+              error = ' ',
+              warn = ' ',
+              info = ' ',
+              hint = ' '
             }
+          }
           },
           lualine_x = { 'filetype' },
           lualine_y = { 'progress' },
@@ -398,7 +417,7 @@ local M = {
     enabled = false,
     config = function()
       vim.g.startify_lists = {
-        { type = 'dir', header = { "MRU [" .. vim.fn.getcwd() .. "]" } },
+        { type = 'dir',   header = { "MRU [" .. vim.fn.getcwd() .. "]" } },
         { type = 'files', header = { "MRU [global]" } }
       }
       vim.g.startify_fortune_use_unicode = 1
