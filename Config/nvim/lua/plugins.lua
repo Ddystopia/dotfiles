@@ -12,15 +12,15 @@ local M = {
 
       wilder.set_option('pipeline', {
         wilder.branch(wilder.python_file_finder_pipeline({
-          file_command = function (arg)
-            if arg.len() > 0 and arg[0] == '.' then
-              return { 'fd', '-tf', '-IH' }
+          file_command = function (_, arg)
+            if arg ~= nil and arg[0] == '.' then
+              return { 'fd', '-tf', '-H' }
             end
-            return { 'fd', '-tf' }
+            return { 'fd', '-tf' } -- fd -tf -I
           end,
-          dir_command = function (arg)
-            if arg.len() > 0 and arg[0] == '.' then
-              return { 'fd', '-td', '-IH' }
+          dir_command = function (_, arg)
+            if arg ~= nil and arg[0] == '.' then
+              return { 'fd', '-td', '-H' }
             end
             return { 'fd', '-td' }
           end,
