@@ -12,8 +12,18 @@ local M = {
 
       wilder.set_option('pipeline', {
         wilder.branch(wilder.python_file_finder_pipeline({
-          file_command = { 'fd', '-tf' },
-          dir_command = { 'fd', '-td' },
+          file_command = function (arg)
+            if arg.len() > 0 and arg[0] == '.' then
+              return { 'fd', '-tf', '-IH' }
+            end
+            return { 'fd', '-tf' }
+          end,
+          dir_command = function (arg)
+            if arg.len() > 0 and arg[0] == '.' then
+              return { 'fd', '-td', '-IH' }
+            end
+            return { 'fd', '-td' }
+          end,
           -- filters = { 'fuzzy_filter', 'difflib_sorter' },
           -- filters = { 'clap_filter' },
           path = function()

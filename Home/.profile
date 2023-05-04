@@ -14,6 +14,7 @@ export TERM=/usr/bin/alacritty
 export WALLPAPERS_DIR=/home/ddystopia/Media/wallpapers
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export LESSHISTFILE=-
+export XORGCONFIG="$XDG_CONFIG_HOME/xorg.conf.d"
 
 export _JAVA_AWT_WM_NONREPARENTING=1
 
