@@ -44,5 +44,3 @@ require('lazy').setup('plugins', {
     }
   }
 })
-
-

@@ -4,7 +4,6 @@ local copilot = {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
   event = "InsertEnter",
-  enabled = true,
 }
 
 copilot.config = function()

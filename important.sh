@@ -39,7 +39,7 @@ sudo pacman -S --needed git base-devel linux-headers &&
 # pandoc xfce4-power-manager
 
 dependencies=(
-  "noto-fonts" "noto-fonts-emoji" "exa" "acpilight" "fd" "ripgrep"
+  "noto-fonts" "noto-fonts-emoji" "exa" "acpilight" "fd" "ripgrep" "neovim"
   "copyq" "python-pip" "flameshot" "zsh" "playerctl" "pacman-contrib"
   "ffmpeg" "btop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
   "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "inetutils"

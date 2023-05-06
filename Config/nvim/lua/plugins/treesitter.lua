@@ -10,18 +10,17 @@ local M = {
         return false
       end
     end
-
     return true
-
   end,
   build = function() vim.cmd("TSUpdate") end
 }
 
 M.dependencies = {
-  'nvim-treesitter/nvim-treesitter-textobjects', --
-  'RRethy/nvim-treesitter-textsubjects', --
+  { 'nvim-treesitter/nvim-treesitter-textobjects', lazy = false },  --
+  { 'RRethy/nvim-treesitter-textsubjects',         lazy = false },  --
   {
     'p00f/nvim-ts-rainbow',
+    lazy = false,
     config = function()
       vim.cmd [[
     hi rainbowcol1 guifg=#bf616a
@@ -33,11 +32,11 @@ M.dependencies = {
     end
   }, --
   -- 'romgrk/nvim-treesitter-context', --
-  'JoosepAlviste/nvim-ts-context-commentstring'
+  { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = false }
 }
 
 M.init = function()
-  local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
+  local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
   parser_config.typst = {
     install_info = {
       url = "https://github.com/TheOnlyMrCat/tree-sitter-typst",
@@ -61,6 +60,7 @@ M.config = function()
   local treesitter = require('nvim-treesitter.configs')
 
   treesitter.setup {
+    ensure_installed = { 'javascript', 'lua', 'rust' },
     highlight = { enable = true, additional_vim_regex_highlighting = false },
 
     incremental_selection = {

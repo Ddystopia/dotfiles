@@ -67,7 +67,9 @@ local M = {
           vim.api.nvim_feedkeys(cmd, mode, true)
         end
         local function lsp_format()
-          feedkeys(':<C-U>silent \'<,\'>lua vim.lsp.format()<CR>', 'n')
+          feedkeys([[:<C-U>silent \'<,\'>lua vim.lsp.format({
+            filter = function (c) return c.name ~= "copilot" end
+          })<CR>]], 'n')
         end
 
         if not pcall(lsp_format) then
@@ -155,6 +157,7 @@ local M = {
   {
      -- indent blankline
     'lukas-reineke/indent-blankline.nvim',
+    enabled = false,
     lazy = false,
     config = function()
       vim.g.indent_blankline_char = '▏'
@@ -269,7 +272,9 @@ local M = {
       Map('i', 'Ё', 'Ё')
     end
   },                                            --
-  { 'tversteeg/registers.nvim', lazy = false }, --
+  { 'tversteeg/registers.nvim',
+
+    lazy = false }, --
   {
     'phaazon/hop.nvim',
     name = 'hop',
@@ -286,6 +291,7 @@ local M = {
   {
      -- TODO: Am I using it?
     "ahmedkhalf/project.nvim",
+    enabled = false,
     lazy = false,
     config = function()
       require("project_nvim").setup {
@@ -298,6 +304,7 @@ local M = {
   {
      -- TODO: Doesn't work
     'simrat39/symbols-outline.nvim',
+    enabled = false,
     keys = { '<leader>;' },
     cmd = { "SymbolsOutline" },
     config = function()

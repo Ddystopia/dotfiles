@@ -3,7 +3,6 @@ require('utils')
 local M = { -- Collection of configurations for built-in LSP client
   'neovim/nvim-lspconfig',
   event = { 'BufReadPost' },
-  enabled = true
 }
 
 M.config = function()
