@@ -6,6 +6,7 @@ local M = {
       'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons',
       -- 'liuchengxu/vim-clap'
     },
+    build = function () vim.cmd [[ UpdateRemotePlugins ]] end,
     config = function()
       local wilder = require('wilder')
       wilder.setup({ modes = { ':', '/', '?' } })

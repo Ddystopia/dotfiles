@@ -50,7 +50,7 @@ XF86TouchpadToggle
 
 # brightness control
 XF86MonBrightness{Up,Down}
-  xbacklight {+,-}5
+  sudo xbacklight {+,-}5
 
 # volume control
 XF86Audio{Raise,Lower}Volume

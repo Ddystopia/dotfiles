@@ -1,7 +1,3 @@
-if [[ -z "${DISPLAY}" ]] && [[ "${XDG_VTNR}" -le 3 ]] && command -v startx; then
-  exec startx ~/.xinitrc dwm
-fi
-
 # custom
 [[ -z ${XDG_CONFIG_HOME} ]] && export XDG_CONFIG_HOME="$HOME/.config"
 [[ -z ${XDG_CACHE_HOME} ]] && export XDG_CACHE_HOME="$HOME/.cache"

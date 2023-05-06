@@ -36,8 +36,6 @@ sudo pacman -S --needed git base-devel linux-headers &&
   cd paru &&
   makepkg -si
 
-# pandoc xfce4-power-manager
-
 dependencies=(
   "noto-fonts" "noto-fonts-emoji" "exa" "acpilight" "fd" "ripgrep" "neovim"
   "copyq" "python-pip" "flameshot" "zsh" "playerctl" "pacman-contrib"
@@ -45,15 +43,14 @@ dependencies=(
   "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "inetutils"
   "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "feh" "filelight" "zathura"
   "thefuck" "neofetch" "cowsay" "pulsemixer" "highlight" "inotify-tools"
-  "typescript" "racket" "foliate" "discord" "nodejs" "npm" "zathura-pdf-mupdf"
-  "python" "python3" "vscode" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"
+  "typescript" "racket" "foliate" "nodejs" "npm" "zathura-pdf-mupdf"
+  "python" "python3" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"
   "tor" "thunar" "git" "alacritty" "ranger" "gvfs" "gvfs-mtp" "unrar" "rsync"
-  "bash-language-server" "pipewire" "pipewire-audio-client-libraries" "pipewire-media-session"
-  "flameshot" "inkscape" "sassc" "bluez-utils" "yt-dlp" "mariadb"
-  "pdfjs" "pavucontrol" "android-tools" "usbtools" "lua-language-server" "picom"
-  "openssh" "redshift" "inkscape" "pdfplots" "gdb" "gtk3" "gtk4" "gtk2" "openssl"
-  "wine" "libreoffice-fresh" "texlife-most" "hunspell" "hunspell-en_US"
-  "i2pd" "yggdrasil"  "yaml-language-server" "exfat-utils" "virtualbox"
+  "bash-language-server" "pipewire" "pipewire-media-session"
+  "flameshot" "bluez-utils" "yt-dlp"  #"pipewire-audio-client-libraries" 
+  "pdfjs" "pavucontrol" "lua-language-server" "picom"
+  "openssh" "redshift" "gdb" "gtk3" "gtk4" "gtk2" "openssl"
+  "libreoffice-fresh" "hunspell" "hunspell-en_US" "i2pd" "yggdrasil"  "yaml-language-server" "exfat-utils"
   "ascii" "ueberzug" # attention
 )
 
@@ -62,9 +59,9 @@ sudo pacman -Suyy --needed ${dependencies[@]}
 sudo npm -g i typescript-language-server yarn vscode-langservers-extracted emmet-ls
 sudo pip install black python-language-server pykeepass pynacl
 paru -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb-switch \
-  unipicker nerd-fonts-mononoki \
+  unipicker nerd-fonts \
   ttf-meslo-nerd-font-powerlevel10k tex-gyre-math-fonts \
-  ttf-cm-unicode android-completion xwinwrap
-luarocks install --server=https://luarocks.org/dev luaformatter
+  ttf-cm-unicode xwinwrap
+sudo luarocks install --server=https://luarocks.org/dev luaformatter
 
 # android-completion and android-bash-completion 

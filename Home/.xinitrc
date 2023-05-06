@@ -11,15 +11,18 @@ sysmodmap=/etc/X11/xinit/.Xmodmap
 
 SESSION=${1:-dwm}
 
-case $session in
-    i3|i3wm           ) exec i3;;
-    kde               ) exec startplasma-x11;;
-    xfce|xfce4        ) exec startxfce4;;
-    bspwm             ) sxhkd &; exec bspwm;; 
-    dwm               ) exec dwm;;
+source ~/.profile
+exec dwm
+
+#case $session in
+    #i3|i3wm           ) exec i3;;
+    #kde               ) exec startplasma-x11;;
+    #xfce|xfce4        ) exec startxfce4;;
+    #bspwm             ) sxhkd & exec bspwm;; 
+    #dwm               ) exec dwm;;
     # No known session, try to run it as command
-    *                 ) exec $1;;
-esac
+    #*                 ) exec $1;;
+#esac
 
 # merge in defaults and keymaps
 

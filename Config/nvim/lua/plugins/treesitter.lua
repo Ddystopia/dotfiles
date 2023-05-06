@@ -16,8 +16,8 @@ local M = {
 }
 
 M.dependencies = {
-  { 'nvim-treesitter/nvim-treesitter-textobjects', lazy = false },  --
-  { 'RRethy/nvim-treesitter-textsubjects',         lazy = false },  --
+  { 'nvim-treesitter/nvim-treesitter-textobjects', lazy = false }, --
+  { 'RRethy/nvim-treesitter-textsubjects',         lazy = false }, --
   {
     'p00f/nvim-ts-rainbow',
     lazy = false,
@@ -60,7 +60,12 @@ M.config = function()
   local treesitter = require('nvim-treesitter.configs')
 
   treesitter.setup {
-    ensure_installed = { 'javascript', 'lua', 'rust' },
+    ensure_installed = {
+      'rust', 'c', 'cpp', 'javascript', 'lua', 'python', 'bash',
+      'fish', 'html', 'css', 'dockerfile', 'diff', 'fish', 'go',
+      'json', 'make', 'markdown', 'python', 'regex', 'scheme',
+      'sxhkdrc', 'typescript', 'yaml', 'zig'
+    },
     highlight = { enable = true, additional_vim_regex_highlighting = false },
 
     incremental_selection = {

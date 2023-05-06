@@ -1,7 +1,7 @@
 [user]
   email = alexanderbabak@proton.me
 	name = Ddystopia
-	signingkey = 109875EC11535212
+	signkey = github.pub
 [core]
 	editor = nvim
 [init]
@@ -10,5 +10,5 @@
 	helper = store
 [alias]
 	root = rev-parse --show-toplevel
-[commit]
-	gpgsign = true
+[gpg]
+	format = ssh
