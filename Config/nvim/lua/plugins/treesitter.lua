@@ -77,8 +77,6 @@ M.config = function()
       }
     },
 
-    indent = { enable = true },
-
     rainbow = {
       enable = true,
       -- disable = { "html" },
