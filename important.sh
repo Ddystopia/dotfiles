@@ -31,33 +31,48 @@
 
 set -e
 
+dependencies=(
+  "noto-fonts" "noto-fonts-emoji"
+
+  "clang" "typescript" "racket" "nodejs" "npm" "python" "python3" "lua"
+  "rustup"
+
+  "python-pip" "ccls"  "cmake" "luarocks" "luajit" "lua-language-server"
+  "bash-language-server" "yaml-language-server"
+
+  "neovim" "btop" "mpv" "qutebrowser" "foliate""zathura-pdf-mupdf" "zathura"
+  "keepassxc" "tree-sitter" "copyq" "flameshot" "rofi" "rofi-calc" "rofi-pass"
+  "thunar" "alacritty" "flameshot" "pdfjs" "pavucontrol" "libreoffice-fresh"
+   # "pulsemixer"
+
+  "bspwm" "picom" "sxhkd"  
+
+  "linux-headers"  
+
+  "exa" "acpilight" "fd" "ripgrep" "xclip" "zsh" "playerctl" "pacman-contrib"
+  "ffmpeg"   "fzf" "zsh-autosuggestions" "xdo" "cron" "feh" "thefuck"
+  "neofetch" "cowsay" "highlight" "inotify-tools" "inetutils" "tor" "git"
+  "ranger" "gvfs" "gvfs-mtp" "unrar" "rsync" "pipewire" "pipewire-media-session"
+  "bluez-utils" "yt-dlp"  #"pipewire-audio-client-libraries" 
+  "openssh" "redshift" "gdb" "gtk3" "gtk4" "gtk2" "openssl"
+  "hunspell" "hunspell-en_US" "ascii" "ueberzug" # attention
+)
+
+maybe=(
+  "i2pd" "yggdrasil" "exfat-utils"
+)
+
+rustup default stable
+
+sudo pacman -Suyy --needed ${dependencies[@]}
+
 sudo pacman -S --needed git base-devel linux-headers &&
   git clone https://aur.archlinux.org/paru.git &&
   cd paru &&
   makepkg -si
 
-dependencies=(
-  "noto-fonts" "noto-fonts-emoji" "exa" "acpilight" "fd" "ripgrep" "neovim"
-  "copyq" "python-pip" "flameshot" "zsh" "playerctl" "pacman-contrib"
-  "ffmpeg" "btop" "ccls" "clang" "cmake" "fzf" "zsh-autosuggestions"
-  "qutebrowser" "mpv" "linux-headers" "bspwm" "sxhkd" "rofi" "inetutils"
-  "rofi-calc" "rofi-pass" "xclip" "xdo" "cron" "feh" "filelight" "zathura"
-  "thefuck" "neofetch" "cowsay" "pulsemixer" "highlight" "inotify-tools"
-  "typescript" "racket" "foliate" "nodejs" "npm" "zathura-pdf-mupdf"
-  "python" "python3" "lua" "luarocks" "tree-sitter" "luajit" "keepassxc"
-  "tor" "thunar" "git" "alacritty" "ranger" "gvfs" "gvfs-mtp" "unrar" "rsync"
-  "bash-language-server" "pipewire" "pipewire-media-session"
-  "flameshot" "bluez-utils" "yt-dlp"  #"pipewire-audio-client-libraries" 
-  "pdfjs" "pavucontrol" "lua-language-server" "picom"
-  "openssh" "redshift" "gdb" "gtk3" "gtk4" "gtk2" "openssl"
-  "libreoffice-fresh" "hunspell" "hunspell-en_US" "i2pd" "yggdrasil"  "yaml-language-server" "exfat-utils"
-  "ascii" "ueberzug" # attention
-)
-
-sudo pacman -Suyy --needed ${dependencies[@]}
-
-sudo npm -g i typescript-language-server yarn vscode-langservers-extracted emmet-ls
-sudo pip install black python-language-server pykeepass pynacl
+sudo npm -g i typescript-language-server yarn vscode-langservers-extracted
+sudo pip install black python-language-server pykeepass
 paru -S splatmoji ttf-dejavu-sans-mono-powerline-git xkb-switch \
   unipicker nerd-fonts \
   ttf-meslo-nerd-font-powerlevel10k tex-gyre-math-fonts \
