@@ -11,7 +11,7 @@ scrolling:
   history: 100000
 
 selection:
-    save_to_clipboard: true
+  save_to_clipboard: true
 
 cursor:
  unfocused_hollow: true

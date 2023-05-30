@@ -23,6 +23,38 @@ function DisableSyntaxOnLargeFiles()
   end
 end
 
+
+
+--- @param buf number
+--- @param option string
+--- @param value any
+function SetLocalOption(buf, option, value)
+  vim.api.nvim_buf_set_option(buf, option, value)
+end
+
+--- Creates a new auto command.
+--- @param event string | table The event(s) that will trigger the handler (callback or command).
+--- @param callback fun(args: table):(boolean|nil) Lua function (or Vimscript function name, if string) called when the event(s) is triggered. Lua callback can return true to delete the autocommand. The table argument of the callback function has these keys:
+---   id (number): autocommand id
+---   event (string): name of the triggered event autocmd-events
+---   group (number|nil): autocommand group id, if any
+---   match (string): expanded value of <amatch>
+---   buf (number): expanded value of <abuf>
+---   file (string): expanded value of <afile>
+---   data (any): arbitrary data passed from nvim_exec_autocmds()
+--- @param opts table | nil Options dictionary:
+---   group string|integer, optional: autocommand group name or id to match against.
+---   pattern string|table, optional: pattern(s) to match literally autocmd-pattern.
+---   buffer integer, optional: buffer number for buffer-local autocommands autocmd-buflocal. Cannot be used with {pattern}.
+---   desc string, optional: description (for documentation and troubleshooting).
+function AutoCommand(event, callback, opts)
+  if opts == nil then
+    opts = {}
+  end
+  opts.callback = callback
+  vim.api.nvim_create_autocmd(event, opts)
+end
+
 --- @param mode string
 --- @param key string
 --- @param cmd string | function
@@ -125,8 +157,8 @@ function OnAttach(client, bufnr)
     -- completion = { autocomplete = false },
     formatting = {
       format = lspkind.cmp_format({
-        mode = 'symbol', -- show only symbol annotations
-        maxwidth = 30, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        mode = 'symbol',       -- show only symbol annotations
+        maxwidth = 30,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
         ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
         before = function(_, vim_item) return vim_item end,
         symbol_map = { Copilot = "" }
@@ -279,7 +311,7 @@ function RootPattern(...)
   local function strip_archive_subpath(path)
     -- Matches regex from zip.vim / tar.vim
     path = vim.fn.substitute(path, 'zipfile://\\(.\\{-}\\)::[^\\\\].*$', '\\1',
-                             '')
+      '')
     path = vim.fn.substitute(path, 'tarfile:\\(.\\{-}\\)::.*$', '\\1', '')
     return path
   end
@@ -287,7 +319,7 @@ function RootPattern(...)
   local function matcher(path)
     for _, pattern in ipairs(patterns) do
       for _, p in ipairs(vim.fn.glob(_path.join(_path.escape_wildcards(path),
-                                                pattern), true, true)) do
+        pattern), true, true)) do
         if _path.exists(p) then return path end
       end
     end
@@ -296,5 +328,4 @@ function RootPattern(...)
     startpath = strip_archive_subpath(startpath)
     return search_ancestors(startpath, matcher)
   end
-
 end

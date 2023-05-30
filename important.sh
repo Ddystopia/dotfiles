@@ -44,7 +44,7 @@ dependencies=(
   "keepassxc" "tree-sitter" "copyq" "flameshot" "rofi" "rofi-calc" "rofi-pass"
   "thunar" "alacritty" "flameshot" "pdfjs" "pavucontrol" "libreoffice-fresh"
 
-  "bspwm" "picom" "sxhkd"  
+  "bspwm" "picom" "sxhkd" "xcape"
 
   "linux-headers"  
 

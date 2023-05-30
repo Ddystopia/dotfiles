@@ -1,6 +1,6 @@
 [user]
   email = alexanderbabak@proton.me
-	name = Ddystopia
+	name = Oleksandr Babak
 	signingkey = B21CA2CAC0240BB9
 [core]
 	editor = nvim

@@ -10,6 +10,18 @@ function ToggleWrap()
   end
 end
 
+function ToggleCenteredScroll()
+  if vim.g.centered_cursor then
+    vim.api.nvim_del_keymap('n', 'j')
+    vim.api.nvim_del_keymap('n', 'k')
+    vim.g.centered_cursor = false
+  else
+    Map('n', 'j', 'jzz')
+    Map('n', 'k', 'kzz')
+    vim.g.centered_cursor = true
+  end
+end
+
 -- TODO: not work
 function QuitNetrw()
   for i = 1, vim.fn.bufnr('$') do
@@ -60,6 +72,18 @@ Map('n', '<C-d>', '<C-d>zz');
 Map('n', 'n', 'nzz');
 Map('n', 'N', 'Nzz');
 
+Map('n', 'U', '<C-r>');
+
+-- Map('n', 'w', 'vw');
+-- Map('n', 'W', 'vW');
+-- Map('n', 'b', 'vb');
+-- Map('n', 'B', 'vB');
+-- Map('n', 'e', 've');
+-- Map('n', 'E', 'vE');
+
+-- Map('n', 'j', 'jzz');
+-- Map('n', 'k', 'kzz');
+
 Map('n', 'gF', ':e <cfile><cr>')
 
 Map('n', '<leader>w', ':w!<cr>')
@@ -75,6 +99,8 @@ Map('n', '>', '>>')
 Map('n', '<', '<<')
 Map('n', '$', 'g_')
 Map('v', '$', 'g_')
+Map('n', 'gl', 'g_')
+Map('v', 'gl', 'g_')
 Map('n', '<leader>vv', ':e $MYVIMRC<cr>')
 Map('n', '<leader>vr', ':luafile %<cr>')
 Map('n', 'gp', 'p`[')

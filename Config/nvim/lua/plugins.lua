@@ -1,25 +1,63 @@
 local M = {
   {
+    'mfussenegger/nvim-dap',
+    keys = { '<leader>dc', '<leader>dr', '<leader>db', '<leader>dl', '<leader>du', '<leader>di', '<leader>ds',
+      '<leader>dt', '<leader>do', '<leader>dn', '<leader>dp' },
+    config = function()
+      local dap = require('dap')
+      -- Toggle breakpoint
+      Map('n', '<leader>db', function() require 'dap'.toggle_breakpoint() end)
+
+      -- Continue execution
+      Map('n', '<leader>dc', function() require 'dap'.continue() end)
+
+      -- Step over
+      Map('n', '<leader>do', function() require 'dap'.step_over() end)
+
+      -- Step into
+      Map('n', '<leader>di', function() require 'dap'.step_into() end)
+
+      -- Step out
+      Map('n', '<leader>dt', function() require 'dap'.step_out() end)
+
+      -- Open REPL
+      Map('n', '<leader>dr', function() require 'dap'.repl.open() end)
+
+      -- Up stack frame
+      Map('n', '<leader>du', function() require 'dap'.up() end)
+
+      -- Stop
+      Map('n', '<leader>ds', function() require 'dap'.stop() end)
+
+      -- Pause
+      Map('n', '<leader>ds', function() require 'dap'.pause() end)
+
+      -- Widget UI (Check dap-widgets documentation for the correct function)
+      -- Map('n', '<leader>dw', function() require'dap'.widgets.open() end)
+    end
+
+  },
+  {
     'gelguy/wilder.nvim',
     lazy = false,
     dependencies = {
       'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons',
       -- 'liuchengxu/vim-clap'
     },
-    build = function () vim.cmd [[ UpdateRemotePlugins ]] end,
+    build = function() vim.cmd [[ UpdateRemotePlugins ]] end,
     config = function()
       local wilder = require('wilder')
       wilder.setup({ modes = { ':', '/', '?' } })
 
       wilder.set_option('pipeline', {
         wilder.branch(wilder.python_file_finder_pipeline({
-          file_command = function (_, arg)
+          file_command = function(_, arg)
             if arg ~= nil and arg[0] == '.' then
               return { 'fd', '-tf', '-H' }
             end
             return { 'fd', '-tf' } -- fd -tf -I
           end,
-          dir_command = function (_, arg)
+          dir_command = function(_, arg)
             if arg ~= nil and arg[0] == '.' then
               return { 'fd', '-td', '-H' }
             end
@@ -113,7 +151,7 @@ local M = {
     end
   }, --
   {
-     -- bar at the top
+    -- bar at the top
     'akinsho/nvim-bufferline.lua',
     lazy = false,
     dependencies = 'kyazdani42/nvim-web-devicons',
@@ -156,7 +194,7 @@ local M = {
     end
   }, --
   {
-     -- indent blankline
+    -- indent blankline
     'lukas-reineke/indent-blankline.nvim',
     enabled = false,
     lazy = false,
@@ -172,13 +210,13 @@ local M = {
     end
   }, --
   {
-     -- highlights yank
+    -- highlights yank
     'machakann/vim-highlightedyank',
     lazy = false,
     config = function() vim.g.highlightedyank_highlight_duration = 250 end
   }, --
   {
-     -- colorize colors like this #01dd99
+    -- colorize colors like this #01dd99
     'norcalli/nvim-colorizer.lua',
     lazy = false,
     config = function()
@@ -272,10 +310,12 @@ local M = {
       Map('i', 'Э', 'Э')
       Map('i', 'Ё', 'Ё')
     end
-  },                                            --
-  { 'tversteeg/registers.nvim',
+  }, --
+  {
+    'tversteeg/registers.nvim',
 
-    lazy = false }, --
+    lazy = false
+  }, --
   {
     'phaazon/hop.nvim',
     name = 'hop',
@@ -290,7 +330,7 @@ local M = {
     end
   }, -- use 'ray-x/lsp_signature.nvim'
   {
-     -- TODO: Am I using it?
+    -- TODO: Am I using it?
     "ahmedkhalf/project.nvim",
     enabled = false,
     lazy = false,
@@ -303,7 +343,7 @@ local M = {
     end
   }, -- use 'jackguo380/vim-lsp-cxx-highlight'
   {
-     -- TODO: Doesn't work
+    -- TODO: Doesn't work
     'simrat39/symbols-outline.nvim',
     enabled = false,
     keys = { '<leader>;' },
@@ -341,7 +381,7 @@ local M = {
     end
   }, --
   {
-     -- xkbswitch TODO: doesn't work
+    -- xkbswitch TODO: doesn't work
     'lyokha/vim-xkbswitch',
     lazy = true,
     enabled = false,
@@ -350,7 +390,7 @@ local M = {
       vim.g.XkbSwitchIMappings = { 'ru', 'sk(qwerty)', 'ua' }
     end
   }, --
-  { 'folke/neodev.nvim',        ft = { 'lua' }, config = true }, {
+  { 'folke/neodev.nvim', ft = { 'lua' }, config = true }, {
   'luochen1990/rainbow',
   lazy = false,
   enabled = false,
@@ -370,17 +410,17 @@ local M = {
       },
       separately = {
         markdown = {
-          parentheses_options = 'containedin=markdownCode contained'   -- "enable rainbow for code blocks only
+          parentheses_options = 'containedin=markdownCode contained' -- "enable rainbow for code blocks only
         },
-        css = 0,                                                       -- disable this plugin for css files
-        nerdtree = 0                                                   -- rainbow is conflicting with NERDTree, creating extra parentheses
+        css = 0,                                                     -- disable this plugin for css files
+        nerdtree = 0                                                 -- rainbow is conflicting with NERDTree, creating extra parentheses
       }
     }
   end
 
-},   --
+}, --
   {
-     -- bar at the bottom
+    -- bar at the bottom
     "hoob3rt/lualine.nvim",
     enabled = false,
     lazy = false,

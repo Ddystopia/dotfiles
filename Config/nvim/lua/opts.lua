@@ -1,5 +1,7 @@
 require "utils"
 
+vim.g.centered_cursor = false
+
 vim.opt.hidden = true
 vim.opt.swapfile = false
 vim.opt.foldenable = false
@@ -10,15 +12,23 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 3
 
-vim.cmd "au BufRead,BufNewFile *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4"
-vim.cmd "au BufRead,BufNewFile *.rs setlocal tabstop=4 softtabstop=4 shiftwidth=4"
+AutoCommand("BufEnter", function()
+  vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
+end)
 
-vim.cmd [[
-  augroup DisableSyntaxOnLargeFiles 
-  autocmd!
-  autocmd BufReadPost,BufNewFile,BufEnter * lua DisableSyntaxOnLargeFiles()
-  augroup END
-]]
+AutoCommand({ "BufRead", "BufNewFile" }, function(args)
+  SetLocalOption(args.buf, 'tabstop', 4)
+  SetLocalOption(args.buf, 'softtabstop', 4)
+  SetLocalOption(args.buf, 'shiftwidth', 4)
+end, {
+  pattern = { "*.py", "*.rs" }
+})
+
+AutoCommand({ "BufReadPost", "BufNewFile", "BufEnter" }, DisableSyntaxOnLargeFiles, {
+  group = vim.api.nvim_create_augroup("DisableSyntaxOnLargeFiles", {}),
+  desc = 'Disable syntax on large files'
+})
+
 
 vim.opt.fileencoding = 'utf-8'
 

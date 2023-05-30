@@ -3,7 +3,7 @@
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=0
 GRUB_DISTRIBUTOR="Arch"
-GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=0 ec_sys.write_support=1 nowatchdog resume=/dev/disk/by-uuid/08b1bc52-83e9-45dd-ae85-f1d5a42419c0 acpi_os_name=Linux acpi_osi="
+GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=0 ec_sys.write_support=1 nowatchdog mitigations=off resume=/dev/disk/by-uuid/08b1bc52-83e9-45dd-ae85-f1d5a42419c0 acpi_os_name=Linux acpi_osi="
 GRUB_CMDLINE_LINUX=""
 GRUB_RECORDFAIL_TIMEOUT=0
 
