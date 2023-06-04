@@ -12,7 +12,7 @@ export XDG_PUBLICSHARE_DIR="$HOME/Public"
 export XDG_TEMPLATES_DIR="$HOME/Templates"
 export XDG_VIDEOS_DIR="$HOME/Media/Videos"
 
-export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/bin:$PATH"
+export PATH="$XDG_CONFIG_HOME/cargo/bin:$HOME/.local/bin:$HOME/bin:$PATH"
 export EDITOR=/usr/bin/nvim
 export BROWSER=/usr/bin/qutebrowser
 export TERM=/usr/bin/alacritty

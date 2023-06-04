@@ -22,11 +22,16 @@ settings:
         zym: spawn yt-dlp --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist
           -i -o '~/Music/%(title)' {url}
         zyy: spawn mpv {url} --fs
+  content.headers.user_agent:
+    internals.rust-lang.com: cloudflare 503 workaround
+  content.javascript.can_access_clipboard:
+    github.com: true
   content.javascript.enabled:
     global: true
   content.media.audio_capture:
     file://: true
     https://discord.com: true
+    https://teams.microsoft.com: true
     https://www.speechandhearing.net: true
   content.notifications.enabled:
     https://0tvet.com: false

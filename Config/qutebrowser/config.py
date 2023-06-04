@@ -14,7 +14,7 @@ c: ConfigContainer = c  # type: ignore # noqa: F821
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
-user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/109.0"
+user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0"
 XDG_CONFIG_HOME = os.environ["XDG_CONFIG_HOME"]
 
 config.load_autoconfig()
@@ -45,8 +45,8 @@ c.auto_save.interval = 10_000
 # ]
 
 # Dark mode yo
-# c.colors.webpage.darkmode.enabled = True
-# c.colors.webpage.darkmode.policy.images = "never"
+c.colors.webpage.darkmode.enabled = False
+# c.colors.webpage.darkmode.policy.images = "smart"
 c.colors.webpage.preferred_color_scheme = "dark"
 # c.colors.webpage.bg = "black"
 
