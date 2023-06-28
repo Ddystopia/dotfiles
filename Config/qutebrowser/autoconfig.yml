@@ -22,6 +22,10 @@ settings:
         zym: spawn yt-dlp --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist
           -i -o '~/Music/%(title)' {url}
         zyy: spawn mpv {url} --fs
+  colors.webpage.bg:
+    global: black
+  colors.webpage.darkmode.enabled:
+    global: true
   content.headers.user_agent:
     internals.rust-lang.com: cloudflare 503 workaround
   content.javascript.can_access_clipboard:

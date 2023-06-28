@@ -1,5 +1,9 @@
 local M = {
   {
+    'https://github.com/kaarmu/typst.vim',
+    lazy = false
+  }, --
+  {
     'mfussenegger/nvim-dap',
     keys = { '<leader>dc', '<leader>dr', '<leader>db', '<leader>dl', '<leader>du', '<leader>di', '<leader>ds',
       '<leader>dt', '<leader>do', '<leader>dn', '<leader>dp' },
@@ -288,19 +292,24 @@ local M = {
       })
     end
   },
-
-  -- { 'jiangmiao/auto-pairs', config = function() vim.g.AutoPairsMapCh = false end }
   {
     'windwp/nvim-autopairs',
     lazy = false,
     config = function()
       require('nvim-autopairs').setup({})
-      -- local Rule = require('nvim-autopairs.rule')
-      -- local npairs = require('nvim-autopairs')
+      local autopairs = require("nvim-autopairs")
+      local Rule = require("nvim-autopairs.rule")
+      local cond = require("nvim-autopairs.conds")
 
-      -- npairs.add_rule(Rule("<", ">", "typescript"))
-      -- npairs.add_rule(Rule("<", ">", "typescriptreact"))
-      -- npairs.add_rule(Rule("<", ">", "rust"))
+      autopairs.add_rules {
+        Rule("|", "|", "rust")
+            :with_move(function(opts) return opts.char == "|" end),
+        Rule("<", ">", { "rust", "typescript", "cpp" })
+            :with_pair(cond.not_before_regex("%d%s*$", 5))
+            :with_pair(cond.not_before_regex("%a%s", 2))
+            :with_move(function(opts) return opts.char == ">" end),
+      }
+
       Map('i', 'х', 'х')
       Map('i', 'ъ', 'ъ')
       Map('i', 'э', 'э')
@@ -373,7 +382,7 @@ local M = {
             color = "warning",
             alt = { "FUCK", "SHIT", "BAD" }
           },
-          WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+          WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX", "IMPORTANT" } },
           PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
           NOTE = { icon = " ", color = "hint", alt = { "INFO", "SAFETY" } }
         }
@@ -389,36 +398,8 @@ local M = {
       vim.g.XkbSwitchEnabled = 1
       vim.g.XkbSwitchIMappings = { 'ru', 'sk(qwerty)', 'ua' }
     end
-  }, --
-  { 'folke/neodev.nvim', ft = { 'lua' }, config = true }, {
-  'luochen1990/rainbow',
-  lazy = false,
-  enabled = false,
-  config = function()
-    vim.g.rainbow_active = 1;
-    vim.g.grainbow_conf = {
-      -- guifgs = { 'royalblue3', 'darkorange3', 'seagreen3', 'firebrick' },
-      -- ctermfgs = { 'lightblue', 'lightyellow', 'lightcyan', 'lightmagenta' },
-      guifgs = { "#bf616a", "#ffd700", "#a3de3c", "#ebcb8b", "#88c0d0" },
-      ctermfgs = { "#af5f5f", "#ffd700", "#afff00", "#d7af87", "#afd7ff" },
-      guis = { '' },
-      cterms = { '' },
-      operators = '_,_',
-      parentheses = {
-        'start=/(/ end=/)/ fold', 'start=/[/ end=/]/ fold',
-        'start=/{/ end=/}/ fold', 'start=/</ end=/>/ fold'
-      },
-      separately = {
-        markdown = {
-          parentheses_options = 'containedin=markdownCode contained' -- "enable rainbow for code blocks only
-        },
-        css = 0,                                                     -- disable this plugin for css files
-        nerdtree = 0                                                 -- rainbow is conflicting with NERDTree, creating extra parentheses
-      }
-    }
-  end
-
-}, --
+  },                                                      --
+  { 'folke/neodev.nvim', ft = { 'lua' }, config = true }, --
   {
     -- bar at the bottom
     "hoob3rt/lualine.nvim",

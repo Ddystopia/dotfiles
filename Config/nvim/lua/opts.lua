@@ -16,6 +16,10 @@ AutoCommand("BufEnter", function()
   vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
 end)
 
+-- AutoCommand({ "BufNewFile", "BufReadPre" }, function()
+--   vim.cmd [[let b:match_words = '\|:\|']]
+-- end, { pattern = { "*.rs" } })
+
 AutoCommand({ "BufRead", "BufNewFile" }, function(args)
   SetLocalOption(args.buf, 'tabstop', 4)
   SetLocalOption(args.buf, 'softtabstop', 4)

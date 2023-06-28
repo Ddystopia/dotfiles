@@ -23,8 +23,6 @@ function DisableSyntaxOnLargeFiles()
   end
 end
 
-
-
 --- @param buf number
 --- @param option string
 --- @param value any
@@ -118,7 +116,7 @@ function OnAttach(client, bufnr)
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-e>'] = cmp.mapping.close(),
       ['<CR>'] = function(fallback)
-        if cmp.visible() then
+        if cmp.visible() and cmp.get_selected_entry() ~= nil then
           cmp.confirm()
         else
           fallback()
