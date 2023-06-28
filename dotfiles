@@ -15,3 +15,5 @@ update-links () {
 
 update-links ${dotfilesDir}/Home "${HOME}"
 update-links ${dotfilesDir}/Config "${HOME}/.config" 
+
+ln -s "${dotfilesDir}/Config/fish/fish_history" "${HOME}/.local/share/fish/fish_history"

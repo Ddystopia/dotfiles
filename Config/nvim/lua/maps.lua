@@ -44,6 +44,8 @@ end
 
 vim.cmd("command! T lua StartTerminal()")
 
+vim.cmd "command! W :w!"
+
 Map('i', '<C-v>', '<C-r>+')
 
 Map('n', '<A-l>', function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end)
@@ -103,9 +105,9 @@ Map('n', 'gl', 'g_')
 Map('v', 'gl', 'g_')
 Map('n', '<leader>vv', ':e $MYVIMRC<cr>')
 Map('n', '<leader>vr', ':luafile %<cr>')
+Map('v', '//', 'y/\\V<C-R>=escape(@",\'/\')<CR><CR>')
 Map('n', 'gp', 'p`[')
 Map('n', '*', '*N')
-Map('v', '//', 'y/\\V<C-R>=escape(@",\'/\')<CR><CR>')
 
 
 Map('n', '<leader>ps', ':set spell!<cr>')

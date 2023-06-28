@@ -93,5 +93,3 @@ vim.filetype.add({
   }
 
 })
-
-vim.cmd "command! W :w!"
