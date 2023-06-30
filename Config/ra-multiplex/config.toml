@@ -8,7 +8,7 @@
 #
 # you can set this option to `false` for infinite timeout
 # instance_timeout = 300 # after 5 minutes
-instance_timeout = false
+instance_timeout = 14400
 
 # time in seconds how long to wait between the gc task checks for disconnected
 # clients and possibly starts a timeout task. the value must be at least 1.

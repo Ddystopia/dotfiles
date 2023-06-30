@@ -1,7 +1,7 @@
 require('utils')
 
 local M = {
-            -- Collection of configurations for built-in LSP client
+  -- Collection of configurations for built-in LSP client
   'neovim/nvim-lspconfig',
   event = { 'BufReadPost' },
 }
@@ -255,4 +255,8 @@ M.dependencies = {
 }
 }
 
-return M
+return {
+  M,
+  -- lsp for nvim config
+  { 'folke/neodev.nvim', ft = { 'lua' }, config = true },
+}

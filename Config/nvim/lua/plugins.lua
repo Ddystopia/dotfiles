@@ -1,46 +1,5 @@
 local M = {
-  {
-    'https://github.com/kaarmu/typst.vim',
-    lazy = false
-  }, --
-  {
-    'mfussenegger/nvim-dap',
-    keys = { '<leader>dc', '<leader>dr', '<leader>db', '<leader>dl', '<leader>du', '<leader>di', '<leader>ds',
-      '<leader>dt', '<leader>do', '<leader>dn', '<leader>dp' },
-    config = function()
-      local dap = require('dap')
-      -- Toggle breakpoint
-      Map('n', '<leader>db', function() require 'dap'.toggle_breakpoint() end)
 
-      -- Continue execution
-      Map('n', '<leader>dc', function() require 'dap'.continue() end)
-
-      -- Step over
-      Map('n', '<leader>do', function() require 'dap'.step_over() end)
-
-      -- Step into
-      Map('n', '<leader>di', function() require 'dap'.step_into() end)
-
-      -- Step out
-      Map('n', '<leader>dt', function() require 'dap'.step_out() end)
-
-      -- Open REPL
-      Map('n', '<leader>dr', function() require 'dap'.repl.open() end)
-
-      -- Up stack frame
-      Map('n', '<leader>du', function() require 'dap'.up() end)
-
-      -- Stop
-      Map('n', '<leader>ds', function() require 'dap'.stop() end)
-
-      -- Pause
-      Map('n', '<leader>ds', function() require 'dap'.pause() end)
-
-      -- Widget UI (Check dap-widgets documentation for the correct function)
-      -- Map('n', '<leader>dw', function() require'dap'.widgets.open() end)
-    end
-
-  },
   {
     'gelguy/wilder.nvim',
     lazy = false,
@@ -90,7 +49,8 @@ local M = {
       }))
     end
   }, --
-  {
+
+  {  -- TODO: solve conflict with lsp-format
     'sbdchd/neoformat',
     keys = { '<leader>F' },
     config = function()
@@ -154,6 +114,7 @@ local M = {
       }
     end
   }, --
+
   {
     -- bar at the top
     'akinsho/nvim-bufferline.lua',
@@ -197,6 +158,7 @@ local M = {
       Map('n', '<C-k>', '<cmd>tabp<cr>')
     end
   }, --
+
   {
     -- indent blankline
     'lukas-reineke/indent-blankline.nvim',
@@ -213,12 +175,14 @@ local M = {
       }
     end
   }, --
+
   {
     -- highlights yank
     'machakann/vim-highlightedyank',
     lazy = false,
     config = function() vim.g.highlightedyank_highlight_duration = 250 end
   }, --
+
   {
     -- colorize colors like this #01dd99
     'norcalli/nvim-colorizer.lua',
@@ -231,32 +195,9 @@ local M = {
       }, { names = false })
     end
   }, --
+
   {
-    'lervag/vimtex',
-    ft = { "tex", "bib" },
-    dependencies = { 'KeitaNakamura/tex-conceal.vim', 'godlygeek/tabular' },
-    config = function()
-      vim.cmd "filetype plugin indent on"
-      vim.cmd "syntax enable"
-      Map('n', '<leader>vp', ':w<cr> :VimtexCompile<cr>')
-
-      vim.g.tex_flavor = 'latex'
-      vim.g.vimtex_quickfix_mode = 0
-      vim.g.vimtex_format_enabled = true
-      -- vim.opt.conceallevel=1
-      vim.g.tex_conceal = 'abdmg'
-      vim.g.vimtex_view_method = 'zathura'
-
-      vim.g.vimtex_view_general_viewer = 'okular'
-      vim.g.vimtex_view_general_options = '--unique file:@pdf\\#src:@line@tex'
-
-      vim.g.vimtex_compiler_method = 'latexrun'
-      vim.g.vimtex_syntax_enabled = 0
-
-      vim.g.maplocalleader = ","
-    end
-  }, --
-  {
+    -- tool comment code
     'terrortylor/nvim-comment',
     config = function()
       require('nvim_comment').setup({
@@ -282,6 +223,7 @@ local M = {
     end,
     lazy = false
   }, --
+
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -292,6 +234,7 @@ local M = {
       })
     end
   },
+
   {
     'windwp/nvim-autopairs',
     lazy = false,
@@ -320,12 +263,11 @@ local M = {
       Map('i', 'Э', 'Э')
       Map('i', 'Ё', 'Ё')
     end
-  }, --
-  {
-    'tversteeg/registers.nvim',
+  },
 
-    lazy = false
-  }, --
+  -- TODO: am I using it?
+  { 'tversteeg/registers.nvim', lazy = false },
+
   {
     'phaazon/hop.nvim',
     name = 'hop',
@@ -338,32 +280,11 @@ local M = {
       Map("n", "<leader>f", function() require 'hop'.hint_char1() end)
       Map("n", "<leader>s", function() require 'hop'.hint_char2() end)
     end
-  }, -- use 'ray-x/lsp_signature.nvim'
+  },
+
   {
-    -- TODO: Am I using it?
-    "ahmedkhalf/project.nvim",
-    enabled = false,
-    lazy = false,
-    config = function()
-      require("project_nvim").setup {
-        patterns = { ".git", "Makefile", "package.json", "init.lua" },
-        detection_methods = { ".git", "Makefile", "package.json", "init.lua" },
-        exclude_dirs = { "client" }
-      }
-    end
-  }, -- use 'jackguo380/vim-lsp-cxx-highlight'
-  {
-    -- TODO: Doesn't work
-    'simrat39/symbols-outline.nvim',
-    enabled = false,
-    keys = { '<leader>;' },
-    cmd = { "SymbolsOutline" },
-    config = function()
-      require("symbols-outline").setup()
-      Map('n', '<leader>;', ':SymbolsOutline<CR>')
-    end
-  }, --
-  {
+    -- TODO(ddystopia): enable highlight for those too
+    --                  or disable it at all
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",
     lazy = false,
@@ -390,8 +311,122 @@ local M = {
       }
     end
   }, --
+
   {
-    -- xkbswitch TODO: doesn't work
+    'lervag/vimtex',
+    ft = { "tex", "bib" },
+    dependencies = { 'KeitaNakamura/tex-conceal.vim', 'godlygeek/tabular' },
+    config = function()
+      vim.cmd "filetype plugin indent on"
+      vim.cmd "syntax enable"
+      Map('n', '<leader>vp', ':w<cr> :VimtexCompile<cr>')
+
+      vim.g.tex_flavor = 'latex'
+      vim.g.vimtex_quickfix_mode = 0
+      vim.g.vimtex_format_enabled = true
+      -- vim.opt.conceallevel=1
+      vim.g.tex_conceal = 'abdmg'
+      vim.g.vimtex_view_method = 'zathura'
+
+      vim.g.vimtex_view_general_viewer = 'okular'
+      vim.g.vimtex_view_general_options = '--unique file:@pdf\\#src:@line@tex'
+
+      vim.g.vimtex_compiler_method = 'latexrun'
+      vim.g.vimtex_syntax_enabled = 0
+
+      vim.g.maplocalleader = ","
+    end
+  }, --
+
+
+
+
+
+
+  -- ============== Disabled ===============
+
+
+
+
+
+
+
+
+
+  {
+    -- TODO: Am I using it?
+    "ahmedkhalf/project.nvim",
+    enabled = false,
+    lazy = false,
+    config = function()
+      require("project_nvim").setup {
+        patterns = { ".git", "Makefile", "package.json", "init.lua" },
+        detection_methods = { ".git", "Makefile", "package.json", "init.lua" },
+        exclude_dirs = { "client" }
+      }
+    end
+  }, -- use 'jackguo380/vim-lsp-cxx-highlight'
+  {
+    -- TODO: Doesn't work
+    'simrat39/symbols-outline.nvim',
+    enabled = false,
+    keys = { '<leader>;' },
+    cmd = { "SymbolsOutline" },
+    config = function()
+      require("symbols-outline").setup()
+      Map('n', '<leader>;', ':SymbolsOutline<CR>')
+    end
+  }, --
+  {
+    -- TODO: look at it later
+    'https://github.com/kaarmu/typst.vim',
+    lazy = false,
+    enabled = false,
+
+  }, --
+  {
+    -- TODO: get used to
+    'mfussenegger/nvim-dap',
+    enabled = false,
+    keys = { '<leader>dc', '<leader>dr', '<leader>db', '<leader>dl', '<leader>du', '<leader>di', '<leader>ds',
+      '<leader>dt', '<leader>do', '<leader>dn', '<leader>dp' },
+    config = function()
+      local dap = require('dap')
+      -- Toggle breakpoint
+      Map('n', '<leader>db', function() require 'dap'.toggle_breakpoint() end)
+
+      -- Continue execution
+      Map('n', '<leader>dc', function() require 'dap'.continue() end)
+
+      -- Step over
+      Map('n', '<leader>do', function() require 'dap'.step_over() end)
+
+      -- Step into
+      Map('n', '<leader>di', function() require 'dap'.step_into() end)
+
+      -- Step out
+      Map('n', '<leader>dt', function() require 'dap'.step_out() end)
+
+      -- Open REPL
+      Map('n', '<leader>dr', function() require 'dap'.repl.open() end)
+
+      -- Up stack frame
+      Map('n', '<leader>du', function() require 'dap'.up() end)
+
+      -- Stop
+      Map('n', '<leader>ds', function() require 'dap'.stop() end)
+
+      -- Pause
+      Map('n', '<leader>ds', function() require 'dap'.pause() end)
+
+      -- Widget UI (Check dap-widgets documentation for the correct function)
+      -- Map('n', '<leader>dw', function() require'dap'.widgets.open() end)
+    end
+
+  },
+
+  {
+    --  TODO: doesn't work
     'lyokha/vim-xkbswitch',
     lazy = true,
     enabled = false,
@@ -399,8 +434,7 @@ local M = {
       vim.g.XkbSwitchEnabled = 1
       vim.g.XkbSwitchIMappings = { 'ru', 'sk(qwerty)', 'ua' }
     end
-  },                                                      --
-  { 'folke/neodev.nvim', ft = { 'lua' }, config = true }, --
+  },
   {
     -- bar at the bottom
     "hoob3rt/lualine.nvim",
@@ -469,6 +503,7 @@ local M = {
     'andweeb/presence.nvim',
     config = function() require("presence"):setup({}) end
   } ]]
+  -- use 'ray-x/lsp_signature.nvim'
 }
 
 return M
