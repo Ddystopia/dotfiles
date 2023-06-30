@@ -307,6 +307,7 @@ local M = {
         Rule("<", ">", { "rust", "typescript", "cpp" })
             :with_pair(cond.not_before_regex("%d%s*$", 5))
             :with_pair(cond.not_before_regex("%a%s", 2))
+            :with_pair(cond.not_before_regex("%)%s", 2))
             :with_move(function(opts) return opts.char == ">" end),
       }
 

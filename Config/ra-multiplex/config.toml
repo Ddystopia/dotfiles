@@ -1,0 +1,47 @@
+# this is an example configuration file for ra-multiplex
+#
+# all configuration options here are set to their default value they'll have if
+# they're not present in the file or if the config file is missing completely.
+
+# time in seconds after which a rust-analyzer server instance with no clients
+# connected will get killed to save system memory.
+#
+# you can set this option to `false` for infinite timeout
+# instance_timeout = 300 # after 5 minutes
+instance_timeout = false
+
+# time in seconds how long to wait between the gc task checks for disconnected
+# clients and possibly starts a timeout task. the value must be at least 1.
+gc_interval = 10 # every 10 seconds
+
+# ip address and port on which ra-multiplex-server listens
+#
+# the default "127.0.0.1" only allows connections from localhost which is
+# preferred since the protocol doesn't worry about security.
+# ra-multiplex-server expects the filesystem structure and contents to be the
+# same on its machine as on ra-multiplex's machine. if you want to run the
+# server on a different computer it's theoretically possible but at least for
+# now you're on your own.
+#
+# ports below 1024 will typically require root privileges and should be
+# avoided, the default was picked at random, this only needs to change if
+# another application happens to collide with ra-multiplex.
+listen = ["127.0.0.1", 27631] # localhost & some random unprivileged port
+
+# ip address and port to which ra-multiplex will connect to
+#
+# this should usually just match the value of `listen`
+connect = ["127.0.0.1", 27631] # same as `listen`
+
+# default log filters
+#
+# RUST_LOG env variable overrides this option, both use the same syntax which
+# is documented in the `env_logger` documentation here:
+# <https://docs.rs/env_logger/0.9.0/env_logger/index.html#enabling-logging>
+log_filters = "info"
+
+# attempt automatic workspace root detection
+#
+# when enabled every connected client will attempt to discover the root of the
+# workspace it was spawned in. otherwise the client CWD is always used
+workspace_detection = true

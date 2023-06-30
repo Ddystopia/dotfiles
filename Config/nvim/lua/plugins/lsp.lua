@@ -74,6 +74,7 @@ M.config = function()
   nvim_lsp.rust_analyzer.setup {
     on_attach = on_attach,
     capabilities = capabilities,
+    cmd = { "ra-multiplex", "client" },
     settings = {
       ['rust-analyzer'] = {
         cargo = { allFeatures = true },

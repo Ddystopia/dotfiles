@@ -1,19 +1,28 @@
 #!/bin/bash
-dotfilesDir=$(realpath -P $(dirname $0))
+dotfiles_dir=$(realpath -P $(dirname $0))
 
 update-links () {
-  dirFrom=${1}
-  dirTo=${2}
-  files=($(ls -A ${dirFrom})) # files to array
-  
-  for file in "${files[@]}"
-  do 
-    rm -rf "${dirTo}/${file}" # rm if exists or not exists)
-    ln -s "${dirFrom}/${file}" "${dirTo}/${file}"
-  done
+  src_path=${1}
+  dst_path=${2}
+
+  if [[ -d ${src_path} ]]; then
+    files=($(ls -A ${src_path})) # files to array
+
+    for file in "${files[@]}"
+    do
+      rm -rf "${dst_path}/${file}" # rm if exists or not exists)
+      ln -s "${src_path}/${file}" "${dst_path}/${file}"
+    done
+  elif [[ -f ${src_path} ]]; then
+    file=$(basename ${src_path})
+    rm -rf "${dst_path}" # rm if exists or not exists)
+    ln -s "${src_path}" "${dst_path}"
+  else
+    echo "Invalid path: ${src_path}"
+    exit 1
+  fi
 }
 
-update-links ${dotfilesDir}/Home "${HOME}"
-update-links ${dotfilesDir}/Config "${HOME}/.config" 
-
-ln -s "${dotfilesDir}/Config/fish/fish_history" "${HOME}/.local/share/fish/fish_history"
+update-links ${dotfiles_dir}/Home "${HOME}"
+update-links ${dotfiles_dir}/Config "${HOME}/.config"
+update-links ${dotfiles_dir}/Config/fish/fish_history "${HOME}/.local/share/fish/fish_history"
