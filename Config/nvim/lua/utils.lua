@@ -8,6 +8,8 @@ function Dump(o)
     return s .. '} '
   elseif type(o) == 'function' then
     return 'function () end'
+  elseif type(o) == 'string' then
+    return '"' .. o .. '"'
   else
     return tostring(o)
   end

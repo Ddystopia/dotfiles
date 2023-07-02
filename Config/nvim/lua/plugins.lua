@@ -4,7 +4,7 @@ local M = {
     'gelguy/wilder.nvim',
     lazy = false,
     dependencies = {
-      'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons',
+      'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons'
       -- 'liuchengxu/vim-clap'
     },
     build = function() vim.cmd [[ UpdateRemotePlugins ]] end,
@@ -49,7 +49,6 @@ local M = {
       }))
     end
   }, --
-
   {  -- TODO: solve conflict with lsp-format
     'sbdchd/neoformat',
     keys = { '<leader>F' },
@@ -65,8 +64,7 @@ local M = {
 
       Map('v', '<leader>F', function()
         local function feedkeys(keys, mode)
-          local cmd = vim.api.nvim_replace_termcodes(
-            keys, true, false, true);
+          local cmd = vim.api.nvim_replace_termcodes(keys, true, false, true);
           vim.api.nvim_feedkeys(cmd, mode, true)
         end
         local function lsp_format()
@@ -114,7 +112,6 @@ local M = {
       }
     end
   }, --
-
   {
     -- bar at the top
     'akinsho/nvim-bufferline.lua',
@@ -158,7 +155,6 @@ local M = {
       Map('n', '<C-k>', '<cmd>tabp<cr>')
     end
   }, --
-
   {
     -- indent blankline
     'lukas-reineke/indent-blankline.nvim',
@@ -175,14 +171,12 @@ local M = {
       }
     end
   }, --
-
   {
     -- highlights yank
     'machakann/vim-highlightedyank',
     lazy = false,
     config = function() vim.g.highlightedyank_highlight_duration = 250 end
   }, --
-
   {
     -- colorize colors like this #01dd99
     'norcalli/nvim-colorizer.lua',
@@ -195,7 +189,6 @@ local M = {
       }, { names = false })
     end
   }, --
-
   {
     -- tool comment code
     'terrortylor/nvim-comment',
@@ -223,7 +216,6 @@ local M = {
     end,
     lazy = false
   }, --
-
   {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -233,85 +225,90 @@ local M = {
         -- Configuration here, or leave empty to use defaults
       })
     end
-  },
+  }, {
+  'windwp/nvim-autopairs',
+  lazy = false,
+  config = function()
+    require('nvim-autopairs').setup({})
+    local autopairs = require("nvim-autopairs")
+    local Rule = require("nvim-autopairs.rule")
+    local cond = require("nvim-autopairs.conds")
 
-  {
-    'windwp/nvim-autopairs',
-    lazy = false,
-    config = function()
-      require('nvim-autopairs').setup({})
-      local autopairs = require("nvim-autopairs")
-      local Rule = require("nvim-autopairs.rule")
-      local cond = require("nvim-autopairs.conds")
+    local rules = require('nvim-autopairs').get_rule("'")
+    require('nvim-autopairs').remove_rule("'")
 
-      autopairs.add_rules {
-        Rule("|", "|", "rust")
-            :with_move(function(opts) return opts.char == "|" end),
-        Rule("<", ">", { "rust", "typescript", "cpp" })
-            :with_pair(cond.not_before_regex("%d%s*$", 5))
-            :with_pair(cond.not_before_regex("%a%s", 2))
-            :with_pair(cond.not_before_regex("%)%s", 2))
-            :with_move(function(opts) return opts.char == ">" end),
+    for _, rule in pairs(rules) do
+      if rule.filetypes == nil or rule.filetypes[1] ~= "rust" then
+          require('nvim-autopairs').add_rule(rule)
+      end
+    end
+
+    autopairs.add_rules {
+      Rule("|", "|", "rust"):with_move(function(opts)
+        return opts.char == "|"
+      end), Rule("<", ">", { "rust", "typescript", "cpp" }):with_pair(
+      cond.not_before_regex("%d%s*$", 5)):with_pair(
+      cond.not_before_regex("%a%s", 2)):with_pair(
+      cond.not_before_regex("%)%s", 2)):with_move(function(opts)
+      return opts.char == ">"
+    end)
+    }
+
+    Map('i', 'х', 'х')
+    Map('i', 'ъ', 'ъ')
+    Map('i', 'э', 'э')
+    Map('i', 'ё', 'ё')
+    Map('i', 'Х', 'Х')
+    Map('i', 'Ъ', 'Ъ')
+    Map('i', 'Э', 'Э')
+    Map('i', 'Ё', 'Ё')
+  end
+}, -- TODO: am I using it?
+  { 'tversteeg/registers.nvim', lazy = false }, {
+  'phaazon/hop.nvim',
+  name = 'hop',
+  config = true,
+  init = function()
+    -- Map("n", "<leader>h", function() require'hop'.hint_words() end)
+    -- Map("n", "<leader>k", function() require'hop'.hint_lines() end)
+    Map("n", "<leader>l", function() require 'hop'.hint_words() end)
+    Map("n", "<leader>j", function() require 'hop'.hint_lines() end)
+    Map("n", "<leader>f", function() require 'hop'.hint_char1() end)
+    Map("n", "<leader>s", function() require 'hop'.hint_char2() end)
+  end
+}, {
+  -- TODO(ddystopia): enable highlight for those too
+  --                  or disable it at all
+  "folke/todo-comments.nvim",
+  dependencies = "nvim-lua/plenary.nvim",
+  lazy = false,
+  config = function()
+    vim.cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
+    require("todo-comments").setup {
+      signs = false,
+      keywords = {
+        FIX = {
+          icon = " ",
+          color = "error",
+          alt = { "FIXME", "BUG", "FIXIT", "FIX", "ISSUE" }
+        },
+        TODO = { icon = " ", color = "info" },
+        HACK = {
+          icon = " ",
+          color = "warning",
+          alt = { "FUCK", "SHIT", "BAD" }
+        },
+        WARN = {
+          icon = " ",
+          color = "warning",
+          alt = { "WARNING", "XXX", "IMPORTANT" }
+        },
+        PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+        NOTE = { icon = " ", color = "hint", alt = { "INFO", "SAFETY" } }
       }
-
-      Map('i', 'х', 'х')
-      Map('i', 'ъ', 'ъ')
-      Map('i', 'э', 'э')
-      Map('i', 'ё', 'ё')
-      Map('i', 'Х', 'Х')
-      Map('i', 'Ъ', 'Ъ')
-      Map('i', 'Э', 'Э')
-      Map('i', 'Ё', 'Ё')
-    end
-  },
-
-  -- TODO: am I using it?
-  { 'tversteeg/registers.nvim', lazy = false },
-
-  {
-    'phaazon/hop.nvim',
-    name = 'hop',
-    config = true,
-    init = function()
-      -- Map("n", "<leader>h", function() require'hop'.hint_words() end)
-      -- Map("n", "<leader>k", function() require'hop'.hint_lines() end)
-      Map("n", "<leader>l", function() require 'hop'.hint_words() end)
-      Map("n", "<leader>j", function() require 'hop'.hint_lines() end)
-      Map("n", "<leader>f", function() require 'hop'.hint_char1() end)
-      Map("n", "<leader>s", function() require 'hop'.hint_char2() end)
-    end
-  },
-
-  {
-    -- TODO(ddystopia): enable highlight for those too
-    --                  or disable it at all
-    "folke/todo-comments.nvim",
-    dependencies = "nvim-lua/plenary.nvim",
-    lazy = false,
-    config = function()
-      vim.cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
-      require("todo-comments").setup {
-        signs = false,
-        keywords = {
-          FIX = {
-            icon = " ",
-            color = "error",
-            alt = { "FIXME", "BUG", "FIXIT", "FIX", "ISSUE" }
-          },
-          TODO = { icon = " ", color = "info" },
-          HACK = {
-            icon = " ",
-            color = "warning",
-            alt = { "FUCK", "SHIT", "BAD" }
-          },
-          WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX", "IMPORTANT" } },
-          PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-          NOTE = { icon = " ", color = "hint", alt = { "INFO", "SAFETY" } }
-        }
-      }
-    end
-  }, --
-
+    }
+  end
+}, --
   {
     'lervag/vimtex',
     ft = { "tex", "bib" },
@@ -337,22 +334,7 @@ local M = {
       vim.g.maplocalleader = ","
     end
   }, --
-
-
-
-
-
-
   -- ============== Disabled ===============
-
-
-
-
-
-
-
-
-
   {
     -- TODO: Am I using it?
     "ahmedkhalf/project.nvim",
@@ -381,15 +363,18 @@ local M = {
     -- TODO: look at it later
     'https://github.com/kaarmu/typst.vim',
     lazy = false,
-    enabled = false,
+    enabled = false
 
   }, --
   {
     -- TODO: get used to
     'mfussenegger/nvim-dap',
     enabled = false,
-    keys = { '<leader>dc', '<leader>dr', '<leader>db', '<leader>dl', '<leader>du', '<leader>di', '<leader>ds',
-      '<leader>dt', '<leader>do', '<leader>dn', '<leader>dp' },
+    keys = {
+      '<leader>dc', '<leader>dr', '<leader>db', '<leader>dl', '<leader>du',
+      '<leader>di', '<leader>ds', '<leader>dt', '<leader>do', '<leader>dn',
+      '<leader>dp'
+    },
     config = function()
       local dap = require('dap')
       -- Toggle breakpoint
@@ -423,62 +408,59 @@ local M = {
       -- Map('n', '<leader>dw', function() require'dap'.widgets.open() end)
     end
 
-  },
-
-  {
-    --  TODO: doesn't work
-    'lyokha/vim-xkbswitch',
-    lazy = true,
-    enabled = false,
-    config = function()
-      vim.g.XkbSwitchEnabled = 1
-      vim.g.XkbSwitchIMappings = { 'ru', 'sk(qwerty)', 'ua' }
+  }, {
+  --  TODO: doesn't work
+  'lyokha/vim-xkbswitch',
+  lazy = true,
+  enabled = false,
+  config = function()
+    vim.g.XkbSwitchEnabled = 1
+    vim.g.XkbSwitchIMappings = { 'ru', 'sk(qwerty)', 'ua' }
+  end
+}, {
+  -- bar at the bottom
+  "hoob3rt/lualine.nvim",
+  enabled = false,
+  lazy = false,
+  dependencies = 'kyazdani42/nvim-web-devicons',
+  config = function()
+    local function keymap()
+      local handle = io.popen('xkb-switch -p 2> /dev/null')
+      if (handle == nil) then return '[[xx]]' end
+      local result = handle:read('*l')
+      handle:close()
+      return '[[' .. result .. ']]'
     end
-  },
-  {
-    -- bar at the bottom
-    "hoob3rt/lualine.nvim",
-    enabled = false,
-    lazy = false,
-    dependencies = 'kyazdani42/nvim-web-devicons',
-    config = function()
-      local function keymap()
-        local handle = io.popen('xkb-switch -p 2> /dev/null')
-        if (handle == nil) then return '[[xx]]' end
-        local result = handle:read('*l')
-        handle:close()
-        return '[[' .. result .. ']]'
-      end
 
-      require('lualine').setup {
-        options = {
-          theme = 'ayu_mirage',
-          section_separators = { '', '' },
-          component_separators = { '|', '|' },
-          icons_enabled = true
-        },
-        sections = {
-          lualine_a = { 'mode', keymap },
-          lualine_b = { 'branch', 'diff' },
-          lualine_c = {
-            'buffers', {
-            'diagnostics',
-            sources = { 'nvim_diagnostic' },
-            symbols = {
-              error = ' ',
-              warn = ' ',
-              info = ' ',
-              hint = ' '
-            }
+    require('lualine').setup {
+      options = {
+        theme = 'ayu_mirage',
+        section_separators = { '', '' },
+        component_separators = { '|', '|' },
+        icons_enabled = true
+      },
+      sections = {
+        lualine_a = { 'mode', keymap },
+        lualine_b = { 'branch', 'diff' },
+        lualine_c = {
+          'buffers', {
+          'diagnostics',
+          sources = { 'nvim_diagnostic' },
+          symbols = {
+            error = ' ',
+            warn = ' ',
+            info = ' ',
+            hint = ' '
           }
-          },
-          lualine_x = { 'filetype' },
-          lualine_y = { 'progress' },
-          lualine_z = { 'location' }
         }
+        },
+        lualine_x = { 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' }
       }
-    end
-  }, --
+    }
+  end
+}, --
   {
     'plasticboy/vim-markdown',
     dependencies = { 'godlygeek/tabular' },
