@@ -151,8 +151,6 @@ local M = {
       end)
       Map('n', '<S-h>', function() require("bufferline").move(-1) end)
       Map('n', '<S-l>', function() require("bufferline").move(1) end)
-      Map('n', '<C-j>', '<cmd>tabn<cr>')
-      Map('n', '<C-k>', '<cmd>tabp<cr>')
     end
   }, --
   {
@@ -239,19 +237,20 @@ local M = {
 
     for _, rule in pairs(rules) do
       if rule.filetypes == nil or rule.filetypes[1] ~= "rust" then
-          require('nvim-autopairs').add_rule(rule)
+        require('nvim-autopairs').add_rule(rule)
       end
     end
 
     autopairs.add_rules {
-      Rule("|", "|", "rust"):with_move(function(opts)
-        return opts.char == "|"
-      end), Rule("<", ">", { "rust", "typescript", "cpp" }):with_pair(
-      cond.not_before_regex("%d%s*$", 5)):with_pair(
-      cond.not_before_regex("%a%s", 2)):with_pair(
-      cond.not_before_regex("%)%s", 2)):with_move(function(opts)
-      return opts.char == ">"
-    end)
+      Rule("|", "|", "rust")
+          :with_pair(cond.not_before_regex("~", 1))
+          :with_pair(cond.not_before_regex("%a%s*$", 5))
+          :with_move(function(opts) return opts.char == "|" end),
+      Rule("<", ">", { "rust", "typescript", "cpp" })
+          :with_pair(cond.not_before_regex("%d%s*$", 5))
+          :with_pair(cond.not_before_regex("%a%s", 2))
+          :with_pair(cond.not_before_regex("%)%s", 2))
+          :with_move(function(opts) return opts.char == ">" end)
     }
 
     Map('i', 'х', 'х')

@@ -1,3 +1,5 @@
 #!/bin/bash
 
-useus "dmenu_path | dmenu $*" | ${SHELL:-"/bin/sh"}
+cmd="dmenu_path | dmenu $*"
+
+useus bash -c "$cmd" | ${SHELL:-"/bin/sh"}

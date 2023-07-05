@@ -2,7 +2,7 @@
 // @name            Proxy Css Support
 // @author          Ddysotpia
 // @version         1.0.1
-// @match           *://internals.rust-lang.org/*
+// @match           *://*.rust-lang.org/*
 // @compatible      Greasemonkey
 // @run-at          document-start
 // ==/UserScript==

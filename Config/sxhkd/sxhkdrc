@@ -34,7 +34,7 @@ super + equal
 
 # unicode symbols picker
 super + alt + apostrophe
-  unipicker --command "rofi -dmenu -p 'unicode'" --copy-command "xclip -sel clip"
+  useus unipicker --command "rofi -dmenu -p 'unicode'" --copy-command "xclip -sel clip"
 
 # emoji picker (shift to copy mode)
 super + {_,shift} + apostrophe

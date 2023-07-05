@@ -23,7 +23,7 @@ settings:
           -i -o '~/Music/%(title)' {url}
         zyy: spawn mpv {url} --fs
   colors.webpage.bg:
-    global: black
+    global: white
   colors.webpage.darkmode.enabled:
     global: true
   content.headers.user_agent:
