@@ -33,7 +33,9 @@ if status is-interactive
 end
 
 if test -f ~/.profile
- bash -c 'source ~/.profile'
+  bash -c 'source ~/.profile'
+else
+  touch ~/NO_PROFILE
 end
 
 # thefuck --alias | source

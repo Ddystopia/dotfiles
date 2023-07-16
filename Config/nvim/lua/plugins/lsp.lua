@@ -44,15 +44,10 @@ M.config = function()
     "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "pyright",
     "html" -- "cmake", "vuels", "vimls",
   }
+
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
-      -- on_init = function(client)
-      --   if client.server_capabilities then
-      --     client.server_capabilities.semanticTokensProvider = false -- turn off semantic tokens
-      --   end
-      -- end,
-
       capabilities = capabilities,
       single_file_support = true
     }
@@ -74,7 +69,7 @@ M.config = function()
   nvim_lsp.rust_analyzer.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    cmd = { "ra-multiplex", "client" },
+    -- cmd = { "ra-multiplex", "client" },
     settings = {
       ['rust-analyzer'] = {
         cargo = { allFeatures = true },
@@ -83,7 +78,21 @@ M.config = function()
           allFeatures = true,
           overrideCommand = {
             'cargo', 'clippy', '--workspace', '--message-format=json',
-            '--all-targets', '--all-features'
+            '--all-targets', '--all-features', '--',
+            -- '-W', 'clippy::unwrap-used',
+            '-W', 'clippy::use_self',
+            '-W', 'clippy::pedantic',
+            '-W', 'clippy::perf',
+            '-W', 'clippy::missing-assert-message',
+
+            '-A', 'clippy::module-name-repetitions',
+            '-A', 'clippy::default-trait-access',
+            '-A', 'clippy::similar-names',
+            '-A', 'clippy::manual-assert',
+            '-A', 'clippy::cast-possible-truncation',
+            '-A', 'clippy::cast-sign-loss',
+            '-A', 'clippy::redundant-closure-for-method-calls',
+            '-A', 'clippy::redundant_closure',
           }
         }
       }
