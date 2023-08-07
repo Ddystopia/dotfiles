@@ -41,7 +41,7 @@ M.config = function()
   capabilities.experimental = { localDocs = true }
 
   local servers = {
-    "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls", "pyright",
+    "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls",
     "html" -- "cmake", "vuels", "vimls",
   }
 
@@ -62,6 +62,17 @@ M.config = function()
       -- exportPdf = "never",
     }
   }
+
+  -- nvim_lsp.flake8.setup {
+  --   on_attach = on_attach,
+  --   capabilities = capabilities,
+  --   settings = {
+  --     -- flake8 = {
+  --     --   ignore = { "E501", "E402", "E203", "E231", "E128", "E124", "E127" },
+  --     --   max_line_length = 120
+  --     -- }
+  --   }
+  -- }
 
   -- vim.g.rust_recommended_style = 0;
   vim.g.rust_recommended_style = 1;
@@ -91,8 +102,11 @@ M.config = function()
             '-A', 'clippy::manual-assert',
             '-A', 'clippy::cast-possible-truncation',
             '-A', 'clippy::cast-sign-loss',
+            '-A', 'clippy::cast-lossless',
             '-A', 'clippy::redundant-closure-for-method-calls',
             '-A', 'clippy::redundant_closure',
+            '-A', 'clippy::single-match-else',
+            '-A', 'clippy::too-many-lines',
           }
         }
       }

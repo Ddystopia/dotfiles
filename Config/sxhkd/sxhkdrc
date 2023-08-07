@@ -119,7 +119,7 @@ super + shift + c
 
 # logout
 super + F4
-  xkb-switch -s "us"; slock
+  xkb-switch -s "us"; useus slock
   # pkill -KILL -u $USER
 
 # focus/swap next/prev node
