@@ -41,7 +41,7 @@ M.config = function()
   capabilities.experimental = { localDocs = true }
 
   local servers = {
-    "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls",
+    "zls", "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls",
     "html" -- "cmake", "vuels", "vimls",
   }
 
