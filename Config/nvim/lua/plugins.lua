@@ -1,5 +1,15 @@
 local M = {
-
+  {
+    'folke/zen-mode.nvim',
+    cmd = { 'ZenMode' },
+  },
+  {
+    'mbbill/undotree',
+    keys = { '<leader>u' },
+    config = function()
+      Map('n', '<leader>u', ':UndotreeToggle<cr><C-w>h<C-w>k')
+    end
+  },
   {
     'gelguy/wilder.nvim',
     lazy = false,
@@ -60,6 +70,13 @@ local M = {
             write
           ]];
         end
+        -- Treesitter
+        vim.cmd [[
+          w
+          mkview
+          e!
+          loadview
+        ]]
       end)
 
       Map('v', '<leader>F', function()
@@ -76,6 +93,13 @@ local M = {
         if not pcall(lsp_format) then
           feedkeys(':<C-U>silent \'<,\'>Neoformat<CR>', 'v')
         end
+        -- Treesitter
+        vim.cmd [[
+          w
+          mkview
+          e!
+          loadview
+        ]]
       end)
       vim.g.latexindent_opt = "-m"
       vim.g.neoformat_markdown_remark = {
@@ -223,92 +247,98 @@ local M = {
         -- Configuration here, or leave empty to use defaults
       })
     end
-  }, {
-  'windwp/nvim-autopairs',
-  lazy = false,
-  config = function()
-    require('nvim-autopairs').setup({})
-    local autopairs = require("nvim-autopairs")
-    local Rule = require("nvim-autopairs.rule")
-    local cond = require("nvim-autopairs.conds")
+  }, --
+  {
+    'windwp/nvim-autopairs',
+    lazy = false,
+    config = function()
+      require('nvim-autopairs').setup({})
+      local autopairs = require("nvim-autopairs")
+      local Rule = require("nvim-autopairs.rule")
+      local cond = require("nvim-autopairs.conds")
 
-    local rules = require('nvim-autopairs').get_rule("'")
-    require('nvim-autopairs').remove_rule("'")
+      local rules = require('nvim-autopairs').get_rule("'")
+      require('nvim-autopairs').remove_rule("'")
 
-    for _, rule in pairs(rules) do
-      if rule.filetypes == nil or rule.filetypes[1] ~= "rust" then
-        require('nvim-autopairs').add_rule(rule)
+      for _, rule in pairs(rules) do
+        if rule.filetypes == nil or rule.filetypes[1] ~= "rust" then
+          require('nvim-autopairs').add_rule(rule)
+        end
       end
-    end
 
-    autopairs.add_rules {
-      Rule("|", "|", "rust")
-          :with_pair(cond.not_before_regex("~", 1))
-          :with_pair(cond.not_before_regex("%a%s*$", 5))
-          :with_move(function(opts) return opts.char == "|" end),
-      Rule("<", ">", { "rust", "typescript", "cpp" })
-          :with_pair(cond.not_before_regex("%d%s*$", 5))
-          :with_pair(cond.not_before_regex("%a%s", 2))
-          :with_pair(cond.not_before_regex("%)%s", 2))
-          :with_pair(cond.not_before_regex(">", 1))
-          :with_move(function(opts) return opts.char == ">" end)
-    }
-
-    Map('i', 'х', 'х')
-    Map('i', 'ъ', 'ъ')
-    Map('i', 'э', 'э')
-    Map('i', 'ё', 'ё')
-    Map('i', 'Х', 'Х')
-    Map('i', 'Ъ', 'Ъ')
-    Map('i', 'Э', 'Э')
-    Map('i', 'Ё', 'Ё')
-  end
-}, -- TODO: am I using it?
-  { 'tversteeg/registers.nvim', lazy = false }, {
-  'phaazon/hop.nvim',
-  name = 'hop',
-  config = true,
-  init = function()
-    -- Map("n", "<leader>h", function() require'hop'.hint_words() end)
-    -- Map("n", "<leader>k", function() require'hop'.hint_lines() end)
-    Map("n", "<leader>l", function() require 'hop'.hint_words() end)
-    Map("n", "<leader>j", function() require 'hop'.hint_lines() end)
-    Map("n", "<leader>f", function() require 'hop'.hint_char1() end)
-    Map("n", "<leader>s", function() require 'hop'.hint_char2() end)
-  end
-}, {
-  -- TODO(ddystopia): enable highlight for those too
-  --                  or disable it at all
-  "folke/todo-comments.nvim",
-  dependencies = "nvim-lua/plenary.nvim",
-  lazy = false,
-  config = function()
-    vim.cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
-    require("todo-comments").setup {
-      signs = false,
-      keywords = {
-        FIX = {
-          icon = " ",
-          color = "error",
-          alt = { "FIXME", "BUG", "FIXIT", "FIX", "ISSUE" }
-        },
-        TODO = { icon = " ", color = "info" },
-        HACK = {
-          icon = " ",
-          color = "warning",
-          alt = { "FUCK", "SHIT", "BAD" }
-        },
-        WARN = {
-          icon = " ",
-          color = "warning",
-          alt = { "WARNING", "XXX", "IMPORTANT" }
-        },
-        PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
-        NOTE = { icon = " ", color = "hint", alt = { "INFO", "SAFETY" } }
+      autopairs.add_rules {
+        Rule("|", "|", "rust")
+            :with_pair(cond.not_before_regex("~", 1))
+            :with_pair(cond.not_before_regex("%a%s*$", 5))
+            :with_move(function(opts) return opts.char == "|" end),
+        Rule("<", ">", { "rust", "typescript", "cpp" })
+            :with_pair(cond.not_before_regex("%d%s*$", 5))
+            :with_pair(cond.not_before_regex("%a%s", 2))
+            :with_pair(cond.not_before_regex("%)%s", 2))
+            :with_pair(cond.not_before_regex(">", 1))
+            :with_move(function(opts) return opts.char == ">" end)
       }
-    }
-  end
-}, --
+
+      Map('i', 'х', 'х')
+      Map('i', 'ъ', 'ъ')
+      Map('i', 'э', 'э')
+      Map('i', 'ё', 'ё')
+      Map('i', 'Х', 'Х')
+      Map('i', 'Ъ', 'Ъ')
+      Map('i', 'Э', 'Э')
+      Map('i', 'Ё', 'Ё')
+    end
+  }, -- TODO: am I using it?
+  {
+    'tversteeg/registers.nvim', lazy = false
+  }, --
+  {
+    'phaazon/hop.nvim',
+    name = 'hop',
+    config = true,
+    init = function()
+      -- Map("n", "<leader>h", function() require'hop'.hint_words() end)
+      -- Map("n", "<leader>k", function() require'hop'.hint_lines() end)
+      Map("n", "<leader>l", function() require 'hop'.hint_words() end)
+      Map("n", "<leader>j", function() require 'hop'.hint_lines() end)
+      Map("n", "<leader>f", function() require 'hop'.hint_char1() end)
+      Map("n", "<leader>s", function() require 'hop'.hint_char2() end)
+    end
+  }, --
+  {
+    -- TODO(ddystopia): enable highlight for those too
+    --                  or disable it at all
+    "folke/todo-comments.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    lazy = false,
+    enabled = false,
+    config = function()
+      vim.cmd "au BufReadPost,BufNewFile,BufRead * hi clear TODO"
+      require("todo-comments").setup {
+        signs = false,
+        keywords = {
+          FIX = {
+            icon = " ",
+            color = "error",
+            alt = { "FIXME", "BUG", "FIXIT", "FIX", "ISSUE" }
+          },
+          TODO = { icon = " ", color = "info" },
+          HACK = {
+            icon = " ",
+            color = "warning",
+            alt = { "FUCK", "SHIT", "BAD" }
+          },
+          WARN = {
+            icon = " ",
+            color = "warning",
+            alt = { "WARNING", "XXX", "IMPORTANT" }
+          },
+          PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+          NOTE = { icon = " ", color = "hint", alt = { "INFO", "SAFETY" } }
+        }
+      }
+    end
+  }, --
   {
     'lervag/vimtex',
     ft = { "tex", "bib" },
@@ -334,7 +364,29 @@ local M = {
       vim.g.maplocalleader = ","
     end
   }, --
-  -- ============== Disabled ===============
+  --[[
+
+
+
+
+
+
+
+
+
+============ Disabled ============
+
+
+
+
+
+
+
+
+
+
+  --]]
+
   {
     -- TODO: Am I using it?
     "ahmedkhalf/project.nvim",
@@ -461,6 +513,12 @@ local M = {
     }
   end
 }, --
+  {
+    'tpope/vim-fugitive',
+    enable = false,
+    cmd = { 'Git', 'Gdiffsplit', 'Gread', 'Gwrite', 'Ggrep', 'GMove', 'GDelete' },
+    config = function() end
+  }, --
   {
     'plasticboy/vim-markdown',
     dependencies = { 'godlygeek/tabular' },

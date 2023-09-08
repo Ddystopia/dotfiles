@@ -85,6 +85,11 @@ M.config = function()
       ['rust-analyzer'] = {
         cargo = { allFeatures = true },
         -- hoverActions = { linksInHover = true },
+        diagnostics = {
+          enable = true,
+          disabled = { "inactive-code" },
+          enableExperimental = true
+        },
         checkOnSave = {
           allFeatures = true,
           overrideCommand = {
@@ -107,6 +112,7 @@ M.config = function()
             '-A', 'clippy::redundant_closure',
             '-A', 'clippy::single-match-else',
             '-A', 'clippy::too-many-lines',
+            '-A', 'clippy::cast-precision-loss',
           }
         }
       }

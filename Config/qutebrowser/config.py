@@ -53,7 +53,7 @@ c.colors.webpage.bg = "black"
 c.content.prefers_reduced_motion = True
 
 # Allow copy to clipboard
-c.content.javascript.can_access_clipboard = True
+c.content.javascript.clipboard = "access"
 
 # Allow pdfjs
 c.content.pdfjs = True

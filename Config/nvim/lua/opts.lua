@@ -35,6 +35,7 @@ AutoCommand({ "BufReadPost", "BufNewFile", "BufEnter" }, DisableSyntaxOnLargeFil
 
 
 vim.opt.fileencoding = 'utf-8'
+vim.opt.updatetime = 750
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -72,6 +73,13 @@ vim.opt.guifont = "droidsansmono nerd font 11"
 
 vim.g.netrw_fastbrowse = 0
 vim.g.netrw_browsex_viewer = os.getenv("BROWSER") or "qutebrowser"
+
+local undodir = os.getenv("HOME") .. "/.local/cache/nvim/undodir"
+if vim.fn.isdirectory(undodir) == 0 then
+  vim.fn.mkdir(undodir, "p", 0700)
+end
+vim.opt.undodir = undodir
+vim.opt.undofile = true
 
 vim.filetype.add({
   extension = {

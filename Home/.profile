@@ -21,6 +21,9 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export LESSHISTFILE=-
 export LD="mold"
 
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
+
 export CARGO_HOME="$XDG_CONFIG_HOME/cargo"
 export MOZ_HOME="$HOME/.config/mozilla"
 

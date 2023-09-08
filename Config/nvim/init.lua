@@ -1,7 +1,7 @@
 require "opts"
-require "plugins"
 require "maps"
 require "utils"
+require "plugins"
 require "plugins/lsp"
 require "plugins/copilot"
 require "plugins/treesitter"
