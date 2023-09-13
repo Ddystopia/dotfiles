@@ -1,7 +1,6 @@
 local M = {
   'nvim-treesitter/nvim-treesitter',
-  event = { 'BufReadPost' },
-  enabled = true,
+  lazy = false,
   cond = function()
     for _, buf_id in ipairs(vim.api.nvim_list_bufs()) do
       local filename = vim.api.nvim_buf_get_name(buf_id)
@@ -12,7 +11,7 @@ local M = {
     end
     return true
   end,
-  build = function() vim.cmd("TSUpdate") end
+  build = function() require("nvim-treesitter.install").update({ with_sync = true })() end
 }
 
 M.dependencies = {
@@ -55,7 +54,7 @@ M.config = function()
       'rust', 'c', 'cpp', 'javascript', 'lua', 'python', 'bash',
       'fish', 'html', 'css', 'dockerfile', 'diff', 'fish', 'go',
       'json', 'make', 'markdown', 'python', 'regex', 'scheme',
-      'sxhkdrc', 'typescript', 'yaml', 'zig'
+      'sxhkdrc', 'typescript', 'yaml', 'zig', 'tsx'
     },
 
     highlight = { enable = true, additional_vim_regex_highlighting = false },

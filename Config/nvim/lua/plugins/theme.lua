@@ -6,7 +6,6 @@
 ---@field g number
 ---@field b number
 
----comment
 ---@param color Color
 ---@return string
 local function rgb_to_hex(color)

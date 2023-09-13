@@ -209,8 +209,9 @@ M.init = function()
   -- Mappings
   Map('n', 'gD', function() vim.lsp.buf.declaration() end)
   Map('n', 'gd', function() vim.lsp.buf.definition() end)
-  Map('n', 'gi', function() vim.lsp.buf.implementation() end)
-  Map('n', 'gr', function() vim.lsp.buf.references() end)
+  Map('n', 'gt', function() vim.lsp.buf.type_definition() end)
+  Map('n', 'gi', function() vim.lsp.buf.implementation() end) -- lspsaga
+  Map('n', 'gr', function() vim.lsp.buf.references() end) -- lspsaga
 
   Map('n', 'K', function() vim.lsp.buf.hover() end)
   Map('n', '<F2>', function() vim.lsp.buf.rename() end)

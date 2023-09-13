@@ -1,3 +1,67 @@
+require('utils')
+
+--- @param lsp boolean | nil Default value: true
+function Format(lsp)
+  if lsp == nil then lsp = true end
+
+  local prettier_query = 'prettier -w --loglevel error'
+
+  -- prettier args = { '', '--stdin-filepath', '"%:p"' },
+  local formatCmds = {
+    markdown = prettier_query .. "--prose-wrap always",
+    rust = 'cargo fmt',
+    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=95',
+    c = 'clang-format -stylefile -i',
+    zig = 'zig fmt',
+    go = 'gofmt -w',
+    python = 'black -q',
+    cpp = 'clang-format -stylefile -i',
+    javascript = prettier_query,
+    typescript = prettier_query,
+    javascriptreact = prettier_query,
+    typescriptreact = prettier_query,
+    html = prettier_query,
+    xml = prettier_query,
+    json = prettier_query,
+    css = prettier_query,
+    scss = prettier_query,
+    cmake = 'cmake-format -i',
+  }
+
+  -- local function feedkeys(keys, mode)
+  --   local cmd = vim.api.nvim_replace_termcodes(keys, true, false, true);
+  --   vim.api.nvim_feedkeys(cmd, mode, true)
+  -- end
+  --
+  -- local function lsp_format_v()
+  --   feedkeys([[:<C-U>silent \'<,\'>lua vim.lsp.format({
+  --     filter = function (c) return c.name ~= "copilot" end
+  --   })<CR>]], 'n')
+  -- end
+
+  if lsp == false then
+    vim.cmd "w"
+    error("IDK Manual Format")
+    -- TODO: stdin
+    local command = formatCmds[vim.bo.filetype] or "sed -i -e 's/\\s\\+$//'"
+    local f = io.popen(command .. ' "' .. vim.fn.expand("%") .. '" 3>&1 1>&3 2>&3')
+    if f then
+      print(f:read('*all'))
+      f:close()
+    end
+  end
+
+  vim.lsp.buf.format()
+
+  vim.cmd "w"
+
+  vim.cmd [[
+    mkview
+    e!
+    loadview
+  ]]
+end
+
 function ToggleWrap()
   if vim.wo.wrap then
     vim.wo.wrap = false
@@ -32,15 +96,17 @@ function QuitNetrw()
   end
 end
 
--- vim.api.nvim_create_autocmd("VimLeavePre", { callback = QuitNetrw })
-
-vim.cmd 'command! -nargs=* -complete=file E :silent !$TERM -e sh -c "cd `pwd`; nvim <args>"'
-
 function StartTerminal()
   local cmd = 'cd ' .. vim.fn.expand('%:p:h') .. ' && $SHELL'
   local terminal_cmd = '$TERM -e sh -c \'' .. cmd .. '\''
   os.execute(terminal_cmd .. ' &')
 end
+
+-- vim.api.nvim_create_autocmd("VimLeavePre", { callback = QuitNetrw })
+
+Map('n', '<leader>F', Format)
+
+vim.cmd 'command! -nargs=* -complete=file E :silent !$TERM -e sh -c "cd `pwd`; nvim <args>"'
 
 vim.cmd("command! T lua StartTerminal()")
 
@@ -59,7 +125,7 @@ Map('n', '<leader>pw', ToggleWrap)
 --     function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)
 
 Map('n', '<leader>pr',
-    function() vim.wo.relativenumber = not vim.wo.relativenumber end)
+  function() vim.wo.relativenumber = not vim.wo.relativenumber end)
 
 Map('n', '<leader>', '<nop>')
 Map('n', '<leader>y', '"+y')
