@@ -46,9 +46,9 @@ c.auto_save.interval = 10_000
 
 # Dark mode yo
 c.colors.webpage.darkmode.enabled = False
-c.colors.webpage.darkmode.policy.images = "never"
+# c.colors.webpage.darkmode.policy.images = "never"
 c.colors.webpage.preferred_color_scheme = "dark"
-c.colors.webpage.bg = "black"
+# c.colors.webpage.bg = "black"
 
 c.content.prefers_reduced_motion = True
 

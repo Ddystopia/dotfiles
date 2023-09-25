@@ -22,8 +22,6 @@ settings:
         zym: spawn yt-dlp --extract-audio --audio-quality 0 --audio-format mp3 --yes-playlist
           -i -o '~/Music/%(title)' {url}
         zyy: spawn mpv {url} --fs
-  colors.webpage.bg:
-    global: white
   colors.webpage.darkmode.enabled:
     global: true
   content.headers.user_agent:
@@ -85,6 +83,9 @@ settings:
     global: default_size default_family
   fonts.tabs.unselected:
     global: 12pt default_family
+  qt.args:
+    global:
+    - disable-accelerated-2d-canvas
   scrolling.smooth:
     global: false
   statusbar.show:

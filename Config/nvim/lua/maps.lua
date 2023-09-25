@@ -4,7 +4,7 @@ require('utils')
 function Format(lsp)
   if lsp == nil then lsp = true end
 
-  local prettier_query = 'prettier -w --loglevel error'
+  local prettier_query = 'prettier -w --loglevel error '
 
   -- prettier args = { '', '--stdin-filepath', '"%:p"' },
   local formatCmds = {
@@ -41,7 +41,6 @@ function Format(lsp)
 
   if lsp == false then
     vim.cmd "w"
-    error("IDK Manual Format")
     -- TODO: stdin
     local command = formatCmds[vim.bo.filetype] or "sed -i -e 's/\\s\\+$//'"
     local f = io.popen(command .. ' "' .. vim.fn.expand("%") .. '" 3>&1 1>&3 2>&3')
@@ -51,9 +50,10 @@ function Format(lsp)
     end
   end
 
-  vim.lsp.buf.format()
-
-  vim.cmd "w"
+  if lsp == true then
+    vim.lsp.buf.format()
+    vim.cmd "w"
+  end
 
   vim.cmd [[
     mkview
@@ -165,8 +165,6 @@ Map('n', '<leader>cp', ':let @+ = expand("%:p:h")<cr>')
 Map('c', 'w!!', '!sudo tee %')
 Map('n', '>', '>>')
 Map('n', '<', '<<')
--- Map('n', '<C-k>', ':move +1')
--- Map('n', '<C-j>', ':move -1')
 Map('n', '<', '<<')
 Map('n', '$', 'g_')
 Map('v', '$', 'g_')
@@ -178,13 +176,10 @@ Map('v', '//', 'y/\\V<C-R>=escape(@",\'/\')<CR><CR>')
 Map('n', 'gp', 'p`[')
 Map('n', '*', '*N')
 
-Map('n', '<C-j>', ':move .+1<CR>==')
-Map('n', '<C-k>', ':move .-2<CR>==')
-Map('i', '<C-j>', '<Esc>:move .+1<CR>==gi')
-Map('i', '<C-k>', '<Esc>:move .-2<CR>==gi')
-Map('v', '<C-j>', ":move '>+1<CR>gv=gv")
-Map('v', '<C-k>', ":move '<-2<CR>gv=gv")
-
+Map('n', '<C-j>', '<C-d>')
+Map('n', '<C-k>', '<C-u>')
+Map('v', '<C-j>', '<C-d>')
+Map('v', '<C-k>', '<C-u>')
 
 Map('n', '<leader>ps', ':set spell!<cr>')
 Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')

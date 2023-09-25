@@ -60,10 +60,11 @@ M.config = function()
     highlight = { enable = true, additional_vim_regex_highlighting = false },
 
     rainbow = {
-      enable = true,
+      -- enable = false,
       -- extended_mode = true,
       -- max_file_lines = nil,
       -- colors = rainbow_colors,
+      disable = { 'cpp' },
       query = {
         global = 'rainbow-parens',
         html = 'rainbow-tags',

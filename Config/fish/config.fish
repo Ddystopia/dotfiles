@@ -5,6 +5,7 @@ if status is-interactive
   fish_config theme choose "Dracula Official"
   function fish_mode_prompt; end
 
+  alias xcp="xsel -i -b"
   alias e="exa -Fab --group-directories-first --icons"
   alias ex="exa -Fab --group-directories-first --icons -lTL 1 --no-time --git --no-user"
   alias gc="git add -A && git commit -m "
