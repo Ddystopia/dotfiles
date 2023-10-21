@@ -30,12 +30,6 @@ set tabstop=2
 set shiftwidth=2
 set completeopt-=preview
 
-" For PEP 8
-au BufNewFile,BufRead *.py
-      \ set tabstop=4
-      \ softtabstop=4
-      \ shiftwidth=4
-
 set foldenable
 set foldlevel=99
 set foldmethod=indent

@@ -105,7 +105,7 @@ super + alt + p
 
 # toggle compton
 super + F12
-  toggle-process picom
+  filter-errors "toggle-process picom" Xlib
 
 # toggle recorder
 super + F9

@@ -186,8 +186,9 @@ local M = {
             :with_move(function(opts) return opts.char == ">" end)
       }
 
-      for _, ch in pairs({ 'х', 'ъ', 'э', 'ё', 'Х', 'Ъ', 'Э', 'Ё' }) do
+      for _, ch in pairs({ 'х', 'ъ', 'э', 'ё', 'ю' }) do
         Map('i', ch, ch)
+        Map('i', string.upper(ch), string.upper(ch))
       end
     end
   },

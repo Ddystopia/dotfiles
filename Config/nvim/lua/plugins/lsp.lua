@@ -113,6 +113,7 @@ M.config = function()
             '-A', 'clippy::single-match-else',
             '-A', 'clippy::too-many-lines',
             '-A', 'clippy::cast-precision-loss',
+            '-A', 'clippy::match-bool',
           }
         }
       }
