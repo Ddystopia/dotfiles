@@ -73,8 +73,10 @@ settings:
     https://mail.google.com?extsrc=mailto&url=%25s: true
     https://mail.proton.me#mailto=%25s: false
     https://mail.protonmail.com#mailto=%25s: true
+  content.unknown_url_scheme_policy:
+    global: allow-from-user-interaction
   downloads.prevent_mixed_content:
-    global: false
+    global: true
   fonts.default_family:
     global: Meslo LG S DZ
   fonts.default_size:

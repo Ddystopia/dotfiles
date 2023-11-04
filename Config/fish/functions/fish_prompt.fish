@@ -4,8 +4,9 @@
 # end
 
 function fish_prompt
+  set -l ret_status $(return_status)
   set -l pwd $(set_color blue)$(get_pwd)$(set_color normal)
-  printf " $(return_status) $pwd $(git_prompt_info)
+  printf " $ret_status $pwd $(git_prompt_info)
 $(set_color magenta)❯$(set_color normal) "
 end
 
