@@ -178,7 +178,7 @@ local M = {
             :with_pair(cond.not_before_regex("%a%s*$", 5))
             :with_pair(ts_cond.is_not_ts_node({ "match_arm" }))
             :with_move(function(opts) return opts.char == "|" end),
-        Rule("<", ">", { "rust", "typescript", "cpp" })
+        Rule("<", ">", { "rust", "typescript" })
             :with_pair(cond.not_before_regex("%d%s*$", 5))
             :with_pair(cond.not_before_regex("%a%s", 2))
             :with_pair(cond.not_before_regex("%)%s", 2))
