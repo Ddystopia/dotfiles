@@ -26,6 +26,7 @@ function Format(lsp)
     css = prettier_query,
     scss = prettier_query,
     cmake = 'cmake-format -i',
+    typst = "typstfmt"
   }
 
   -- local function feedkeys(keys, mode)
@@ -38,6 +39,10 @@ function Format(lsp)
   --     filter = function (c) return c.name ~= "copilot" end
   --   })<CR>]], 'n')
   -- end
+
+  if vim.bo.filetype == "typst" or vim.bo.filetype == "markdown" then
+    lsp = false
+  end
 
   if lsp == false then
     vim.cmd "w"

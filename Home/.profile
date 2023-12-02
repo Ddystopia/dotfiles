@@ -22,7 +22,7 @@ export LESSHISTFILE=-
 export LD="mold"
 
 export MANPAGER='nvim +Man!'
-export MANWIDTH=200
+export MANWIDTH=100
 
 export RUSTC_WRAPPER=/home/ddystopia/.config/cargo/bin/sccache
 export CARGO_HOME="$XDG_CONFIG_HOME/cargo"

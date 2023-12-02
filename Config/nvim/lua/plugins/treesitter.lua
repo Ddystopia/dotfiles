@@ -93,7 +93,7 @@ M.config = function()
 
     context_commentstring = {
       enable = true,
-      config = { fish = "# %s", scheme = ";; %s" }
+      config = { fish = "# %s", scheme = ";; %s", typst = "//" }
     },
 
     autotag = { enable = true },

@@ -12,6 +12,10 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 3
 
+vim.cmd [[
+vnoremap <silent> @ :<C-u>execute "'<,'>" . 'normal! @' . getcharstr()<CR>
+]]
+
 AutoCommand("BufEnter", function()
   vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
 end)

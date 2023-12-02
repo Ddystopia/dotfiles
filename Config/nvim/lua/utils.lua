@@ -84,7 +84,7 @@ function BMap(mode, key, cmd, opts)
 end
 
 function OnAttach(client, bufnr)
-  client.server_capabilities.semanticTokensProvider = nil
+  -- client.server_capabilities.semanticTokensProvider = nil
   local lspkind = require('lspkind')
   local luasnip = require('luasnip')
   -- Set completeopt to have a better completion experience

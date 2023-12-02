@@ -64,7 +64,7 @@ settings:
     https://www.reddit.com: false
     https://www.softrew.ru: false
   content.pdfjs:
-    global: true
+    global: false
   content.private_browsing:
     global: false
   content.proxy:

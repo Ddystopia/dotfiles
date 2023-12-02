@@ -28,13 +28,12 @@ M.config = function()
         cmd = { "typst-lsp" },
         filetypes = { "typ", "typst" },
         root_dir = function(fname)
-          return root_pattern(".git")(fname) or vim.loop.os_homedir()
+          return root_pattern(".git, .project_root")(fname) or vim.loop.os_homedir()
         end,
         settings = {}
       }
     }
   end
-
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   capabilities.offsetEncoding = { "utf-16" }
@@ -88,7 +87,7 @@ M.config = function()
         diagnostics = {
           enable = true,
           disabled = { "inactive-code" },
-          enableExperimental = true
+          enableExperimental = false
         },
         checkOnSave = {
           allFeatures = true,
@@ -114,6 +113,7 @@ M.config = function()
             '-A', 'clippy::too-many-lines',
             '-A', 'clippy::cast-precision-loss',
             '-A', 'clippy::match-bool',
+            '-A', 'clippy::cast-possible-wrap'
           }
         }
       }
@@ -140,7 +140,7 @@ M.config = function()
       cache = { directory = os.getenv("XDG_CACHE_HOME") .. "/ccls" },
       clang = {
         extraArgs = {
-          "-std=c++20", "-Wall", "-Wextra", "-Wno-logical-op-parentheses"
+          "-std=c++23", "-Wall", "-Wextra", "-Wno-logical-op-parentheses"
         },
         -- extraArgs = { "-Wall", "-Wextra", "-Wno-logical-op-parentheses" },
         excludeArgs = { "-frounding-math" }
@@ -212,7 +212,7 @@ M.init = function()
   Map('n', 'gd', function() vim.lsp.buf.definition() end)
   Map('n', 'gt', function() vim.lsp.buf.type_definition() end)
   Map('n', 'gi', function() vim.lsp.buf.implementation() end) -- lspsaga
-  Map('n', 'gr', function() vim.lsp.buf.references() end) -- lspsaga
+  Map('n', 'gr', function() vim.lsp.buf.references() end)     -- lspsaga
 
   Map('n', 'K', function() vim.lsp.buf.hover() end)
   Map('n', '<F2>', function() vim.lsp.buf.rename() end)

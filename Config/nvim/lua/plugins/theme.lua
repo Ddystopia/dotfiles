@@ -108,6 +108,9 @@ local M2 = {
       TSRainbowViolet = { fg = "#b48ead" }, -- termbg=#d7afdf
       TSRainbowCyan   = { fg = "#88c0d0" }, -- termbg=#afd7ff
 
+      ["@lsp.mod.constant"] = { fg = "#b37ff5" },
+      ["@lsp.mod.static"] = { fg = "#b37ff5" },
+
 
       -- From that guy
 
