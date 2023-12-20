@@ -24,6 +24,7 @@ end
 
 
 function git_prompt_info
+  git diff &> /dev/null
   set branch $(git symbolic-ref HEAD 2> /dev/null | awk 'BEGIN{FS="/"} {print $NF}')
   if not test -z $branch
     printf "$(set_color green)$branch$(set_color normal)"

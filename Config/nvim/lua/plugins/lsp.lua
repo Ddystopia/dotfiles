@@ -185,8 +185,9 @@ M.config = function()
     cmd = {
       'clangd', '--header-insertion=never', '--suggest-missing-includes',
       '--background-index', '-j=8', '--cross-file-rename',
-      '--pch-storage=memory', '--clang-tidy', -- '-std=c++17',
-      '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type'
+      '--pch-storage=memory', '--clang-tidy', -- '-std=c11',
+      '--clang-tidy-checks=-clang-analyzer-*,bugprone-*,misc-*,-misc-non-private-member-variables-in-classes,performance-*,-performance-no-automatic-move,modernize-use-*,-modernize-use-nodiscard,-modernize-use-trailing-return-type',
+      '--compile-commands-dir=build'
     },
     -- on_init = require'clangd_nvim'.on_init,
     -- callbacks = lsp_status.extensions.clangd.setup(),
@@ -211,7 +212,7 @@ M.init = function()
   Map('n', 'gD', function() vim.lsp.buf.declaration() end)
   Map('n', 'gd', function() vim.lsp.buf.definition() end)
   Map('n', 'gt', function() vim.lsp.buf.type_definition() end)
-  Map('n', 'gi', function() vim.lsp.buf.implementation() end) -- lspsaga
+  Map('n', 'gI', function() vim.lsp.buf.implementation() end) -- lspsaga
   Map('n', 'gr', function() vim.lsp.buf.references() end)     -- lspsaga
 
   Map('n', 'K', function() vim.lsp.buf.hover() end)

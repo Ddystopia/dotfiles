@@ -31,6 +31,8 @@ if status is-interactive
   alias ....="cd ../../.."
   alias .....="cd ../../../.."
 
+  alias russ="russ -d $XDG_CONFIG_HOME/russ/feeds.db"
+
   function last_history_item; echo $history[1]; end
   abbr -a !! --position anywhere --function last_history_item
 end
