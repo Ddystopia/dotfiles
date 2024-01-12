@@ -58,6 +58,11 @@ local M2 = {
       return nil
     end
     local overrides = {
+      CoqtailChecked        = { bg = "#333444" },
+      CoqtailSent           = { bg = "#3B4423" },
+      CoqVernacCmd          = { link = "@function" },
+      CoqKwd                = { link = "@keyword" },
+
       CursorLine            = { bg = "#21222C" },
       CursorLineNr          = { fg = "#F1FA8C", bg = "#21222C" },
 

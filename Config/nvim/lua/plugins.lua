@@ -1,5 +1,24 @@
 local M = {
   {
+    'whonore/Coqtail',
+    ft = { "coq" },
+    config = function()
+      vim.g.coqtail_nomap = 1
+      BMap('n', '<leader>cc', ':CoqStart<CR>')
+      BMap('n', '<leader>cq', ':CoqStop<CR>')
+      BMap('n', '<C-j>', ':CoqNext<CR>')
+      BMap('n', '<C-k>', ':CoqUndo<CR>')
+      BMap('n', 'cl', ':CoqToLine<CR>')
+      BMap('n', 'fj', ':CoqNext<CR>')
+      BMap('n', 'fk', ':CoqUndo<CR>')
+      BMap('n', 'fl', ':CoqToLine<CR>')
+      BMap('n', '<leader>ct', ':CoqToTop<CR>')
+      BMap('n', '<leader>cG', ':CoqJumpToEnd<CR>')
+      BMap('n', '<leader>cE', ':CoqJumpToError<CR>')
+      BMap('n', 'gd', ':CoqGotoDef<CR>')
+    end
+  },
+  {
     'mbbill/undotree',
     keys = { '<leader>u' },
     config = function()

@@ -110,7 +110,6 @@ function GM_addStyle(cssStr) {
   let target = null;
   const f = () => {
     target = document.querySelector("head") || document.body || document.documentElement;
-    debugger
     if (!target) {
       setTimeout(f, 10);
     } else {

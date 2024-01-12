@@ -34,6 +34,11 @@ M.config = function()
       }
     }
   end
+  if not configs.coq_lsp then
+    configs.coq_lsp = {
+      default_config = {}
+    }
+  end
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   capabilities.offsetEncoding = { "utf-16" }
@@ -82,7 +87,10 @@ M.config = function()
     -- cmd = { "ra-multiplex", "client" },
     settings = {
       ['rust-analyzer'] = {
-        cargo = { allFeatures = true },
+        cargo = {
+          allFeatures = true,
+          -- target = "thumbv7em-none-eabihf"
+        },
         -- hoverActions = { linksInHover = true },
         diagnostics = {
           enable = true,
@@ -95,25 +103,25 @@ M.config = function()
             'cargo', 'clippy', '--workspace', '--message-format=json',
             '--all-targets', '--all-features', '--',
             -- '-W', 'clippy::unwrap-used',
-            '-W', 'clippy::use_self',
-            '-W', 'clippy::pedantic',
-            '-W', 'clippy::perf',
-            '-W', 'clippy::missing-assert-message',
-
-            '-A', 'clippy::module-name-repetitions',
-            '-A', 'clippy::default-trait-access',
-            '-A', 'clippy::similar-names',
-            '-A', 'clippy::manual-assert',
-            '-A', 'clippy::cast-possible-truncation',
-            '-A', 'clippy::cast-sign-loss',
-            '-A', 'clippy::cast-lossless',
-            '-A', 'clippy::redundant-closure-for-method-calls',
-            '-A', 'clippy::redundant_closure',
-            '-A', 'clippy::single-match-else',
-            '-A', 'clippy::too-many-lines',
-            '-A', 'clippy::cast-precision-loss',
-            '-A', 'clippy::match-bool',
-            '-A', 'clippy::cast-possible-wrap'
+            -- '-W', 'clippy::use_self',
+            -- '-W', 'clippy::pedantic',
+            -- '-W', 'clippy::perf',
+            -- '-W', 'clippy::missing-assert-message',
+            --
+            -- '-A', 'clippy::module-name-repetitions',
+            -- '-A', 'clippy::default-trait-access',
+            -- '-A', 'clippy::similar-names',
+            -- '-A', 'clippy::manual-assert',
+            -- '-A', 'clippy::cast-possible-truncation',
+            -- '-A', 'clippy::cast-sign-loss',
+            -- '-A', 'clippy::cast-lossless',
+            -- '-A', 'clippy::redundant-closure-for-method-calls',
+            -- '-A', 'clippy::redundant_closure',
+            -- '-A', 'clippy::single-match-else',
+            -- '-A', 'clippy::too-many-lines',
+            -- '-A', 'clippy::cast-precision-loss',
+            -- '-A', 'clippy::match-bool',
+            -- '-A', 'clippy::cast-possible-wrap'
           }
         }
       }
@@ -291,4 +299,33 @@ return {
   M,
   -- lsp for nvim config
   { 'folke/neodev.nvim', ft = { 'lua' }, config = true },
+
+  {
+    'tomtomjhj/coq-lsp.nvim',
+    -- ft = { "coq" },
+    lazy = false,
+    enabled = false,
+    config = function()
+      require 'coq-lsp'.setup {
+        -- The configuration for coq-lsp.nvim.
+        -- The following is the default configuration.
+        coq_lsp_nvim = {
+          -- to be added
+        },
+
+        -- The configuration forwarded to `:help lspconfig-setup`.
+        -- The following is an example.
+        lsp = {
+          on_attach = OnAttach,
+          -- coq-lsp server initialization configurations, defined here:
+          -- https://github.com/ejgallego/coq-lsp/blob/main/editor/code/src/config.ts#L3
+          -- Documentations are at https://github.com/ejgallego/coq-lsp/blob/main/editor/code/package.json.
+          init_options = {
+            show_notices_as_diagnostics = true,
+          },
+          autostart = true, -- use this if you want to manually launch coq-lsp with :LspStart.
+        },
+      }
+    end
+  },
 }

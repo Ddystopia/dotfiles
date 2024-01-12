@@ -92,7 +92,8 @@ vim.filetype.add({
     fish = "fish",
     conf = "config",
     asm = "nasm",
-    h = "c"
+    h = "c",
+    v = "coq",
     -- md = "markdown",
   },
   filename = {
