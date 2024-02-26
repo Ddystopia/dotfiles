@@ -46,7 +46,7 @@ M.config = function()
 
   local servers = {
     "zls", "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls",
-    "html" -- "cmake", "vuels", "vimls",
+    "html", "r_language_server" -- "cmake", "vuels", "vimls",
   }
 
   for _, lsp in ipairs(servers) do
@@ -88,17 +88,15 @@ M.config = function()
     settings = {
       ['rust-analyzer'] = {
         cargo = {
-          allFeatures = true,
           -- target = "thumbv7em-none-eabihf"
         },
         -- hoverActions = { linksInHover = true },
         diagnostics = {
           enable = true,
-          disabled = { "inactive-code" },
+          -- disabled = { "inactive-code" },
           enableExperimental = false
         },
         checkOnSave = {
-          allFeatures = true,
           overrideCommand = {
             'cargo', 'clippy', '--workspace', '--message-format=json',
             '--all-targets', '--all-features', '--',
@@ -175,16 +173,23 @@ M.config = function()
     on_attach = on_attach
   }
 
-  nvim_lsp.sumneko_lua.setup({
-    capabilities = capabilities,
+  nvim_lsp.lua_ls.setup {
     on_attach = on_attach,
+    capabilities = capabilities,
+    filetypes = { "lua" },
     settings = {
       Lua = {
+        runtime = {
+          version = 'LuaJIT'
+        },
         diagnostics = { globals = { 'vim' } },
-        completion = { callSnippet = "Replace" }
-      }
+        completion = { callSnippet = "Replace" },
+        telemetry = { enable = false },
+        workspace = { checkThirdParty = false },
+        library = { vim.env.VIMRUNTIME }
+      },
     }
-  })
+  }
 
   nvim_lsp.clangd.setup {
     on_attach = on_attach,
@@ -267,9 +272,16 @@ M.dependencies = {
   'onsails/lspkind-nvim', --
   -- 'SmiteshP/nvim-navic',
   {
+    'folke/neoconf.nvim',
+    lazy = false,
+    config = function()
+      require('neoconf').setup({})
+    end
+  },
+  {
     "L3MON4D3/LuaSnip",
     dependencies = "saadparwaiz1/cmp_luasnip",
-    build = "make install_jsregexp"
+    build = "make install_jsregexp",
   }, {
   'RishabhRD/nvim-lsputils',
   enable = false,

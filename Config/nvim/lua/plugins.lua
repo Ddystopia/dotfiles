@@ -88,11 +88,44 @@ local M = {
           show_buffer_icons = true,
           show_buffer_close_icons = false,
           show_close_icon = false,
-          always_show_bufferline = true
+          always_show_bufferline = true,
+          --[[
+            my try go filter "inactive-code" diagnostics, but it diagnostics_indicator
+            is wrong function
+
+          diagnostics_indicator = function(count, _, _, context)
+            local only_inactive_code = count ~= 0
+
+            for _, diag in pairs(vim.diagnostic.get(context.buffer.id)) do
+              print(diag.code)
+              if diag.code ~= "inactive-code" then
+                only_inactive_code = false
+                break
+              end
+            end
+
+
+            if only_inactive_code then
+              print("disabling")
+              return ""
+            else
+              print("enabling")
+              return " "
+            end
+          end
+          ]]
         },
         highlights = {
           fill = { bg = '#21222C' },
-          buffer_selected = { bold = true, italic = false }
+          buffer_selected = { bold = true, italic = false },
+          hint = {
+            fg = require("bufferline.colors").get_color({ name = "Comment", attribute = "fg" }),
+          },
+          hint_selected = {
+            fg = require("bufferline.colors").get_color({ name = "Normal", attribute = "fg" }),
+            italic = false,
+            bold = false,
+          },
         }
       }
     end,
@@ -137,6 +170,9 @@ local M = {
     -- tool comment code
     'terrortylor/nvim-comment',
     config = function()
+      Map("n", "<C-/>", ":CommentToggle<CR>")
+      Map("v", "<C-/>", ":CommentToggle<CR>")
+
       require('nvim_comment').setup({
         -- Linters prefer comment and line to have a space in between markers
         marker_padding = true,
@@ -155,8 +191,6 @@ local M = {
         -- Hook function to call before commenting takes place
         hook = nil
       })
-      Map('n', "<C-_>", ":CommentToggle<CR>")
-      Map('v', "<C-_>", ":CommentToggle<CR>")
     end,
     lazy = false
   }, --
@@ -214,6 +248,7 @@ local M = {
   {
     'lyokha/vim-xkbswitch',
     lazy = false,
+    enabled = false,
     init = function()
       vim.g.XkbSwitchEnabled = 1
       -- TODO: Some errors
@@ -360,7 +395,7 @@ local M = {
       '<leader>dp'
     },
     config = function()
-      local dap = require('dap')
+      -- local dap = require('dap')
       -- Toggle breakpoint
       Map('n', '<leader>db', function() require 'dap'.toggle_breakpoint() end)
 

@@ -1,5 +1,5 @@
-alias e="exa -Fab --group-directories-first --icons"
-alias ex="exa -Fab --group-directories-first --icons -lTL 1 --no-time --git --no-user"
+alias e="exa -abF --group-directories-first --icons"
+alias ex="exa -abF --group-directories-first --icons -lTL 1 --no-time --git --no-user"
 alias gc="git add -A && git commit -m "
 alias ls="ls --color -L"
 # alias la="ls -AlhL"

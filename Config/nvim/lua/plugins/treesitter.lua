@@ -48,13 +48,19 @@ M.config = function()
   local treesitter = require('nvim-treesitter.configs')
 
   local rainbow = require('ts-rainbow')
+  vim.g.skip_ts_context_commentstring_module = true
+
+  require('ts_context_commentstring').setup {
+      enable = true,
+      config = { fish = "# %s", scheme = ";; %s", typst = "//" }
+  }
 
   treesitter.setup {
     ensure_installed = {
       'rust', 'c', 'cpp', 'javascript', 'lua', 'python', 'bash',
       'fish', 'html', 'css', 'dockerfile', 'diff', 'fish', 'go',
       'json', 'make', 'markdown', 'python', 'regex', 'scheme',
-      'sxhkdrc', 'typescript', 'yaml', 'zig', 'tsx'
+      'sxhkdrc', 'typescript', --[['yaml',]] 'zig', 'tsx'
     },
 
     highlight = { enable = true, additional_vim_regex_highlighting = false },
@@ -89,11 +95,6 @@ M.config = function()
         node_incremental = 'gn',
         node_decremental = 'gr'
       }
-    },
-
-    context_commentstring = {
-      enable = true,
-      config = { fish = "# %s", scheme = ";; %s", typst = "//" }
     },
 
     autotag = { enable = true },

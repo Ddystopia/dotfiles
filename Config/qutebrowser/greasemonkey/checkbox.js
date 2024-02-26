@@ -2,8 +2,7 @@
 // @name         Style all checkboxes
 // @version      0.1
 // @description  Change the style of all checkboxes
-// @include      http://*/*
-// @include      https://*/*
+// @include      https://github.com/*
 // @grant        GM_addStyle
 // ==/UserScript==
 

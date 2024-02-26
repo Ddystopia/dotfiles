@@ -41,6 +41,7 @@ vim.api.nvim_create_autocmd("LspTokenUpdate", {
 
 local M2 = {
   "Mofiqul/dracula.nvim",
+  commit = "9fe831e685a76e1a1898a694623b33247c4d036c",
   lazy = false,
   priority = 1000,
   opts = function()

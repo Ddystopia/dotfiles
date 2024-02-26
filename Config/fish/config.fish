@@ -5,9 +5,8 @@ if status is-interactive
   fish_config theme choose "Dracula Official"
   function fish_mode_prompt; end
 
-  alias xcp="xsel -i -b"
-  alias e="exa -Fab --group-directories-first --icons"
-  alias ex="exa -Fab --group-directories-first --icons -lTL 1 --no-time --git --no-user"
+  alias e="exa -abF --group-directories-first --icons"
+  alias ex="exa -abF --group-directories-first --icons -lTL 1 --no-time --git --no-user"
   alias gc="git add -A && git commit -m "
   alias ls="ls --color -L"
 # alias la="ls -AlhL"
@@ -35,6 +34,8 @@ if status is-interactive
 
   function last_history_item; echo $history[1]; end
   abbr -a !! --position anywhere --function last_history_item
+
+  zoxide init --cmd cd fish | source
 end
 
 if test -f ~/.profile
