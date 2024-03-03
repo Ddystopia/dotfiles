@@ -22,7 +22,7 @@
 # su -c "echo 1 > /proc/sys/kernel/sysrq"
 
 # Sync time
-# udo ntpd -qg
+# sudo ntpd -qg
 
 # man-pages anbox
 
