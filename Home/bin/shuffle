@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Read input into an array
+mapfile -t lines
+
+# Calculate the midpoint of the array
+mid=$(((${#lines[@]} + 1) / 2))
+
+# Interleave elements from the two halves
+for ((i=0; i<mid; i++)); do
+    # Print from the first half
+    echo "${lines[i]}"
+    
+    # Calculate index for the second half
+    j=$((i + mid))
+    
+    # Print from the second half if index is within array bounds
+    if (( j < ${#lines[@]} )); then
+        echo "${lines[j]}"
+    fi
+done
+

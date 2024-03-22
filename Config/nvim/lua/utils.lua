@@ -117,11 +117,11 @@ function OnAttach(client, bufnr)
     },
     mapping = {
       ['<C-p>'] = function()
-        cmp.mapping.select_prev_item()
+        cmp.select_prev_item()
         cmp_state = true
       end,
       ['<C-n>'] = function()
-        cmp.mapping.select_next_item()
+        cmp.select_next_item()
         cmp_state = true
       end,
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -143,12 +143,13 @@ function OnAttach(client, bufnr)
       end,
       ['<Tab>'] = function(fallback)
         if cmp.visible() and not luasnip.in_snippet() then
-          if cmp_state then
+          if cmp_state or cmp.get_selected_entry() == nil then
             cmp.select_next_item()
           else
-            cmp_state = true
             cmp.complete_common_string()
           end
+
+          cmp_state = true
         elseif luasnip.expand_or_locally_jumpable() then
           luasnip.expand_or_jump()
         elseif has_words_before() then
