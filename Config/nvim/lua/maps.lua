@@ -10,7 +10,7 @@ function Format(lsp)
   local formatCmds = {
     markdown = prettier_query .. "--prose-wrap always",
     rust = 'cargo fmt',
-    lua = 'lua-format --indent-width=2 --spaces-inside-table-braces -i --column-limit=95',
+    lua = 'lua-format --indent-width=4 --spaces-inside-table-braces -i --column-limit=95',
     c = 'clang-format -stylefile -i',
     zig = 'zig fmt',
     go = 'gofmt -w',

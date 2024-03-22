@@ -102,6 +102,10 @@ function OnAttach(client, bufnr)
   end
 
   local cmp = require 'cmp'
+  local cmp_state = false
+
+  cmp.event:on('menu_closed', function() cmp_state = false end)
+
   cmp.setup {
     experimental = { ghost_text = true },
     snippet = {
@@ -112,8 +116,14 @@ function OnAttach(client, bufnr)
       { name = 'luasnip' }
     },
     mapping = {
-      ['<C-p>'] = cmp.mapping.select_prev_item(),
-      ['<C-n>'] = cmp.mapping.select_next_item(),
+      ['<C-p>'] = function()
+        cmp.mapping.select_prev_item()
+        cmp_state = true
+      end,
+      ['<C-n>'] = function()
+        cmp.mapping.select_next_item()
+        cmp_state = true
+      end,
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-e>'] = cmp.mapping.close(),
@@ -133,7 +143,12 @@ function OnAttach(client, bufnr)
       end,
       ['<Tab>'] = function(fallback)
         if cmp.visible() and not luasnip.in_snippet() then
-          cmp.select_next_item()
+          if cmp_state then
+            cmp.select_next_item()
+          else
+            cmp_state = true
+            cmp.complete_common_string()
+          end
         elseif luasnip.expand_or_locally_jumpable() then
           luasnip.expand_or_jump()
         elseif has_words_before() then
@@ -144,6 +159,7 @@ function OnAttach(client, bufnr)
       end,
       ['<S-Tab>'] = function(fallback)
         if cmp.visible() and not luasnip.in_snippet() then
+          cmp_state = true
           cmp.select_prev_item()
         elseif luasnip.jumpable(-1) then
           luasnip.jump(-1)

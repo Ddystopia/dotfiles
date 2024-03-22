@@ -7,9 +7,9 @@ vim.opt.swapfile = false
 vim.opt.foldenable = false
 vim.opt.smartindent = true
 vim.opt.expandtab = true
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.scrolloff = 3
 
 vim.cmd [[
@@ -30,6 +30,14 @@ AutoCommand({ "BufRead", "BufNewFile" }, function(args)
   SetLocalOption(args.buf, 'shiftwidth', 4)
 end, {
   pattern = { "*.py", "*.rs" }
+})
+
+AutoCommand({ "BufRead", "BufNewFile" }, function(args)
+  SetLocalOption(args.buf, 'tabstop', 2)
+  SetLocalOption(args.buf, 'softtabstop', 2)
+  SetLocalOption(args.buf, 'shiftwidth', 2)
+end, {
+  pattern = { "*.lua" }
 })
 
 AutoCommand({ "BufReadPost", "BufNewFile", "BufEnter" }, DisableSyntaxOnLargeFiles, {

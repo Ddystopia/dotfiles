@@ -52,7 +52,7 @@ M.config = function()
 
   require('ts_context_commentstring').setup {
       enable = true,
-      config = { fish = "# %s", scheme = ";; %s", typst = "//" }
+      config = { fish = "# %s", scheme = ";; %s", typst = "// %s" }
   }
 
   treesitter.setup {
