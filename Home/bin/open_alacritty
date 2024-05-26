@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Get the current directory
+DIR=$(pwd)
+
+# Command to open Alacritty in the current directory
+alacritty -e sh -c "cd $DIR && $SHELL"
+

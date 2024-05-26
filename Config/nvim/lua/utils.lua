@@ -103,11 +103,21 @@ function OnAttach(client, bufnr)
 
   local cmp = require 'cmp'
   local cmp_state = false
+  local compare = cmp.config.compare
 
   cmp.event:on('menu_closed', function() cmp_state = false end)
 
   cmp.setup {
     experimental = { ghost_text = true },
+    sorting = {
+      comparators = {
+        compare.order,
+        compare.exact,
+        compare.offset,
+        compare.sort_text,
+        compare.length,
+      }
+    },
     snippet = {
       expand = function(args) require('luasnip').lsp_expand(args.body) end
     },

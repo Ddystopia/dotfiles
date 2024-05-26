@@ -7,9 +7,9 @@ vim.opt.swapfile = false
 vim.opt.foldenable = false
 vim.opt.smartindent = true
 vim.opt.expandtab = true
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 3
 
 vim.cmd [[
@@ -20,9 +20,11 @@ AutoCommand("BufEnter", function()
   vim.opt.formatoptions = vim.opt.formatoptions - { "c", "r", "o" }
 end)
 
--- AutoCommand({ "BufNewFile", "BufReadPre" }, function()
---   vim.cmd [[let b:match_words = '\|:\|']]
--- end, { pattern = { "*.rs" } })
+AutoCommand({ "BufRead", "BufNewFile" }, function(_)
+  vim.cmd [[
+    syntax match urlPattern /http[s]\?:\/\/[^\s'"]\+/ contains=@NoSpell
+  ]]
+end)
 
 AutoCommand({ "BufRead", "BufNewFile" }, function(args)
   SetLocalOption(args.buf, 'tabstop', 4)

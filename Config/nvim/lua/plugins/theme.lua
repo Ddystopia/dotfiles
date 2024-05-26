@@ -84,6 +84,7 @@ local M2 = {
 
       ["@lsp.mod.constant"] = { fg = colors.purple },
       Ddystopia_static_var   = { fg = colors.purple },
+      ["@lsp.typemod.keyword.constant.rust"] = { link = "@keyword" },
 
       ["@property"] = { },
 

@@ -51,8 +51,21 @@ M.config = function()
   vim.g.skip_ts_context_commentstring_module = true
 
   require('ts_context_commentstring').setup {
-      enable = true,
-      config = { fish = "# %s", scheme = ";; %s", typst = "// %s" }
+    enable = true,
+    languages = {
+      fish = "# %s",
+      scheme = ";; %s",
+      typst = {
+        __default = "// %s",
+        comment = "// %s",
+        string = "/* %s */",
+        block = "/* %s */",
+        line = "// %s",
+        doc = "/// %s",
+        doc_block = "/** %s */",
+        doc_line = "/// %s"
+      }
+    }
   }
 
   treesitter.setup {

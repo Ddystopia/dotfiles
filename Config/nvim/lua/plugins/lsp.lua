@@ -84,11 +84,18 @@ M.config = function()
   nvim_lsp.rust_analyzer.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    -- cmd = { "ra-multiplex", "client" },
+    init_options = {
+      lspMux = {
+        version = "1",
+        method = "connect",
+        server = "rust-analyzer",
+      },
+    },
+    cmd = vim.lsp.rpc.connect("127.0.0.1", 27631),
+    -- cmd = { "rust-analyzer" },
     settings = {
       ['rust-analyzer'] = {
         cargo = {
-          -- target = "thumbv7em-none-eabihf"
         },
         -- hoverActions = { linksInHover = true },
         diagnostics = {
@@ -99,27 +106,7 @@ M.config = function()
         checkOnSave = {
           overrideCommand = {
             'cargo', 'clippy', '--workspace', '--message-format=json',
-            '--all-targets', '--all-features', '--',
-            -- '-W', 'clippy::unwrap-used',
-            -- '-W', 'clippy::use_self',
-            -- '-W', 'clippy::pedantic',
-            -- '-W', 'clippy::perf',
-            -- '-W', 'clippy::missing-assert-message',
-            --
-            -- '-A', 'clippy::module-name-repetitions',
-            -- '-A', 'clippy::default-trait-access',
-            -- '-A', 'clippy::similar-names',
-            -- '-A', 'clippy::manual-assert',
-            -- '-A', 'clippy::cast-possible-truncation',
-            -- '-A', 'clippy::cast-sign-loss',
-            -- '-A', 'clippy::cast-lossless',
-            -- '-A', 'clippy::redundant-closure-for-method-calls',
-            -- '-A', 'clippy::redundant_closure',
-            -- '-A', 'clippy::single-match-else',
-            -- '-A', 'clippy::too-many-lines',
-            -- '-A', 'clippy::cast-precision-loss',
-            -- '-A', 'clippy::match-bool',
-            -- '-A', 'clippy::cast-possible-wrap'
+            '--all-targets', '--all-features'
           }
         }
       }
@@ -241,7 +228,7 @@ M.init = function()
   Map('n', '<leader>rn', function() vim.lsp.buf.rename() end)
 
   local function open_local_docs(_, url)
-    if url == nil then
+    if url == nil or url["local"] == nil then
       print("nil")
       return
     end

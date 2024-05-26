@@ -11,7 +11,7 @@ function Format(lsp)
     markdown = prettier_query .. "--prose-wrap always",
     rust = 'cargo fmt',
     lua = 'lua-format --indent-width=4 --spaces-inside-table-braces -i --column-limit=95',
-    c = 'clang-format -stylefile -i',
+    c = 'clang-format --style="{IdentWidth: 4}" -i',
     zig = 'zig fmt',
     go = 'gofmt -w',
     python = 'black -q',

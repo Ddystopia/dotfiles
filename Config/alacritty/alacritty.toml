@@ -55,6 +55,11 @@ size = 11
 family = "Meslo LG S DZ"
 
 [[keyboard.bindings]]
+key = "N"
+mods = "Control|Alt"
+command = { program = "/home/ddystopia/bin/open_alacritty", args = [] }
+
+[[keyboard.bindings]]
 action = "Paste"
 key = "V"
 mods = "Control|Shift"
@@ -104,10 +109,10 @@ action = "IncreaseFontSize"
 key = "M"
 mods = "Alt|Control"
 
-[[keyboard.bindings]]
-action = "DecreaseFontSize"
-key = "N"
-mods = "Alt|Control"
+# [[keyboard.bindings]]
+# action = "DecreaseFontSize"
+# key = "N"
+# mods = "Alt|Control"
 
 [[keyboard.bindings]]
 action = "ResetFontSize"

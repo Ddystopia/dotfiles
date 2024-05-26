@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Read interleaved input into an array
+mapfile -t interleaved_lines
+
+# Determine the number of original lines
+len=${#interleaved_lines[@]}
+mid=$(((len + 1) / 2))
+
+# Initialize an empty array to hold the original lines
+original_lines=()
+original_lines=("${interleaved_lines[@]}") # Start with a copy to ensure we have a full array of the same size
+
+# Extract elements from the interleaved input
+for ((i=0; i<mid; i++)); do
+    # Reassign element from the first half to its original position
+    original_lines[$((2 * i))]="${interleaved_lines[i]}"
+
+    # Calculate index for the second half
+    j=$((i + mid))
+
+    # Reassign element from the second half to its original position if index is within array bounds
+    if (( j < len )); then
+        original_lines[$((2 * i + 1))]="${interleaved_lines[j]}"
+    fi
+done
+
+# Output the original array
+for line in "${original_lines[@]}"; do
+    echo "$line"
+done
+

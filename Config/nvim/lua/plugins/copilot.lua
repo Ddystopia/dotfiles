@@ -38,9 +38,10 @@ copilot.config = function()
       }
     },
     filetypes = {
-      yaml = false,
-      markdown = false,
+      yaml = true,
+      markdown = true,
       help = false,
+      config = false,
       gitcommit = false,
       gitrebase = false,
       hgcommit = false,
