@@ -43,17 +43,7 @@ M.config = function()
   capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   capabilities.offsetEncoding = { "utf-16" }
   capabilities.experimental = { localDocs = true }
-
-  -- local handler_opts = {
-  --     -- border = vim.g.float_border,
-  --     border = "rounded",
-  --     max_width = math.floor(vim.fn.winwidth(0) * vim.g.float_max_width),
-  -- };
-  --
-  -- local handlers =  {
-  --   ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, handler_opts),
-  --   ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, handler_opts),
-  -- }
+  capabilities.textDocument.completion.completionItem.snippetSupport = false
 
   local servers = {
     "zls", "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls",
