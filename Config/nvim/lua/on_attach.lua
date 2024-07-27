@@ -53,7 +53,7 @@ function OnAttach(client, bufnr)
     },
     sources = {
       { name = 'copilot' }, { name = 'path' }, { name = 'nvim_lsp' },
-      { name = 'luasnip' }
+      -- { name = 'luasnip' }
     },
     preselect = types.cmp.PreselectMode.None,
     -- completion = { autocomplete = false },
@@ -119,6 +119,6 @@ function OnAttach(client, bufnr)
 
   -- Set some keybinds conditional on server capabilities
   if client.server_capabilities.documentFormattingProvider then
-    Map("n", "<leader>hf", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>")
+    Map("n", "<leader>hf", function() vim.lsp.buf.format({ async = true }) end)
   end
 end

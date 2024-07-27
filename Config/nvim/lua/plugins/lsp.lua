@@ -265,14 +265,6 @@ M.config = function()
       completeUnimported = true
     }
   }
-
-  --[[
-  nvim_lsp.emmet_ls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    filetypes = { "html", "css", "typescriptreact", "javascriptreact" }
-  })
-  --]]
 end
 
 M.init = function()
@@ -283,12 +275,12 @@ M.init = function()
   Map('n', 'gI', function() vim.lsp.buf.implementation() end) -- lspsaga
   Map('n', 'gr', function() vim.lsp.buf.references() end)     -- lspsaga
 
-  Map('n', 'K', function() vim.lsp.buf.hover({ float = { border = 'single' }}) end)
+  Map('n', 'K', function() vim.lsp.buf.hover({ float = { border = 'single' } }) end)
   Map('n', '<F2>', function() vim.lsp.buf.rename() end)
   Map('n', '<leader>a', function() vim.lsp.buf.code_action() end)
   Map('v', '<leader>a', function() vim.lsp.buf.code_action() end)
 
-    -- Opens a popup that displays signature for the function's param under your cursor.
+  -- Opens a popup that displays signature for the function's param under your cursor.
   Map('i', '<C-k>', vim.lsp.buf.signature_help)
   -- Map('n', '<leader>D', function () vim.lsp.buf.type_definition() end)
 
@@ -328,7 +320,7 @@ M.dependencies = {
     'hrsh7th/nvim-cmp', --
     commit = "d818fd0",
     pin = true,
-  },                      --
+  }, --
   {
     'ray-x/lsp_signature.nvim',
     lazy = false,
