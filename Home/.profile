@@ -24,7 +24,7 @@ export LD="mold"
 export MANPAGER='nvim +Man!'
 export MANWIDTH=100
 
-export RUSTC_WRAPPER=/home/ddystopia/.config/cargo/bin/sccache
+# export RUSTC_WRAPPER=/home/ddystopia/.config/cargo/bin/sccache
 export CARGO_HOME="$XDG_CONFIG_HOME/cargo"
 export MOZ_HOME="$HOME/.config/mozilla"
 

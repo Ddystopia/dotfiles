@@ -44,6 +44,17 @@ M.config = function()
   capabilities.offsetEncoding = { "utf-16" }
   capabilities.experimental = { localDocs = true }
 
+  -- local handler_opts = {
+  --     -- border = vim.g.float_border,
+  --     border = "rounded",
+  --     max_width = math.floor(vim.fn.winwidth(0) * vim.g.float_max_width),
+  -- };
+  --
+  -- local handlers =  {
+  --   ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, handler_opts),
+  --   ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, handler_opts),
+  -- }
+
   local servers = {
     "zls", "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls",
     "html", "r_language_server" -- "cmake", "vuels", "vimls",
@@ -96,6 +107,27 @@ M.config = function()
     settings = {
       ['rust-analyzer'] = {
         cargo = {
+          extraEnv = {
+            THREADX_ENV = "/home/ddystopia/job/fw-micrortu/rust/load_env/threadx.env",
+            RA_BSP_ENV = "/home/ddystopia/job/fw-micrortu/rust/ra_bsp.env",
+            DEP_LV_CONFIG_PATH = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/include/",
+            LVGL_FONTS_DIR = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/fonts/",
+          }
+        },
+        completions = {
+          limit = 20,
+        },
+        hover = {
+          memoryLayout = {
+            niches = true
+          },
+          show = {
+            fields = 20,
+            traitAssocItems = 10,
+          },
+        },
+        lru = {
+          capacity = 512,
         },
         -- hoverActions = { linksInHover = true },
         diagnostics = {
@@ -103,12 +135,17 @@ M.config = function()
           -- disabled = { "inactive-code" },
           enableExperimental = false
         },
+        typing = {
+          autoClosingAngleBrackets = {
+            enable = true,
+          }
+        },
         checkOnSave = {
           overrideCommand = {
             'cargo', 'clippy', '--workspace', '--message-format=json',
-            '--all-targets', '--all-features'
+            '--all-targets', -- '--all-features'
           }
-        }
+        },
       }
     }
   }
@@ -140,6 +177,47 @@ M.config = function()
       },
       client = { snippetSupport = true }
     }
+  }
+
+  nvim_lsp.gopls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    -- handler = handlers,
+    settings = {
+      gopls = {
+        gofumpt = true,
+        codelenses = {
+          gc_details = false,
+          generate = true,
+          regenerate_cgo = true,
+          run_govulncheck = true,
+          test = true,
+          tidy = true,
+          upgrade_dependency = true,
+          vendor = true,
+        },
+        hints = {
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          compositeLiteralTypes = true,
+          constantValues = true,
+          functionTypeParameters = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
+        analyses = {
+          nilness = true,
+          unusedparams = true,
+          unusedwrite = true,
+          useany = true,
+        },
+        usePlaceholders = true,
+        completeUnimported = true,
+        staticcheck = true,
+        directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+        semanticTokens = true,
+      },
+    },
   }
 
   nvim_lsp.texlab.setup {
@@ -215,10 +293,13 @@ M.init = function()
   Map('n', 'gI', function() vim.lsp.buf.implementation() end) -- lspsaga
   Map('n', 'gr', function() vim.lsp.buf.references() end)     -- lspsaga
 
-  Map('n', 'K', function() vim.lsp.buf.hover() end)
+  Map('n', 'K', function() vim.lsp.buf.hover({ float = { border = 'single' }}) end)
   Map('n', '<F2>', function() vim.lsp.buf.rename() end)
   Map('n', '<leader>a', function() vim.lsp.buf.code_action() end)
   Map('v', '<leader>a', function() vim.lsp.buf.code_action() end)
+
+    -- Opens a popup that displays signature for the function's param under your cursor.
+  Map('i', '<C-k>', vim.lsp.buf.signature_help)
   -- Map('n', '<leader>D', function () vim.lsp.buf.type_definition() end)
 
   Map('n', '<leader>e', function() vim.diagnostic.open_float() end)
@@ -253,7 +334,15 @@ M.init = function()
   -- Map('n', '<A-k>', function () vim.lsp.buf.signature_help() end)
 end
 M.dependencies = {
-  'hrsh7th/nvim-cmp',     --
+  {
+    'hrsh7th/nvim-cmp', --
+    commit = "d818fd0",
+    pin = true,
+  },                      --
+  {
+    'ray-x/lsp_signature.nvim',
+    lazy = false,
+  },
   'hrsh7th/cmp-path',     --
   'hrsh7th/cmp-nvim-lsp', --
   'onsails/lspkind-nvim', --

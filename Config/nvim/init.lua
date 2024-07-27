@@ -1,6 +1,7 @@
 require "opts"
 require "maps"
 require "utils"
+require "on_attach"
 require "plugins"
 require "plugins/lsp"
 require "plugins/copilot"

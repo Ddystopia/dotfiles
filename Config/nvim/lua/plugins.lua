@@ -1,5 +1,47 @@
 local M = {
   {
+    'hrsh7th/cmp-cmdline',
+    lazy = false,
+    config = function()
+      local cmp = require('cmp')
+
+      -- `/` cmdline setup.
+      cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
+        }
+      })
+      -- `:` cmdline setup.
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          {
+            name = 'cmdline',
+            option = {
+              ignore_cmds = { 'Man' }
+            }
+          }
+        })
+      })
+    end
+
+  },
+  {
+    'hrsh7th/cmp-buffer',
+    lazy = false,
+    config = function()
+      require('cmp').setup({
+        sources = {
+          { name = 'buffer' },
+        },
+      })
+    end
+
+  },
+  {
     'whonore/Coqtail',
     ft = { "coq" },
     config = function()
@@ -28,6 +70,7 @@ local M = {
   {
     'gelguy/wilder.nvim',
     lazy = false,
+    enabled = false,
     dependencies = {
       'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons'
       -- 'liuchengxu/vim-clap'
@@ -226,11 +269,11 @@ local M = {
       autopairs.add_rules {
         Rule(".", ".", "rust"):with_pair(function() return false end),
         Rule("/", "/", "rust"):with_pair(function() return false end),
-        Rule("|", "|", "rust")
-            :with_pair(cond.not_before_regex("~", 1))
-            :with_pair(cond.not_before_regex("%a%s*$", 5))
-            :with_pair(ts_cond.is_not_ts_node({ "match_arm" }))
-            :with_move(function(opts) return opts.char == "|" end),
+        -- Rule("|", "|", "rust")
+        --     :with_pair(cond.not_before_regex("~", 1))
+        --     :with_pair(cond.not_before_regex("%a%s*$", 5))
+        --     :with_pair(ts_cond.is_not_ts_node({ "match_arm" }))
+        --     :with_move(function(opts) return opts.char == "|" end),
         Rule("<", ">", { "rust", "typescript" })
             :with_pair(cond.not_before_regex("%d%s*$", 5))
             :with_pair(cond.not_before_regex("%a%s", 2))
@@ -291,8 +334,6 @@ local M = {
 
       vim.g.vimtex_compiler_method = 'latexrun'
       vim.g.vimtex_syntax_enabled = 0
-
-      vim.g.maplocalleader = ","
     end
   }, --
   --[[

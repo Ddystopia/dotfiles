@@ -12,6 +12,18 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 3
 
+vim.g.float_max_height = 0.96
+vim.g.float_max_width = 0.96
+
+vim.g.float_border = "single"
+
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or vim.g.float_border
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
 vim.cmd [[
 vnoremap <silent> @ :<C-u>execute "'<,'>" . 'normal! @' . getcharstr()<CR>
 ]]
@@ -70,7 +82,7 @@ vim.opt.wrap = false
 vim.opt.showmode = false
 vim.opt.signcolumn = 'no'
 vim.opt.cursorline = true
-vim.opt.cmdheight = 0
+-- vim.opt.cmdheight = 0 -- breaks cmdline
 vim.opt.colorcolumn = "81,101"
 
 vim.opt.list = true
@@ -81,6 +93,7 @@ vim.opt.termguicolors = true
 vim.g.vimsyn_embed = 'l'
 
 vim.mapleader = ' '
+vim.g.maplocalleader = ' '
 vim.g.mapleader = ' '
 
 vim.opt.guifont = "droidsansmono nerd font 11"
@@ -97,6 +110,7 @@ vim.opt.undofile = true
 
 vim.filetype.add({
   extension = {
+    tyml = "vue",
     typ = "typst",
     zsh = "sh",
     fish = "fish",

@@ -83,10 +83,10 @@ local M2 = {
       TSRainbowCyan         = { fg = "#88c0d0" }, -- termbg=#afd7ff
 
       ["@lsp.mod.constant"] = { fg = colors.purple },
+      ["@storageclass"] = { link = "@keyword" },
       Ddystopia_static_var   = { fg = colors.purple },
       ["@lsp.typemod.keyword.constant.rust"] = { link = "@keyword" },
-
-      ["@property"] = { },
+      ["@property"] = { link = "@parameter" },
 
       ["@lsp.type.macro"]                      = { link = "@function"},
       ["@field.lua"]                           = { link = "@property" },
