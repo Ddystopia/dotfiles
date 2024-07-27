@@ -101,7 +101,7 @@ vim.opt.guifont = "droidsansmono nerd font 11"
 vim.g.netrw_fastbrowse = 0
 vim.g.netrw_browsex_viewer = os.getenv("BROWSER") or "qutebrowser"
 
-local undodir = os.getenv("HOME") .. "/.local/cache/nvim/undodir"
+local undodir = vim.fn.stdpath("cache") .. "/undodir"
 if vim.fn.isdirectory(undodir) == 0 then
   vim.fn.mkdir(undodir, "p", 0700)
 end

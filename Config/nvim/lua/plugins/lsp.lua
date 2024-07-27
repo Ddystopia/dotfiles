@@ -167,7 +167,7 @@ M.config = function()
     init_options = {
       compilationDatabaseDirectory = "build",
       index = { threads = 0 },
-      cache = { directory = os.getenv("XDG_CACHE_HOME") .. "/ccls" },
+      cache = { directory = vim.fn.stdpath('cache') .. "/ccls" },
       clang = {
         extraArgs = {
           "-std=c++23", "-Wall", "-Wextra", "-Wno-logical-op-parentheses"
