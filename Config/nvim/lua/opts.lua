@@ -47,6 +47,12 @@ end, {
 })
 
 AutoCommand({ "BufRead", "BufNewFile" }, function(args)
+  SetLocalOption(args.buf, 'expandtab', false)
+end, {
+  pattern = { "*.go" }
+})
+
+AutoCommand({ "BufRead", "BufNewFile" }, function(args)
   SetLocalOption(args.buf, 'tabstop', 2)
   SetLocalOption(args.buf, 'softtabstop', 2)
   SetLocalOption(args.buf, 'shiftwidth', 2)

@@ -1,5 +1,14 @@
-function OnAttach(client, bufnr)
-  -- client.server_capabilities.semanticTokensProvider = nil
+--- comment
+--- @param specific function
+--- @return function
+function OnAttach(specific)
+  return function(client, bufnr)
+    OnAttachCommon(client, bufnr)
+    specific(client, bufnr)
+  end
+end
+
+function OnAttachCommon(client, bufnr)
   local lspkind = require('lspkind')
   local luasnip = require('luasnip')
   -- Set completeopt to have a better completion experience
@@ -53,7 +62,6 @@ function OnAttach(client, bufnr)
     },
     sources = {
       { name = 'copilot' }, { name = 'path' }, { name = 'nvim_lsp' },
-      -- { name = 'luasnip' }
     },
     preselect = types.cmp.PreselectMode.None,
     -- completion = { autocomplete = false },
@@ -67,12 +75,8 @@ function OnAttach(client, bufnr)
       })
     },
     mapping = {
-      ['<C-p>'] = function()
-        cmp.select_prev_item()
-      end,
-      ['<C-n>'] = function()
-        cmp.select_next_item()
-      end,
+      ['<C-p>'] = function() cmp.select_prev_item() end,
+      ['<C-n>'] = function() cmp.select_next_item() end,
       ['<C-d>'] = cmp.mapping.scroll_docs(-4),
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-e>'] = cmp.mapping.close(),

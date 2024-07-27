@@ -5,13 +5,14 @@ function Format(lsp)
   if lsp == nil then lsp = true end
 
   local prettier_query = 'prettier -w --loglevel error '
+  local ident_width = vim.bo.shiftwidth
 
   -- prettier args = { '', '--stdin-filepath', '"%:p"' },
   local formatCmds = {
     markdown = prettier_query .. "--prose-wrap always",
     rust = 'cargo fmt',
-    lua = 'lua-format --indent-width=4 --spaces-inside-table-braces -i --column-limit=95',
-    c = 'clang-format --style="{IdentWidth: 4}" -i',
+    lua = 'lua-format --ident_width=' .. ident_width .. ' --spaces-inside-table-braces -i --column-limit=95',
+    c = 'clang-format --style="{IdentWidth: ' .. ident_width .. '}" -i',
     zig = 'zig fmt',
     go = 'gofmt -w',
     python = 'black -q',

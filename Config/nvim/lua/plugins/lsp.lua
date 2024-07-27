@@ -9,7 +9,7 @@ local M = {
 M.config = function()
   local nvim_lsp = require('lspconfig')
   local luasnip = require('luasnip')
-  local on_attach = OnAttach
+  local on_attach = OnAttachCommon
   local root_pattern = nvim_lsp.util.root_pattern
 
   require("luasnip.loaders.from_snipmate").lazy_load(
@@ -39,11 +39,16 @@ M.config = function()
       default_config = {}
     }
   end
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-  capabilities.offsetEncoding = { "utf-16" }
-  capabilities.experimental = { localDocs = true }
-  capabilities.textDocument.completion.completionItem.snippetSupport = false
+  local function default_capabilities()
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+    -- todo: is it clang or ccls?
+    capabilities.offsetEncoding = { "utf-16" }
+    capabilities.textDocument.completion.completionItem.snippetSupport = false
+    return capabilities
+  end
+
+  local capabilities = default_capabilities()
 
   local servers = {
     "zls", "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls",
@@ -68,23 +73,17 @@ M.config = function()
     }
   }
 
-  -- nvim_lsp.flake8.setup {
-  --   on_attach = on_attach,
-  --   capabilities = capabilities,
-  --   settings = {
-  --     -- flake8 = {
-  --     --   ignore = { "E501", "E402", "E203", "E231", "E128", "E124", "E127" },
-  --     --   max_line_length = 120
-  --     -- }
-  --   }
-  -- }
-
-  -- vim.g.rust_recommended_style = 0;
   vim.g.rust_recommended_style = 1;
 
   nvim_lsp.rust_analyzer.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
+    on_attach = OnAttach(function ()
+    end),
+    capabilities = (function()
+      local fresh = default_capabilities();
+      fresh.textDocument.completion.completionItem.snippetSupport = true
+      fresh.experimental = { localDocs = true }
+      return fresh;
+    end)(),
     init_options = {
       lspMux = {
         version = "1",
@@ -106,6 +105,12 @@ M.config = function()
         },
         completions = {
           limit = 20,
+          termSearch = {
+            enable = true,
+          },
+          postfix = {
+            enable = false,
+          }
         },
         hover = {
           memoryLayout = {
