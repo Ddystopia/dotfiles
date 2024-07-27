@@ -68,56 +68,6 @@ local M = {
     end
   },
   {
-    'gelguy/wilder.nvim',
-    lazy = false,
-    enabled = false,
-    dependencies = {
-      'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons'
-      -- 'liuchengxu/vim-clap'
-    },
-    build = function() vim.cmd [[ UpdateRemotePlugins ]] end,
-    config = function()
-      local wilder = require('wilder')
-      wilder.setup({ modes = { ':', '/', '?' } })
-
-      wilder.set_option('pipeline', {
-        wilder.branch(wilder.python_file_finder_pipeline({
-          file_command = function(_, arg)
-            if arg ~= nil and arg[0] == '.' then
-              return { 'fd', '-tf', '-H' }
-            end
-            return { 'fd', '-tf' } -- fd -tf -I
-          end,
-          dir_command = function(_, arg)
-            if arg ~= nil and arg[0] == '.' then
-              return { 'fd', '-td', '-H' }
-            end
-            return { 'fd', '-td' }
-          end,
-          -- filters = { 'fuzzy_filter', 'difflib_sorter' },
-          -- filters = { 'clap_filter' },
-          path = function()
-            local filename = vim.api.nvim_buf_get_name(0)
-            return RootPattern(".git", ".project_root", "LICENSE", "Cargo.toml",
-                  "package.json", "init.lua", "README.md")(filename) or
-                vim.loop.os_homedir()
-          end
-        }), wilder.cmdline_pipeline(), wilder.python_search_pipeline())
-      })
-
-      wilder.set_option('renderer', wilder.renderer_mux({
-        [':'] = wilder.popupmenu_renderer({
-          highlighter = wilder.lua_fzy_highlighter(),
-          left = { ' ', wilder.popupmenu_devicons() },
-          right = { ' ', wilder.popupmenu_scrollbar() }
-        }),
-        ['/'] = wilder.wildmenu_renderer({
-          highlighter = wilder.lua_fzy_highlighter()
-        })
-      }))
-    end
-  }, --
-  {
     -- bar at the top
     'akinsho/nvim-bufferline.lua',
     lazy = false,
@@ -358,6 +308,56 @@ local M = {
 
 
   --]]
+  {
+    'gelguy/wilder.nvim',
+    lazy = false,
+    enabled = false,
+    dependencies = {
+      'romgrk/fzy-lua-native', 'kyazdani42/nvim-web-devicons'
+      -- 'liuchengxu/vim-clap'
+    },
+    build = function() vim.cmd [[ UpdateRemotePlugins ]] end,
+    config = function()
+      local wilder = require('wilder')
+      wilder.setup({ modes = { ':', '/', '?' } })
+
+      wilder.set_option('pipeline', {
+        wilder.branch(wilder.python_file_finder_pipeline({
+          file_command = function(_, arg)
+            if arg ~= nil and arg[0] == '.' then
+              return { 'fd', '-tf', '-H' }
+            end
+            return { 'fd', '-tf' } -- fd -tf -I
+          end,
+          dir_command = function(_, arg)
+            if arg ~= nil and arg[0] == '.' then
+              return { 'fd', '-td', '-H' }
+            end
+            return { 'fd', '-td' }
+          end,
+          -- filters = { 'fuzzy_filter', 'difflib_sorter' },
+          -- filters = { 'clap_filter' },
+          path = function()
+            local filename = vim.api.nvim_buf_get_name(0)
+            return RootPattern(".git", ".project_root", "LICENSE", "Cargo.toml",
+                  "package.json", "init.lua", "README.md")(filename) or
+                vim.loop.os_homedir()
+          end
+        }), wilder.cmdline_pipeline(), wilder.python_search_pipeline())
+      })
+
+      wilder.set_option('renderer', wilder.renderer_mux({
+        [':'] = wilder.popupmenu_renderer({
+          highlighter = wilder.lua_fzy_highlighter(),
+          left = { ' ', wilder.popupmenu_devicons() },
+          right = { ' ', wilder.popupmenu_scrollbar() }
+        }),
+        ['/'] = wilder.wildmenu_renderer({
+          highlighter = wilder.lua_fzy_highlighter()
+        })
+      }))
+    end
+  }, --
   {
     "folke/todo-comments.nvim",
     dependencies = "nvim-lua/plenary.nvim",

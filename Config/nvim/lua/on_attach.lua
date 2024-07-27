@@ -43,6 +43,11 @@ function OnAttach(client, bufnr)
         compare.length,
       }
     },
+    window = {
+      documentation = {
+        border = vim.g.float_border,
+      }
+    },
     snippet = {
       expand = function(args) require('luasnip').lsp_expand(args.body) end
     },
@@ -51,6 +56,16 @@ function OnAttach(client, bufnr)
       { name = 'luasnip' }
     },
     preselect = types.cmp.PreselectMode.None,
+    -- completion = { autocomplete = false },
+    formatting = {
+      format = lspkind.cmp_format({
+        mode = 'symbol',       -- show only symbol annotations
+        maxwidth = 30,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+        before = function(_, vim_item) return vim_item end,
+        symbol_map = { Copilot = "" }
+      })
+    },
     mapping = {
       ['<C-p>'] = function()
         cmp.select_prev_item()
@@ -98,16 +113,6 @@ function OnAttach(client, bufnr)
         end
       end
     },
-    -- completion = { autocomplete = false },
-    formatting = {
-      format = lspkind.cmp_format({
-        mode = 'symbol',       -- show only symbol annotations
-        maxwidth = 30,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-        ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-        before = function(_, vim_item) return vim_item end,
-        symbol_map = { Copilot = "" }
-      })
-    }
   }
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
