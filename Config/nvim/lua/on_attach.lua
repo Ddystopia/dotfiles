@@ -44,12 +44,30 @@ function OnAttachCommon(client, bufnr)
     sorting = {
       priority_weight = 2,
       comparators = {
+        function(e1, e2)
+          local e1_has = e1 and e1.completion_item and e1.completion_item.data and e1.completion_item.data.imports and
+          #e1.completion_item.data.imports > 0
+          local e2_has = e2 and e2.completion_item and e2.completion_item.data and e2.completion_item.data.imports and
+          #e2.completion_item.data.imports > 0
+
+          if e1_has and not e2_has then
+            return false
+          elseif not e1_has and e2_has then
+            return true
+          end
+
+          return nil
+        end,
         require('copilot_cmp.comparators').prioritize,
-        compare.order,
+        require('copilot_cmp.comparators').score,
+        compare.recently_used,
+        compare.locality,
+        compare.scopes,
         compare.exact,
-        compare.offset,
         compare.sort_text,
+        compare.offset,
         compare.length,
+        compare.order,
       }
     },
     window = {
