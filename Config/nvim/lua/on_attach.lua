@@ -9,6 +9,16 @@ function OnAttach(specific)
 end
 
 function OnAttachCommon(client, bufnr)
+  require "lsp_signature".on_attach({
+    bind = true,
+    hint_enable = false,
+    fix_pos = true,
+    doc_lines = 20,
+    handler_opts = {
+      border = vim.g.float_border,
+    }
+  }, bufnr);
+
   local lspkind = require('lspkind')
   local luasnip = require('luasnip')
   -- Set completeopt to have a better completion experience
@@ -29,15 +39,76 @@ function OnAttachCommon(client, bufnr)
   local compare = cmp.config.compare
   local types = require('cmp.types')
 
-  require "lsp_signature".on_attach({
-    bind = true,
-    hint_enable = false,
-    fix_pos = true,
-    doc_lines = 20,
-    handler_opts = {
-      border = vim.g.float_border,
-    }
-  }, bufnr);
+  local try_confirm_with_fallback = function(char)
+    return function(fallback)
+      if cmp.visible() and cmp.get_selected_entry() ~= nil then
+        cmp.confirm()
+
+        vim.defer_fn(function()
+          local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+          local line = vim.api.nvim_get_current_line()
+          local new_line = line:sub(1, col) .. char .. line:sub(col + 1)
+          vim.api.nvim_set_current_line(new_line)
+          vim.api.nvim_win_set_cursor(0, { row, col + 1 })
+        end, 0)
+      end
+
+      fallback()
+    end
+  end
+
+  local mapping = {
+    ['<C-p>'] = function() cmp.select_prev_item() end,
+    ['<C-n>'] = function() cmp.select_next_item() end,
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = function(fallback)
+      if cmp.visible() and cmp.get_selected_entry() ~= nil then
+        cmp.confirm()
+      else
+        fallback()
+      end
+    end,
+    ['<C-space>'] = function()
+      if cmp.visible() then
+        cmp.confirm()
+      else
+        cmp.complete()
+      end
+    end,
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() and not luasnip.in_snippet() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_locally_jumpable() then
+        luasnip.expand_or_jump()
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() and not luasnip.in_snippet() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      elseif has_words_before() then
+        cmp.complete()
+      else
+        fallback()
+      end
+    end
+  };
+
+  for i = 32, 126 do
+    mapping[string.char(i)] = try_confirm_with_fallback(string.char(i))
+  end
+
+  -- Get writable Cyrillic characters
+  -- for i = 0x400, 0x4FF do
+  --   mapping[utf8.char(i)] = try_confirm_with_fallback
+  -- end
 
   cmp.setup {
     experimental = { ghost_text = true },
@@ -46,9 +117,9 @@ function OnAttachCommon(client, bufnr)
       comparators = {
         function(e1, e2)
           local e1_has = e1 and e1.completion_item and e1.completion_item.data and e1.completion_item.data.imports and
-          #e1.completion_item.data.imports > 0
+              #e1.completion_item.data.imports > 0
           local e2_has = e2 and e2.completion_item and e2.completion_item.data and e2.completion_item.data.imports and
-          #e2.completion_item.data.imports > 0
+              #e2.completion_item.data.imports > 0
 
           if e1_has and not e2_has then
             return false
@@ -92,49 +163,7 @@ function OnAttachCommon(client, bufnr)
         symbol_map = { Copilot = "" }
       })
     },
-    mapping = {
-      ['<C-p>'] = function() cmp.select_prev_item() end,
-      ['<C-n>'] = function() cmp.select_next_item() end,
-      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-e>'] = cmp.mapping.close(),
-      ['<CR>'] = function(fallback)
-        if cmp.visible() and cmp.get_selected_entry() ~= nil then
-          cmp.confirm()
-        else
-          fallback()
-        end
-      end,
-      ['<C-space>'] = function()
-        if cmp.visible() then
-          cmp.confirm()
-        else
-          cmp.complete()
-        end
-      end,
-      ['<Tab>'] = function(fallback)
-        if cmp.visible() and not luasnip.in_snippet() then
-          cmp.select_next_item()
-        elseif luasnip.expand_or_locally_jumpable() then
-          luasnip.expand_or_jump()
-        elseif has_words_before() then
-          cmp.complete()
-        else
-          fallback()
-        end
-      end,
-      ['<S-Tab>'] = function(fallback)
-        if cmp.visible() and not luasnip.in_snippet() then
-          cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        elseif has_words_before() then
-          cmp.complete()
-        else
-          fallback()
-        end
-      end
-    },
+    mapping = mapping,
   }
 
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
