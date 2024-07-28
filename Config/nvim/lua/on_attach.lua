@@ -44,7 +44,7 @@ function OnAttachCommon(client, bufnr)
       if cmp.visible() and cmp.get_selected_entry() ~= nil then
         cmp.confirm()
 
-        vim.defer_fn(function()
+       vim.defer_fn(function()
           local row, col = unpack(vim.api.nvim_win_get_cursor(0))
           local line = vim.api.nvim_get_current_line()
           local new_line = line:sub(1, col) .. char .. line:sub(col + 1)
@@ -68,13 +68,6 @@ function OnAttachCommon(client, bufnr)
         cmp.confirm()
       else
         fallback()
-      end
-    end,
-    ['<C-space>'] = function()
-      if cmp.visible() then
-        cmp.confirm()
-      else
-        cmp.complete()
       end
     end,
     ['<Tab>'] = function(fallback)
@@ -101,13 +94,13 @@ function OnAttachCommon(client, bufnr)
     end
   };
 
-  for i = 32, 126 do
-    mapping[string.char(i)] = try_confirm_with_fallback(string.char(i))
-  end
+  mapping[':'] = try_confirm_with_fallback(':')
+  mapping['('] = try_confirm_with_fallback('(')
+  mapping[' '] = try_confirm_with_fallback(' ')
 
-  -- Get writable Cyrillic characters
-  -- for i = 0x400, 0x4FF do
-  --   mapping[utf8.char(i)] = try_confirm_with_fallback
+  -- slow
+  -- for i = 32, 126 do
+  --   mapping[string.char(i)] = try_confirm_with_fallback(string.char(i))
   -- end
 
   cmp.setup {
@@ -131,9 +124,9 @@ function OnAttachCommon(client, bufnr)
         end,
         require('copilot_cmp.comparators').prioritize,
         require('copilot_cmp.comparators').score,
-        compare.recently_used,
-        compare.locality,
-        compare.scopes,
+        -- compare.recently_used,
+        -- compare.locality,
+        -- compare.scopes,
         compare.exact,
         compare.sort_text,
         compare.offset,
