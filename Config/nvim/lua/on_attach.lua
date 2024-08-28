@@ -9,15 +9,17 @@ function OnAttach(specific)
 end
 
 function OnAttachCommon(client, bufnr)
-  require "lsp_signature".on_attach({
-    bind = true,
-    hint_enable = false,
-    fix_pos = true,
-    doc_lines = 20,
-    handler_opts = {
-      border = vim.g.float_border,
-    }
-  }, bufnr);
+  --[[
+    require "lsp_signature".on_attach({
+      bind = true,
+      hint_enable = false,
+      fix_pos = true,
+      doc_lines = 20,
+      handler_opts = {
+        border = vim.g.float_border,
+      }
+    }, bufnr);
+  --]]
 
   local lspkind = require('lspkind')
   local luasnip = require('luasnip')
@@ -95,13 +97,6 @@ function OnAttachCommon(client, bufnr)
   };
 
   mapping[':'] = try_confirm_with_fallback(':')
-  mapping['('] = try_confirm_with_fallback('(')
-  mapping[' '] = try_confirm_with_fallback(' ')
-
-  -- slow
-  -- for i = 32, 126 do
-  --   mapping[string.char(i)] = try_confirm_with_fallback(string.char(i))
-  -- end
 
   cmp.setup {
     experimental = { ghost_text = true },

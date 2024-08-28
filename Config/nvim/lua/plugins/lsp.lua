@@ -12,8 +12,8 @@ M.config = function()
   local on_attach = OnAttachCommon
   local root_pattern = nvim_lsp.util.root_pattern
 
-  require("luasnip.loaders.from_snipmate").lazy_load(
-    { paths = { "./snippets" } })
+  -- require("luasnip.loaders.from_snipmate").lazy_load(
+  --   { paths = { "./snippets" } })
 
   -- TODO: verify does it solves bug with random jumps on tab
   luasnip.config.set_config({
@@ -76,11 +76,10 @@ M.config = function()
   vim.g.rust_recommended_style = 1;
 
   nvim_lsp.rust_analyzer.setup {
-    on_attach = OnAttach(function ()
-    end),
+    on_attach = on_attach,
     capabilities = (function()
       local fresh = default_capabilities();
-      fresh.textDocument.completion.completionItem.snippetSupport = true
+      -- fresh.textDocument.completion.completionItem.snippetSupport = true
       fresh.experimental = { localDocs = true }
       return fresh;
     end)(),
@@ -91,8 +90,8 @@ M.config = function()
         server = "rust-analyzer",
       },
     },
-    cmd = vim.lsp.rpc.connect("127.0.0.1", 27631),
-    -- cmd = { "rust-analyzer" },
+    -- cmd = vim.lsp.rpc.connect("127.0.0.1", 27631),
+    cmd = { "rust-analyzer" },
     settings = {
       ['rust-analyzer'] = {
         cargo = {
@@ -103,7 +102,7 @@ M.config = function()
             LVGL_FONTS_DIR = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/fonts/",
           }
         },
-        completions = {
+        completion = {
           limit = 20,
           termSearch = {
             enable = true,
@@ -121,9 +120,9 @@ M.config = function()
             traitAssocItems = 10,
           },
         },
-        lru = {
-          capacity = 512,
-        },
+        -- lru = {
+        --   capacity = 512,
+        -- },
         -- hoverActions = { linksInHover = true },
         diagnostics = {
           enable = true,
@@ -135,12 +134,13 @@ M.config = function()
             enable = true,
           }
         },
-        checkOnSave = {
-          overrideCommand = {
-            'cargo', 'clippy', '--workspace', '--message-format=json',
-            '--all-targets', -- '--all-features'
-          }
-        },
+        checkOnSave = false,
+        -- checkOnSave = {
+        --   overrideCommand = {
+        --     'cargo', 'clippy', '--workspace', '--message-format=json',
+        --     '--all-targets', -- '--all-features'
+        --   }
+        -- },
       }
     }
   }
@@ -328,6 +328,7 @@ M.dependencies = {
   }, --
   {
     'ray-x/lsp_signature.nvim',
+    enabled = false,
     lazy = false,
   },
   'hrsh7th/cmp-path',     --

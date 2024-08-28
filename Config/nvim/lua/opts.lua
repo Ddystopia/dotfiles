@@ -67,7 +67,8 @@ AutoCommand({ "BufReadPost", "BufNewFile", "BufEnter" }, DisableSyntaxOnLargeFil
 
 
 vim.opt.fileencoding = 'utf-8'
-vim.opt.updatetime = 750
+-- vim.opt.updatetime = 750
+vim.opt.updatetime = 4000
 
 vim.opt.ignorecase = true
 vim.opt.smartcase = true

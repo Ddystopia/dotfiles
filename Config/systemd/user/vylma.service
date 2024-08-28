@@ -1,0 +1,12 @@
+[Unit]
+Description=Vylma Service
+After=network.target vylma.socket
+Requires=vylma.socket
+
+[Service]
+Type=simple
+ExecStart=/home/ddystopia/job/vylma/target/debug/vylma systemd://vylma_socket
+TimeoutStopSec=5
+
+[Install]
+WantedBy=default.target

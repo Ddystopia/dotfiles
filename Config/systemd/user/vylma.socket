@@ -1,0 +1,10 @@
+[Unit]
+Description=Vylma Socket
+PartOf=vylma.service
+
+[Socket]
+ListenStream=127.0.0.1:8085
+FileDescriptorName=vylma_socket
+
+[Install]
+WantedBy=sockets.target
