@@ -38,6 +38,12 @@ vim.api.nvim_create_autocmd("LspTokenUpdate", {
   end,
 })
 
+vim.cmd [[
+  syn region    rustString      matchgroup=rustStringDelimiter start=+c"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeError,rustStringContinuation
+  syn region    rustString      matchgroup=rustStringDelimiter start='c\?r\z(#*\)"' end='"\z1' contains=@Spell
+  syn keyword   @keyword.operator    as
+  syn keyword   @keyword.function    fn
+]]
 
 local M2 = {
   "Mofiqul/dracula.nvim",
@@ -58,37 +64,82 @@ local M2 = {
       end
       return nil
     end
+
     local overrides = {
-      CoqtailChecked        = { bg = "#333444" },
-      CoqtailSent           = { bg = "#3B4423" },
-      CoqVernacCmd          = { link = "@function" },
-      CoqKwd                = { link = "@keyword" },
+      CoqtailChecked  = { bg = "#333444" },
+      CoqtailSent     = { bg = "#3B4423" },
+      CoqVernacCmd    = { link = "@function" },
+      CoqKwd          = { link = "@keyword" },
 
-      CursorLine            = { bg = "#21222C" },
-      CursorLineNr          = { fg = "#F1FA8C", bg = "#21222C" },
+      CursorLine      = { bg = "#21222C" },
+      CursorLineNr    = { fg = "#F1FA8C", bg = "#21222C" },
 
-      IndentLine            = { fg = "#44475a" },
+      IndentLine      = { fg = "#44475a" },
 
-      DiagnosticError       = { fg = "#db4b4b" },
-      DiagnosticWarn        = { fg = "#e0af68" },
-      DiagnosticInfo        = { fg = "#0db9d7" },
-      DiagnosticHint        = { fg = "#10B981" },
+      UndotreeTimeStamp = { fg = colors.yellow },
 
-      TSRainbowRed          = { fg = "#bf616a" }, -- termbg=#af5f5f
-      TSRainbowYellow       = { fg = "#ffd700" }, -- termbg=#ffd700
-      TSRainbowBlue         = { fg = "#88c0d0" }, -- termbg=#afd7ff
-      TSRainbowOrange       = { fg = "#ebcb8b" }, -- termbg=#d7af87
-      TSRainbowGreen        = { fg = "#a3de3c" }, -- termbg=#afff00
-      TSRainbowViolet       = { fg = "#b48ead" }, -- termbg=#d7afdf
-      TSRainbowCyan         = { fg = "#88c0d0" }, -- termbg=#afd7ff
+      DiagnosticError = { fg = "#db4b4b" },
+      DiagnosticWarn  = { fg = "#e0af68" },
+      DiagnosticInfo  = { fg = "#0db9d7" },
+      DiagnosticHint  = { fg = "#10B981" },
 
-      ["@lsp.mod.constant"] = { fg = colors.purple },
-      ["@storageclass"] = { link = "@keyword" },
-      Ddystopia_static_var   = { fg = colors.purple },
-      ["@lsp.typemod.keyword.constant.rust"] = { link = "@keyword" },
-      ["@property"] = { link = "@parameter" },
+      TSRainbowRed    = { fg = "#bf616a" }, -- termbg=#af5f5f
+      TSRainbowYellow = { fg = "#ffd700" }, -- termbg=#ffd700
+      TSRainbowBlue   = { fg = "#88c0d0" }, -- termbg=#afd7ff
+      TSRainbowOrange = { fg = "#ebcb8b" }, -- termbg=#d7af87
+      TSRainbowGreen  = { fg = "#a3de3c" }, -- termbg=#afff00
+      TSRainbowViolet = { fg = "#b48ead" }, -- termbg=#d7afdf
+      TSRainbowCyan   = { fg = "#88c0d0" }, -- termbg=#afd7ff
 
-      ["@lsp.type.macro"]                      = { link = "@function"},
+
+      ["Boolean"]        = { link = "@boolean" },
+      ["Character"]      = { link = "@character" },
+      ["Conditional"]    = { link = "@conditional" },
+      ["Constant"]       = { link = "@constant" },
+      ["Error"]          = { link = "@error" },
+      ["Exception"]      = { link = "@exception" },
+      ["Float"]          = { link = "@float" },
+      ["Function"]       = { link = "@function" },
+      ["Identifier"]     = { link = "@identifier" },
+      ["Keyword"]        = { link = "@keyword" },
+      ["Label"]          = { link = "@label" },
+      ["Number"]         = { link = "@number" },
+      ["Operator"]       = { link = "@operator" },
+      ["String"]         = { link = "@string" },
+      ["Type"]           = { link = "@type" },
+
+
+      ["@storageclass"]                    = { link = "@keyword" },
+      Ddystopia_static_var                 = { fg = colors.purple },
+      ["@property"]                        = { link = "@parameter" },
+
+      ["rustLifetime"]                     = { link = "@keyword" },
+      ["rustAttributeParenthesizedParens"] = { link = "@punctuation.bracket.rust" },
+      ["rustDecNumber"]                    = { link = "@number.rust" },
+      ["rustAttribute"]                    = { link = "@punctuation.special.rust" },
+      ["rustArrowCharacter"]               = { fg = colors.fg },
+      ["rustSelf"]                         = { link = "@variable.builtin" },
+      ["rustModPath"]                      = { link = "@namespace" },
+      ["rustEnumVariant"]                  = { link = "@enumMember" },
+      ["rustQuestionMark"]                 = { link = "@operator" },
+
+
+      ["@lsp.mod.constant"]                            = { fg = colors.purple },
+      ["@lsp.type.macro"]                              = { link = "@function" },
+      ["@lsp.type.static.rust"]                        = { link = "@constant" },
+      ["@lsp.type.typeAlias.rust"]                     = { link = "@type" },
+      ["@lsp.type.lifetime.rust"]                      = { link = "@keyword" },
+      ["@lsp.typemod.keyword.constant.rust"]           = { link = "@keyword" },
+      ["@lsp.typemod.function.static.rust"]            = { link = "@constant" },
+      ["@lsp.type.union.rust"]                         = { link = "@type" },
+      ["@lsp.type.derive.rust"]                        = { link = "@type" },
+      ["@lsp.type.buildinType.rust"]                   = { link = "@type.builtin" },
+      ["@lsp.typemod.string.attribute.rust"]           = { link = "@lsp.type.string.rust" },
+      ["@lsp.typemod.generic.attribute.rust"]          = { fg = colors.fg },
+      ["@lsp.typemod.builtinAttribute.attribute.rust"] = { fg = colors.green },
+      ["@lsp.typemod.punctuation.injected.rust"]       = { fg = colors.fg },
+
+
       ["@field.lua"]                           = { link = "@property" },
       ["@tag.css"]                             = { fg = colors.pink },
       ["@attribute.css"]                       = { fg = colors.green },
@@ -97,53 +148,17 @@ local M2 = {
       ["@attribute.scss"]                      = { fg = colors.green },
       ["@property.scss"]                       = { fg = colors.cyan, italic = true },
       ["@text.underline"]                      = { fg = colors.orange, underline = true },
-      -- semantic
+
       ["@lsp.type.enum"]                       = { link = "@type" },
       ["@lsp.type.interface"]                  = { link = "@interface" },
       ["@lsp.type.keyword"]                    = { link = "@keyword" },
       ["@lsp.type.namespace"]                  = { link = "@namespace" },
       ["@lsp.type.parameter"]                  = { link = "@parameter" },
       ["@lsp.type.property"]                   = { link = "@property" },
-      -- ["@lsp.type.variable"]                   = {}, -- use treesitter styles for regular variables
       ["@lsp.typemod.function.defaultLibrary"] = { link = "Special" },
       ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
       ["@lsp.type.annotation"]                 = { link = "@annotation" },
-      -- ["@lsp.type.class"]                      = { fg = colors.cyan },
-      -- ["@lsp.type.struct"]                     = { fg = colors.cyan },
-      -- ["@lsp.type.enum"]                       = { fg = colors.cyan },
-      -- ["@lsp.type.enumMember"]                 = { fg = colors.purple },
-      -- ["@lsp.type.event"]                      = { fg = colors.cyan },
-      -- ["@lsp.type.interface"]                  = { fg = colors.cyan },
-      -- ["@lsp.type.modifier"]                   = { fg = colors.pink },
-      -- ["@lsp.type.regexp"]                     = { fg = colors.yellow },
-      -- ["@lsp.type.typeParameter"]              = { fg = colors.cyan },
-      -- ["@lsp.type.decorator"]                  = { fg = colors.green },
-
-      -- FoldColumn = { fg = colors.white },
-      -- Visual = { fg = colors.black, bg = colors.white },
-      -- GitSignsCurrentLineBlame                 = { link = "FoldColumn" },
-      -- NvimTreeIndentMarker                     = { link = "FoldColumn" },
-      -- LspCodeLens                              = { fg = colors.comment },
-      -- MiniIndentscopeSymbol                    = { fg = colors.purple },
-      -- Folded                                   = { bg = colors.purple },
-      -- MoreMsg                                  = { fg = colors.bright_green },
-      -- TreesitterContextLineNumber              = { fg = colors.purple, bg = colors.visual },
-      -- TreesitterContext                        = { bg = colors.visual },
-
-      --[[
-      Constant                                 = { fg = colors.purple },
-      Number                                   = { fg = colors.purple },
-      Boolean                                  = { fg = colors.purple },
-      Float                                    = { fg = colors.green },
-      Operator                                 = { fg = colors.pink },
-      Identifier                               = { fg = colors.fg },
-      Function                                 = { fg = colors.green },
-      Include                                  = { fg = colors.pink },
-      Structure                                = { fg = colors.purple },
-      Underlined                               = { fg = colors.orange, underline = true },
-
-      DiagnosticUnnecessary                    = { undercurl = true, sp = colors.comment },
-    ]]
+      ["@lsp.type.unresolvedReference.rust"]   = { underline = true }
 
     }
     return {
