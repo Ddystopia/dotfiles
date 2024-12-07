@@ -25,7 +25,7 @@ M.config = function()
   if not configs.typst then
     configs.typst = {
       default_config = {
-        cmd = { "typst-lsp" },
+        cmd = { "tinymist" },
         filetypes = { "typ", "typst" },
         root_dir = function(fname)
           return root_pattern(".git, .project_root")(fname) or vim.loop.os_homedir()
@@ -51,7 +51,7 @@ M.config = function()
   local capabilities = default_capabilities()
 
   local servers = {
-    "zls", "bashls", "tsserver", "yamlls", "jsonls", "gopls", "cssls",
+    "zls", "bashls", "ts_ls", "yamlls", "jsonls", "gopls", "cssls",
     "html", "r_language_server" -- "cmake", "vuels", "vimls",
   }
 
@@ -63,15 +63,17 @@ M.config = function()
     }
   end
 
-  nvim_lsp.typst.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-      exportPdf = "onType"
-      -- exportPdf = "onSave",
-      -- exportPdf = "never",
-    }
-  }
+  -- FIXME
+  -- nvim_lsp.typst.setup {
+  --   on_attach = on_attach,
+  --   capabilities = capabilities,
+  --   settings = {
+  --     exportPdf = "onType",
+  --     -- exportPdf = "onSave",
+  --     -- exportPdf = "never",
+  --     outputPath = "$root/target/$dir/$name",
+  --   }
+  -- }
 
   vim.g.rust_recommended_style = 1;
 
@@ -323,7 +325,8 @@ end
 M.dependencies = {
   {
     'hrsh7th/nvim-cmp', --
-    commit = "d818fd0",
+    -- commit = "d818fd0",
+    commit = "f17d9b4",
     pin = true,
   }, --
   {

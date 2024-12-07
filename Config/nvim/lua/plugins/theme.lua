@@ -148,6 +148,7 @@ local M2 = {
       ["@attribute.scss"]                      = { fg = colors.green },
       ["@property.scss"]                       = { fg = colors.cyan, italic = true },
       ["@text.underline"]                      = { fg = colors.orange, underline = true },
+      ["@module"]                              = { link = "@namespace" },
 
       ["@lsp.type.enum"]                       = { link = "@type" },
       ["@lsp.type.interface"]                  = { link = "@interface" },

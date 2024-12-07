@@ -1,0 +1,5 @@
+#!/bin/bash
+
+query="$1"
+
+fd --type f --hidden --exclude .git --exclude node_modules ${pwd} | fzf -f "$query"

@@ -53,7 +53,7 @@ c.colors.webpage.preferred_color_scheme = "dark"
 c.content.prefers_reduced_motion = True
 
 # Allow copy to clipboard
-c.content.javascript.clipboard = "access"
+c.content.javascript.clipboard = "access-paste"
 
 # Allow pdfjs
 c.content.pdfjs = True
@@ -84,7 +84,7 @@ c.url.searchengines = {
     "a": "https://wiki.archlinux.org/index.php?search={}",
     "w": "https://www.wolframalpha.com/input/?i={}",
     "td": "https://dictionary.cambridge.org/dictionary/english/{}",
-    "t": "https://www.deepl.com/translator#//ru/{}",
+    "t": "https://www.deepl.com/translator#en/ru/{}",
     # "t": "https://translate.google.com/?hl=ru&sl=en&tl=ru&text={}",
     "п": "https://www.deepl.com/translator#ru/en/{}",
     # "п": "https://translate.google.com/?hl=ru&sl=ru&tl=en&text={}",

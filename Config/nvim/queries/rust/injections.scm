@@ -1,3 +1,15 @@
+(
+  (macro_invocation
+    macro: (scoped_identifier
+      name: (identifier) @macro_name)
+    (#match? @macro_name "query(_as)?") ; match `query` or `query_as` macros
+    (token_tree
+      (string_literal) @sql_query)
+  )
+  ; Apply SQL highlighting to the query inside the macro
+  (#set! @sql_query highlight.sql)
+)
+
 (macro_invocation
   (token_tree) @rust)
 

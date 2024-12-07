@@ -1,5 +1,16 @@
 local M = {
   {
+    "smartpde/debuglog",
+    enabled = false,
+    lazy = false,
+    config = function()
+      local debuglog = require("debuglog")
+      debuglog.setup()
+      debuglog.enable("*")
+      -- debuglog.disable()
+    end
+  },
+  {
     'stevearc/profile.nvim',
     lazy = false,
     confit = function()
@@ -31,11 +42,24 @@ local M = {
     end
   },
   {
-    'hrsh7th/cmp-cmdline',
+    dir = "/home/ddystopia/code/cmps/cmp-cmdline",
     lazy = false,
+    enabled = true,
+    -- enabled = false,
+    dependencies = { 'hrsh7th/nvim-cmp', {
+      'tzachar/fuzzy.nvim',
+      lazy = false,
+      dependencies = {
+        {
+          'nvim-telescope/telescope-fzf-native.nvim',
+          build = 'make',
+          lazy = false,
+        },
+      }
+    } },
     config = function()
       local cmp = require('cmp')
-
+  
       -- `/` cmdline setup.
       cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
@@ -47,8 +71,6 @@ local M = {
       cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
           {
             name = 'cmdline',
             option = {
@@ -58,7 +80,6 @@ local M = {
         })
       })
     end
-
   },
   {
     'hrsh7th/cmp-buffer',
@@ -430,7 +451,7 @@ local M = {
       vim.g.indent_blankline_char_highlight_list = { "IndentLine" }
       vim.g.indent_blankline_show_first_indent_level = false
       -- vim.g.indent_blankline_show_trailing_blankline_indent = false
-      vim.g.indent_blankline_use_treesitter = true
+      -- vim.g.indent_blankline_use_treesitter = true
       vim.g.indent_blankline_filetype_exclude = {
         'markdown', 'mkd', 'tex', 'startify'
       }

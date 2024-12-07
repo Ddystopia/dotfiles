@@ -20,7 +20,9 @@ filetype on
 filetype plugin on
 filetype plugin indent on
 "syntax enable
-syntax on
+syntax on`
+
+set directory=~/.local/share/vim/swap
 
 set hidden
 set formatoptions-=cro

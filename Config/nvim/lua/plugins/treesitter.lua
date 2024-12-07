@@ -1,6 +1,7 @@
 local M = {
   'nvim-treesitter/nvim-treesitter',
   lazy = false,
+  enabled = true,
   cond = function()
     for _, buf_id in ipairs(vim.api.nvim_list_bufs()) do
       local filename = vim.api.nvim_buf_get_name(buf_id)
@@ -15,12 +16,12 @@ local M = {
 }
 
 M.dependencies = {
-  { 'nvim-treesitter/playground' },
-  { 'nvim-treesitter/nvim-treesitter-textobjects', lazy = false }, --
-  { 'RRethy/nvim-treesitter-textsubjects',         lazy = false }, --
-  { 'HiPhish/nvim-ts-rainbow2',                    lazy = false, },
+     { 'nvim-treesitter/playground' },
+  -- { 'nvim-treesitter/nvim-treesitter-textobjects', lazy = false }, --
+     { 'RRethy/nvim-treesitter-textsubjects',         lazy = false }, --
+     { 'HiPhish/nvim-ts-rainbow2',                    lazy = false, },
   -- 'romgrk/nvim-treesitter-context',                             -- Shit
-  { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = false }
+     { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = false }
 }
 
 M.init = function()
@@ -70,9 +71,9 @@ M.config = function()
 
   treesitter.setup {
     ensure_installed = {
-      'rust', 'c', 'cpp', 'javascript', 'lua', 'python', 'bash',
-      'fish', 'html', 'css', 'dockerfile', 'diff', 'fish', 'go',
-      'json', 'make', 'markdown', 'python', 'regex', 'scheme',
+      'rust', 'c', 'cpp', --[['javascript',]] 'lua', --[['python',]] 'bash',
+      --[['fish',]] --[['html',]] 'css', 'dockerfile', 'diff', 'fish', 'go',
+      'json', 'make', 'markdown', 'regex', -- 'scheme',
       'sxhkdrc', 'typescript', --[['yaml',]] 'zig', 'tsx'
     },
 

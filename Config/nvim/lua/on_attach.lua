@@ -129,6 +129,14 @@ function OnAttachCommon(client, bufnr)
         compare.order,
       }
     },
+    matching = {
+      disallow_fuzzy_matching = false,
+      disallow_fullfuzzy_matching = false,
+      disallow_partial_fuzzy_matching = false,
+      disallow_partial_matching = false,
+      disallow_prefix_unmatching = false,
+      disallow_symbol_nonprefix_matching = false,
+    },
     window = {
       documentation = {
         border = vim.g.float_border,

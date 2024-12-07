@@ -5,7 +5,8 @@ Requires=vylma.socket
 
 [Service]
 Type=simple
-ExecStart=/home/ddystopia/job/vylma/target/debug/vylma systemd://vylma_socket
+ExecStart=/home/ddystopia/job/vylma/target/release/vylma systemd://vylma_socket /home/ddystopia/job/vylma/custom-views
+Environment="RUST_LOG=trace"
 TimeoutStopSec=5
 
 [Install]
