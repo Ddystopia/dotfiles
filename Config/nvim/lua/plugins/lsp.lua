@@ -102,7 +102,8 @@ M.config = function()
             RA_BSP_ENV = "/home/ddystopia/job/fw-micrortu/rust/ra_bsp.env",
             DEP_LV_CONFIG_PATH = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/include/",
             LVGL_FONTS_DIR = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/fonts/",
-          }
+          },
+          target = "wasm32-unknown-unknown"
         },
         completion = {
           limit = 20,

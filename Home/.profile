@@ -12,7 +12,7 @@ export XDG_PUBLICSHARE_DIR="$HOME/Public"
 export XDG_TEMPLATES_DIR="$HOME/Templates"
 export XDG_VIDEOS_DIR="$HOME/Media/Videos"
 
-export PATH="$XDG_CONFIG_HOME/cargo/bin:$HOME/.local/bin:$HOME/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/bin:$PATH"
 export EDITOR=/usr/bin/nvim
 export BROWSER=/usr/bin/qutebrowser
 export TERM=/usr/bin/alacritty
@@ -24,8 +24,7 @@ export LD="mold"
 export MANPAGER='nvim +Man!'
 export MANWIDTH=100
 
-# export RUSTC_WRAPPER=/home/ddystopia/.config/cargo/bin/sccache
-export CARGO_HOME="$XDG_CONFIG_HOME/cargo"
+# export RUSTC_WRAPPER=/home/ddystopia/.cargo/bin/sccache
 export MOZ_HOME="$HOME/.config/mozilla"
 
 export _JAVA_AWT_WM_NONREPARENTING=1

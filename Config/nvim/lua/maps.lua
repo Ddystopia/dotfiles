@@ -119,6 +119,7 @@ vim.cmd("command! T lua StartTerminal()")
 vim.cmd "command! W :w!"
 
 Map('i', '<C-v>', '<C-r>+')
+Map('i', 'jj', '<Esc>')
 
 Map('n', '<A-l>', function() vim.bo.iminsert = math.abs(vim.bo.iminsert - 1) end)
 Map('i', '<A-l>', '<C-^>')

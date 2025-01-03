@@ -24,6 +24,8 @@ settings:
         zyy: spawn mpv {url} --fs
   colors.webpage.darkmode.enabled:
     global: true
+  content.desktop_capture:
+    https://discord.com: true
   content.headers.user_agent:
     internals.rust-lang.com: cloudflare 503 workaround
   content.javascript.clipboard:
@@ -36,6 +38,9 @@ settings:
     https://discord.com: true
     https://teams.microsoft.com: true
     https://www.speechandhearing.net: true
+  content.mouse_lock:
+    http://ddps76: true
+    http://pts-ng.swind.sk:81: true
   content.notifications.enabled:
     https://0tvet.com: false
     https://auto.ria.com: false
