@@ -10,3 +10,10 @@ git-fetch-with-cli = true
 #
 # [profile.dev]
 # codegen-backend = "cranelift"
+
+# 
+
+[registries.kellnr]
+index = "sparse+https://crates.swind.sk/api/v1/crates/"
+credential-provider = ["cargo:token"]
+token = "<redacted>"

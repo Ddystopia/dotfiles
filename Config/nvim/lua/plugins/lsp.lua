@@ -97,22 +97,22 @@ M.config = function()
     settings = {
       ['rust-analyzer'] = {
         cargo = {
+          buildScripts = { enable = true },
           extraEnv = {
             THREADX_ENV = "/home/ddystopia/job/fw-micrortu/rust/load_env/threadx.env",
             RA_BSP_ENV = "/home/ddystopia/job/fw-micrortu/rust/ra_bsp.env",
             DEP_LV_CONFIG_PATH = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/include/",
             LVGL_FONTS_DIR = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/fonts/",
           },
-          target = "wasm32-unknown-unknown"
+          -- target = "wasm32-unknown-unknown"
+        },
+        editor = {
+          formatOnType = true,
         },
         completion = {
           limit = 20,
-          termSearch = {
-            enable = true,
-          },
-          postfix = {
-            enable = false,
-          }
+          termSearch = { enable = true },
+          postfix = { enable = false }
         },
         hover = {
           memoryLayout = {
@@ -133,9 +133,7 @@ M.config = function()
           enableExperimental = false
         },
         typing = {
-          autoClosingAngleBrackets = {
-            enable = true,
-          }
+          autoClosingAngleBrackets = { enable = true }
         },
         checkOnSave = false,
         -- checkOnSave = {

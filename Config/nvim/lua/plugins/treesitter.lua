@@ -74,7 +74,7 @@ M.config = function()
       'rust', 'c', 'cpp', --[['javascript',]] 'lua', --[['python',]] 'bash',
       --[['fish',]] --[['html',]] 'css', 'dockerfile', 'diff', 'fish', 'go',
       'json', 'make', 'markdown', 'regex', -- 'scheme',
-      'sxhkdrc', 'typescript', --[['yaml',]] 'zig', 'tsx'
+      'sxhkdrc', 'typescript', --[['yaml',]] 'zig', 'tsx', 'sql',
     },
 
     highlight = { enable = true, additional_vim_regex_highlighting = false },

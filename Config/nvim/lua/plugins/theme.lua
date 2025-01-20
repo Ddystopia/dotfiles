@@ -134,6 +134,7 @@ local M2 = {
       ["@lsp.type.union.rust"]                         = { link = "@type" },
       ["@lsp.type.derive.rust"]                        = { link = "@type" },
       ["@lsp.type.buildinType.rust"]                   = { link = "@type.builtin" },
+      ["@lsp.type.string.rust"]                        = { link = "no" }, -- I don't wat lsp to hightlight stirngs
       ["@lsp.typemod.string.attribute.rust"]           = { link = "@lsp.type.string.rust" },
       ["@lsp.typemod.generic.attribute.rust"]          = { fg = colors.fg },
       ["@lsp.typemod.builtinAttribute.attribute.rust"] = { fg = colors.green },
