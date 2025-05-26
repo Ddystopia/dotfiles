@@ -42,7 +42,7 @@ local M = {
     end
   },
   {
-    dir = "/home/ddystopia/code/cmps/cmp-cmdline",
+    dir = "/home/ddystopia/code/cmp-cmdline",
     lazy = false,
     enabled = true,
     -- enabled = false,

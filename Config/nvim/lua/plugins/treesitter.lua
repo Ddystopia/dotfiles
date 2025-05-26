@@ -16,12 +16,37 @@ local M = {
 }
 
 M.dependencies = {
-     { 'nvim-treesitter/playground' },
+  { 'nvim-treesitter/playground' },
   -- { 'nvim-treesitter/nvim-treesitter-textobjects', lazy = false }, --
-     { 'RRethy/nvim-treesitter-textsubjects',         lazy = false }, --
-     { 'HiPhish/nvim-ts-rainbow2',                    lazy = false, },
+  { 'RRethy/nvim-treesitter-textsubjects',         lazy = false }, --
   -- 'romgrk/nvim-treesitter-context',                             -- Shit
-     { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = false }
+  { 'JoosepAlviste/nvim-ts-context-commentstring', lazy = false },
+  {
+    'HiPhish/rainbow-delimiters.nvim',
+    lazy = false,
+    config = function()
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [''] = 'rainbow-delimiters.strategy.global',
+          vim = 'rainbow.delimiters.strategy.local',
+        },
+        query = {
+          -- global = 'rainbow-delimiters',
+          -- html = 'rainbow-tags',
+          -- tsx = 'rainbow-delimiters',
+        },
+        highlight = {
+          'RainbowRed',
+          'RainbowYellow',
+          'RainbowBlue',
+          'RainbowOrange',
+          'RainbowGreen',
+          'RainbowViolet',
+          'RainbowCyan'
+        },
+      }
+    end
+  },
 }
 
 M.init = function()
@@ -48,7 +73,6 @@ M.config = function()
   -- local enabled = function() return vim.api.nvim_buf_line_count(0) < 50000 end
   local treesitter = require('nvim-treesitter.configs')
 
-  local rainbow = require('ts-rainbow')
   vim.g.skip_ts_context_commentstring_module = true
 
   require('ts_context_commentstring').setup {
@@ -78,29 +102,6 @@ M.config = function()
     },
 
     highlight = { enable = true, additional_vim_regex_highlighting = false },
-
-    rainbow = {
-      -- enable = false,
-      -- extended_mode = true,
-      -- max_file_lines = nil,
-      -- colors = rainbow_colors,
-      disable = { 'cpp' },
-      query = {
-        global = 'rainbow-parens',
-        html = 'rainbow-tags',
-        tsx = 'rainbow-parens',
-      },
-      strategy = rainbow.strategy.global,
-      hlgroups = {
-        'TSRainbowRed',
-        'TSRainbowYellow',
-        'TSRainbowBlue',
-        'TSRainbowOrange',
-        'TSRainbowGreen',
-        'TSRainbowViolet',
-        'TSRainbowCyan'
-      },
-    },
 
     incremental_selection = {
       enable = true,

@@ -83,14 +83,13 @@ local M2 = {
       DiagnosticInfo  = { fg = "#0db9d7" },
       DiagnosticHint  = { fg = "#10B981" },
 
-      TSRainbowRed    = { fg = "#bf616a" }, -- termbg=#af5f5f
-      TSRainbowYellow = { fg = "#ffd700" }, -- termbg=#ffd700
-      TSRainbowBlue   = { fg = "#88c0d0" }, -- termbg=#afd7ff
-      TSRainbowOrange = { fg = "#ebcb8b" }, -- termbg=#d7af87
-      TSRainbowGreen  = { fg = "#a3de3c" }, -- termbg=#afff00
-      TSRainbowViolet = { fg = "#b48ead" }, -- termbg=#d7afdf
-      TSRainbowCyan   = { fg = "#88c0d0" }, -- termbg=#afd7ff
-
+      RainbowRed    = { fg = "#bf616a" }, -- termbg=#af5f5f
+      RainbowYellow = { fg = "#ffd700" }, -- termbg=#ffd700
+      RainbowBlue   = { fg = "#88c0d0" }, -- termbg=#afd7ff
+      RainbowOrange = { fg = "#ebcb8b" }, -- termbg=#d7af87
+      RainbowGreen  = { fg = "#a3de3c" }, -- termbg=#afff00
+      RainbowViolet = { fg = "#b48ead" }, -- termbg=#d7afdf
+      RainbowCyan   = { fg = "#8fbcbb" }, -- termbg=#87d7d7
 
       ["Boolean"]        = { link = "@boolean" },
       ["Character"]      = { link = "@character" },

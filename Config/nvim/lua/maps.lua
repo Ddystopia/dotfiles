@@ -71,10 +71,16 @@ end
 function ToggleWrap()
   if vim.wo.wrap then
     vim.wo.wrap = false
+    vim.api.nvim_buf_del_keymap(0, 'n', '0')
+    vim.api.nvim_buf_del_keymap(0, 'n', '^')
+    vim.api.nvim_buf_del_keymap(0, 'n', '$')
     vim.api.nvim_buf_del_keymap(0, 'n', 'j')
     vim.api.nvim_buf_del_keymap(0, 'n', 'k')
   else
     vim.wo.wrap = true
+    BMap('n', '0', 'g0')
+    BMap('n', '^', 'g^')
+    BMap('n', '$', 'g$')
     BMap('n', 'j', 'gj')
     BMap('n', 'k', 'gk')
   end

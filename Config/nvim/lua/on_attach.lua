@@ -46,7 +46,7 @@ function OnAttachCommon(client, bufnr)
       if cmp.visible() and cmp.get_selected_entry() ~= nil then
         cmp.confirm()
 
-       vim.defer_fn(function()
+        vim.defer_fn(function()
           local row, col = unpack(vim.api.nvim_win_get_cursor(0))
           local line = vim.api.nvim_get_current_line()
           local new_line = line:sub(1, col) .. char .. line:sub(col + 1)
@@ -65,13 +65,8 @@ function OnAttachCommon(client, bufnr)
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = function(fallback)
-      if cmp.visible() and cmp.get_selected_entry() ~= nil then
-        cmp.confirm()
-      else
-        fallback()
-      end
-    end,
+    ['<C-CR>'] = function () cmp.confirm() end,
+    ['<CR>'] = function(fallback) fallback() end,
     ['<Tab>'] = function(fallback)
       if cmp.visible() and not luasnip.in_snippet() then
         cmp.select_next_item()
@@ -103,6 +98,7 @@ function OnAttachCommon(client, bufnr)
     sorting = {
       priority_weight = 2,
       comparators = {
+        -- Prioritize imports
         function(e1, e2)
           local e1_has = e1 and e1.completion_item and e1.completion_item.data and e1.completion_item.data.imports and
               #e1.completion_item.data.imports > 0
@@ -117,6 +113,60 @@ function OnAttachCommon(client, bufnr)
 
           return nil
         end,
+
+        -- Prioritize Symbols
+        function(entry1, entry2)
+          local kind1 = entry1:get_kind()
+          local kind2 = entry2:get_kind()
+          local var = types.lsp.CompletionItemKind.Variable
+          if kind1 == var and kind2 ~= var then
+            return true
+          elseif kind1 ~= var and kind2 == var then
+            return false
+          else
+            return nil
+          end
+        end,
+
+        -- Bounded Longest Common Subsequence (LCS) comparator
+        function(entry1, entry2)
+          local input = entry1.context.cursor_before_line
+          if not input or input == '' then
+            return nil
+          end
+
+          local max_len = 64 -- Bound the length to check for performance
+
+          local function bounded_lcs(a, b)
+            local m, n = #a, #b
+            m = math.min(m, max_len)
+            n = math.min(n, max_len)
+            local dp = {}
+            local result = 0
+            for i = 1, m do
+              dp[i] = {}
+              for j = 1, n do
+                if string.sub(a, i, i) == string.sub(b, j, j) then
+                  dp[i][j] = (dp[i - 1] and dp[i - 1][j - 1] or 0) + 1
+                  result = math.max(result, dp[i][j])
+                else
+                  dp[i][j] = 0
+                end
+              end
+            end
+            return result
+          end
+
+          local lcs1 = bounded_lcs(input, entry1.completion_item.label)
+          local lcs2 = bounded_lcs(input, entry2.completion_item.label)
+
+          if lcs1 > lcs2 then
+            return true
+          elseif lcs1 < lcs2 then
+            return false
+          end
+          return nil
+        end,
         require('copilot_cmp.comparators').prioritize,
         require('copilot_cmp.comparators').score,
         -- compare.recently_used,
@@ -124,8 +174,8 @@ function OnAttachCommon(client, bufnr)
         -- compare.scopes,
         compare.exact,
         compare.sort_text,
-        compare.offset,
         compare.length,
+        compare.offset,
         compare.order,
       }
     },
@@ -146,7 +196,9 @@ function OnAttachCommon(client, bufnr)
       expand = function(args) require('luasnip').lsp_expand(args.body) end
     },
     sources = {
-      { name = 'copilot' }, { name = 'path' }, { name = 'nvim_lsp' },
+      { name = 'copilot' },
+      { name = 'path' },
+      { name = 'nvim_lsp' },
     },
     preselect = types.cmp.PreselectMode.None,
     -- completion = { autocomplete = false },

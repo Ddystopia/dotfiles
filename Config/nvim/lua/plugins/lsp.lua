@@ -63,18 +63,6 @@ M.config = function()
     }
   end
 
-  -- FIXME
-  -- nvim_lsp.typst.setup {
-  --   on_attach = on_attach,
-  --   capabilities = capabilities,
-  --   settings = {
-  --     exportPdf = "onType",
-  --     -- exportPdf = "onSave",
-  --     -- exportPdf = "never",
-  --     outputPath = "$root/target/$dir/$name",
-  --   }
-  -- }
-
   vim.g.rust_recommended_style = 1;
 
   nvim_lsp.rust_analyzer.setup {
@@ -99,8 +87,8 @@ M.config = function()
         cargo = {
           buildScripts = { enable = true },
           extraEnv = {
-            THREADX_ENV = "/home/ddystopia/job/fw-micrortu/rust/load_env/threadx.env",
-            RA_BSP_ENV = "/home/ddystopia/job/fw-micrortu/rust/ra_bsp.env",
+            RA_BSP_ENV = "/home/ddystopia/job/fw-micrortu/build/dep/ra-bsp/ra-bsp.env",
+            RA_FSP_ENV="/home/ddystopia/job/fw-micrortu/build/ra-fsp.env",
             DEP_LV_CONFIG_PATH = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/include/",
             LVGL_FONTS_DIR = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/fonts/",
           },
@@ -278,8 +266,8 @@ M.init = function()
   Map('n', 'gD', function() vim.lsp.buf.declaration() end)
   Map('n', 'gd', function() vim.lsp.buf.definition() end)
   Map('n', 'gt', function() vim.lsp.buf.type_definition() end)
-  Map('n', 'gI', function() vim.lsp.buf.implementation() end) -- lspsaga
-  Map('n', 'gr', function() vim.lsp.buf.references() end)     -- lspsaga
+  Map('n', 'gI', function() vim.lsp.buf.implementation() end) -- todo: lspsaga
+  Map('n', 'gr', function() vim.lsp.buf.references() end)     -- todo: lspsaga
 
   Map('n', 'K', function() vim.lsp.buf.hover({ float = { border = 'single' } }) end)
   Map('n', '<F2>', function() vim.lsp.buf.rename() end)
