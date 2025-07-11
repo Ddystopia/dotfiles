@@ -27,7 +27,7 @@ function Format(lsp)
     css = prettier_query,
     scss = prettier_query,
     cmake = 'cmake-format -i',
-    typst = "typstfmt"
+    typst = "typstyle -i"
   }
 
   -- local function feedkeys(keys, mode)

@@ -26,7 +26,11 @@ settings:
     global: true
   content.desktop_capture:
     https://discord.com: true
+  content.geolocation:
+    https://www.google.com: false
   content.headers.user_agent:
+    https://accounts.google.com/*: Mozilla/5.0 ({os_info}; rv:135.0) Gecko/20100101
+      Firefox/135
     internals.rust-lang.com: cloudflare 503 workaround
   content.javascript.clipboard:
     github.com: access
@@ -38,9 +42,16 @@ settings:
     https://discord.com: true
     https://teams.microsoft.com: true
     https://www.speechandhearing.net: true
+  content.media.video_capture:
+    file://: true
   content.mouse_lock:
+    http://buzau-range.ddns.net: true
     http://ddps76: true
+    http://pts-ng.swind.sk: true
     http://pts-ng.swind.sk:81: true
+    http://pts-ro-buzau.swind.sk: true
+    http://tsu.swind.sk: true
+    http://vpn-sandbox.swind.sk:8888: true
   content.notifications.enabled:
     https://0tvet.com: false
     https://auto.ria.com: false

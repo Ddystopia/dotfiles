@@ -51,8 +51,8 @@ M.config = function()
   local capabilities = default_capabilities()
 
   local servers = {
-    "zls", "bashls", "ts_ls", "yamlls", "jsonls", "gopls", "cssls",
-    "html", "r_language_server" -- "cmake", "vuels", "vimls",
+    "zls", "bashls", "ts_ls", "yamlls", "gopls", "cssls",
+    "html", "r_language_server" -- "jsonls", "cmake", "vuels", "vimls",
   }
 
   for _, lsp in ipairs(servers) do
@@ -202,24 +202,6 @@ M.config = function()
         semanticTokens = true,
       },
     },
-  }
-
-  nvim_lsp.texlab.setup {
-    capabilities = capabilities,
-    settings = {
-      latex = {
-        build = {
-          args = {
-            "-pdf", "-interaction=nonstopmode", "-synctex=1", "-outdir=./build",
-            "%f"
-          },
-          outputDirectory = "./build",
-          onSave = true
-        },
-        lint = { onChange = true }
-      }
-    },
-    on_attach = on_attach
   }
 
   nvim_lsp.lua_ls.setup {

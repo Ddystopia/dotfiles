@@ -11,6 +11,7 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 3
+vim.opt.smoothscroll = true
 
 vim.g.float_max_height = 0.96
 vim.g.float_max_width = 0.96
