@@ -80,6 +80,7 @@ M.config = function()
     languages = {
       fish = "# %s",
       scheme = ";; %s",
+      rpcgen = "/* %s */",
       typst = {
         __default = "// %s",
         comment = "// %s",
@@ -88,7 +89,7 @@ M.config = function()
         line = "// %s",
         doc = "/// %s",
         doc_block = "/** %s */",
-        doc_line = "/// %s"
+        doc_line = "/// %s",
       }
     }
   }

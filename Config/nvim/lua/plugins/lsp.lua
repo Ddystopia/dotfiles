@@ -6,6 +6,19 @@ local M = {
   event = { 'BufReadPost' },
 }
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'rust', 'toml' },
+  desc = 'Set errorformat for cargo output',
+  callback = function()
+    vim.opt.errorformat = ({
+      '%Eerror%*[^\\ ]:\\ %m',     -- Start of a multi-line error (e.g., error[E0432]: ...)
+      '%Wwarning%*[^\\ ]:\\ %m',  -- Start of a multi-line warning
+      '%C%*\\s-->\\ %f:%l:%c',     -- Location info (file, line, col)
+      '%-G%.%#',                  -- Ignore all other lines
+    })
+  end,
+})
+
 M.config = function()
   local nvim_lsp = require('lspconfig')
   local luasnip = require('luasnip')
@@ -51,8 +64,8 @@ M.config = function()
   local capabilities = default_capabilities()
 
   local servers = {
-    "zls", "bashls", "ts_ls", "yamlls", "gopls", "cssls",
-    "html", "r_language_server" -- "jsonls", "cmake", "vuels", "vimls",
+    "zls", "bashls", "ts_ls", "gopls", "cssls",
+    "html", "r_language_server" -- "jsonls", "cmake", "vuels", "vimls", "yamlls"
   }
 
   for _, lsp in ipairs(servers) do

@@ -199,6 +199,12 @@ Map('n', '<leader>pc', '<c-g>u<Esc>[s1z=`]a<c-g>u')
 Map('n', '<leader>pa', ':set list!<cr>')
 Map('n', '<leader>gp', function() vim.lsp.buf.format() end)
 
+Map('n', '[q', ':cprevious<cr>')
+Map('n', ']q', ':cnext<cr>')
+Map('n', '<leader>qs', ':cfirst<cr>')
+Map('n', '<leader>qe', ':clast<cr>')
+Map('n', '<leader>qo', ':copen<cr>')
+
 if vim.env.TMUX == nil then Map('n', '<A-a>', ':silent !$TERM & disown<cr>') end
 
 Map('', '<A-w>', '<C-w>')
@@ -212,3 +218,58 @@ Map('n', 'cd', ':cd ')
 -- Cmd "inoremap <expr> <-k>   pumvisible() ? '\\<C-p>' : '\\<C-k>'"
 -- Cmd "inoremap <expr> <Tab>   pumvisible() ? '\\<C-n>' : '\\<Tab>'"
 -- Cmd "inoremap <expr> <S-Tab> pumvisible() ? '\\<C-p>' : '\\<S-Tab>'"
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.keymap.set("n", "k", "<Up><CR><C-w>p", { buffer = true, remap = false, desc = "Navigate up quickfix" })
+    vim.keymap.set("n", "j", "<Down><CR><C-w>p", { remap = false, desc = "Navigate down quickfix" })
+  end,
+})
+
+vim.keymap.set('n', '<leader>ce', function()
+  -- 1. Get the workspace root using cargo metadata
+  local handle = io.popen("cargo metadata --format-version=1 | jq -r '.workspace_root'")
+  if not handle then
+    print("Failed to run cargo metadata")
+    return
+  end
+
+  local workspace_root = handle:read("*a"):gsub("\n", "")
+  handle:close()
+
+  if workspace_root == "" then
+    print("Could not determine Cargo workspace root")
+    return
+  end
+
+  -- 2. Read and transform the /tmp/e.log file
+  local input_file = "/tmp/e.log"
+  local output_lines = {}
+  for line in io.lines(input_file) do
+    local updated = line:gsub("([^%s:]+%.rs)", function(path)
+      -- only update if path doesn't start with '/' or contain ':'
+      if not path:match("^/") and not path:match("^[a-zA-Z]:") then
+        return workspace_root .. "/" .. path
+      end
+      return path
+    end)
+    table.insert(output_lines, updated)
+  end
+
+  -- 3. Write updated log to a temp file
+  local updated_log = "/tmp/e_abs.log"
+  local f = io.open(updated_log, "w")
+  if not f then
+    print("Failed to open output file: " .. updated_log)
+    return
+  end
+  for _, line in ipairs(output_lines) do
+    f:write(line .. "\n")
+  end
+  f:close()
+
+  -- 4. Load into quickfix
+  vim.cmd("cfile " .. updated_log)
+end, { desc = "Parse and load cargo error log with absolute paths" })
+
