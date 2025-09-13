@@ -14,7 +14,7 @@ c: ConfigContainer = c  # type: ignore # noqa: F821
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
-user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:138.0) Gecko/20100101 Firefox/138.0"
+user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0"
 XDG_CONFIG_HOME = os.environ["XDG_CONFIG_HOME"]
 
 config.load_autoconfig()

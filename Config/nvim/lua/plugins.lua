@@ -59,7 +59,7 @@ local M = {
     } },
     config = function()
       local cmp = require('cmp')
-  
+
       -- `/` cmdline setup.
       cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),

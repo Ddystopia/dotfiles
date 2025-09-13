@@ -2,6 +2,7 @@ require "utils"
 
 vim.g.centered_cursor = false
 
+
 vim.opt.hidden = true
 vim.opt.swapfile = false
 vim.opt.foldenable = false
@@ -12,6 +13,7 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.scrolloff = 3
 vim.opt.smoothscroll = true
+vim.opt.undolevels = 10000
 
 vim.g.float_max_height = 0.96
 vim.g.float_max_width = 0.96

@@ -45,6 +45,7 @@ settings:
   content.media.video_capture:
     file://: true
   content.mouse_lock:
+    http://192.168.1.1: true
     http://buzau-range.ddns.net: true
     http://ddps76: true
     http://pts-ng.swind.sk: true
