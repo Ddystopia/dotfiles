@@ -105,7 +105,8 @@ M.config = function()
             DEP_LV_CONFIG_PATH = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/include/",
             LVGL_FONTS_DIR = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/fonts/",
           },
-          -- target = "wasm32-unknown-unknown"
+          -- target = "wasm32-unknown-unknown",
+          target = "thumbv7em-none-eabihf",
         },
         editor = {
           formatOnType = true,

@@ -75,6 +75,8 @@ M.config = function()
 
   vim.g.skip_ts_context_commentstring_module = true
 
+  vim.cmd[[ autocmd FileType typst setlocal commentstring=//\ %s ]]
+
   require('ts_context_commentstring').setup {
     enable = true,
     languages = {

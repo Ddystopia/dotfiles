@@ -1,0 +1,10 @@
+[Unit]
+Description=System76 Power Daemon
+
+[Service]
+ExecStart=/user/bin/system76-power daemon
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

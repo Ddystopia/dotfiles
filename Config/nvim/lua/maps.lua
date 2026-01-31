@@ -71,18 +71,18 @@ end
 function ToggleWrap()
   if vim.wo.wrap then
     vim.wo.wrap = false
-    vim.api.nvim_buf_del_keymap(0, 'n', '0')
-    vim.api.nvim_buf_del_keymap(0, 'n', '^')
-    vim.api.nvim_buf_del_keymap(0, 'n', '$')
-    vim.api.nvim_buf_del_keymap(0, 'n', 'j')
-    vim.api.nvim_buf_del_keymap(0, 'n', 'k')
+    vim.api.nvim_del_keymap('n', '0')
+    vim.api.nvim_del_keymap('n', '^')
+    vim.api.nvim_del_keymap('n', '$')
+    vim.api.nvim_del_keymap('n', 'j')
+    vim.api.nvim_del_keymap('n', 'k')
   else
     vim.wo.wrap = true
-    BMap('n', '0', 'g0')
-    BMap('n', '^', 'g^')
-    BMap('n', '$', 'g$')
-    BMap('n', 'j', 'gj')
-    BMap('n', 'k', 'gk')
+    Map('n', '0', 'g0')
+    Map('n', '^', 'g^')
+    Map('n', '$', 'g$')
+    Map('n', 'j', 'gj')
+    Map('n', 'k', 'gk')
   end
 end
 
@@ -114,6 +114,65 @@ function StartTerminal()
   os.execute(terminal_cmd .. ' &')
 end
 
+local stashed_colorcolumn = ''
+function ToggleSplitLeftFixed80()
+  local api = vim.api
+
+  local wins = api.nvim_tabpage_list_wins(0)
+  table.sort(wins, function(a, b)
+    return api.nvim_win_get_position(a)[2]
+         < api.nvim_win_get_position(b)[2]
+  end)
+
+  local left_win = wins[1]
+  local right_win = wins[2]
+
+  -- ===== TOGGLE OFF =====
+
+  if right_win then
+    if vim.wo[left_win].winfixwidth then
+      vim.opt.colorcolumn = stashed_colorcolumn
+      stashed_colorcolumn = ''
+
+      vim.wo[left_win].winfixwidth = false
+      api.nvim_win_close(right_win, true)
+      api.nvim_set_current_win(left_win)
+    end
+
+    return
+  end
+
+  -- ===== TOGGLE ON =====
+  stashed_colorcolumn = vim.opt.colorcolumn
+  vim.opt.colorcolumn = ''
+
+  -- stash prev colorcolumn
+
+  vim.cmd("vsplit")
+
+  wins = api.nvim_tabpage_list_wins(0)
+  table.sort(wins, function(a, b)
+    return api.nvim_win_get_position(a)[2]
+         < api.nvim_win_get_position(b)[2]
+  end)
+
+  left_win = wins[1]
+  right_win = wins[2]
+
+  vim.wo[left_win].winfixwidth = true
+  api.nvim_win_set_width(left_win, 84) -- idk why 84 not 80, but it result in actual 80
+
+  local buf = api.nvim_create_buf(false, true)
+  api.nvim_win_set_buf(right_win, buf)
+
+  vim.bo[buf].buftype = "nofile"
+  vim.bo[buf].bufhidden = "wipe"
+  vim.bo[buf].swapfile = false
+
+  api.nvim_set_current_win(left_win)
+end
+
+
 -- vim.api.nvim_create_autocmd("VimLeavePre", { callback = QuitNetrw })
 
 Map('n', '<leader>F', Format)
@@ -134,6 +193,7 @@ Map('i', '<A-l>', '<C-^>')
 Map('v', '<leader>c', "!column -t -l2 -s= -o=<cr>")
 
 Map('n', '<leader>pw', ToggleWrap)
+Map('n', '<leader>p8', ToggleSplitLeftFixed80)
 -- Map('n', '<leader>sc',
 --     function() vim.wo.conceallevel = math.abs(vim.wo.conceallevel - 2) end)
 

@@ -48,9 +48,11 @@ settings:
     http://192.168.1.1: true
     http://buzau-range.ddns.net: true
     http://ddps76: true
+    http://firewall-ng.swind.sk:8888: true
     http://pts-ng.swind.sk: true
     http://pts-ng.swind.sk:81: true
     http://pts-ro-buzau.swind.sk: true
+    http://spieth-1.swind.sk: true
     http://tsu.swind.sk: true
     http://vpn-sandbox.swind.sk:8888: true
   content.notifications.enabled:
