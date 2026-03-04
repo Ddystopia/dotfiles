@@ -1,0 +1,91 @@
+#!/bin/sh
+set -u
+
+# https://github.com/fclivaz42/doas-sudo-shim/
+
+help() {
+	cat <<-EOF
+	Usage:
+	  sudo (-i | -k | -s) [-n] [-u <user>] [<command> [--] [<args>...]]
+	  sudo [-insk] [-u <user>] <command> [--] [<args>...]
+	  sudo [-h]
+
+	Execute a command as another user using doas(1).
+
+	This is not the original sudo, but the doas shim for sudo. It supports only
+	a subset of the sudo options (both short and long) that have an equivalent in
+	doas, plus option -i (--login). Refer to sudo(1) for more information.
+
+	Please report bugs at <https://github.com/jirutka/doas-sudo-shim/issues>.
+	EOF
+}
+
+if [ $# -eq 0 ]; then
+	help >&2
+	exit 1
+fi
+
+# Note: "+" disables optional option parameters
+opts=$(getopt -n sudo -o +insu:kh -l login,non-interactive,shell,user:,reset-timestamp,help -- "$@") || {
+	help >&2
+	exit 1
+}
+eval set -- "$opts"
+
+flag_i=
+flag_n=
+flag_s=
+flag_k=
+user=
+while [ $# -gt 0 ]; do
+	case "$1" in
+		-i | --login) flag_i='-i';;
+		-n | --non-interactive) flag_n='-n';;
+		-s | --shell) flag_s='-s';;
+		-u | --user) user=${2#\#}; shift;;
+		-k | --reset-timestamp) flag_k='-L';;
+		-h | --help) help; exit 0;;
+		--) shift; break;;
+	esac
+	shift
+done
+
+if [ "$flag_i" ] && [ "$flag_s" ]; then
+	echo "sudo: you may not specify both the '-i' and '-s' options" >&2
+	exit 1
+fi
+
+_doas() {
+	exec doas $flag_n ${user:+-u "$user"} "$@"
+}
+
+user_shell() {
+	if command -v getent >/dev/null 2>&1; then
+		getent passwd "${user:-root}" | awk -F: 'END {print $NF ? $NF : "sh"}'
+	else
+		awk -F: '$1 == "'${user:-root}'" {print $NF; m=1} END {if (!m) print "sh"}' /etc/passwd
+	fi
+}
+
+export SUDO_GID=$(id -g)
+export SUDO_UID=$(id -u)
+export SUDO_USER=$(id -un)
+
+if [ $# -eq 0 ]; then
+	if [ "$flag_i" ]; then
+		_doas -- "$(user_shell)" -c 'cd "$HOME"; exec "$0" -l'
+	elif [ "$flag_k" ]; then
+		exec doas $flag_k ${user:+-u "$user"}
+	else
+		_doas $flag_s
+	fi
+elif [ "$flag_i" ]; then
+	_doas -- "$(user_shell)" -l -c 'cd "$HOME"; "$0" "$@"' "$@"
+elif [ "$flag_s" ]; then
+	_doas -- "${SHELL:-$(user_shell)}" -c '"$0" "$@"' "$@"
+elif [ "$flag_k" ]; then
+	doas $flag_k ${user:+-u "$user"}
+	doas $flag_n ${user:+-u "$user"} "$@"
+else
+	_doas -- "$@"
+fi

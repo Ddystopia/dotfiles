@@ -21,10 +21,12 @@
 
 (
   (macro_invocation
-    macro: ((identifier) @_html_def)
+    macro: [((identifier) @_html_def) (scoped_identifier
+        path: (identifier)
+        name: ((identifier) @_html_def))]
     (token_tree) @injection.content (#set! injection.language "css") (#set! injection.include-children))
 
-    (#eq? @_html_def "css")
+    (#any-of? @_html_def "css" "style" "global_style")
 )
 
 (call_expression
@@ -72,3 +74,4 @@
      (raw_string_literal (string_content) @injection.content (#set! injection.language "sql") (#set! injection.include-children) (#set! "priority" 1000) )
      (string_literal (string_content) @injection.content (#set! injection.language "sql") (#set! injection.include-children) (#set! "priority" 1000) )
    ]))
+
