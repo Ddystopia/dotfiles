@@ -20,38 +20,19 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 M.config = function()
-  local nvim_lsp = require('lspconfig')
   local luasnip = require('luasnip')
   local on_attach = OnAttachCommon
-  local root_pattern = nvim_lsp.util.root_pattern
+
+  -- vim.lsp.inlay_hint.enable()
 
   -- require("luasnip.loaders.from_snipmate").lazy_load(
   --   { paths = { "./snippets" } })
 
-  -- TODO: verify does it solves bug with random jumps on tab
   luasnip.config.set_config({
     region_check_events = 'InsertEnter',
     delete_check_events = 'InsertLeave'
   })
 
-  local configs = require('lspconfig.configs')
-  if not configs.typst then
-    configs.typst = {
-      default_config = {
-        cmd = { "tinymist" },
-        filetypes = { "typ", "typst" },
-        root_dir = function(fname)
-          return root_pattern(".git, .project_root")(fname) or vim.loop.os_homedir()
-        end,
-        settings = {}
-      }
-    }
-  end
-  if not configs.coq_lsp then
-    configs.coq_lsp = {
-      default_config = {}
-    }
-  end
   local function default_capabilities()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
@@ -66,20 +47,33 @@ M.config = function()
   local servers = {
     "zls", "bashls", "ts_ls", "gopls", "cssls",
     "html", "r_language_server" -- "jsonls", "cmake", "vuels", "vimls", "yamlls"
+    -- maybe `air` for R
   }
 
+  vim.lsp.config("*", {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    root_marker = { ".git", ".project_root" },
+    single_file_support = true
+  })
+
   for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-      on_attach = on_attach,
-      capabilities = capabilities,
-      single_file_support = true
-    }
+    vim.lsp.enable(lsp)
   end
+
+  vim.lsp.config('typst', {
+    cmd = { "tinymist" },
+    filetypes = { "typ", "typst" },
+    root_marker = { "typst.toml" },
+    settings = {}
+  })
 
   vim.g.rust_recommended_style = 1;
 
-  nvim_lsp.rust_analyzer.setup {
+  vim.lsp.config.rust_analyzer = {
     on_attach = on_attach,
+    -- cmd = vim.lsp.rpc.connect("127.0.0.1", 27631),
+    cmd = { "rust-analyzer" },
     capabilities = (function()
       local fresh = default_capabilities();
       -- fresh.textDocument.completion.completionItem.snippetSupport = true
@@ -93,8 +87,6 @@ M.config = function()
         server = "rust-analyzer",
       },
     },
-    -- cmd = vim.lsp.rpc.connect("127.0.0.1", 27631),
-    cmd = { "rust-analyzer" },
     settings = {
       ['rust-analyzer'] = {
         cargo = {
@@ -147,18 +139,15 @@ M.config = function()
       }
     }
   }
+  vim.lsp.enable('rust_analyzer')
 
-  nvim_lsp.java_language_server.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
+  vim.lsp.config('java_language_server', {
     cmd = { "java-language-server" },
     filetypes = { "java" }
-    -- settings = {},
-  }
+  })
+  vim.lsp.enable('java_language_server')
 
-  nvim_lsp.ccls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
+  vim.lsp.config('ccls', {
     cmd = { "ccls" },
     filetypes = { "cpp", "objc", "objcpp" },
     single_file_support = true,
@@ -175,11 +164,9 @@ M.config = function()
       },
       client = { snippetSupport = true }
     }
-  }
+  })
 
-  nvim_lsp.gopls.setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
+  vim.lsp.config('gopls', {
     -- handler = handlers,
     settings = {
       gopls = {
@@ -216,11 +203,9 @@ M.config = function()
         semanticTokens = true,
       },
     },
-  }
+  })
 
-  nvim_lsp.lua_ls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
+  vim.lsp.config('lua_ls', {
     filetypes = { "lua" },
     settings = {
       Lua = {
@@ -234,11 +219,9 @@ M.config = function()
         library = { vim.env.VIMRUNTIME }
       },
     }
-  }
+  })
 
-  nvim_lsp.clangd.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
+  vim.lsp.config('clangd', {
     filetypes = { "c" },
     cmd = {
       'clangd', '--header-insertion=never', '--suggest-missing-includes',
@@ -254,7 +237,7 @@ M.config = function()
       usePlaceholders = true,
       completeUnimported = true
     }
-  }
+  })
 end
 
 M.init = function()

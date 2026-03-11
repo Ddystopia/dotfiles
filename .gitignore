@@ -10,4 +10,4 @@ Home/.fonts
 Home/bin/telegram
 Home/bin/Updater
 *cache*
-**/.fish_history
+# **/.fish_history

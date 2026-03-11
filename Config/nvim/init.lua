@@ -7,6 +7,7 @@ require "plugins/lsp"
 require "plugins/copilot"
 require "plugins/treesitter"
 require "plugins/theme"
+require "dlog"
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then

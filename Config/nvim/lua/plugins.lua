@@ -291,17 +291,6 @@ local M = {
     end
   },
   {
-    'lyokha/vim-xkbswitch',
-    lazy = false,
-    enabled = false,
-    init = function()
-      vim.g.XkbSwitchEnabled = 1
-      -- TODO: Some errors
-      -- vim.g.XkbSwitchIMappings = { 'ru', 'sk(qwerty)', 'ua' }
-      vim.g.XkbSwitchIMappings = { 'ru' }
-    end
-  }, --
-  {
     'phaazon/hop.nvim',
     name = 'hop',
     config = true,
@@ -408,6 +397,17 @@ local M = {
           highlighter = wilder.lua_fzy_highlighter()
         })
       }))
+    end
+  }, --
+  {
+    'lyokha/vim-xkbswitch',
+    lazy = false,
+    enabled = false,
+    init = function()
+      vim.g.XkbSwitchEnabled = 1
+      -- TODO: Some errors
+      -- vim.g.XkbSwitchIMappings = { 'ru', 'sk(qwerty)', 'ua' }
+      vim.g.XkbSwitchIMappings = { 'ru' }
     end
   }, --
   {
