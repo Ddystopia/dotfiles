@@ -302,7 +302,7 @@ M.dependencies = {
   },
   'hrsh7th/cmp-path',     --
   'hrsh7th/cmp-nvim-lsp', --
-  'onsails/lspkind-nvim', --
+  'onsails/lspkind-nvim', -- adds vscode-like pictograms to neovim built-in lsp
   -- 'SmiteshP/nvim-navic',
   {
     'folke/neoconf.nvim',
@@ -316,28 +316,28 @@ M.dependencies = {
     dependencies = "saadparwaiz1/cmp_luasnip",
     build = "make install_jsregexp",
   }, {
-  'RishabhRD/nvim-lsputils',
-  enable = false,
-  dependencies = { 'RishabhRD/popfix' },
-  config = function()
-    vim.lsp.handlers['textDocument/codeAction'] =
-        require 'lsputil.codeAction'.code_action_handler
-    vim.lsp.handlers['textDocument/references'] =
-        require 'lsputil.locations'.references_handler
-    vim.lsp.handlers['textDocument/definition'] =
-        require 'lsputil.locations'.definition_handler
-    vim.lsp.handlers['textDocument/declaration'] =
-        require 'lsputil.locations'.declaration_handler
-    vim.lsp.handlers['textDocument/typeDefinition'] =
-        require 'lsputil.locations'.typeDefinition_handler
-    vim.lsp.handlers['textDocument/implementation'] =
-        require 'lsputil.locations'.implementation_handler
-    vim.lsp.handlers['textDocument/documentSymbol'] =
-        require 'lsputil.symbols'.document_handler
-    vim.lsp.handlers['workspace/symbol'] =
-        require 'lsputil.symbols'.workspace_handler
-  end
-}
+    'RishabhRD/nvim-lsputils',
+    enable = false,
+    dependencies = { 'RishabhRD/popfix' },
+    config = function()
+      vim.lsp.handlers['textDocument/codeAction'] =
+          require 'lsputil.codeAction'.code_action_handler
+      vim.lsp.handlers['textDocument/references'] =
+          require 'lsputil.locations'.references_handler
+      vim.lsp.handlers['textDocument/definition'] =
+          require 'lsputil.locations'.definition_handler
+      vim.lsp.handlers['textDocument/declaration'] =
+          require 'lsputil.locations'.declaration_handler
+      vim.lsp.handlers['textDocument/typeDefinition'] =
+          require 'lsputil.locations'.typeDefinition_handler
+      vim.lsp.handlers['textDocument/implementation'] =
+          require 'lsputil.locations'.implementation_handler
+      vim.lsp.handlers['textDocument/documentSymbol'] =
+          require 'lsputil.symbols'.document_handler
+      vim.lsp.handlers['workspace/symbol'] =
+          require 'lsputil.symbols'.workspace_handler
+    end
+  }
 }
 
 return {
