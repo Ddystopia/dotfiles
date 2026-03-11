@@ -1,12 +1,12 @@
 local M = {
   {
     "smartpde/debuglog",
-    enabled = false,
+    enabled = true,
     lazy = false,
     config = function()
       local debuglog = require("debuglog")
       debuglog.setup()
-      debuglog.enable("*")
+      -- debuglog.enable("*")
       -- debuglog.disable()
     end
   },

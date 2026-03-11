@@ -279,11 +279,13 @@ Map('n', 'cd', ':cd ')
 -- Cmd "inoremap <expr> <Tab>   pumvisible() ? '\\<C-n>' : '\\<Tab>'"
 -- Cmd "inoremap <expr> <S-Tab> pumvisible() ? '\\<C-p>' : '\\<S-Tab>'"
 
+Map('n', '<leader>qc', ':cclose<cr>')
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",
   callback = function()
     vim.keymap.set("n", "k", "<Up><CR><C-w>p", { buffer = true, remap = false, desc = "Navigate up quickfix" })
-    vim.keymap.set("n", "j", "<Down><CR><C-w>p", { remap = false, desc = "Navigate down quickfix" })
+    vim.keymap.set("n", "j", "<Down><CR><C-w>p", { buffer = true, remap = false, desc = "Navigate down quickfix" })
   end,
 })
 
