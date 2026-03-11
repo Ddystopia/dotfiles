@@ -100,10 +100,15 @@ function OnAttachCommon(client, bufnr)
       comparators = {
         -- Prioritize imports
         function(e1, e2)
-          local e1_has = e1 and e1.completion_item and e1.completion_item.data and e1.completion_item.data.imports and
-              #e1.completion_item.data.imports > 0
-          local e2_has = e2 and e2.completion_item and e2.completion_item.data and e2.completion_item.data.imports and
-              #e2.completion_item.data.imports > 0
+          local e1_data = e1 and e1.completion_item and e1.completion_item.data;
+          local e2_data = e2 and e2.completion_item and e2.completion_item.data;
+
+          if not e1_data or not e2_data then
+            return nil
+          end
+
+          local e1_has = e1_data.imports and #e1_data.imports > 0
+          local e2_has = e2_data.imports and #e2_data.imports > 0
 
           if e1_has and not e2_has then
             return false
@@ -112,6 +117,20 @@ function OnAttachCommon(client, bufnr)
           end
 
           return nil
+        end,
+
+        -- Prioritize struct fields
+        function(entry1, entry2)
+          local kind1 = entry1:get_kind()
+          local kind2 = entry2:get_kind()
+          local var = types.lsp.CompletionItemKind.Field
+          if kind1 == var and kind2 ~= var then
+            return true
+          elseif kind1 ~= var and kind2 == var then
+            return false
+          else
+            return nil
+          end
         end,
 
         -- Prioritize Symbols
