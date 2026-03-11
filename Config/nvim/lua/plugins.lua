@@ -41,9 +41,9 @@ local M = {
       vim.keymap.set("", "<f1>", toggle_profile)
     end
   },
-  -- todo: ignore some image (png,jpg,svg,..) extensions
   {
-    dir = "/home/ddystopia/code/cmp-cmdline",
+    "Ddystopia/cmp-cmdline",
+    -- dir = "/home/ddystopia/code/cmp-cmdline",
     lazy = false,
     enabled = true,
     -- enabled = false,
