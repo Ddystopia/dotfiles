@@ -8,6 +8,73 @@ function OnAttach(specific)
   end
 end
 
+
+function FuzzyMatcher(entry1, entry2)
+  local input = entry1.context.cursor_before_line
+  if not input or input == '' then
+    return nil
+  end
+
+  local function subseq_score(pattern, text)
+    -- if has 'kind', rank higher
+    pattern = string.lower(pattern)
+    text = string.lower(text)
+
+    if text:find('kind', 1, true) then
+      return math.huge
+    end
+
+    local score = 0
+    local pi = 1
+    local last_match = 0
+
+    for ti = 1, #text do
+      if pattern:sub(pi, pi) == text:sub(ti, ti) then
+        local gap = ti - last_match
+
+        -- reward match
+        score = score + 1
+
+        -- bonus for consecutive matches
+        if last_match > 0 and gap == 1 then
+            score = score + 1
+        end
+
+        -- bonus for segment starts
+        if ti == 1
+          or text:sub(ti-1, ti-1) == '/'
+          or text:sub(ti-1, ti-1) == '-'
+          or text:sub(ti-1, ti-1) == '_'
+        then
+          score = score + 3
+        end
+
+        last_match = ti
+        pi = pi + 1
+
+        if pi > #pattern then
+          break
+        end
+      end
+    end
+
+    score = score - (#text * 0.01)
+
+    return score
+  end
+
+  local s1 = subseq_score(input, entry1.completion_item.label)
+  local s2 = subseq_score(input, entry2.completion_item.label)
+
+  if s1 > s2 then
+    return true
+  elseif s1 < s2 then
+    return false
+  end
+
+  return nil
+end
+
 function OnAttachCommon(client, bufnr)
   --[[
     require "lsp_signature".on_attach({
@@ -93,6 +160,20 @@ function OnAttachCommon(client, bufnr)
 
   mapping[':'] = try_confirm_with_fallback(':')
 
+  local prioritize_kind = function(kind)
+    return function(entry1, entry2)
+      local kind1 = entry1:get_kind()
+      local kind2 = entry2:get_kind()
+      if kind1 == kind and kind2 ~= kind then
+        return true
+      elseif kind1 ~= kind and kind2 == kind then
+        return false
+      else
+        return nil
+      end
+    end
+  end
+
   cmp.setup {
     experimental = { ghost_text = true },
     sorting = {
@@ -119,73 +200,12 @@ function OnAttachCommon(client, bufnr)
           return nil
         end,
 
-        -- Prioritize struct fields
-        function(entry1, entry2)
-          local kind1 = entry1:get_kind()
-          local kind2 = entry2:get_kind()
-          local var = types.lsp.CompletionItemKind.Field
-          if kind1 == var and kind2 ~= var then
-            return true
-          elseif kind1 ~= var and kind2 == var then
-            return false
-          else
-            return nil
-          end
-        end,
+        prioritize_kind(types.lsp.CompletionItemKind.Field),
+        prioritize_kind(types.lsp.CompletionItemKind.Variable),
+        prioritize_kind(types.lsp.CompletionItemKind.EnumMember),
 
-        -- Prioritize Symbols
-        function(entry1, entry2)
-          local kind1 = entry1:get_kind()
-          local kind2 = entry2:get_kind()
-          local var = types.lsp.CompletionItemKind.Variable
-          if kind1 == var and kind2 ~= var then
-            return true
-          elseif kind1 ~= var and kind2 == var then
-            return false
-          else
-            return nil
-          end
-        end,
+        FuzzyMatcher,
 
-        -- Bounded Longest Common Subsequence (LCS) comparator
-        function(entry1, entry2)
-          local input = entry1.context.cursor_before_line
-          if not input or input == '' then
-            return nil
-          end
-
-          local max_len = 64 -- Bound the length to check for performance
-
-          local function bounded_lcs(a, b)
-            local m, n = #a, #b
-            m = math.min(m, max_len)
-            n = math.min(n, max_len)
-            local dp = {}
-            local result = 0
-            for i = 1, m do
-              dp[i] = {}
-              for j = 1, n do
-                if string.sub(a, i, i) == string.sub(b, j, j) then
-                  dp[i][j] = (dp[i - 1] and dp[i - 1][j - 1] or 0) + 1
-                  result = math.max(result, dp[i][j])
-                else
-                  dp[i][j] = 0
-                end
-              end
-            end
-            return result
-          end
-
-          local lcs1 = bounded_lcs(input, entry1.completion_item.label)
-          local lcs2 = bounded_lcs(input, entry2.completion_item.label)
-
-          if lcs1 > lcs2 then
-            return true
-          elseif lcs1 < lcs2 then
-            return false
-          end
-          return nil
-        end,
         require('copilot_cmp.comparators').prioritize,
         require('copilot_cmp.comparators').score,
         -- compare.recently_used,

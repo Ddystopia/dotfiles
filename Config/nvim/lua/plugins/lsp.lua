@@ -45,7 +45,7 @@ M.config = function()
   local capabilities = default_capabilities()
 
   local servers = {
-    "zls", "bashls", "ts_ls", "gopls", "cssls",
+    "zls", "bashls", "ts_ls", "gopls", "cssls", "pyright",
     "html", "r_language_server" -- "jsonls", "cmake", "vuels", "vimls", "yamlls"
     -- maybe `air` for R
   }
@@ -165,6 +165,7 @@ M.config = function()
       client = { snippetSupport = true }
     }
   })
+  vim.lsp.enable('ccls')
 
   vim.lsp.config('gopls', {
     -- handler = handlers,
@@ -205,6 +206,7 @@ M.config = function()
     },
   })
 
+  vim.lsp.enable('lua_ls')
   vim.lsp.config('lua_ls', {
     filetypes = { "lua" },
     settings = {
@@ -238,6 +240,7 @@ M.config = function()
       completeUnimported = true
     }
   })
+  vim.lsp.enable('clangd')
 end
 
 M.init = function()
@@ -247,6 +250,12 @@ M.init = function()
   Map('n', 'gt', function() vim.lsp.buf.type_definition() end)
   Map('n', 'gI', function() vim.lsp.buf.implementation() end) -- todo: lspsaga
   Map('n', 'gr', function() vim.lsp.buf.references() end)     -- todo: lspsaga
+
+  vim.keymap.del('n', 'gri')
+  vim.keymap.del('n', 'grr')
+  vim.keymap.del('n', 'grt')
+  vim.keymap.del('n', 'gra')
+  vim.keymap.del('n', 'grn')
 
   Map('n', 'K', function() vim.lsp.buf.hover({ float = { border = 'single' } }) end)
   Map('n', '<F2>', function() vim.lsp.buf.rename() end)

@@ -361,8 +361,3 @@ lines = 37
 [window.padding]
 x = 4
 y = 4
-
-[[keyboard.bindings]]
-key = "Return"
-mods = "Shift"
-chars = "\u001B\r"

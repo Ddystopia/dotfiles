@@ -46,6 +46,7 @@ settings:
     https://www.speechandhearing.net: true
   content.media.video_capture:
     file://: true
+    http://127.0.0.1:3000: true
   content.mouse_lock:
     http://192.168.1.1: true
     http://buzau-range.ddns.net: true

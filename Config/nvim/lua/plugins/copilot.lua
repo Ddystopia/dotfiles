@@ -34,7 +34,7 @@ copilot.config = function()
         accept_line = false,
         next = "<C-l>",
         prev = "<C-h>",
-        dismiss = "<C-l>"
+        dismiss = "<C-e>"
       }
     },
     filetypes = {
