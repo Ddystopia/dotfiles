@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+OUT_FILE="/tmp/sent_mails.txt"
+
+# Read full message from stdin
+raw_input="$(cat)"
+
+# Basic sanitization: remove carriage returns
+# (prevents CRLF tricks)
+sanitized="$(printf '%s' "$raw_input" | tr -d '\r')"
+
+# Optional: enforce max size (e.g. 100 KB)
+max_size=102400
+if [ "${#sanitized}" -gt "$max_size" ]; then
+    echo "Message too large" >&2
+    exit 1
+fi
+
+# Extract envelope recipients from args (ignore flags)
+recipients=()
+for arg in "$@"; do
+    if [[ "$arg" != -* ]]; then
+        recipients+=("$arg")
+    fi
+done
+
+timestamp="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+{
+    echo "=== MAIL BEGIN ==="
+    echo "Time: $timestamp"
+
+    if [ "${#recipients[@]}" -gt 0 ]; then
+        echo "Envelope-To: ${recipients[*]}"
+    fi
+
+    echo "--- MESSAGE ---"
+    printf '%s\n' "$sanitized"
+    echo "=== MAIL END ==="
+    echo
+} >> "$OUT_FILE"
+

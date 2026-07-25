@@ -4,6 +4,7 @@
 	signingkey = B21CA2CAC0240BB9
 [core]
 	editor = nvim
+	pager = delta
 [init]
 	defaultBranch = main
 [credential]
@@ -12,3 +13,16 @@
 	root = rev-parse --show-toplevel
 [commit]
 	gpgsign = true
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	dark = true
+[merge]
+	conflictStyle = zdiff3
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

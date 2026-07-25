@@ -6,6 +6,7 @@ Config/BetterDiscord/emote_data.json
 Config/nvim/plugin
 Config/nvim/spell
 Config/mpv/watch_later/*
+Config/glab-cli/
 Home/.fonts
 Home/bin/telegram
 Home/bin/Updater

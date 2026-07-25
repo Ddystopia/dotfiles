@@ -1,57 +1,3 @@
---[[
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "qf",
-  callback = function()
-    local function jump_and_close(cmd)
-      vim.cmd(cmd)      -- jump to item
-      vim.cmd("cclose") -- close quickfix
-    end
-
-    local function jump_keep(cmd)
-      vim.cmd(cmd)      -- jump to item
-      vim.cmd("wincmd p") -- go back to quickfix
-
-      -- temporary <C-o> mapping
-      vim.keymap.set("n", "<C-o>", function()
-        vim.keymap.del("n", "<C-o>", { buffer = 0 })
-        vim.cmd("normal! <C-o>")
-      end, { buffer = 0, remap = false })
-    end
-
-    -- navigation
-    -- vim.keymap.set("n", "k", "<Up><CR><C-w>p", { buffer = true, remap = false, desc = "Navigate up quickfix" })
-    -- vim.keymap.set("n", "j", "<Down><CR><C-w>p", { buffer = true, remap = false, desc = "Navigate down quickfix" })
-    vim.keymap.set("n", "j", "<Cmd>keepjumps normal! j<CR><Cmd>keepjumps .cc<CR><Cmd>wincmd p<CR>", {
-        buffer = true,
-        remap = false,
-        desc = "Navigate down quickfix",
-    })
-
-    vim.keymap.set("n", "k", "<Cmd>keepjumps normal! k<CR><Cmd>keepjumps .cc<CR><Cmd>wincmd p<CR>", {
-        buffer = true,
-        remap = false,
-        desc = "Navigate up quickfix",
-    })
-
-    -- Enter → open and close quickfix
-    vim.keymap.set("n", "<CR>", function()
-      jump_and_close("cc")
-    end, { buffer = true, desc = "Open quickfix item and close list" })
-
-    -- Note: doesn't work
-    -- Shift+Enter → open but keep quickfix (old behavior)
-    vim.keymap.set("n", "<S-CR>", function()
-      jump_keep("cc")
-    end, { buffer = true, desc = "Open quickfix item but keep list" })
-
-    vim.keymap.set("n", "<Esc>", ":cclose<CR>", { buffer = true, desc = "Close quickfix list" })
-  end,
-})
-
---]]
-
--- todo: close the first one
-
 -- quickfix.lua
 vim.o.quickfixtextfunc = "v:lua.QfTextFunc"
 
@@ -277,6 +223,27 @@ vim.api.nvim_create_autocmd("FileType", {
 
 --------------------------------------------------------------------------------
 
+-- Cargo/rustc compiler output format.
+-- The key entry is %C%*[\ ]--> %f:%l:%c which matches the continuation line
+-- "   --> file.rs:line:col" that rustc emits for every diagnostic location.
+vim.api.nvim_create_autocmd("FileType", {
+  group   = "QuickfixSetup",
+  pattern = "rust",
+  callback = function()
+    vim.opt_local.errorformat = table.concat({
+      "%Eerror[E%n]: %m",
+      "%Eerror: %m",
+      "%Wwarning[%*[^]]][%*[^]]]: %m",
+      "%Wwarning: %m",
+      "%Inote: %m",
+      "%C%*[\\ ]--> %f:%l:%c",
+      "%-G%.%#",
+    }, ",")
+  end,
+})
+
+--------------------------------------------------------------------------------
+
 QfTextFunc = function(info)
   local items
   if info.quickfix == 1 then
@@ -376,7 +343,17 @@ vim.keymap.set('n', '<leader>ce', function()
   end
   f:close()
 
-  -- 4. Load into quickfix
+  -- 4. Load into quickfix using the rust errorformat
+  local save_efm = vim.o.errorformat
+  vim.o.errorformat = table.concat({
+    "%Eerror[E%n]: %m",
+    "%Eerror: %m",
+    "%Wwarning[%*[^]]][%*[^]]]: %m",
+    "%Wwarning: %m",
+    "%Inote: %m",
+    "%C%*[\\ ]--> %f:%l:%c",
+    "%-G%.%#",
+  }, ",")
   vim.cmd("cfile " .. updated_log)
+  vim.o.errorformat = save_efm
 end, { desc = "Parse and load cargo error log with absolute paths" })
-
