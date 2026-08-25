@@ -1,0 +1,67 @@
+name: Deploy selected files to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      # Only the files listed here are published. The repo also tracks systemd
+      # enablement symlinks pointing outside the checkout, which the artifact
+      # tar cannot dereference, so the whole tree is never uploaded as-is.
+      - name: Stage the published files
+        run: |
+          set -euo pipefail
+          for f in \
+            index.html \
+            robots.txt \
+            README.md \
+            daily.md \
+            Home/index.html \
+            Home/KeePassFiles/index.html \
+            Home/KeePassFiles/MainDatabase.kdbx \
+            Home/KeePassFiles/MainDatabase.old.kdbx \
+            Home/KeePassFiles/MainDatabase.kdbx.bak \
+            Config/index.html \
+            Config/qutebrowser/index.html \
+            Config/qutebrowser/quickmarks \
+            Config/qutebrowser/config.py \
+            Config/qutebrowser/bookmarks/index.html \
+            Config/qutebrowser/bookmarks/urls \
+            Config/yt-dlp/index.html \
+            Config/yt-dlp/config \
+          ; do
+            install -D "$f" "_site/$f"
+          done
+          touch _site/.nojekyll
+          find _site -type f | sort
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
