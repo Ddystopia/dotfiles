@@ -21,6 +21,8 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export LESSHISTFILE=-
 export LD="mold"
 
+export CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION=1000
+
 export MANPAGER='nvim +Man!'
 export MANWIDTH=100
 

@@ -43,6 +43,7 @@ dependencies=(
   "neovim" "btop" "mpv" "qutebrowser" "foliate""zathura-pdf-mupdf" "zathura"
   "keepassxc" "tree-sitter" "copyq" "flameshot" "rofi" "rofi-calc" "rofi-pass"
   "thunar" "alacritty" "flameshot" "pdfjs" "pavucontrol" "libreoffice-fresh"
+  "tree-sitter-cli"
 
   "bspwm" "picom" "sxhkd" "xcape"
 
@@ -54,7 +55,7 @@ dependencies=(
   "ranger" "gvfs" "gvfs-mtp" "unrar" "rsync" "pipewire" "pipewire-media-session"
   "pipewire-pulse" "bluez-utils" "yt-dlp" "openssh" "redshift" "gdb"
   "gtk3" "gtk4" "gtk2" "openssl" "hunspell" "hunspell-en_US"
-  "ascii" "ueberzug" # attention
+  "ascii" 
 )
 
 maybe=(

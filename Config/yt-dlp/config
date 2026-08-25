@@ -10,7 +10,7 @@
 --embed-metadata
 --embed-chapters
 --concurrent-fragments 16
---download-archive dowmload-archive.txt
+--download-archive ~/.config/yt-dlp/download-archive.txt
 --write-subs
 --sub-langs "ru,en,sk"
 # --external-downloader=aria2c
