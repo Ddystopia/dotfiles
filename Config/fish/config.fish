@@ -34,6 +34,10 @@ if status is-interactive
 
   alias russ="russ -d $XDG_CONFIG_HOME/russ/feeds.db"
 
+  # music downloads: audio-only stream (config's bestvideo+bestaudio would fetch
+  # video just to discard it after extraction) + cover art players can read
+  alias yt-dlp-audio="yt-dlp -x -f 'bestaudio/best' -N 8 --embed-thumbnail --convert-thumbnails jpg"
+
   function last_history_item; echo $history[1]; end
   abbr -a !! --position anywhere --function last_history_item
 
