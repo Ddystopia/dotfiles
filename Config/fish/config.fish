@@ -7,8 +7,8 @@ if status is-interactive
 
   alias nano="nvim"
   alias tk="go-task"
-  alias e="exa -abF --group-directories-first --icons"
-  alias ex="exa -abF --group-directories-first --icons -lTL 1 --no-time --git --no-user"
+  alias e="exa --icons -abF --group-directories-first "
+  alias ex="exa --icons -abF --group-directories-first  -lTL 1 --no-time --git --no-user"
   alias gc="git add -A && git commit -m "
   alias ls="ls --color -L"
 # alias la="ls -AlhL"
