@@ -27,6 +27,20 @@
     (token_tree) @injection.content (#set! injection.language "css") (#set! injection.include-children))
 
     (#any-of? @_html_def "css" "style" "global_style")
+    (#not-lua-match? @injection.content "^{%s*r?#*\"")
+)
+
+(
+  (macro_invocation
+    macro: [((identifier) @_css_def) (scoped_identifier
+        path: (identifier)
+        name: ((identifier) @_css_def))]
+    (token_tree . [
+      (string_literal (string_content) @injection.content)
+      (raw_string_literal (string_content) @injection.content)
+    ] . ) (#set! injection.language "css") (#set! injection.include-children) (#set! "priority" 110))
+
+    (#any-of? @_css_def "css" "style" "global_style")
 )
 
 (call_expression

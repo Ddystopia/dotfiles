@@ -91,14 +91,8 @@ M.config = function()
       ['rust-analyzer'] = {
         cargo = {
           buildScripts = { enable = true },
-          extraEnv = {
-            RA_BSP_ENV = "/home/ddystopia/job/fw-micrortu/build/dep/ra-bsp/ra-bsp.env",
-            RA_FSP_ENV="/home/ddystopia/job/fw-micrortu/build/ra-fsp.env",
-            DEP_LV_CONFIG_PATH = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/include/",
-            LVGL_FONTS_DIR = "/home/ddystopia/job/fw-micrortu/rust/heathub/gui/fonts/",
-          },
           -- target = "wasm32-unknown-unknown",
-          target = "thumbv7em-none-eabihf",
+          -- target = "thumbv7em-none-eabihf",
         },
         editor = {
           formatOnType = true,
