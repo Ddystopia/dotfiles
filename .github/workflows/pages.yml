@@ -37,7 +37,6 @@ jobs:
             Home/KeePassFiles/index.html \
             Home/KeePassFiles/MainDatabase.kdbx \
             Home/KeePassFiles/MainDatabase.old.kdbx \
-            Home/KeePassFiles/MainDatabase.kdbx.bak \
             Config/index.html \
             Config/qutebrowser/index.html \
             Config/qutebrowser/quickmarks \
