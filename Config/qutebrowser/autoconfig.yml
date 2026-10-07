@@ -30,10 +30,6 @@ settings:
     https://discord.com: true
   content.geolocation:
     https://www.google.com: false
-  content.headers.user_agent:
-    https://accounts.google.com/*: Mozilla/5.0 ({os_info}; rv:135.0) Gecko/20100101
-      Firefox/135
-    internals.rust-lang.com: cloudflare 503 workaround
   content.javascript.clipboard:
     github.com: access
     global: access-paste

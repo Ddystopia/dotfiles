@@ -14,7 +14,6 @@ c: ConfigContainer = c  # type: ignore # noqa: F821
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
-user_agent = "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0"
 XDG_CONFIG_HOME = os.environ["XDG_CONFIG_HOME"]
 
 config.load_autoconfig()
@@ -155,9 +154,16 @@ config.bind("zt", "set-cmd-text -s :tab-take")
 config.set("content.cookies.accept", "all", "chrome-devtools://*")
 config.set("content.cookies.accept", "all", "devtools://*")
 
+# Keep the default (Chrome-like) user agent. A Firefox UA on a Chromium engine
+# contradicts the Client Hints, navigator.userAgentData and the TLS fingerprint,
+# which bot filters (Cloudflare, Google) score as automation.
+# config.set("content.headers.user_agent", "cloudflare 503 workaround", "internals.rust-lang.com")
 
-config.set("content.headers.user_agent", user_agent)
-config.set("content.headers.user_agent", " Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.15.8 Chrome/87.0.4280.144 Safari/537.36", "https://*.openai.com/*")
+# Chrome does not send the DNT header, so sending it is one more signal that
+# sets this browser apart from a stock Chrome. Uncomment to blend in fully.
+# c.content.headers.do_not_track = False
+
+
 
 
 # config.set(
