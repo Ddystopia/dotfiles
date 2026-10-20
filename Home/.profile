@@ -1,16 +1,13 @@
 # custom
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.local/cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
-export XDG_DESKTOP_DIR="$HOME/Desktop"
-export XDG_DOCUMENTS_DIR="$HOME/Documents"
-export XDG_DOWNLOAD_DIR="$HOME/Downloads"
-export XDG_MUSIC_DIR="$HOME/Media/Music"
-export XDG_PICTURES_DIR="$HOME/Media/Pictures"
-export XDG_PUBLICSHARE_DIR="$HOME/Public"
-export XDG_TEMPLATES_DIR="$HOME/Templates"
-export XDG_VIDEOS_DIR="$HOME/Media/Videos"
+_envd_gen=/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator
+if _envd_out=$("$_envd_gen"); then
+    eval "$(printf '%s\n' "$_envd_out" | sed 's/^/export /')"
+else
+    _envd_msg="~/.profile: $_envd_gen failed (exit $?), environment.d not imported"
+    echo "$_envd_msg" >&2
+    logger -t profile -p user.warning "$_envd_msg" 2>/dev/null
+fi
+unset _envd_gen _envd_out _envd_msg
 
 export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/bin:$PATH"
 export EDITOR=/usr/bin/nvim
