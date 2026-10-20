@@ -1,0 +1,11 @@
+# <file system> <dir> <type> <options> <dump> <pass>
+LABEL=root /                btrfs noatime,subvol=@          0 0
+LABEL=root /.snapshots      btrfs noatime,subvol=@snapshots 0 0
+LABEL=root /var/log         btrfs noatime,subvol=@var_log   0 0
+LABEL=home /home            btrfs noatime,subvol=@home      0 0
+LABEL=home /home/.snapshots btrfs noatime,subvol=@snapshots 0 0
+LABEL=home /var/cache       btrfs noatime,subvol=@var_cache 0 0
+LABEL=ESP /boot vfat noatime,fmask=0077,dmask=0077,utf8,errors=remount-ro 0 2
+LABEL=data /data xfs noatime,logbsize=256k 0 2
+LABEL=swap none swap defaults 0 0
+/data/build /build none bind 0 0

@@ -1,3 +1,7 @@
 {
-  "data-root": "/home/docker"
+  "data-root": "/data/docker",
+  "insecure-registries": [
+    "docker-hub.swind.sk:443"
+  ],
+  "max-concurrent-downloads": 8
 }
