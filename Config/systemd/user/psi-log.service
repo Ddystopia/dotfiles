@@ -1,0 +1,6 @@
+[Unit]
+Description=psi-log sampler
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/psi-log

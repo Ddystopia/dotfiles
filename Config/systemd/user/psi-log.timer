@@ -1,0 +1,10 @@
+[Unit]
+Description=Sample memory PSI every 10 s
+
+[Timer]
+OnBootSec=10s
+OnUnitActiveSec=10s
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target

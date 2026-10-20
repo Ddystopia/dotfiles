@@ -1,0 +1,35 @@
+enable getty@.service
+enable remote-fs.target
+enable systemd-timesyncd.service
+enable lightdm.service
+
+enable NetworkManager.service
+enable NetworkManager-dispatcher.service
+enable NetworkManager-wait-online.service
+enable bluetooth.service
+enable dnsmasq.service
+enable hostapd.service
+
+enable system76.service
+enable system76-firmware-daemon.service
+enable system76-power-daemon.service
+
+enable docker.service
+ignore nix-daemon.service
+ignore nix-daemon.socket
+
+enable libvirtd.service
+enable libvirtd.socket
+enable libvirtd-ro.socket
+enable libvirtd-admin.socket
+enable virtlockd.socket
+enable virtlockd-admin.socket
+enable virtlogd.service
+enable virtlogd.socket
+enable virtlogd-admin.socket
+
+enable fstrim.timer
+enable paccache.timer
+enable btrfs-scrub@.timer - home
+
+disable *

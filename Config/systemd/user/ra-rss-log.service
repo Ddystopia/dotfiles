@@ -1,0 +1,6 @@
+[Unit]
+Description=ra-rss-log sampler
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/ra-rss-log

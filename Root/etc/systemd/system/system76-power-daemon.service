@@ -2,7 +2,7 @@
 Description=System76 Power Daemon
 
 [Service]
-ExecStart=/user/bin/system76-power daemon
+ExecStart=/usr/bin/system76-power daemon
 Restart=on-failure
 RestartSec=5
 
