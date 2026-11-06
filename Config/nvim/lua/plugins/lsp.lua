@@ -250,6 +250,7 @@ M.init = function()
   vim.keymap.del('n', 'grt')
   vim.keymap.del('n', 'gra')
   vim.keymap.del('n', 'grn')
+  vim.keymap.del('n', 'grx')
 
   Map('n', 'K', function() vim.lsp.buf.hover({ float = { border = 'single' } }) end)
   Map('n', '<F2>', function() vim.lsp.buf.rename() end)
