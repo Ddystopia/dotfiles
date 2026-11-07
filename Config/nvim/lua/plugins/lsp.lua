@@ -94,6 +94,13 @@ M.config = function()
           -- target = "wasm32-unknown-unknown",
           -- target = "thumbv7em-none-eabihf",
         },
+        procMacro = {
+          ignored = {
+            ["tracing-attributes"] = { "instrument" },
+            ["tokio-macros"] = { "test" },
+            ["wasm-bindgen-test-macro"] = { "wasm_bindgen_test" },
+          },
+        },
         editor = {
           formatOnType = true,
         },
@@ -237,10 +244,51 @@ M.config = function()
   vim.lsp.enable('clangd')
 end
 
+-- rust-analyzer also returns whatever macro-generated tokens spanning the cursor resolve to.
+local function goto_definition()
+  local word = vim.fn.expand('<cword>')
+  local win = vim.api.nvim_get_current_win()
+  local bufname = vim.api.nvim_buf_get_name(0)
+  local from = vim.fn.getpos('.')
+  from[1] = vim.api.nvim_get_current_buf()
+
+  local function named_like_word(item)
+    return item.text:sub(item.col, item.col + #word - 1) == word
+  end
+  local function not_at_cursor(item)
+    return not (item.filename == bufname and item.lnum == from[2] and item.col == from[3])
+  end
+
+  vim.lsp.buf.definition({
+    on_list = function(list)
+      local items = list.items
+      for _, keep in ipairs({ named_like_word, not_at_cursor }) do
+        local kept = vim.tbl_filter(keep, items)
+        if #kept > 0 then items = kept end
+      end
+
+      if #items > 1 then
+        vim.fn.setqflist({}, ' ', { title = list.title, items = items })
+        vim.cmd('botright copen')
+        return
+      end
+
+      local item = items[1]
+      local target = item.bufnr or vim.fn.bufadd(item.filename)
+      vim.cmd("normal! m'")
+      vim.fn.settagstack(win, { items = { { tagname = word, from = from } } }, 't')
+      vim.bo[target].buflisted = true
+      vim.api.nvim_win_set_buf(win, target)
+      vim.api.nvim_win_set_cursor(win, { item.lnum, item.col - 1 })
+      vim.cmd('normal! zv')
+    end,
+  })
+end
+
 M.init = function()
   -- Mappings
   Map('n', 'gD', function() vim.lsp.buf.declaration() end)
-  Map('n', 'gd', function() vim.lsp.buf.definition() end)
+  Map('n', 'gd', goto_definition)
   Map('n', 'gt', function() vim.lsp.buf.type_definition() end)
   Map('n', 'gI', function() vim.lsp.buf.implementation() end) -- todo: lspsaga
   Map('n', 'gr', function() vim.lsp.buf.references() end)     -- todo: lspsaga
