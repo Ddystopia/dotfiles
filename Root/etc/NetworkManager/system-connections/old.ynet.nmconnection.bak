@@ -1,5 +1,5 @@
 [connection]
-id=ynet
+id=ynet-old
 uuid=44e27d45-5d50-4474-aa49-57a7e69e4612
 type=wifi
 interface-name=wlp0s20f3

@@ -12,6 +12,8 @@ ssid=eduroam
 key-mgmt=wpa-eap
 
 [802-1x]
+ca-cert=/etc/ssl/certs/ca-certificates.crt
+domain-suffix-match=stuba.sk
 eap=peap;
 identity=xbabak@stuba.sk
 password=<redacted>
