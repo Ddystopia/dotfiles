@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -euo pipefail
+
+dev=i2c-FTCS1000:00
+drv=/sys/bus/i2c/drivers/i2c_hid_acpi
+
+if [ "$EUID" -ne 0 ]; then
+  echo "reset-touchpad: must be run as root (sudo $0)" >&2
+  exit 1
+fi
+
+if [ ! -e "/sys/bus/i2c/devices/$dev" ]; then
+  echo "reset-touchpad: $dev not found" >&2
+  exit 1
+fi
+
+if [ -e "$drv/$dev" ]; then
+  echo "$dev" > "$drv/unbind"
+  sleep 1
+fi
+echo "$dev" > "$drv/bind"
