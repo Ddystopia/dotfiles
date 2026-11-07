@@ -21,7 +21,13 @@ def parse_args():
     parser.add_argument('url', nargs='?', default=os.environ.get('QUTE_URL'))
     parser.add_argument('--totp', action='store_true',
                         help="Fill in current TOTP field instead of username/password")
-    parser.add_argument('--socket', '-s', default='/run/user/{}/org.keepassxc.KeePassXC.BrowserServer'.format(os.getuid()),
+    parser.add_argument('--passkey', action='store_true',
+                        help="Answer the passkey request given as JSON on stdin")
+    parser.add_argument('--passkey-check', action='store_true',
+                        help="Check that the KeepassXC socket API still responds, if it is running")
+    parser.add_argument('--socket', '-s',
+                        default=os.path.join(os.environ.get('XDG_RUNTIME_DIR', '/run/user/{}'.format(os.getuid())),
+                                             'org.keepassxc.KeePassXC.BrowserServer'),
                         help='Path to KeepassXC browser socket')
     parser.add_argument('--key', '-k', default='alice@example.com',
                         help='GPG key to encrypt KeepassXC auth key with')
@@ -48,6 +54,7 @@ class KeepassXC:
         self.client_key  = nacl.public.PrivateKey.generate()
         self.id_key      = nacl.public.PrivateKey.from_seed(key)
         self.cryptobox   = None
+        self.received    = b''
 
     def connect(self):
         if not os.path.exists(self.socket_path):
@@ -123,11 +130,32 @@ class KeepassXC:
             return None
         return response['totp']
 
+    def request_passkey(self, action, public_key, origin):
+        self.send_msg(dict(
+            action    = action,
+            publicKey = public_key,
+            origin    = origin,
+            keys      = [{ 'id': self.id, 'key': base64.b64encode(self.id_key.public_key.encode()).decode('utf-8') }]
+        ))
+        return self.recv_msg()['response']
+
     def send_raw_msg(self, msg):
-        self.sock.send( json.dumps(msg).encode('utf-8') )
+        self.sock.sendall( json.dumps(msg).encode('utf-8') )
 
     def recv_raw_msg(self):
-        return json.loads( self.sock.recv(4096).decode('utf-8') )
+        decoder = json.JSONDecoder()
+        while True:
+            text = self.received.decode('utf-8', errors='ignore')
+            try:
+                msg, end = decoder.raw_decode(text)
+            except ValueError:
+                chunk = self.sock.recv(4096)
+                if not chunk:
+                    raise KeepassError(-1, "KeepassXC closed the connection")
+                self.received += chunk
+                continue
+            self.received = text[end:].lstrip().encode('utf-8')
+            return msg
 
     def send_msg(self, msg, **extra):
         nonce = nacl.utils.random(nacl.public.Box.NONCE_SIZE)
@@ -141,6 +169,8 @@ class KeepassXC:
 
     def recv_msg(self):
         resp = self.recv_raw_msg()
+        while resp.get('action') in ('database-locked', 'database-unlocked'):
+            resp = self.recv_raw_msg()
         if 'error' in resp:
             raise KeepassError(resp['errorCode'], resp['error'])
         assert resp['action']
@@ -314,13 +344,37 @@ def make_js_totp_code(totp):
     """.splitlines()) % (json.dumps(totp),)
 
 
+def answer_passkey_request(args):
+    request = json.load(sys.stdin)
+    try:
+        kp = connect_to_keepassxc(args)
+        if not kp:
+            return dict(errorCode=8, errorMessage='No KeepassXC association')
+        return kp.request_passkey(request['action'], request['publicKey'], request['origin'])
+    except KeepassError as e:
+        return dict(errorCode=int(e.code), errorMessage=e.description)
+
+
+def check_passkey_api(args):
+    if os.path.exists(args.socket):
+        KeepassXC(key=bytes(32), socket_path=args.socket).connect()
+    return 'ok'
+
+
 def main():
     if 'QUTE_FIFO' not in os.environ:
         print(f"No QUTE_FIFO found - {sys.argv[0]} must be run as a qutebrowser userscript")
         sys.exit(-1)
 
+    args = parse_args()
+    if args.passkey:
+        print(json.dumps(answer_passkey_request(args)))
+        return
+    if args.passkey_check:
+        print(check_passkey_api(args))
+        return
+
     try:
-        args = parse_args()
         assert args.url, "Missing URL"
         kp = connect_to_keepassxc(args)
         if not kp:

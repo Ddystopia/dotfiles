@@ -143,6 +143,10 @@ config.bind(
 config.bind("pw", f"spawn --userscript qute-keepassxc --key {GPG_KEY}")
 config.bind("pt", f"spawn --userscript qute-keepassxc --key {GPG_KEY} --totp")
 
+import passkeys_hook
+
+passkeys_hook.install(GPG_KEY)
+
 config.bind("zp", "config-cycle content.private_browsing true false")
 
 config.bind("zd", "download-open")
