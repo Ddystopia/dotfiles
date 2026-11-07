@@ -1,0 +1,256 @@
+#!/usr/bin/env -S cargo -Zscript
+---
+[package]
+edition = "2024"
+
+[dependencies]
+bytes = "1.12.1"
+futures-util = "0.3.34"
+http-body-util = "0.1.5"
+hyper = { version = "1.12.0", features = ["server", "http1"] }
+hyper-util = { version = "0.1.21", features = ["tokio"] }
+reqwest = { version = "0.13.5", default-features = false, features = ["http2", "rustls", "stream"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "net", "fs"] }
+---
+
+use std::collections::BTreeMap;
+use std::convert::Infallible;
+
+use bytes::Bytes;
+use futures_util::TryStreamExt;
+use http_body_util::{BodyExt, Full, StreamBody, combinators::BoxBody};
+use hyper::body::{Frame, Incoming};
+use hyper::header::{AUTHORIZATION, CONNECTION, CONTENT_LENGTH, HOST, HeaderValue, TRANSFER_ENCODING};
+use hyper::{Method, Request, Response, StatusCode};
+use hyper_util::rt::TokioIo;
+use tokio::net::TcpListener;
+
+const LISTEN: &str = "127.0.0.1:8787";
+const SETTINGS_PATH: &str = "/cc-router/settings";
+const ANTHROPIC: &str = "https://api.anthropic.com";
+const DEEPSEEK: &str = "https://api.deepseek.com/anthropic";
+const DEEPSEEK_MODELS: &str = "https://api.deepseek.com/models";
+const DEEPSEEK_PREFIX: &str = "deepseek";
+const DEEPSEEK_KEY: &str = ".config/deepseek/key";
+const ONE_MILLION: u64 = 1_000_000;
+
+type Body = BoxBody<Bytes, std::io::Error>;
+
+#[derive(serde::Deserialize)]
+struct Peek {
+    model: Option<String>,
+}
+
+#[derive(serde::Deserialize)]
+struct ModelList {
+    data: Vec<Model>,
+}
+
+#[derive(serde::Deserialize)]
+struct Model {
+    id: String,
+    name: Option<String>,
+    #[serde(default)]
+    context_window: u64,
+    #[serde(default)]
+    input_modalities: Vec<String>,
+}
+
+#[tokio::main]
+async fn main() {
+    match std::env::args().nth(1).as_deref() {
+        None => route().await,
+        Some("--env") => {
+            for (name, value) in router_env() {
+                println!("export {name}='{}'", value.replace('\'', r"'\''"));
+            }
+        }
+        Some("-h" | "--help") => print!("{}", usage()),
+        Some(arg) => {
+            eprint!("cc-router: unknown argument {arg:?}\n\n{}", usage());
+            std::process::exit(2);
+        }
+    }
+}
+
+fn usage() -> String {
+    format!(
+        "\
+Usage: cc-router [--env | --help]
+
+Listens on {LISTEN} and routes Claude Code requests to DeepSeek when the
+model starts with \"{DEEPSEEK_PREFIX}\", otherwise to Anthropic.
+
+Options:
+  --env       Print sourceable exports that point Claude Code at the router
+  -h, --help  Print this help
+"
+    )
+}
+
+async fn route() {
+    let listener = TcpListener::bind(LISTEN).await.expect("bind listen address");
+    let client = reqwest::Client::new();
+    eprintln!("listening on {LISTEN}");
+    loop {
+        let stream = match listener.accept().await {
+            Ok((stream, _)) => stream,
+            Err(e) => {
+                eprintln!("accept: {e}");
+                continue;
+            }
+        };
+        let client = client.clone();
+        tokio::spawn(async move {
+            let service = hyper::service::service_fn(move |req| serve(client.clone(), req));
+            let conn = hyper::server::conn::http1::Builder::new().serve_connection(TokioIo::new(stream), service);
+            if let Err(e) = conn.await {
+                eprintln!("connection: {e}");
+            }
+        });
+    }
+}
+
+async fn serve(client: reqwest::Client, req: Request<Incoming>) -> Result<Response<Body>, Infallible> {
+    let result = if req.method() == Method::GET && req.uri().path() == SETTINGS_PATH {
+        settings(&client).await
+    } else {
+        forward(&client, req).await
+    };
+    match result {
+        Ok(response) => Ok(response),
+        Err(message) => {
+            eprintln!("error: {message}");
+            Ok(error_response(&message))
+        }
+    }
+}
+
+async fn forward(client: &reqwest::Client, req: Request<Incoming>) -> Result<Response<Body>, String> {
+    let (parts, body) = req.into_parts();
+    let body = body.collect().await.map_err(|e| format!("read request body: {e}"))?.to_bytes();
+    let model = serde_json::from_slice::<Peek>(&body).ok().and_then(|p| p.model).unwrap_or_default();
+    let path = parts.uri.path_and_query().map_or("/", |p| p.as_str()).to_owned();
+    let deepseek = model.starts_with(DEEPSEEK_PREFIX);
+    let body = if deepseek { strip_tool_patterns(body) } else { body };
+
+    let mut headers = parts.headers;
+    for name in [HOST, CONTENT_LENGTH, CONNECTION] {
+        headers.remove(name);
+    }
+    if deepseek {
+        headers.remove(AUTHORIZATION);
+        headers.remove("x-api-key");
+        let key = read_deepseek_key().await?;
+        let value = HeaderValue::from_str(&format!("Bearer {key}")).map_err(|e| format!("deepseek key: {e}"))?;
+        headers.insert(AUTHORIZATION, value);
+    }
+
+    let base = if deepseek { DEEPSEEK } else { ANTHROPIC };
+    let upstream = client
+        .request(parts.method.clone(), format!("{base}{path}"))
+        .headers(headers)
+        .body(body)
+        .send()
+        .await
+        .map_err(|e| format!("{base}{path}: {e}"))?;
+    eprintln!("{} {path} model={model:?} -> {base} {}", parts.method, upstream.status());
+
+    let mut response = Response::builder().status(upstream.status());
+    for (name, value) in upstream.headers() {
+        if name != TRANSFER_ENCODING && name != CONNECTION {
+            response = response.header(name, value);
+        }
+    }
+    let stream = upstream.bytes_stream().map_ok(Frame::data).map_err(std::io::Error::other);
+    response.body(StreamBody::new(stream).boxed()).map_err(|e| format!("build response: {e}"))
+}
+
+async fn settings(client: &reqwest::Client) -> Result<Response<Body>, String> {
+    let key = read_deepseek_key().await?;
+    let upstream = client
+        .get(DEEPSEEK_MODELS)
+        .bearer_auth(key)
+        .send()
+        .await
+        .map_err(|e| format!("{DEEPSEEK_MODELS}: {e}"))?;
+    let status = upstream.status();
+    let body = upstream.bytes().await.map_err(|e| format!("{DEEPSEEK_MODELS}: {e}"))?;
+    if !status.is_success() {
+        return Err(format!("{DEEPSEEK_MODELS}: {status} {}", String::from_utf8_lossy(&body)));
+    }
+    let list: ModelList = serde_json::from_slice(&body).map_err(|e| format!("{DEEPSEEK_MODELS}: {e}"))?;
+
+    let mut options = Vec::new();
+    for model in list.data {
+        if !model.id.starts_with(DEEPSEEK_PREFIX) {
+            continue;
+        }
+        let window = if model.context_window >= ONE_MILLION { "[1m]" } else { "" };
+        options.push(serde_json::json!({
+            "model": format!("{}{window}", model.id),
+            "label": model.name.unwrap_or_else(|| model.id.clone()),
+            "description": format!("DeepSeek, input: {}", model.input_modalities.join(" + ")),
+        }));
+    }
+    eprintln!("GET {SETTINGS_PATH} -> {} deepseek models", options.len());
+
+    let settings = serde_json::json!({
+        "env": BTreeMap::from(router_env()),
+        "modelPicker": { "options": options },
+    });
+    Ok(json_response(StatusCode::OK, &settings))
+}
+
+fn router_env() -> [(&'static str, String); 1] {
+    [("ANTHROPIC_BASE_URL", format!("http://{LISTEN}"))]
+}
+
+async fn read_deepseek_key() -> Result<String, String> {
+    let home = std::env::var("HOME").map_err(|e| format!("HOME: {e}"))?;
+    let path = format!("{home}/{DEEPSEEK_KEY}");
+    let key = tokio::fs::read_to_string(&path).await.map_err(|e| format!("{path}: {e}"))?;
+    Ok(key.trim().to_owned())
+}
+
+// DeepSeek rejects some JSON Schema regexes in tool definitions, e.g. "^[^\\0]*$".
+fn strip_tool_patterns(body: Bytes) -> Bytes {
+    let Ok(mut value) = serde_json::from_slice::<serde_json::Value>(&body) else { return body };
+    if let Some(tools) = value.get_mut("tools") {
+        strip_patterns(tools);
+    }
+    Bytes::from(value.to_string())
+}
+
+fn strip_patterns(value: &mut serde_json::Value) {
+    match value {
+        serde_json::Value::Object(map) => {
+            if map.get("pattern").is_some_and(serde_json::Value::is_string) {
+                map.remove("pattern");
+            }
+            map.values_mut().for_each(strip_patterns);
+        }
+        serde_json::Value::Array(items) => items.iter_mut().for_each(strip_patterns),
+        _ => {}
+    }
+}
+
+fn error_response(message: &str) -> Response<Body> {
+    let body = serde_json::json!({
+        "type": "error",
+        "error": { "type": "api_error", "message": format!("cc-router: {message}") },
+    });
+    json_response(StatusCode::BAD_GATEWAY, &body)
+}
+
+fn json_response(status: StatusCode, value: &serde_json::Value) -> Response<Body> {
+    let body = Full::new(Bytes::from(value.to_string())).map_err(|never| match never {}).boxed();
+    let mut response = Response::new(body);
+    *response.status_mut() = status;
+    response.headers_mut().insert("content-type", HeaderValue::from_static("application/json"));
+    response
+}
+
+// vim: ft=rust

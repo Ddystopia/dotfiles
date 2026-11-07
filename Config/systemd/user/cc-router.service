@@ -1,0 +1,9 @@
+[Unit]
+Description=Route Claude Code requests to Anthropic or DeepSeek by model
+
+[Service]
+ExecStart=%h/bin/cc-router
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
